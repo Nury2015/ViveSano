@@ -1,0 +1,107 @@
+body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+  }
+  
+  .container {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    box-shadow: 0 0 15px #ffcc00;
+    /* animation: float 3s infinite ease-in-out; */
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  h1 {
+    text-align: center;
+    color: #ffcc00;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  input, select, button {
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+  
+  input, select {
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  button {
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #ff9900;
+  }
+
+  .resultado {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000;
+    border-radius: 20px;
+    box-shadow: 0 0 10px #ffcc00;
+    animation: aparecer 0.5s ease forwards;
+  }
+  
+  .oculto {
+    display: none;
+  }
+  
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .botones {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .botones button {
+    padding: 10px 20px;
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .botones button:hover {
+    background-color: #ff6347;
+  }
+  
+  
+  

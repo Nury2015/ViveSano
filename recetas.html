@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recetas Saludables</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092');
+      background-size: cover;
+      background-position: center;
+      backdrop-filter: brightness(0.9);
+      color: #fff;
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      text-align: center;
+      padding: 20px;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .contenedor {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 40px 20px;
+    }
+
+    .tarjeta {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 20px;
+      width: 250px;
+      backdrop-filter: blur(6px);
+      transition: transform 0.3s ease, background 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .tarjeta:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .tarjeta h3 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      color: #ffe;
+    }
+
+    .tarjeta p {
+      font-size: 0.95rem;
+      color: #f0f0f0;
+    }
+
+    .volver {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #ff7f50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .volver:hover {
+      background-color: #ff6347;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Recetas Saludables 🍽️
+  </header>
+
+  <div class="contenedor">
+    <div class="tarjeta">
+      <h3>Ensalada de Quinoa</h3>
+      <p>Con vegetales frescos, aguacate y limón. Rica en proteínas vegetales y fibra.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>Bowl de Yogur con Frutas</h3>
+      <p>Yogur griego, granola, banano y arándanos. Excelente para el desayuno.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>Pollo a la plancha con brócoli</h3>
+      <p>Bajo en grasa, alto en proteína y muy fácil de preparar.</p>
+    </div>
+    <div class="tarjeta">
+      <h3>Batido Verde</h3>
+      <p>Espinaca, piña, manzana verde y jengibre. Energizante y detox.</p>
+    </div>
+  </div>
+
+  <a href="index.html" class="volver">⬅ Volver a la Calculadora</a>
+
+</body>
+</html>
