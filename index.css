@@ -100,7 +100,8 @@ body {
   }
   
   .botones button:hover {
-    background-color: #ff6347;
+    background-color: white;
+    color: black;
   }
   
   
