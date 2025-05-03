@@ -1,0 +1,71 @@
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('/img/fondorecetas.jpeg');
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: brightness(0.9);
+  color: #fff;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  padding: 20px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+}
+
+.tarjeta {
+    background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 20px;
+  width: 250px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease, background 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tarjeta:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.tarjeta h3 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  color: #ffe;
+}
+
+.tarjeta p {
+  font-size: 0.95rem;
+  color: #f0f0f0;
+}
+
+.volver {
+  display: block;
+  margin: 30px auto;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.volver:hover {
+  background-color: #ff6347;
+}
