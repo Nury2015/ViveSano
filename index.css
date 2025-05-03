@@ -13,6 +13,7 @@ body {
   .container {
     max-width: 400px;
     margin: 60px auto;
+    margin-inline: 10px; /* margen izquierdo y derecho */
     padding: 30px;
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 20px;
