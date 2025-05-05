@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: 'Comic Sans MS';
     background: url('img/fondo.jpeg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
@@ -13,7 +13,7 @@ body {
   .container {
     max-width: 400px;
     margin: 60px auto;
-    margin-inline: 10px; /* margen izquierdo y derecho */
+    /* margin-inline: 10px; margen izquierdo y derecho */
     padding: 30px;
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 20px;
@@ -27,6 +27,7 @@ body {
   }
   
   h1 {
+    margin-top: 0px;
     text-align: center;
     color: #ffcc00;
   }
