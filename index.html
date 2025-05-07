@@ -10,67 +10,56 @@
   <div class="container">
     <h1>Calculadora Nutricional</h1>
     <form id="formulario">
-
-        
         <label for="edad">Edad</label>
-     
-      <input type="number" placeholder="Edad"  value="">
+        <input type="number" id="edad" placeholder="Edad" value="">
 
-      <label for="peso">Peso (kg)</label>
+        <label for="peso">Peso (kg)</label>
+        <input type="number" id="peso" placeholder="Peso (kg)" value="">
 
-      <input type="number" placeholder="Peso (kg)"  value="">
-      
-      <label for="Estatura">Estatura (cm)</label>
+        <label for="estatura">Estatura (cm)</label>
+        <input type="number" id="estatura" placeholder="Estatura (cm)" value="">
 
-      <input type="number" placeholder="Estatura (cm)" value="">
+        <label for="sexo">Sexo asignado al nacer:</label>
+        <select id="sexo" name="sexo">
+          <option value="">Seleccione</option>
+          <option value="m">Masculino</option>
+          <option value="f">Femenino</option>
+          <option value="otro">Prefiero no responder</option>
+        </select>
 
+        <label for="actividad">Nivel de actividad física</label>
+        <select id="actividad" name="actividad">
+          <option value="">Nivel de Actividad</option>
+          <option value="sedentario">Sedentario</option>
+          <option value="ligero">Ligero</option>
+          <option value="moderado">Moderado</option>
+          <option value="activo">Activo</option>
+          <option value="muy_activo">Muy activo</option>
+        </select>
 
-      <label for="sexo">Sexo asignado al nacer:</label>
-<select id="sexo" name="sexo">
-  <option value="">Seleccione</option>
-  <option value="m">Masculino</option>
-  <option value="f">Femenino</option>
-  <option value="otro">Prefiero no responder</option>
-</select>
+        <label for="enfermedad">¿Tienes alguna enfermedad?</label>
+        <select id="enfermedad" name="enfermedad">
+          <option value="ninguna">Ninguna</option>
+          <option value="diabetes">Diabetes</option>
+          <option value="hipertension">Hipertensión</option>
+          <option value="colesterol">Colesterol alto</option>
+          <option value="obesidad">Obesidad</option>
+          <option value="celiaquia">Enfermedad celíaca</option>
+          <option value="tiroides">Problemas de tiroides</option>
+          <option value="renal">Enfermedad renal</option>
+          <option value="cardiaca">Enfermedad cardiovascular</option>
+          <option value="digestiva">Problemas digestivos</option>
+        </select>
 
+        <label for="objetivo">¿Cuál es tu objetivo?</label>
+        <select id="objetivo" name="objetivo">
+          <option value="bajar">Bajar de peso</option>
+          <option value="subirmasa">Aumentar masa muscular</option>
+          <option value="saludable">Estar saludable</option>
+          <option value="cuidarme">Cuidarme de una enfermedad</option>
+        </select>
 
-<label for="actividadFisica">Nivel de actividad física</label>
-<select id="actividadFisica" name="enfermedad">
-        <option value="">Nivel de Actividad</option>
-        <option value="sedentario">Sedentario</option>
-        <option value="ligero">Ligero</option>
-        <option value="moderado">Moderado</option>
-        <option value="activo">Activo</option>
-        <option value="muy_activo">Muy activo</option>
-      </select>
-
-      <label for="enfermedad">¿Tienes alguna enfermedad?</label>
-      <select id="enfermedad" name="enfermedad">
-        <option value="ninguna">Ninguna</option>
-        <option value="diabetes">Diabetes</option>
-        <option value="hipertension">Hipertensión</option>
-        <option value="colesterol">Colesterol alto</option>
-        <option value="obesidad">Obesidad</option>
-        <option value="celiaquia">Enfermedad celíaca</option>
-        <option value="tiroides">Problemas de tiroides</option>
-        <option value="renal">Enfermedad renal</option>
-        <option value="cardiaca">Enfermedad cardiovascular</option>
-        <option value="digestiva">Problemas digestivos</option>
-      
-      </select>
-
-      
-<label for="objetivo">¿Cuál es tu objetivo?</label>
-<select id="objetivo" name="objetivo">
-        <option value="bajar">Bajar de peso</option>
-        <option value="subirmasa">Aumentar masa muscular</option>
-        <option value="saludable">Estar saludable</option>
-        <option value="cuidarme">Cuidarme de una enfermedad</option>
-       
-      </select>
-      
-
-      <button type="submit">Calcular</button>
+        <button type="submit">Calcular</button>
     </form>
 
     <div id="resultado" class="resultado oculto">
@@ -84,10 +73,7 @@
             <button id="btn-recalcular">Volver a calcular</button>
             <button onclick="window.location.href='recetas.html'">Ir a recetas</button>
           </div>
-          
-      </div>
-      
-      
+    </div>
   </div>
 
   <script src="calculadora.js"></script>

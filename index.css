@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: 'Comic Sans MS';
-    background-image: url('img/fondo.jpeg') no-repeat center center fixed;
+    background: url("img/fondo.jpeg") no-repeat center center fixed;
     background-size: cover;
     color: #fff;
       height: 100%;
