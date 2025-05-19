@@ -153,19 +153,32 @@ document.getElementById("btn-recalcular").addEventListener("click", function () 
   document.getElementById("formulario").style.display = "flex";
 });
 
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const modal = document.getElementById("modal-aviso");
   const cerrar = document.getElementById("cerrar-modal");
+  const verAviso = document.getElementById("ver-aviso");
 
   const aceptoAviso = localStorage.getItem("aceptoAvisoLegal");
+  console.log("holaa")
+  console.log(aceptoAviso)
 
   if (!aceptoAviso) {
     modal.style.display = "flex";
   }
+  else{
+    modal.style.display = "none";
+  }
 
   cerrar.addEventListener("click", function () {
     modal.style.display = "none";
+    console.log("Hola");
     localStorage.setItem("aceptoAvisoLegal", "true");
+  });
+
+  verAviso.addEventListener("click", function () {
+    modal.style.display = "flex";
   });
 });
 
