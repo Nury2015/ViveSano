@@ -45,8 +45,7 @@ if (sexo === "f") {
     "activo": 1.725,
     "muy_activo": 1.9
   };
-
-  let get = tmb * (factores[actividad] || 1.2);
+let get = tmb * (factores[actividad] || 1.2) * 1.1;
 
   // Ajustes por objetivo
   if (objetivo === "bajar") get -= 500;
@@ -135,9 +134,27 @@ if (enfermedad === "obesidad") {
 }
 
   // Cálculo de macronutrientes
-  const proteinas = (get * porcProte / 4).toFixed(1);
-  const carbohidratos = (get * porcCarb / 4).toFixed(1);
-  const grasas = (get * porcGrasa / 9).toFixed(1);
+  // Cálculo de gramos de macronutrientes
+const gramosProteina = (get * porcProte / 4);
+const gramosCarbohidratos = (get * porcCarb / 4);
+const gramosGrasas = (get * porcGrasa / 9);
+
+// Calorías totales realmente sumadas desde los gramos (puedes usarlas para comprobar)
+const caloriasReales = 
+  gramosProteina * 4 + gramosCarbohidratos * 4 + gramosGrasas * 9;
+
+// Mostrar resultados (en gramos redondeados)
+document.getElementById("formulario").style.display = "none";
+document.getElementById("calorias").textContent = `${get.toFixed(0)}`;
+document.getElementById("proteinas").textContent = `${gramosProteina.toFixed(1)}`;
+document.getElementById("carbohidratos").textContent = `${gramosCarbohidratos.toFixed(1)}`;
+document.getElementById("grasas").textContent = `${gramosGrasas.toFixed(1)}`;
+document.getElementById("resultado").classList.remove("oculto");
+
+// (Opcional) puedes mostrar en consola si las calorías reales coinciden:
+console.log("GET estimado:", get.toFixed(0));
+console.log("Calorías reales desde gramos:", caloriasReales.toFixed(0));
+
 
   // Mostrar resultados
   document.getElementById("formulario").style.display = "none";

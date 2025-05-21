@@ -1,12 +1,14 @@
 body {
     margin: 0;
-    font-family: 'Comic Sans MS';
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500; /* o el valor que necesites */
+    font-style: normal;
     background: url("img/fondo.jpeg") no-repeat center center fixed;
     background-size: cover;
     color: #fff;
-      height: 100%;
-      margin: 0;
-  }
+    height: 100%;
+}
 
   .modal {
     position: fixed;
@@ -134,6 +136,7 @@ body {
   .botones button {
     padding: 10px 20px;
     background-color: #ff7f50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     color: white;
     border: none;
     border-radius: 10px;
@@ -145,6 +148,7 @@ body {
   .botones button:hover {
     background-color: white;
     color: black;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
   }
   
   button[type="submit"] {
