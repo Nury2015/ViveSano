@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <div id="modal-aviso" class="modal">
+ <div id="aviso-importante" class="modal oculto">
     <div class="modal-contenido">
       <h2>⚠️ Aviso Importante</h2>
       <p>
@@ -23,7 +23,7 @@
 El uso de esta aplicación es responsabilidad del usuario. Ante cualquier condición médica o duda específica, consulta siempre con tu médico o nutricionista.
 
       </p>
-      <button id="cerrar-modal">Entendido</button>
+     <button id="btn-entendido">Entendido</button>
     </div>
   </div>
 
@@ -83,25 +83,45 @@ El uso de esta aplicación es responsabilidad del usuario. Ante cualquier condic
         <button type="submit">Calcular</button>
     </form>
 
-    <div id="resultado" class="resultado oculto">
-        <h2>¡Te recomendamos consumir!</h2>
-        <p><strong><span id="calorias"></span></strong> calorías al día</p>
-        <p><strong><span id="proteinas"></span></strong> gramos de proteína</p>
-        <p><strong><span id="carbohidratos"></span></strong> gramos de carbohidratos</p>
-        <p><strong><span id="grasas"></span></strong> gramos de grasas</p>
+   <div id="resultado" class="resultado oculto">
+  <h2>¡Te recomendamos consumir!</h2>
+  <p><strong><span id="calorias"></span></strong> calorías al día</p>
 
-        <div class="botones">
+  <p>
+    <strong>Proteínas:</strong>
+    <span id="proteinas"></span> g ⇒
+    <span id="caloriasProteina"></span> Kcal
+  </p>
+  <p>
+    <strong>Carbohidratos:</strong>
+    <span id="carbohidratos"></span> g ⇒
+    <span id="caloriasCarbohidrato"></span> Kcal
+  </p>
+  <p>
+    <strong>Grasas:</strong>
+    <span id="grasas"></span> g ⇒
+    <span id="caloriasGrasa"></span> Kcal
+  </p>
+
+  <div class="botones">
             <button id="btn-recalcular">Volver a calcular</button>
             <button onclick="window.location.href='recetas.html'">Ir a recetas</button>
           </div>
+</div>
+
+
+        
     </div>
   </div>
 
   <p style="margin-top: 20px; font-size: 14px; text-align: center;">
     Al continuar, aceptas los <span id="ver-aviso" style="color: rgb(237, 237, 246); text-decoration: underline; cursor: pointer;">términos de uso</span>.
   </p>
+  
+
 
 
   <script src="calculadora.js"></script>
+  <script src="modal.js"></script>
 </body>
 </html>
