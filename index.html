@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora Nutricional</title>
   <link rel="stylesheet" href="index.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
- <div id="aviso-importante" class="modal oculto">
+  <div id="aviso-importante" class="modal oculto">
     <div class="modal-contenido">
       <h2>⚠️ Aviso Importante</h2>
       <p>
@@ -19,109 +21,135 @@
         No reemplaza la consulta médica ni el diagnóstico profesional.
         La información proporcionada es responsabilidad del usuario. <br>
         <br>
-        Los resultados y sugerencias generados se basan en la información proporcionada por el usuario y deben ser tomados como una guía general.
-El uso de esta aplicación es responsabilidad del usuario. Ante cualquier condición médica o duda específica, consulta siempre con tu médico o nutricionista.
+        Los resultados y sugerencias generados se basan en la información proporcionada por el usuario y deben ser
+        tomados como una guía general.
+        El uso de esta aplicación es responsabilidad del usuario. Ante cualquier condición médica o duda específica,
+        consulta siempre con tu médico o nutricionista.
 
       </p>
-     <button id="btn-entendido">Entendido</button>
+      <button id="btn-entendido">Entendido</button>
     </div>
   </div>
 
-  
+
   <div class="container">
     <h1>Calculadora Nutricional</h1>
     <form id="formulario">
-        <label for="edad">Edad</label>
-        <input type="number" id="edad" placeholder="Edad" value="">
+      <label for="edad">Edad</label>
+      <input type="number" id="edad" placeholder="Edad" value="">
 
-        <label for="peso">Peso (kg)</label>
-        <input type="number" id="peso" placeholder="Peso (kg)" value="">
+      <label for="peso">Peso (kg)</label>
+      <input type="number" id="peso" placeholder="Peso (kg)" value="">
 
-        <label for="estatura">Estatura (cm)</label>
-        <input type="number" id="estatura" placeholder="Estatura (cm)" value="">
+      <label for="estatura">Estatura (cm)</label>
+      <input type="number" id="estatura" placeholder="Estatura (cm)" value="">
 
-        <label for="sexo">Sexo asignado al nacer:</label>
-        <select id="sexo" name="sexo">
-          <option value="">Seleccione</option>
-          <option value="m">Masculino</option>
-          <option value="f">Femenino</option>
-          <option value="otro">Prefiero no responder</option>
-        </select>
+      <label for="sexo">Sexo asignado al nacer:</label>
+      <select id="sexo" name="sexo">
+        <option value="">Seleccione</option>
+        <option value="m">Masculino</option>
+        <option value="f">Femenino</option>
+        <option value="otro">Prefiero no responder</option>
+      </select>
 
-        <label for="actividad">Nivel de actividad física</label>
-        <select id="actividad" name="actividad">
-          <option value="">Nivel de Actividad</option>
-          <option value="sedentario">Sedentario (No realiza ejercicio) </option>
-          <option value="ligero">Ligero (ejercicio 1 - 3 veces a la semana)</option>
-          <option value="moderado">Moderado (ejercicio 3 - 5 veces a la semana)</option>
-          <option value="activo">Activo (ejercicio 6 - 7 veces a la semana)</option>
-          <option value="muy_activo">Muy activo (Atletas, entrenaminetos intensos)</option>
-        </select>
-
-        <label for="enfermedad">¿Tienes alguna enfermedad?</label>
-        <select id="enfermedad" name="enfermedad">
+      <!-- Estado femenino -->
+      <div id="estadoFemenino" style="display: none;">
+        <label for="condicionFemenina">¿Estás embarazada o en lactancia?</label>
+        <select id="condicionFemenina" name="condicionFemenina">
           <option value="ninguna">Ninguna</option>
-          <option value="diabetes">Diabetes (Azúcar alta)</option>
-          <option value="hipertension">Hipertensión (Presión alta)</option>
-          <option value="colesterol">Colesterol alto (Grasa en sangre)</option>
-          <option value="obesidad">Obesidad (Sobrepeso)</option>
-          <option value="celiaquia">Enfermedad celíaca ( Intolerancia al gluten)</option>
-          <option value="tiroides">Problemas de tiroides (Problema hormonal)</option>
-          <option value="renal">Enfermedad renal (Problema de riñones)</option>
-          <option value="cardiaca">Enfermedad cardiovascular (Problema del corazón)</option>
-          <option value="digestiva">Problemas digestivos (Problema estomacal)</option>
+          <option value="embarazo">Embarazo</option>
+          <option value="lactancia">Lactancia</option>
         </select>
+      </div>
 
-        <label for="objetivo">¿Cuál es tu objetivo?</label>
-        <select id="objetivo" name="objetivo">
-          <option value="bajar">Bajar de peso</option>
-          <option value="subirmasa">Aumentar masa muscular</option>
-          <option value="saludable">Estar saludable</option>
-          <option value="cuidarme">Cuidarme de una enfermedad</option>
+      <!-- Trimestre de embarazo -->
+      <div id="trimestreEmbarazo" style="display: none;">
+        <label for="trimestre">¿En qué trimestre estás?</label>
+        <select id="trimestre" name="trimestre">
+          <option value="1">1° trimestre</option>
+          <option value="2">2° trimestre</option>
+          <option value="3">3° trimestre</option>
         </select>
+      </div>
 
-        <button type="submit">Calcular</button>
+
+      <label for="actividad">Nivel de actividad física</label>
+      <select id="actividad" name="actividad">
+        <option value="">Nivel de Actividad</option>
+        <option value="sedentario">Sedentario (No realiza ejercicio) </option>
+        <option value="ligero">Ligero (ejercicio 1 - 3 veces a la semana)</option>
+        <option value="moderado">Moderado (ejercicio 3 - 5 veces a la semana)</option>
+        <option value="activo">Activo (ejercicio 6 - 7 veces a la semana)</option>
+        <option value="muy_activo">Muy activo (Atletas, entrenaminetos intensos)</option>
+      </select>
+
+      <label for="enfermedad">¿Tienes alguna enfermedad?</label>
+      <select id="enfermedad" name="enfermedad">
+        <option value="ninguna">Ninguna</option>
+        <option value="diabetes">Diabetes (Azúcar alta)</option>
+        <option value="hipertension">Hipertensión (Presión alta)</option>
+        <option value="colesterol">Colesterol alto (Grasa en sangre)</option>
+        <option value="obesidad">Obesidad (Sobrepeso)</option>
+        <option value="celiaquia">Enfermedad celíaca ( Intolerancia al gluten)</option>
+        <option value="tiroides">Problemas de tiroides (Problema hormonal)</option>
+        <option value="renal">Enfermedad renal (Problema de riñones)</option>
+        <option value="cardiaca">Enfermedad cardiovascular (Problema del corazón)</option>
+        <option value="digestiva">Problemas digestivos (Problema estomacal)</option>
+      </select>
+
+      <label for="objetivo">¿Cuál es tu objetivo?</label>
+      <select id="objetivo" name="objetivo">
+        <option value="bajar">Bajar de peso</option>
+        <option value="subirmasa">Aumentar masa muscular</option>
+        <option value="saludable">Estar saludable</option>
+        <option value="cuidarme">Cuidarme de una enfermedad</option>
+      </select>
+
+      <button type="submit">Calcular</button>
     </form>
 
-   <div id="resultado" class="resultado oculto">
-  <h2>¡Te recomendamos consumir!</h2>
-  <p><strong><span id="calorias"></span></strong> calorías al día</p>
+    <div id="resultado" class="resultado oculto">
+      <h2>¡Te recomendamos consumir!</h2>
+      <p><strong><span id="calorias"></span></strong> calorías al día</p>
 
-  <p>
-    <strong>Proteínas:</strong>
-    <span id="proteinas"></span> g ⇒
-    <span id="caloriasProteina"></span> Kcal
-  </p>
-  <p>
-    <strong>Carbohidratos:</strong>
-    <span id="carbohidratos"></span> g ⇒
-    <span id="caloriasCarbohidrato"></span> Kcal
-  </p>
-  <p>
-    <strong>Grasas:</strong>
-    <span id="grasas"></span> g ⇒
-    <span id="caloriasGrasa"></span> Kcal
-  </p>
+      <p>
+        <strong>Proteínas:</strong>
+        <span id="proteinas"></span> g ⇒
+        <span id="caloriasProteina"></span> Kcal
+      </p>
+      <p>
+        <strong>Carbohidratos:</strong>
+        <span id="carbohidratos"></span> g ⇒
+        <span id="caloriasCarbohidrato"></span> Kcal
+      </p>
+      <p>
+        <strong>Grasas:</strong>
+        <span id="grasas"></span> g ⇒
+        <span id="caloriasGrasa"></span> Kcal
+      </p>
 
-  <div class="botones">
-            <button id="btn-recalcular">Volver a calcular</button>
-            <button onclick="window.location.href='recetas.html'">Ir a recetas</button>
-          </div>
-</div>
-
-
-        
+      <div class="botones">
+        <button id="btn-recalcular">Volver a calcular</button>
+        <button onclick="window.location.href='recetas.html'">Ir a recetas</button>
+      </div>
     </div>
+
+
+
+  </div>
   </div>
 
   <p style="margin-top: 20px; font-size: 14px; text-align: center;">
-    Al continuar, aceptas los <span id="ver-aviso" style="color: rgb(237, 237, 246); text-decoration: underline; cursor: pointer;">términos de uso</span>.
+    Al continuar, aceptas los <span id="ver-aviso"
+      style="color: rgb(237, 237, 246); text-decoration: underline; cursor: pointer;">términos de uso</span>.
   </p>
-  
+
 
 
 
   <script src="calculadora.js"></script>
   <script src="modal.js"></script>
+
 </body>
+
 </html>
