@@ -55,7 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function mostrarMensaje(titulo, mensaje) {
   
   const modalMsj = document.getElementById("modal-mensaje");
-  const modalTitulo = document.getElementById("modal-titulo");
+  const modalTitulo = document.getElementById("modal-titulo").innerHTML = titulo;
+
   const modalContenido = document.getElementById("modal-contenido");
   const modalCerrar = document.getElementById("cerrar-mensaje");
 
@@ -123,29 +124,45 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   // Mensajes personalizados por enfermedad
   const mensajes = {
     obesidad: {
-      titulo: "Consejo para Obesidad",
+      titulo: "Obesidad",
       texto:
         "Te recomendamos enfocarte en una alimentación equilibrada y actividad física regular. Consulta a un profesional para un plan personalizado.",
     },
     diabetes: {
-      titulo: "Consejo para Diabetes",
+      titulo: "Diabetes",
       texto:
         "Evita azúcares simples y prioriza carbohidratos complejos. Consulta con un nutricionista para un control adecuado.",
     },
     renal: {
-      titulo: "Consejo para Enfermedad Renal",
+      titulo: "Enfermedad Renal",
       texto:
         "Es importante controlar la ingesta de proteínas, potasio, fósforo y sodio. Consulta a tu nefrólogo o nutricionista.",
     },
     hipertension: {
-      titulo: "Consejo para Hipertensión",
+      titulo: "Hipertensión",
       texto:
         "Evita alimentos procesados y reduce el consumo de sal. Mantente activo y sigue el consejo médico.",
     },
     colesterol: {
-      titulo: "Consejo para Colesterol Alto",
+      titulo: "Colesterol Alto",
       texto:
         "Reduce las grasas saturadas y aumenta el consumo de fibra. Realiza actividad física regularmente.",
+    },
+    celiaquia: {
+      texto:
+        "Evita totalmente el gluten, presente en trigo, cebada y centeno, prioriza alimentos naturales como frutas, verduras, carnes magras y granos sin gluten (como arroz o quinoa).",
+    },
+    tiroides: {
+      texto:
+        "Mantén una dieta equilibrada rica en yodo, selenio y zinc. Evita el exceso de alimentos bociógenos (como la soya cruda o el repollo en exceso). Sigue las indicaciones de tu endocrinólogo y no automediques suplementos sin supervisión.",
+    },
+   cardiaca: {
+      texto:
+        "Prioriza frutas, verduras, granos integrales y grasas saludables (como aceite de oliva y aguacate). Reduce las grasas saturadas, la sal y los azúcares añadidos. Mantente activo y controla tus niveles de colesterol y presión arterial.",
+    },
+    digestiva: {
+      texto:
+        "Evita comidas muy grasosas, picantes o muy procesadas. Aumenta el consumo de fibra soluble (como la avena y frutas suaves), y bebe suficiente agua. Realiza comidas pequeñas y frecuentes.",
     },
   };
 
@@ -155,13 +172,12 @@ let contenidoFinal = "";
 // Si hay mensaje por enfermedad
 if (mensajes[enfermedad]) {
   const { titulo, texto } = mensajes[enfermedad];
-  tituloFinal += `${titulo}<br>`;
+  tituloFinal += `Consejos personalizados`;
   contenidoFinal += `${texto}<br><br>`;
 }
 
 // Si el objetivo es subir masa
 if (objetivo === "subirmasa") {
-  tituloFinal += "Consejo para aumentar masa muscular<br>";
   contenidoFinal +=
     "⚠️ Para aumentar masa muscular, asegúrate de acompañar esta alimentación con ejercicios de fuerza como pesas, ligas o ejercicios con tu propio peso.";
 }
