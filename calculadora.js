@@ -37,12 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sexoSelect.addEventListener("change", actualizarEstadoFemenino);
   condicionFemenina.addEventListener("change", actualizarTrimestre);
-
-  // Llama a la función para mostrar correctamente si ya hay valores seleccionados
   actualizarEstadoFemenino();
   actualizarTrimestre();
 
-  // Modal
+  // Modal inicial
   const modal = document.getElementById("modal-aviso");
   const btnCerrar = document.getElementById("cerrar-modal");
   const verAviso = document.getElementById("ver-aviso");
@@ -51,6 +49,22 @@ document.addEventListener("DOMContentLoaded", function () {
   btnCerrar.onclick = () => (modal.style.display = "none");
   verAviso.onclick = () => (modal.style.display = "block");
 });
+
+// Mostrar mensajes en modal bonito
+
+function mostrarMensaje(titulo, mensaje) {
+  
+  const modalMsj = document.getElementById("modal-mensaje");
+  const modalTitulo = document.getElementById("modal-titulo");
+  const modalContenido = document.getElementById("modal-contenido");
+  const modalCerrar = document.getElementById("cerrar-mensaje");
+
+  modalTitulo.textContent = titulo;
+  modalContenido.innerHTML = mensaje;
+  modalMsj.style.display = "flex";
+
+  modalCerrar.onclick = () => (modalMsj.style.display = "none");
+}
 
 document.querySelector("#formulario").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -62,17 +76,16 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   const actividad = document.querySelector("#actividad").value;
   const enfermedad = document.getElementById("enfermedad").value;
   const objetivo = document.getElementById("objetivo").value;
-
-  const sexoSelect = document.getElementById("sexo");
-  const estadoFemenino = document.getElementById("estadoFemenino");
-  const condicionFemenina = document.getElementById("condicionFemenina");
-  const trimestreEmbarazo = document.getElementById("trimestreEmbarazo");
+  const condicion = document.getElementById("condicionFemenina").value;
 
   const datos = { peso, estatura, edad, sexo, actividad, enfermedad, objetivo };
   localStorage.setItem("datosUsuario", JSON.stringify(datos));
 
   if (!peso || !estatura || !edad || !sexo || !actividad) {
-    alert("Por favor completa todos los campos obligatorios.");
+    mostrarMensaje(
+      "Campos incompletos",
+      "Por favor completa todos los campos obligatorios."
+    );
     return;
   }
 
@@ -91,11 +104,8 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   };
 
   let get = tmb * (factores[actividad] || 1.2) * 1.1;
-
-  let condicion = condicionFemenina.value;
   let ajusteCalorias = 0;
 
-  //   //embarzazo
   if (condicion === "embarazo") {
     const trimestre = document.getElementById("trimestre").value;
     if (trimestre === "2") ajusteCalorias = 340;
@@ -104,31 +114,66 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
     ajusteCalorias = 500;
   }
 
-  get += ajusteCalorias; // Aplica el ajuste
+  get += ajusteCalorias;
 
   // Ajustes por objetivo
-  if (objetivo === "bajar") {
-    get -= 500;
-  } else if (objetivo === "subirmasa") {
-    get += 500;
-  }
+  if (objetivo === "bajar") get -= 500;
+  else if (objetivo === "subirmasa") get += 500;
 
-  // Mensajes según enfermedad
+  // Mensajes personalizados por enfermedad
   const mensajes = {
-    obesidad:
-      "Te recomendamos enfocarte en una alimentación equilibrada y actividad física regular. Consulta a un profesional para un plan personalizado.",
-    diabetes:
-      "Evita azúcares simples y prioriza carbohidratos complejos. Consulta con un nutricionista para un control adecuado.",
-    renal:
-      "Es importante controlar la ingesta de proteínas, potasio, fósforo y sodio. Consulta a tu nefrólogo o nutricionista.",
-    hipertension:
-      "Evita alimentos procesados y reduce el consumo de sal. Mantente activo y sigue el consejo médico.",
-    colesterol:
-      "Reduce las grasas saturadas y aumenta el consumo de fibra. Realiza actividad física regularmente.",
+    obesidad: {
+      titulo: "Consejo para Obesidad",
+      texto:
+        "Te recomendamos enfocarte en una alimentación equilibrada y actividad física regular. Consulta a un profesional para un plan personalizado.",
+    },
+    diabetes: {
+      titulo: "Consejo para Diabetes",
+      texto:
+        "Evita azúcares simples y prioriza carbohidratos complejos. Consulta con un nutricionista para un control adecuado.",
+    },
+    renal: {
+      titulo: "Consejo para Enfermedad Renal",
+      texto:
+        "Es importante controlar la ingesta de proteínas, potasio, fósforo y sodio. Consulta a tu nefrólogo o nutricionista.",
+    },
+    hipertension: {
+      titulo: "Consejo para Hipertensión",
+      texto:
+        "Evita alimentos procesados y reduce el consumo de sal. Mantente activo y sigue el consejo médico.",
+    },
+    colesterol: {
+      titulo: "Consejo para Colesterol Alto",
+      texto:
+        "Reduce las grasas saturadas y aumenta el consumo de fibra. Realiza actividad física regularmente.",
+    },
   };
-  if (mensajes[enfermedad]) alert(mensajes[enfermedad]);
 
-  // Distribución de macronutrientes
+  let tituloFinal = "";
+let contenidoFinal = "";
+
+// Si hay mensaje por enfermedad
+if (mensajes[enfermedad]) {
+  const { titulo, texto } = mensajes[enfermedad];
+  tituloFinal += `${titulo}<br>`;
+  contenidoFinal += `${texto}<br><br>`;
+}
+
+// Si el objetivo es subir masa
+if (objetivo === "subirmasa") {
+  tituloFinal += "Consejo para aumentar masa muscular<br>";
+  contenidoFinal +=
+    "⚠️ Para aumentar masa muscular, asegúrate de acompañar esta alimentación con ejercicios de fuerza como pesas, ligas o ejercicios con tu propio peso.";
+}
+
+// Solo mostramos el modal si hay algo que mostrar
+if (tituloFinal || contenidoFinal) {
+  mostrarMensaje(tituloFinal, contenidoFinal);
+
+}
+
+
+  // Macronutrientes
   let porcProte = 0.15,
     porcCarb = 0.55,
     porcGrasa = 0.3;
@@ -155,7 +200,6 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
     porcGrasa = 0.3;
   }
 
-  // Calorías por macronutriente
   const caloriasProteina = get * porcProte;
   const caloriasCarbohidrato = get * porcCarb;
   const caloriasGrasa = get * porcGrasa;
@@ -164,7 +208,6 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   const gramosCarbohidrato = caloriasCarbohidrato / 4;
   const gramosGrasa = caloriasGrasa / 9;
 
-  // Mostrar resultados
   document.getElementById("calorias").textContent = Math.round(get);
   document.getElementById("proteinas").textContent = Math.round(gramosProteina);
   document.getElementById("carbohidratos").textContent =
@@ -182,7 +225,7 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   document.querySelector("#formulario").classList.add("oculto");
 });
 
-// Botón volver a calcular
+// Volver a calcular
 document.getElementById("btn-recalcular").addEventListener("click", () => {
   document.getElementById("formulario").classList.remove("oculto");
   document.getElementById("resultado").classList.add("oculto");
