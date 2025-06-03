@@ -1,21 +1,22 @@
 body {
-    margin: 0;
-    font-family: "Quicksand", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500; /* o el valor que necesites */
-    font-style: normal;
-    background: url("img/fondo.jpeg") no-repeat center center fixed;
-    background-size: cover;
-    height: 100%;
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  /* o el valor que necesites */
+  font-style: normal;
+  background: url("img/fondo.jpeg") no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
 }
 
- .modal {
+.modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,39 +29,43 @@ body {
 }
 
 
-  .modal p{
-     font-size: 18px;
+.modal p {
+  font-size: 18px;
   margin-bottom: 25px;
   line-height: 1.5;
-  }
-  
-  .condiciones {
-     background: linear-gradient(145deg, #f7f7ff, #d0eaff); /* Fondo con gradiente */
-     color: #333; 
+}
+
+.condiciones {
+  background: linear-gradient(145deg, #f7f7ff, #d0eaff);
+  /* Fondo con gradiente */
+  color: #333;
   padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 400px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
+  text-align: center;
   width: 90%;
   max-width: 400px;
   animation: entrada 0.5s ease-in-out;
-  }
-  
-  .modal-personalizado {
+}
+
+.modal-personalizado {
   display: none;
   position: fixed;
   z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
   justify-content: center;
   align-items: center;
 }
 
 .contenido-modal {
-background: linear-gradient(145deg, #f7f7ff, #d0eaff); /* Fondo con gradiente */
+  background: linear-gradient(145deg, #f7f7ff, #d0eaff);
+  /* Fondo con gradiente */
   color: #333;
   padding: 30px;
   border-radius: 20px;
@@ -105,6 +110,7 @@ background: linear-gradient(145deg, #f7f7ff, #d0eaff); /* Fondo con gradiente */
     transform: scale(0.5);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -112,128 +118,220 @@ background: linear-gradient(145deg, #f7f7ff, #d0eaff); /* Fondo con gradiente */
 }
 
 
-  #cerrar-modal {
-    margin-top: 1rem;
-    padding: 0.5rem 1.5rem;
-    border: none;
-    background-color: #ffcc00;
-    color: rgb(0, 0, 0);
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  
-  
-  .container {
-    max-width: 400px;
-    margin: 60px auto;
-    /* margin-inline: 10px; margen izquierdo y derecho */
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 20px;
-    box-shadow: 0 0 15px #ffcc00;
-    /* animation: float 3s infinite ease-in-out; */
-  }
-  
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
-  
-  h1 {
-    margin-top: 0px;
-    text-align: center;
-    color: #f3c12b;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+#cerrar-modal {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  background-color: #ffcc00;
+  color: rgb(0, 0, 0);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+.container {
+  max-width: 400px;
+  margin: 60px auto;
+  /* margin-inline: 10px; margen izquierdo y derecho */
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
+  box-shadow: 0 0 15px #ffcc00;
+  /* animation: float 3s infinite ease-in-out; */
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
   }
 
-  label{
-    color: #f9f9f9;
+  50% {
+    transform: translateY(-5px);
   }
-  
-  input, select, button {
-    padding: 10px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-  }
-  
-  input, select {
-    background-color: #f9f9f9;
-    color: #333;
-  }
-  
-  button {
-    background-color: #ffcc00;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #ff9900;
+}
+
+h1 {
+  margin-top: 0px;
+  text-align: center;
+  color: #f3c12b;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+label {
+  color: #f9f9f9;
+}
+
+input,
+select,
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+input,
+select {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.aviso-envejecimiento {
+
+  display: none;
+  background-color: #fff3cd;
+  padding: 10px;
+  border-left: 5px solid #ffa502;
+  margin-top: 20px;
+  border-radius: 10px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+
+.botonCerrar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  margin-right: 5px;
+  color: rgb(5, 4, 4);
+  border: none;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 50%;
+  width: 27px;
+  height: 27px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.avisoBoton {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+
+
+
+button {
+  background-color: #ffcc00;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff9900;
+}
+
+
+.resultado {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #ffcc00;
+  animation: aparecer 0.5s ease forwards;
+}
+
+
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
 
-  .resultado {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    color: #000;
-    border-radius: 20px;
-    box-shadow: 0 0 10px #ffcc00;
-    animation: aparecer 0.5s ease forwards;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
- 
-  
-  @keyframes aparecer {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
+}
 
-  .botones {
-    margin-top: 30px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .botones button {
-    padding: 10px 20px;
-    background-color: #ff7f50;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .botones button:hover {
-    background-color: white;
-    color: black;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  }
-  
-  button[type="submit"] {
-    margin-top: 20px;
-  }
+.botones {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
 
- 
-  
-  @media (max-width: 480px) {
+.botones button {
+  padding: 10px 20px;
+  background-color: #ff7f50;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.botones button:hover {
+  background-color: white;
+  color: black;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+button[type="submit"] {
+  margin-top: 20px;
+}
+
+/* Estilo general del modal */
+.modal {
+  display: none;
+  /* Oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Contenido del modal */
+.modal-contenido {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border: 2px solid #888;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 500px;
+  font-family: sans-serif;
+  position: relative;
+}
+
+/* Botón para cerrar */
+.cerrar {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+  color: #000;
+  text-decoration: none;
+}
+
+
+
+@media (max-width: 480px) {
   .container {
     margin: 30px 20px;
   }

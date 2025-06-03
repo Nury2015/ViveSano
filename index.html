@@ -37,6 +37,9 @@
     <form id="formulario">
       <label for="edad">Edad</label>
       <input type="number" id="edad" placeholder="Edad" value="">
+      <div id="aviso-envejecimiento">
+
+      </div>
 
       <label for="peso">Peso (kg)</label>
       <input type="number" id="peso" placeholder="Peso (kg)" value="">
@@ -106,6 +109,8 @@
       </select>
 
       <button type="submit">Calcular</button>
+
+
     </form>
 
     <div id="resultado" class="resultado oculto">
@@ -144,17 +149,19 @@
       style="color: rgb(237, 237, 246); text-decoration: underline; cursor: pointer;">términos de uso</span>.
   </p>
 
-<div id="modal-mensaje" class="modal-personalizado">
-  <div class="contenido-modal">
-    <h2 id="modal-titulo"></h2>
-    <p id="modal-contenido"></p>
-    <button id="cerrar-mensaje">Cerrar</button>
+  <div id="modal-mensaje" class="modal-personalizado">
+    <div class="contenido-modal">
+      <h2 id="modal-titulo"></h2>
+      <p id="modal-contenido"></p>
+      <button id="cerrar-mensaje">Cerrar</button>
+    </div>
   </div>
-</div>
 
 
   <script src="calculadora.js"></script>
   <script src="modal.js"></script>
+
+
 
 </body>
 

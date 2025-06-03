@@ -53,9 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // Mostrar mensajes en modal bonito
 
 function mostrarMensaje(titulo, mensaje) {
-  
   const modalMsj = document.getElementById("modal-mensaje");
-  const modalTitulo = document.getElementById("modal-titulo").innerHTML = titulo;
+  const modalTitulo = (document.getElementById("modal-titulo").innerHTML =
+    titulo);
 
   const modalContenido = document.getElementById("modal-contenido");
   const modalCerrar = document.getElementById("cerrar-mensaje");
@@ -156,7 +156,7 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
       texto:
         "Mantén una dieta equilibrada rica en yodo, selenio y zinc. Evita el exceso de alimentos bociógenos (como la soya cruda o el repollo en exceso). Sigue las indicaciones de tu endocrinólogo y no automediques suplementos sin supervisión.",
     },
-   cardiaca: {
+    cardiaca: {
       texto:
         "Prioriza frutas, verduras, granos integrales y grasas saludables (como aceite de oliva y aguacate). Reduce las grasas saturadas, la sal y los azúcares añadidos. Mantente activo y controla tus niveles de colesterol y presión arterial.",
     },
@@ -167,27 +167,25 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   };
 
   let tituloFinal = "";
-let contenidoFinal = "";
+  let contenidoFinal = "";
 
-// Si hay mensaje por enfermedad
-if (mensajes[enfermedad]) {
-  const { titulo, texto } = mensajes[enfermedad];
-  tituloFinal += `Consejos personalizados`;
-  contenidoFinal += `${texto}<br><br>`;
-}
+  // Si hay mensaje por enfermedad
+  if (mensajes[enfermedad]) {
+    const { titulo, texto } = mensajes[enfermedad];
+    tituloFinal += `Consejos personalizados`;
+    contenidoFinal += `${texto}<br><br>`;
+  }
 
-// Si el objetivo es subir masa
-if (objetivo === "subirmasa") {
-  contenidoFinal +=
-    "⚠️ Para aumentar masa muscular, asegúrate de acompañar esta alimentación con ejercicios de fuerza como pesas, ligas o ejercicios con tu propio peso.";
-}
+  // Si el objetivo es subir masa
+  if (objetivo === "subirmasa") {
+    contenidoFinal +=
+      "⚠️ Para aumentar masa muscular, asegúrate de acompañar esta alimentación con ejercicios de fuerza como pesas, ligas o ejercicios con tu propio peso.";
+  }
 
-// Solo mostramos el modal si hay algo que mostrar
-if (tituloFinal || contenidoFinal) {
-  mostrarMensaje(tituloFinal, contenidoFinal);
-
-}
-
+  // Solo mostramos el modal si hay algo que mostrar
+  if (tituloFinal || contenidoFinal) {
+    mostrarMensaje(tituloFinal, contenidoFinal);
+  }
 
   // Macronutrientes
   let porcProte = 0.15,
@@ -246,3 +244,83 @@ document.getElementById("btn-recalcular").addEventListener("click", () => {
   document.getElementById("formulario").classList.remove("oculto");
   document.getElementById("resultado").classList.add("oculto");
 });
+// Función que muestra un mensaje dependiendo de la edad del usuario
+function mostrarAvisoEdad() {
+  const edad = parseInt(document.getElementById("edad").value);
+  const aviso = document.getElementById("aviso-envejecimiento");
+
+  // Validación básica: si no hay edad o es negativa o no es un número, no muestra nada
+  if (!edad || edad < 0 || isNaN(edad)) {
+    aviso.style.display = "none";
+    return;
+  }
+
+  // Si el usuario tiene 60 años o más, mostramos un mensaje sarcástico divertido
+  if (edad >= 60) {
+    aviso.innerHTML = `
+    
+       <div class=avisoBoton>    
+      
+        <h3>60 años no es mucho… si fueras un árbol. 🌳</h3>
+                <button class="botonCerrar" type="button">X</button>  
+                
+                </div>
+
+           <p> 
+        Pero como eres humano, te toca fortalecer el esqueleto antes de que empiece a sonar como una maraca. Calcio, vitamina D y colágeno al rescate.
+      </p>
+    `;
+
+    const botonCerrar = aviso.querySelector(".botonCerrar");
+    if (botonCerrar) {
+      botonCerrar.addEventListener("click", function () {
+        aviso.style.display = "none";
+      });
+    }
+    // Si tiene entre 30 y 59 años, mostramos otro tipo de mensaje
+  } else if (edad >= 40) {
+    aviso.innerHTML = `
+     <div class=avisoBoton> 
+          <h3>⏳ ¡A moverse que el tiempo no perdona!</h3>
+                  <button class="botonCerrar" type="button">X</button>
+                  </div>
+          <p>Entre los 40 y 59 años, los músculos pierden tono más rápido.<br>
+          Prioriza una alimentación rica en proteínas y mantén la actividad física como prioridad.</p>
+        `;
+    const botonCerrar = aviso.querySelector(".botonCerrar");
+    if (botonCerrar) {
+      botonCerrar.addEventListener("click", function () {
+        aviso.style.display = "none";
+      });
+    }
+  } else if (edad >= 30) {
+    aviso.innerHTML = `
+       <div class=avisoBoton> 
+    <strong>💪 Juventud acumulada detectada:</strong>
+       
+        <button class="botonCerrar" type="button">X</button>
+</div>
+      <p>
+        Tu cuerpo ya no se regenera como cuando tenías 20... ¡pero aún puedes con todo!<br>
+        Te recomendamos aumentar el calcio, la vitamina D y no ignorar esos “cracks” al estirarte 😅.
+      </p>
+    `;
+    // Después de insertar el HTML que contiene el botón "X"
+    const botonCerrar = aviso.querySelector(".botonCerrar");
+    if (botonCerrar) {
+      botonCerrar.addEventListener("click", function () {
+        aviso.style.display = "none";
+      });
+    }
+
+    // Si tiene menos de 30 años, no mostramos ningún mensaje
+  } else {
+    aviso.style.display = "none";
+  }
+  aviso.style.backgroundColor = "#d0f0ff";
+  aviso.style.borderLeft = "5px solid #00bcd4";
+  aviso.style.display = "block";
+}
+
+// Este evento se ejecuta automáticamente cada vez que el usuario escribe o cambia el valor del campo edad
+document.getElementById("edad").addEventListener("input", mostrarAvisoEdad);
