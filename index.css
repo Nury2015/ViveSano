@@ -185,7 +185,7 @@ select {
 }
 
 .aviso-envejecimiento {
-
+padding: 15px;
   display: none;
   background-color: #fff3cd;
   padding: 10px;
@@ -201,7 +201,8 @@ select {
   justify-content: center;
   align-items: center;
   background-color: transparent;
-  margin-right: 5px;
+  margin-right: -8px;
+  margin-top: -18px;
   color: rgb(5, 4, 4);
   border: none;
   font-weight: bold;
