@@ -258,7 +258,6 @@ function mostrarAvisoEdad() {
   // Si el usuario tiene 60 años o más, mostramos un mensaje sarcástico divertido
   if (edad >= 60) {
     aviso.innerHTML = `
-    
        <div class=avisoBoton>    
       
         <h3>60 años no es mucho… si fueras un árbol. 🌳</h3>
@@ -320,6 +319,7 @@ function mostrarAvisoEdad() {
   aviso.style.backgroundColor = "#d0f0ff";
   aviso.style.borderLeft = "5px solid #00bcd4";
   aviso.style.display = "block";
+  aviso.style.padding = "10px";
 }
 
 // Este evento se ejecuta automáticamente cada vez que el usuario escribe o cambia el valor del campo edad
