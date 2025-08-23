@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#edad").value = datosGuardados.edad || "";
     document.querySelector("#sexo").value = datosGuardados.sexo || "";
     document.querySelector("#actividad").value = datosGuardados.actividad || "";
-    document.querySelector("#enfermedad").value =
-      datosGuardados.enfermedad || "";
+    document.querySelector("#enfermedad").value = datosGuardados.enfermedad || "";
     document.querySelector("#objetivo").value = datosGuardados.objetivo || "";
   }
 
@@ -51,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Mostrar mensajes en modal bonito
-
 function mostrarMensaje(titulo, mensaje) {
   const modalMsj = document.getElementById("modal-mensaje");
   const modalTitulo = (document.getElementById("modal-titulo").innerHTML =
@@ -117,113 +115,63 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
 
   get += ajusteCalorias;
 
-  // Ajustes por objetivo
-  if (objetivo === "bajar") get -= 500;
-  else if (objetivo === "subirmasa") get += 500;
-
-  // Mensajes personalizados por enfermedad
-  const mensajes = {
-    obesidad: {
-      titulo: "Obesidad",
-      texto:
-        "Te recomendamos enfocarte en una alimentación equilibrada y actividad física regular. Consulta a un profesional para un plan personalizado.",
-    },
-    diabetes: {
-      titulo: "Diabetes",
-      texto:
-        "Evita azúcares simples y prioriza carbohidratos complejos. Consulta con un nutricionista para un control adecuado.",
-    },
-    renal: {
-      titulo: "Enfermedad Renal",
-      texto:
-        "Es importante controlar la ingesta de proteínas, potasio, fósforo y sodio. Consulta a tu nefrólogo o nutricionista.",
-    },
-    hipertension: {
-      titulo: "Hipertensión",
-      texto:
-        "Evita alimentos procesados y reduce el consumo de sal. Mantente activo y sigue el consejo médico.",
-    },
-    colesterol: {
-      titulo: "Colesterol Alto",
-      texto:
-        "Reduce las grasas saturadas y aumenta el consumo de fibra. Realiza actividad física regularmente.",
-    },
-    celiaquia: {
-      texto:
-        "Evita totalmente el gluten, presente en trigo, cebada y centeno, prioriza alimentos naturales como frutas, verduras, carnes magras y granos sin gluten (como arroz o quinoa).",
-    },
-    tiroides: {
-      texto:
-        "Mantén una dieta equilibrada rica en yodo, selenio y zinc. Evita el exceso de alimentos bociógenos (como la soya cruda o el repollo en exceso). Sigue las indicaciones de tu endocrinólogo y no automediques suplementos sin supervisión.",
-    },
-    cardiaca: {
-      texto:
-        "Prioriza frutas, verduras, granos integrales y grasas saludables (como aceite de oliva y aguacate). Reduce las grasas saturadas, la sal y los azúcares añadidos. Mantente activo y controla tus niveles de colesterol y presión arterial.",
-    },
-    digestiva: {
-      texto:
-        "Evita comidas muy grasosas, picantes o muy procesadas. Aumenta el consumo de fibra soluble (como la avena y frutas suaves), y bebe suficiente agua. Realiza comidas pequeñas y frecuentes.",
-    },
-  };
-
-  let tituloFinal = "";
-  let contenidoFinal = "";
-
-  // Si hay mensaje por enfermedad
-  if (mensajes[enfermedad]) {
-    const { titulo, texto } = mensajes[enfermedad];
-    tituloFinal += `Consejos personalizados`;
-    contenidoFinal += `${texto}<br><br>`;
+  // Ajustes por objetivo (calorías)
+  if (objetivo === "bajar") {
+    get -= 500;
+  } else if (objetivo === "masa") {
+    get += 250;
   }
 
-  // Si el objetivo es subir masa
-  if (objetivo === "subirmasa") {
-    contenidoFinal +=
-      "⚠️ Para aumentar masa muscular, asegúrate de acompañar esta alimentación con ejercicios de fuerza como pesas, ligas o ejercicios con tu propio peso.";
+  // ==============================
+  // PROTEÍNAS SEGÚN OBJETIVO
+  // ==============================
+  let proteinasMin = 0, proteinasMax = 0;
+
+  switch (objetivo) {
+    case "masa": // Aumentar masa
+      proteinasMin = peso * 1.8;
+      proteinasMax = peso * 2.2;
+      break;
+    case "tonificar": // Definir
+      proteinasMin = peso * 1.6;
+      proteinasMax = peso * 2.0;
+      break;
+    case "mantener": // Mantener
+      proteinasMin = peso * 1.4;
+      proteinasMax = peso * 1.6;
+      break;
+    case "bajar": // Bajar grasa
+      proteinasMin = peso * 1.2;
+      proteinasMax = peso * 1.6;
+      break;
+    default:
+      proteinasMin = peso * 1.6;
+      proteinasMax = peso * 2.0;
   }
 
-  // Solo mostramos el modal si hay algo que mostrar
-  if (tituloFinal || contenidoFinal) {
-    mostrarMensaje(tituloFinal, contenidoFinal);
-  }
+  // Calorías de proteínas (se toma el promedio entre min y max)
+  const gramosProteina = (proteinasMin + proteinasMax) / 2;
+  const caloriasProteina = gramosProteina * 4;
 
-  // Macronutrientes
-  let porcProte = 0.15,
-    porcCarb = 0.55,
-    porcGrasa = 0.3;
+  // Ajuste de macros
+  let porcCarb = 0.55,
+      porcGrasa = 0.3;
 
-  if (enfermedad === "obesidad") {
-    porcProte = objetivo === "bajar" ? 0.3 : 0.25;
-    porcCarb = objetivo === "bajar" ? 0.35 : 0.4;
-    porcGrasa = 0.35;
-  } else if (enfermedad === "diabetes") {
-    porcProte = 0.25;
-    porcCarb = 0.4;
-    porcGrasa = 0.35;
-  } else if (enfermedad === "renal") {
-    porcProte = 0.12;
-    porcCarb = 0.58;
-    porcGrasa = 0.3;
-  } else if (enfermedad === "hipertension") {
-    porcProte = 0.2;
-    porcCarb = 0.55;
+  if (objetivo === "masa") {
+    porcCarb = 0.50;
     porcGrasa = 0.25;
-  } else if (enfermedad === "colesterol") {
-    porcProte = 0.2;
-    porcCarb = 0.5;
-    porcGrasa = 0.3;
   }
 
-  const caloriasProteina = get * porcProte;
-  const caloriasCarbohidrato = get * porcCarb;
-  const caloriasGrasa = get * porcGrasa;
+  const caloriasCarbohidrato = (get - caloriasProteina) * porcCarb;
+  const caloriasGrasa = (get - caloriasProteina) * porcGrasa;
 
-  const gramosProteina = caloriasProteina / 4;
   const gramosCarbohidrato = caloriasCarbohidrato / 4;
   const gramosGrasa = caloriasGrasa / 9;
 
+  // Mostrar resultados
   document.getElementById("calorias").textContent = Math.round(get);
-  document.getElementById("proteinas").textContent = Math.round(gramosProteina);
+  document.getElementById("proteinas").textContent =
+    `${Math.round(proteinasMin)} – ${Math.round(proteinasMax)}`;
   document.getElementById("carbohidratos").textContent =
     Math.round(gramosCarbohidrato);
   document.getElementById("grasas").textContent = Math.round(gramosGrasa);
@@ -244,83 +192,60 @@ document.getElementById("btn-recalcular").addEventListener("click", () => {
   document.getElementById("formulario").classList.remove("oculto");
   document.getElementById("resultado").classList.add("oculto");
 });
-// Función que muestra un mensaje dependiendo de la edad del usuario
+
+// Avisos de edad
 function mostrarAvisoEdad() {
   const edad = parseInt(document.getElementById("edad").value);
   const aviso = document.getElementById("aviso-envejecimiento");
 
-  // Validación básica: si no hay edad o es negativa o no es un número, no muestra nada
   if (!edad || edad < 0 || isNaN(edad)) {
     aviso.style.display = "none";
     return;
   }
 
-  // Si el usuario tiene 60 años o más, mostramos un mensaje sarcástico divertido
   if (edad >= 60) {
     aviso.innerHTML = `
        <div class=avisoBoton>    
-      
         <h3>60 años no es mucho… si fueras un árbol. 🌳</h3>
-                <button class="botonCerrar" type="button">X</button>  
-                
-                </div>
-
-           <p> 
-        Pero como eres humano, te toca fortalecer el esqueleto antes de que empiece a sonar como una maraca. Calcio, vitamina D y colágeno al rescate.
-      </p>
+        <button class="botonCerrar" type="button">X</button>  
+      </div>
+      <p>Pero como eres humano, te toca fortalecer el esqueleto antes de que empiece a sonar como una maraca. Calcio, vitamina D y colágeno al rescate.</p>
     `;
-
-    const botonCerrar = aviso.querySelector(".botonCerrar");
-    if (botonCerrar) {
-      botonCerrar.addEventListener("click", function () {
-        aviso.style.display = "none";
-      });
-    }
-    // Si tiene entre 30 y 59 años, mostramos otro tipo de mensaje
   } else if (edad >= 40) {
     aviso.innerHTML = `
      <div class=avisoBoton> 
-          <h3>⏳ ¡A moverse que el tiempo no perdona!</h3>
-                  <button class="botonCerrar" type="button">X</button>
-                  </div>
-          <p>Entre los 40 y 59 años, los músculos pierden tono más rápido.<br>
-          Prioriza una alimentación rica en proteínas y mantén la actividad física como prioridad.</p>
-        `;
-    const botonCerrar = aviso.querySelector(".botonCerrar");
-    if (botonCerrar) {
-      botonCerrar.addEventListener("click", function () {
-        aviso.style.display = "none";
-      });
-    }
+        <h3>⏳ ¡A moverse que el tiempo no perdona!</h3>
+        <button class="botonCerrar" type="button">X</button>
+      </div>
+      <p>Entre los 40 y 59 años, los músculos pierden tono más rápido.<br>
+      Prioriza una alimentación rica en proteínas y mantén la actividad física como prioridad.</p>
+    `;
   } else if (edad >= 30) {
     aviso.innerHTML = `
        <div class=avisoBoton> 
-    <strong>💪 Juventud acumulada detectada:</strong>
-       
+        <strong>💪 Juventud acumulada detectada:</strong>
         <button class="botonCerrar" type="button">X</button>
-</div>
+      </div>
       <p>
         Tu cuerpo ya no se regenera como cuando tenías 20... ¡pero aún puedes con todo!<br>
         Te recomendamos aumentar el calcio, la vitamina D y no ignorar esos “cracks” al estirarte 😅.
       </p>
     `;
-    // Después de insertar el HTML que contiene el botón "X"
-    const botonCerrar = aviso.querySelector(".botonCerrar");
-    if (botonCerrar) {
-      botonCerrar.addEventListener("click", function () {
-        aviso.style.display = "none";
-      });
-    }
-
-    // Si tiene menos de 30 años, no mostramos ningún mensaje
   } else {
     aviso.style.display = "none";
   }
+
   aviso.style.backgroundColor = "#d0f0ff";
   aviso.style.borderLeft = "5px solid #00bcd4";
   aviso.style.display = "block";
   aviso.style.padding = "10px";
+
+  const botonCerrar = aviso.querySelector(".botonCerrar");
+  if (botonCerrar) {
+    botonCerrar.addEventListener("click", function () {
+      aviso.style.display = "none";
+    });
+  }
 }
 
-// Este evento se ejecuta automáticamente cada vez que el usuario escribe o cambia el valor del campo edad
 document.getElementById("edad").addEventListener("input", mostrarAvisoEdad);

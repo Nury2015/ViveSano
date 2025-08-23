@@ -184,16 +184,6 @@ select {
   color: #333;
 }
 
-.aviso-envejecimiento {
-padding: 15px;
-  display: none;
-  background-color: #fff3cd;
-  padding: 10px;
-  border-left: 5px solid #ffa502;
-  margin-top: 20px;
-  border-radius: 10px;
-  font-family: 'Quicksand', sans-serif;
-}
 
 
 .botonCerrar {

@@ -1,0 +1,142 @@
+[
+  {
+    "nombre": "Manzana roja",
+    "categoria": [
+      "Fruta"
+    ],
+    "porcion": "1 unidad mediana (182g)",
+    "calorias": 95,
+    "proteinas": 0.5,
+    "grasas": 0.3,
+    "carbohidratos": 25,
+    "fibra": 4.4,
+    "vitaminas_y_minerales": {
+      "Vitamina C": "8.4 mg",
+      "Potasio": "195 mg"
+    },
+    "indice_glucemico": 38,
+    "restricciones_dieteticas": [
+      "Apto para veganos",
+      "Sin gluten"
+    ],
+    "beneficios": [
+      "Rica en fibra",
+      "Buena para la digestión"
+    ],
+    "contraindicaciones": [
+      "Puede causar alergias en personas sensibles"
+    ]
+  },
+  {
+    "nombre": "Plátano",
+    "categoria": [
+      "Fruta"
+    ],
+    "porcion": "1 unidad mediana (118g)",
+    "calorias": 105,
+    "proteinas": 1.3,
+    "grasas": 0.3,
+    "carbohidratos": 27,
+    "fibra": 3.1,
+    "vitaminas_y_minerales": {
+      "Vitamina B6": "0.4 mg",
+      "Potasio": "422 mg"
+    },
+    "indice_glucemico": 51,
+    "restricciones_dieteticas": [
+      "Apto para veganos",
+      "Sin gluten"
+    ],
+    "beneficios": [
+      "Fuente de energía rápida",
+      "Bueno para la presión arterial"
+    ],
+    "contraindicaciones": [
+      "Moderación en diabetes"
+    ]
+  },
+  {
+    "nombre": "Fresas",
+    "categoria": [
+      "Fruta"
+    ],
+    "porcion": "1 taza (152g)",
+    "calorias": 49,
+    "proteinas": 1.0,
+    "grasas": 0.5,
+    "carbohidratos": 12,
+    "fibra": 3.0,
+    "vitaminas_y_minerales": {
+      "Vitamina C": "89.4 mg",
+      "Manganeso": "0.6 mg"
+    },
+    "indice_glucemico": 40,
+    "restricciones_dieteticas": [
+      "Apto para veganos",
+      "Sin gluten"
+    ],
+    "beneficios": [
+      "Antioxidantes",
+      "Refuerza el sistema inmune"
+    ],
+    "contraindicaciones": [
+      "Posible alergia en personas sensibles"
+    ]
+  },
+  {
+    "nombre": "Mango",
+    "categoria": [
+      "Fruta"
+    ],
+    "porcion": "1 taza en cubos (165g)",
+    "calorias": 99,
+    "proteinas": 1.4,
+    "grasas": 0.6,
+    "carbohidratos": 25,
+    "fibra": 2.6,
+    "vitaminas_y_minerales": {
+      "Vitamina A": "89 mcg",
+      "Vitamina C": "60.1 mg"
+    },
+    "indice_glucemico": 51,
+    "restricciones_dieteticas": [
+      "Apto para veganos",
+      "Sin gluten"
+    ],
+    "beneficios": [
+      "Buena fuente de vitamina A y C",
+      "Antiinflamatorio"
+    ],
+    "contraindicaciones": [
+      "Alto en azúcar natural, moderar en diabetes"
+    ]
+  },
+  {
+    "nombre": "Naranja",
+    "categoria": [
+      "Fruta"
+    ],
+    "porcion": "1 unidad mediana (131g)",
+    "calorias": 62,
+    "proteinas": 1.2,
+    "grasas": 0.2,
+    "carbohidratos": 15.4,
+    "fibra": 3.1,
+    "vitaminas_y_minerales": {
+      "Vitamina C": "69.7 mg",
+      "Folato": "39 mcg"
+    },
+    "indice_glucemico": 43,
+    "restricciones_dieteticas": [
+      "Apto para veganos",
+      "Sin gluten"
+    ],
+    "beneficios": [
+      "Refuerza el sistema inmune",
+      "Prevención de resfriados"
+    ],
+    "contraindicaciones": [
+      "Evitar si se tiene reflujo ácido frecuente"
+    ]
+  }
+]
