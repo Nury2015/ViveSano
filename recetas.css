@@ -3,7 +3,8 @@ body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url("img/fondorecetas.jpeg");
+  background:  url("img/fondorecetas.jpeg")no-repeat center center fixed;
+  backdrop-filter: blur(10px);
   background-size: cover;
   background-position: center;
   backdrop-filter: brightness(0.9);
