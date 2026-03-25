@@ -152,7 +152,7 @@
   </div>
   </div>
 
-  <p style="margin-top: 20px; font-size: 14px; text-align: center;">
+  <p style="margin-top: 20px; font-size: 14px; text-align: center; color: white;">
     Al continuar, aceptas los <span id="ver-aviso"
       style="color: rgb(237, 237, 246); text-decoration: underline; cursor: pointer;">términos de uso</span>.
   </p>
@@ -165,10 +165,6 @@
     </div>
   </div>
 
-
-  <script src="calculadora.js"></script>
-  <script src="modal.js"></script>
-
 <!-- <footer class="footer-horizontal">
   <div class="footer-container">
     <div class="footer-logo-brand">Vive Sano</div>
@@ -178,13 +174,27 @@
       <a href="#">Términos</a>
       <a href="#">Contacto</a>
     </nav -->
+
+  
+ 
+
+<script src="menu.js"></script>
+
 <script>
 fetch("menu.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("menu").innerHTML = data;
+
+    setTimeout(() => {
+      iniciarMenu();
+    }, 0);
+
   });
 </script>
+
+<script src="calculadora.js"></script>
+<script src="modal.js"></script>
 </body>
 
 </html>

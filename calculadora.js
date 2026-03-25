@@ -250,11 +250,4 @@ function mostrarAvisoEdad() {
 
 document.getElementById("edad").addEventListener("input", mostrarAvisoEdad);
 
-// hamburguesa
-const btnMenu = document.getElementById("btn-menu");
-const menu = document.querySelector(".menu");
-
-btnMenu.addEventListener("click", () => {
-  menu.classList.toggle("activo");
-});
 

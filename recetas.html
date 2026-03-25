@@ -104,11 +104,21 @@
 </div>
 
 <a href="index.html" class="volver">⬅ Volver a la calculadora</a>
+
+
+
+<script src="menu.js"></script>
+
 <script>
 fetch("menu.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("menu").innerHTML = data;
+
+    setTimeout(() => {
+      iniciarMenu();
+    }, 0);
+
   });
 </script>
 </body>
