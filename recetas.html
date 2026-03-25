@@ -4,11 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="recetas.css">
+  <link rel="stylesheet" href="menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- <link rel="stylesheet" href="index.css"> -->
   <title>ViveSano - Recetas</title>
 </head>
 
 <body>
-
+<div id="menu"></div>
 <header>
   <h1>Tu Plan Nutricional Personalizado 🍃</h1>
   <p>Recetas adaptadas a tus objetivos y necesidades</p>
@@ -101,6 +104,12 @@
 </div>
 
 <a href="index.html" class="volver">⬅ Volver a la calculadora</a>
-
+<script>
+fetch("menu.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+  });
+</script>
 </body>
 </html>

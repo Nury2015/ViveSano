@@ -1,6 +1,6 @@
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f5;
+  background: #F1F1F1;
   margin: 0;
 }
 
@@ -13,6 +13,7 @@ header {
 header h1 {
   margin: 0;
   font-size: 28px;
+  color: #246f43;
 }
 
 header p {
@@ -47,7 +48,7 @@ header p {
 .tarjeta {
   width: 332px;
   height: 429px;
-  background: #2f2f2f;
+  background: #ffff;
   border-radius: 12px;
   overflow: hidden;
   color: white;
@@ -66,12 +67,13 @@ header p {
 
 .contenido h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: 19px;
+  color: #251e1e;
 }
 
 .contenido p {
   font-size: 13px;
-  color: #ccc;
+  color: #666;
 }
 
 /* CHIPS */
@@ -83,11 +85,12 @@ header p {
 
 .chips span {
   display: inline-block;
-  background: #4caf50;
+  background: #c9c2c2;
   padding: 5px 8px;
   margin: 3px;
   border-radius: 8px;
-  font-size: 11px;
+  font-size: 13px;
+  color: black;
 }
 
 /* BOTONES */
@@ -97,17 +100,17 @@ header p {
 }
 
 .ver {
-  background: #4caf50;
+  background: #c9c2c2;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
-  color: white;
+  color: black;
 }
 
 .guardar {
-  background: transparent;
+  background: #c9c2c2;
   border: 1px solid #aaa;
-  color: white;
+  color: black;
   padding: 6px 10px;
   border-radius: 6px;
 }
@@ -118,8 +121,26 @@ header p {
   width: fit-content;
   margin: 30px auto;
   padding: 10px 20px;
-  background: #2e7d32;
+  background: #246f43;
   color: white;
   text-decoration: none;
   border-radius: 8px;
+}
+/* cuando el menu es lateral */
+@media (min-width: 900px) {
+
+  body {
+    margin-top: 0;
+    margin-left: 230px;
+  }
+
+}
+/* cuando el menu está arriba (celular / tablet) */
+@media (max-width: 899px) {
+
+  body {
+    margin-top: 80px;
+    margin-left: 0;
+  }
+
 }

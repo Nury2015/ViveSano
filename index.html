@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora Nutricional</title>
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="menu.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
@@ -13,24 +14,10 @@
 </head>
 
 <body>
- 
-<nav class="navbar">
-   <div class="hamburguesa" id="btn-menu">
-  <i class="fa-solid fa-bars"></i>
-</div>
-  <div class="logoViveSano"><img src="img/logofondoblanco.png" alt="logovivesano"></div>
+ <div id="menu"></div>
 
-  <ul class="menu">
-  <li><i class="fa-solid fa-house"></i> Inicio</li>
-  <li><i class="fa-solid fa-calculator"></i> Calculadora</li>
-  <li><i class="fa-solid fa-book"></i> Mis recetas</li>
-  <li><i class="fa-solid fa-clock"></i> Historial</li>
-</ul>
 
-  <div class="user">
-    <i class="fa fa-user"></i>
-  </div>
-</nav>
+<!-- aviso -->
   <div id="aviso-importante" class="modal oculto">
     <div class="condiciones">
       <h2>⚠️ Aviso Importante</h2>
@@ -191,7 +178,13 @@
       <a href="#">Términos</a>
       <a href="#">Contacto</a>
     </nav -->
-
+<script>
+fetch("menu.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+  });
+</script>
 </body>
 
 </html>
