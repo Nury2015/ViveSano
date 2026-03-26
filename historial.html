@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="historial.css">
+    <link rel="stylesheet" href="recetas.css">
+    <link rel="stylesheet" href="menu.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Historial</title>
+</head>
+<body>
+    <div id="menu"></div>
+    <div class="historial">
+
+  <h1>Mi Historial</h1>
+
+  <!-- RECETAS -->
+  <section class="recetas">
+    <h2>Recetas guardadas</h2>
+    <div class="recetas-grid" id="recetasGuardadas"></div>
+  </section>
+
+  <!-- PROGRESO -->
+  <section class="progreso">
+    <h2>Mi progreso</h2>
+    <div class="cards">
+      <div class="card">
+        <h3 id="totalRecetas">0</h3>
+        <p>Recetas guardadas</p>
+      </div>
+      <div class="card">
+        <h3 id="recetasHechas">0</h3>
+        <p>Recetas realizadas</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INGREDIENTES -->
+  <section class="ingredientes">
+    <h2>Ingredientes favoritos</h2>
+    <div id="ingredientesFav"></div>
+  </section>
+
+</div>
+
+<a href="index.html" class="volver">⬅ Volver a la calculadora</a>
+
+<script src="menu.js"></script>
+
+<script>
+fetch("menu.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+
+    setTimeout(() => {
+      iniciarMenu();
+    }, 0);
+
+  });
+</script>
+
+<script src="menu.js"></script>
+<script src="historial.js"></script>
+</body>
+</html>

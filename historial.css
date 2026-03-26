@@ -1,0 +1,57 @@
+.historial {
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* RECETAS */
+.recetas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.receta {
+  background: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.receta img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* PROGRESO */
+.cards {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.card {
+  flex: 1;
+  background: #2ecc71;
+  color: white;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+/* INGREDIENTES */
+#ingredientesFav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  background: #eee;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
