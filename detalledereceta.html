@@ -17,54 +17,90 @@
 
 <!-- IMAGEN -->
 <div class="imagen">
-  <img src="https://static-centrallecheraasturiana.pro.centrallecheraasturiana.es/uploads/2017/02/PC-pollo-esparragos.jpg" alt="">
+  <img id="imagenReceta" src="https://source.unsplash.com/600x400/?healthy-food" alt="">
 </div>
 
 <!-- CONTENIDO -->
 <div class="contenedor">
 
-  <h1>Pechuga de Pollo con Espárragos</h1>
-  <p class="descripcion">
-    Ideal para ganar masa muscular, alto en proteína y bajo en grasa.
+  <!-- 👇 TÍTULO DINÁMICO -->
+  <h1 id="titulo"></h1>
+
+  <!-- 👇 DESCRIPCIÓN -->
+  <p class="descripcion" id="descripcion">
+    Receta personalizada según tus necesidades nutricionales.
   </p>
 
   <!-- INFO NUTRICIONAL -->
   <div class="info">
-    <div><strong>350</strong><span>kcal</span></div>
-    <div><strong>40g</strong><span>Proteína</span></div>
-    <div><strong>10g</strong><span>Grasa</span></div>
+    <div><strong id="calorias">0</strong><span>kcal</span></div>
+    <div><strong id="proteina">-</strong><span>Proteína</span></div>
+    <div><strong id="grasa">-</strong><span>Grasa</span></div>
   </div>
 
   <!-- INGREDIENTES -->
   <div class="seccion">
     <h3>Ingredientes</h3>
-    <ul>
-      <li>Pechuga de pollo</li>
-      <li>Espárragos</li>
-      <li>Ajo</li>
-      <li>Aceite de oliva</li>
-      <li>Sal y pimienta</li>
-    </ul>
+    <ul id="ingredientes"></ul>
   </div>
 
   <!-- PREPARACIÓN -->
   <div class="seccion">
     <h3>Preparación</h3>
-    <ol>
-      <li>Sazona la pechuga de pollo.</li>
-      <li>Cocina a la plancha durante 6-8 minutos.</li>
-      <li>Saltea los espárragos con ajo.</li>
-      <li>Sirve caliente y disfruta.</li>
+    <ol id="preparacion">
+      <li>Lava y prepara los ingredientes.</li>
+      <li>Cocina de forma saludable (plancha, vapor o hervido).</li>
+      <li>Combina los ingredientes.</li>
+      <li>Sirve y disfruta 💚</li>
     </ol>
   </div>
 
   <!-- BOTONES -->
   <div class="acciones">
-    <button class="guardar">💚 Guardar</button>
+    <button class="guardar" onclick="guardarReceta()">💚 Guardar</button>
     <button class="compartir">📤 Compartir</button>
   </div>
 
 </div>
+
+<!-- JS -->
+<script src="generador.js"></script>
+
+<script>
+// ===============================
+// CARGAR RECETA
+// ===============================
+const receta = JSON.parse(localStorage.getItem("recetaActual"));
+
+if (!receta) {
+  document.body.innerHTML = "<h2>No hay receta 😢</h2>";
+}
+
+// ===============================
+// MOSTRAR DATOS
+// ===============================
+document.getElementById("titulo").textContent = receta.nombre;
+document.getElementById("calorias").textContent = receta.calorias;
+
+// ===============================
+// INGREDIENTES (CON AVISOS)
+// ===============================
+receta.ingredientes.forEach(ing => {
+
+  let aviso = "";
+
+  if (ing.estado === "moderado") {
+    aviso = `<span class="aviso">⚠️ Moderar</span>`;
+  }
+
+  document.getElementById("ingredientes").innerHTML += `
+    <li>
+      ${ing.nombre} - ${ing.calorias} kcal (${ing.porcionAjustada || ""})
+      ${aviso}
+    </li>
+  `;
+});
+</script>
 
 </body>
 </html>

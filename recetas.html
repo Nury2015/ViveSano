@@ -6,12 +6,13 @@
   <link rel="stylesheet" href="recetas.css">
   <link rel="stylesheet" href="menu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- <link rel="stylesheet" href="index.css"> -->
   <title>ViveSano - Recetas</title>
 </head>
 
 <body>
+
 <div id="menu"></div>
+
 <header>
   <h1>Tu Plan Nutricional Personalizado 🍃</h1>
   <p>Recetas adaptadas a tus objetivos y necesidades</p>
@@ -24,89 +25,12 @@
   <button>Rápido</button>
 </div>
 
-<div class="contenedor">
-
-  <!-- TARJETA 1 -->
-  <div class="tarjeta">
-    <img src="https://static-centrallecheraasturiana.pro.centrallecheraasturiana.es/uploads/2017/02/PC-pollo-esparragos.jpg" alt="">
-    <div class="contenido">
-      <h3>Pechuga de Pollo con Espárragos</h3>
-      <p>Ideal para ganar masa muscular, con alto contenido proteico.</p>
-
-      <div class="chips">
-        <span>Alto en proteína</span>
-        <span>Bajo en grasa</span>
-      </div>
-
-      <div class="botones">
-        <button class="ver">Ver receta</button>
-        <button class="guardar">Guardar</button>
-      </div>
-    </div>
-  </div>
-    <div class="tarjeta">
-    <img src="https://static-centrallecheraasturiana.pro.centrallecheraasturiana.es/uploads/2017/02/PC-pollo-esparragos.jpg" alt="">
-    <div class="contenido">
-      <h3>Pechuga de Pollo con Espárragos</h3>
-      <p>Ideal para ganar masa muscular, con alto contenido proteico.</p>
-
-      <div class="chips">
-        <span>Alto en proteína</span>
-        <span>Bajo en grasa</span>
-      </div>
-
-      <div class="botones">
-        <button class="ver">Ver receta</button>
-        <button class="guardar">Guardar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TARJETA 2 -->
-  <div class="tarjeta">
-    <img src="https://i.ytimg.com/vi/8QT3cKEMDKk/maxresdefault.jpg" alt="">
-    <div class="contenido">
-      <h3>Salmón con Verduras</h3>
-      <p>Opción saludable y rápida para un equilibrio perfecto.</p>
-
-      <div class="chips">
-        <span>Omega 3</span>
-        <span>Rápido</span>
-      </div>
-
-      <div class="botones">
-        <button class="ver">Ver receta</button>
-        <button class="guardar">Guardar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TARJETA 3 -->
-  <div class="tarjeta">
-    <img src="https://www.infobae.com/resizer/v2/4M46ZNWACZDRTMLCC53BJRCH6U.jpg?auth=48d72c67ad7e2bf50a6c4e0e69bfeb83dfe0bb6b01042ae1a01cb6ecd1b504a0&smart=true&width=992&height=556&quality=85" alt="">
-    <div class="contenido">
-      <h3>Bowl de Avena con Frutas</h3>
-      <p>Desayuno energético para empezar el día con vitalidad.</p>
-
-      <div class="chips">
-        <span>Alto en fibra</span>
-        <span>Vegetariano</span>
-      </div>
-
-      <div class="botones">
-        
-        <button class="ver">Ver receta</button>
-        <button class="guardar">Guardar</button>
-      </div>
-    </div>
-  </div>
-
-</div>
+<!-- 👇 CONTENEDOR DINÁMICO -->
+<div class="contenedor" id="contenedorRecetas"></div>
 
 <a href="index.html" class="volver">⬅ Volver a la calculadora</a>
 
-
-
+<!-- MENU -->
 <script src="menu.js"></script>
 
 <script>
@@ -118,8 +42,97 @@ fetch("menu.html")
     setTimeout(() => {
       iniciarMenu();
     }, 0);
-
   });
 </script>
+
+<!-- GENERADOR -->
+<script src="generador.js"></script>
+
+<script>
+// ===============================
+// GENERAR TARJETAS AUTOMÁTICAS
+// ===============================
+function mostrarRecetas() {
+  const contenedor = document.getElementById("contenedorRecetas");
+
+  contenedor.innerHTML = "";
+
+  // Generamos varias recetas (ej: 6)
+  for (let i = 0; i < 6; i++) {
+
+    let receta = generarReceta();
+    if (!receta) return;
+
+    const chips = generarChips(receta);
+
+    contenedor.innerHTML += `
+      <div class="tarjeta">
+        <img src="https://source.unsplash.com/400x300/?healthy-food,food" alt="">
+
+        <div class="contenido">
+          <h3>${receta.nombre}</h3>
+          <p>Receta personalizada según tus necesidades nutricionales.</p>
+
+          <div class="chips">
+            ${chips}
+          </div>
+
+          <div class="botones">
+            <button class="ver" onclick='verReceta(${JSON.stringify(receta)})'>Ver receta</button>
+            <button class="guardar" onclick='guardarDesdeLista(${JSON.stringify(receta)})'>Guardar</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+
+// ===============================
+// GENERAR CHIPS BONITOS
+// ===============================
+function generarChips(receta) {
+  let chips = [];
+
+  if (receta.calorias < 400) chips.push("Bajo en calorías");
+
+  if (receta.ingredientes.some(i => i.proteinas > 5)) {
+    chips.push("Alto en proteína");
+  }
+
+  if (receta.ingredientes.every(i => i.grasas < 5)) {
+    chips.push("Bajo en grasa");
+  }
+
+  return chips.map(c => `<span>${c}</span>`).join("");
+}
+
+
+// ===============================
+// VER RECETA
+// ===============================
+function verReceta(receta) {
+  localStorage.setItem("recetaActual", JSON.stringify(receta));
+  window.location.href = "detalleDeReceta.html";
+}
+
+
+// ===============================
+// GUARDAR DESDE LISTA
+// ===============================
+function guardarDesdeLista(receta) {
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+  historial.push(receta);
+
+  localStorage.setItem("historial", JSON.stringify(historial));
+
+  alert("Receta guardada 💚");
+}
+
+
+
+</script>
+
 </body>
 </html>
