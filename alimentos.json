@@ -1,261 +1,2619 @@
 [
-  {
+    {
     "nombre": "Manzana roja",
-    "categoria": [
-      "Fruta"
-    ],
+    "categorias": ["Fruta"],
     "porcion": "1 unidad mediana (182g)",
-    "calorias": 95,
-    "proteinas": 0.5,
-    "grasas": 0.3,
-    "carbohidratos": 25,
-    "fibra": 4.4,
+    "calorias": "95 kcal",
+    "proteinas": "0.5 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "25 g",
+    "fibra": "4.4 g",
     "vitaminas_y_minerales": {
       "Vitamina C": "8.4 mg",
       "Potasio": "195 mg"
     },
-    "indice_glucemico": 38,
-    "restricciones_dieteticas": [
-      "Apto para veganos",
-      "Sin gluten"
-    ],
-    "beneficios": [
-      "Rica en fibra",
-      "Buena para la digestión"
-    ],
-    "contraindicaciones": [
-      "Puede causar alergias en personas sensibles"
-    ]
+    "indice_glucemico": "38",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Rica en fibra", "Buena para la digestión"],
+    "contraindicaciones": ["Puede causar alergias en personas sensibles"],
+    "combinaciones_recomendadas": ["Avena", "Canela", "Mantequilla de maní"],
+    "cantidad_recomendada_por_dia": "1-2 unidades"
   },
   {
-    "nombre": "Plátano",
-    "categoria": [
-      "Fruta"
-    ],
+    "nombre": "Banano",
+    "categorias": ["Fruta"],
     "porcion": "1 unidad mediana (118g)",
-    "calorias": 105,
-    "proteinas": 1.3,
-    "grasas": 0.3,
-    "carbohidratos": 27,
-    "fibra": 3.1,
+    "calorias": "105 kcal",
+    "proteinas": "1.3 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "27 g",
+    "fibra": "3.1 g",
     "vitaminas_y_minerales": {
       "Vitamina B6": "0.4 mg",
       "Potasio": "422 mg"
     },
-    "indice_glucemico": 51,
-    "restricciones_dieteticas": [
-      "Apto para veganos",
-      "Sin gluten"
-    ],
-    "beneficios": [
-      "Fuente de energía rápida",
-      "Bueno para la presión arterial"
-    ],
-    "contraindicaciones": [
-      "Moderación en diabetes"
-    ]
+    "indice_glucemico": "51",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Fuente de energía rápida", "Bueno para la salud muscular"],
+    "contraindicaciones": ["Puede elevar el azúcar en sangre en exceso"],
+    "combinaciones_recomendadas": ["Yogur", "Avena", "Miel"],
+    "cantidad_recomendada_por_dia": "1-2 unidades"
   },
   {
     "nombre": "Fresas",
-    "categoria": [
-      "Fruta"
-    ],
+    "categorias": ["Fruta"],
     "porcion": "1 taza (152g)",
-    "calorias": 49,
-    "proteinas": 1.0,
-    "grasas": 0.5,
-    "carbohidratos": 12,
-    "fibra": 3.0,
+    "calorias": "49 kcal",
+    "proteinas": "1 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "12 g",
+    "fibra": "3 g",
     "vitaminas_y_minerales": {
-      "Vitamina C": "89.4 mg",
+      "Vitamina C": "89 mg",
       "Manganeso": "0.6 mg"
     },
-    "indice_glucemico": 40,
-    "restricciones_dieteticas": [
-      "Apto para veganos",
-      "Sin gluten"
-    ],
-    "beneficios": [
-      "Antioxidantes",
-      "Refuerza el sistema inmune"
-    ],
-    "contraindicaciones": [
-      "Posible alergia en personas sensibles"
-    ]
+    "indice_glucemico": "40",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Alta en antioxidantes", "Buena para la piel"],
+    "contraindicaciones": ["Puede causar alergias en algunas personas"],
+    "combinaciones_recomendadas": ["Chocolate negro", "Yogur", "Avena"],
+    "cantidad_recomendada_por_dia": "1 taza"
   },
   {
     "nombre": "Mango",
-    "categoria": [
-      "Fruta"
-    ],
-    "porcion": "1 taza en cubos (165g)",
-    "calorias": 99,
-    "proteinas": 1.4,
-    "grasas": 0.6,
-    "carbohidratos": 25,
-    "fibra": 2.6,
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (165g)",
+    "calorias": "99 kcal",
+    "proteinas": "1.4 g",
+    "grasas": "0.6 g",
+    "carbohidratos": "25 g",
+    "fibra": "2.6 g",
     "vitaminas_y_minerales": {
-      "Vitamina A": "89 mcg",
-      "Vitamina C": "60.1 mg"
+      "Vitamina A": "1262 IU",
+      "Vitamina C": "60 mg"
     },
-    "indice_glucemico": 51,
-    "restricciones_dieteticas": [
-      "Apto para veganos",
-      "Sin gluten"
-    ],
-    "beneficios": [
-      "Buena fuente de vitamina A y C",
-      "Antiinflamatorio"
-    ],
-    "contraindicaciones": [
-      "Alto en azúcar natural, moderar en diabetes"
-    ]
+    "indice_glucemico": "51",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Favorece la salud ocular", "Fortalece el sistema inmunológico"],
+    "contraindicaciones": ["Puede ser alto en azúcar para diabéticos"],
+    "combinaciones_recomendadas": ["Coco", "Yogur", "Avena"],
+    "cantidad_recomendada_por_dia": "1 taza"
   },
   {
     "nombre": "Naranja",
-    "categoria": [
-      "Fruta"
-    ],
+    "categorias": ["Fruta"],
     "porcion": "1 unidad mediana (131g)",
-    "calorias": 62,
-    "proteinas": 1.2,
-    "grasas": 0.2,
-    "carbohidratos": 15.4,
-    "fibra": 3.1,
+    "calorias": "62 kcal",
+    "proteinas": "1.2 g",
+    "grasas": "0.2 g",
+    "carbohidratos": "15 g",
+    "fibra": "3.1 g",
     "vitaminas_y_minerales": {
-      "Vitamina C": "69.7 mg",
-      "Folato": "39 mcg"
+      "Vitamina C": "70 mg",
+      "Calcio": "52 mg"
     },
-    "indice_glucemico": 43,
-    "restricciones_dieteticas": [
-      "Apto para veganos",
-      "Sin gluten"
-    ],
+    "indice_glucemico": "43",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Fortalece el sistema inmunológico", "Buena para la piel"],
+    "contraindicaciones": ["Puede ser ácida para personas con gastritis"],
+    "combinaciones_recomendadas": ["Zanahoria", "Jengibre", "Miel"],
+    "cantidad_recomendada_por_dia": "1-2 unidades"
+  },
+
+
+  {
+    "nombre": "Pera",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (178g)",
+    "calorias": "101 kcal",
+    "proteinas": "0.6 g",
+    "grasas": "0.2 g",
+    "carbohidratos": "27 g",
+    "fibra": "5.5 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "8 mg",
+      "Potasio": "206 mg"
+    },
+    "indice_glucemico": "38",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Buena para la digestión", "Alto contenido de fibra"],
+    "contraindicaciones": ["Puede causar molestias digestivas en exceso"],
+    "combinaciones_recomendadas": ["Queso", "Canela", "Yogur"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+  {
+    "nombre": "Piña",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (165g)",
+    "calorias": "82 kcal",
+    "proteinas": "0.9 g",
+    "grasas": "0.2 g",
+    "carbohidratos": "22 g",
+    "fibra": "2.3 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "79 mg",
+      "Manganeso": "1.5 mg"
+    },
+    "indice_glucemico": "59",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Favorece la digestión", "Propiedades antiinflamatorias"],
+    "contraindicaciones": ["Puede causar irritación en personas con reflujo"],
+    "combinaciones_recomendadas": ["Coco", "Jengibre", "Menta"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Uvas",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (151g)",
+    "calorias": "104 kcal",
+    "proteinas": "1.1 g",
+    "grasas": "0.2 g",
+    "carbohidratos": "27 g",
+    "fibra": "1.4 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "4 mg",
+      "Potasio": "288 mg"
+    },
+    "indice_glucemico": "53",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Ricas en antioxidantes", "Favorecen la circulación"],
+    "contraindicaciones": ["Alto contenido de azúcar, moderar en diabetes"],
+    "combinaciones_recomendadas": ["Quesos", "Nueces", "Chocolate negro"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Papaya",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (145g)",
+    "calorias": "62 kcal",
+    "proteinas": "0.6 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "16 g",
+    "fibra": "2.5 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "88 mg",
+      "Folato": "53 mcg"
+    },
+    "indice_glucemico": "60",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Buena para la digestión", "Propiedades antioxidantes"],
+    "contraindicaciones": ["No recomendada en embarazo en grandes cantidades"],
+    "combinaciones_recomendadas": ["Limón", "Yogur", "Avena"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Sandía",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (152g)",
+    "calorias": "46 kcal",
+    "proteinas": "0.9 g",
+    "grasas": "0.2 g",
+    "carbohidratos": "12 g",
+    "fibra": "0.6 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "12 mg",
+      "Potasio": "170 mg"
+    },
+    "indice_glucemico": "72",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Hidratante", "Buena para la circulación"],
+    "contraindicaciones": ["Puede elevar el azúcar en sangre en exceso"],
+    "combinaciones_recomendadas": ["Menta", "Limón", "Queso feta"],
+    "cantidad_recomendada_por_dia": "1-2 tazas"
+  },
+  {
+    "nombre": "Pitaya",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (200g)",
+    "calorias": "60 kcal",
+    "proteinas": "1.2 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "13 g",
+    "fibra": "3 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "3 mg",
+      "Hierro": "0.7 mg"
+    },
+    "indice_glucemico": "48",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Rica en antioxidantes", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar cambios en el color de la orina"],
+    "combinaciones_recomendadas": ["Coco", "Yogur", "Miel"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+  {
+    "nombre": "Mandarina",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (88g)",
+    "calorias": "47 kcal",
+    "proteinas": "0.7 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "12 g",
+    "fibra": "1.6 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "26 mg",
+      "Potasio": "146 mg"
+    },
+    "indice_glucemico": "30",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Buena para el sistema inmunológico", "Favorece la hidratación"],
+    "contraindicaciones": ["Puede ser ácida para personas con gastritis"],
+    "combinaciones_recomendadas": ["Chocolate negro", "Almendras", "Canela"],
+    "cantidad_recomendada_por_dia": "1-2 unidades"
+  },
+
+
+  {
+    "nombre": "Manzana verde",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (200g)",
+    "calorias": "104 kcal",
+    "proteinas": "0.5 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "27.6 g",
+    "fibra": "4.8 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "8 mg",
+      "Potasio": "214 mg"
+    },
+    "indice_glucemico": "39",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Regula el tránsito intestinal", "Alto contenido de antioxidantes"],
+    "contraindicaciones": ["Puede causar molestias digestivas en exceso"],
+    "combinaciones_recomendadas": ["Mantequilla de maní", "Avena", "Canela"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+  {
+    "nombre": "Coco",
+    "categorias": ["Fruta", "Grasa saludable"],
+    "porcion": "1 taza (80g)",
+    "calorias": "283 kcal",
+    "proteinas": "2.7 g",
+    "grasas": "27 g",
+    "carbohidratos": "12 g",
+    "fibra": "7.2 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "2 mg",
+      "Magnesio": "26 mg"
+    },
+    "indice_glucemico": "42",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Buena fuente de energía", "Favorece la hidratación"],
+    "contraindicaciones": ["Alto en grasas saturadas, moderar su consumo"],
+    "combinaciones_recomendadas": ["Chocolate", "Piña", "Mango"],
+    "cantidad_recomendada_por_dia": "1/2 taza"
+  },
+  {
+    "nombre": "Frambuesa",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (123g)",
+    "calorias": "64 kcal",
+    "proteinas": "1.5 g",
+    "grasas": "0.8 g",
+    "carbohidratos": "14.7 g",
+    "fibra": "8 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "32 mg",
+      "Manganeso": "0.8 mg"
+    },
+    "indice_glucemico": "25",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Rica en antioxidantes", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar reacciones alérgicas en personas sensibles"],
+    "combinaciones_recomendadas": ["Yogur", "Chocolate negro", "Avena"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Ciruela",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (66g)",
+    "calorias": "30 kcal",
+    "proteinas": "0.5 g",
+    "grasas": "0.2 g",
+    "carbohidratos": "7.5 g",
+    "fibra": "0.9 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "6 mg",
+      "Potasio": "104 mg"
+    },
+    "indice_glucemico": "39",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Buena para la digestión", "Rica en antioxidantes"],
+    "contraindicaciones": ["Puede tener efecto laxante en grandes cantidades"],
+    "combinaciones_recomendadas": ["Queso fresco", "Miel", "Nueces"],
+    "cantidad_recomendada_por_dia": "2-3 unidades"
+  },
+  {
+    "nombre": "Cereza",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (154g)",
+    "calorias": "77 kcal",
+    "proteinas": "1.6 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "19 g",
+    "fibra": "2.5 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "10 mg",
+      "Potasio": "268 mg"
+    },
+    "indice_glucemico": "22",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Buena para la salud cardiovascular", "Rica en antioxidantes"],
+    "contraindicaciones": ["Puede generar molestias digestivas en exceso"],
+    "combinaciones_recomendadas": ["Chocolate negro", "Yogur", "Avena"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+
+
+  {
+    "nombre": "Kiwi",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (100g)",
+    "calorias": "61 kcal",
+    "proteinas": "1.1 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "14.7 g",
+    "fibra": "3 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "92 mg",
+      "Potasio": "312 mg"
+    },
+    "indice_glucemico": "50",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Refuerza el sistema inmunológico", "Mejora la digestión"],
+    "contraindicaciones": ["Puede causar alergias en personas sensibles"],
+    "combinaciones_recomendadas": ["Fresas", "Yogur", "Avena"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+  {
+    "nombre": "Durazno",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (150g)",
+    "calorias": "59 kcal",
+    "proteinas": "1.4 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "14.1 g",
+    "fibra": "2.3 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "10 mg",
+      "Potasio": "285 mg"
+    },
+    "indice_glucemico": "42",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Favorece la salud de la piel", "Apoya la digestión"],
+    "contraindicaciones": ["El exceso puede causar molestias digestivas"],
+    "combinaciones_recomendadas": ["Yogur", "Miel", "Nueces"],
+    "cantidad_recomendada_por_dia": "1-2 unidades"
+  },
+  {
+    "nombre": "Arándano",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (148g)",
+    "calorias": "85 kcal",
+    "proteinas": "1.1 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "21 g",
+    "fibra": "3.6 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "14 mg",
+      "Manganeso": "0.5 mg"
+    },
+    "indice_glucemico": "53",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Rico en antioxidantes", "Mejora la salud cerebral"],
+    "contraindicaciones": ["Puede interferir con medicamentos anticoagulantes"],
+    "combinaciones_recomendadas": ["Avena", "Chocolate negro", "Yogur"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Maracuyá",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (18g)",
+    "calorias": "17 kcal",
+    "proteinas": "0.4 g",
+    "grasas": "0.1 g",
+    "carbohidratos": "4.2 g",
+    "fibra": "1.9 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "5 mg",
+      "Hierro": "0.3 mg"
+    },
+    "indice_glucemico": "30",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Favorece la digestión", "Propiedades relajantes"],
+    "contraindicaciones": ["Puede causar reacciones alérgicas en algunas personas"],
+    "combinaciones_recomendadas": ["Miel", "Yogur", "Coco"],
+    "cantidad_recomendada_por_dia": "2-3 unidades"
+  },
+  {
+    "nombre": "Mora",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza (144g)",
+    "calorias": "62 kcal",
+    "proteinas": "2 g",
+    "grasas": "0.7 g",
+    "carbohidratos": "13.8 g",
+    "fibra": "7.6 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "30 mg",
+      "Calcio": "42 mg"
+    },
+    "indice_glucemico": "25",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Rica en antioxidantes", "Mejora la circulación sanguínea"],
+    "contraindicaciones": ["Puede causar molestias digestivas en exceso"],
+    "combinaciones_recomendadas": ["Banano", "Yogur", "Chocolate negro"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Carambolo",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad mediana (90g)",
+    "calorias": "33 kcal",
+    "proteinas": "1 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "7 g",
+    "fibra": "2.8 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "31 mg",
+      "Potasio": "133 mg"
+    },
+    "indice_glucemico": "35",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Baja en calorías", "Rica en vitamina C"],
+    "contraindicaciones": ["No recomendada para personas con problemas renales"],
+    "combinaciones_recomendadas": ["Piña", "Mango", "Jengibre"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+
+  {
+    "nombre": "Curuba",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad (50g)",
+    "calorias": "28 kcal",
+    "proteinas": "0.8 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "6.2 g",
+    "fibra": "2.5 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "20 mg",
+      "Hierro": "0.6 mg",
+      "Calcio": "10 mg"
+    },
+    "indice_glucemico": "30",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Propiedades relajantes", "Buena para la digestión"],
+    "contraindicaciones": ["Puede ser ácida para personas con gastritis"],
+    "combinaciones_recomendadas": ["Leche", "Miel", "Plátano"],
+    "cantidad_recomendada_por_dia": "1-2 unidades"
+  },
+  {
+    "nombre": "Lulo",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad (100g)",
+    "calorias": "40 kcal",
+    "proteinas": "1.2 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "8.7 g",
+    "fibra": "2.7 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "27 mg",
+      "Fósforo": "23 mg",
+      "Calcio": "10 mg"
+    },
+    "indice_glucemico": "35",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Refrescante", "Fuente de antioxidantes"],
+    "contraindicaciones": ["Ácido, no recomendado para gastritis"],
+    "combinaciones_recomendadas": ["Panela", "Jengibre", "Naranja"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+  {
+    "nombre": "Melón",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza en cubos (150g)",
+    "calorias": "54 kcal",
+    "proteinas": "1.3 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "13.5 g",
+    "fibra": "1.4 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "37 mg",
+      "Potasio": "417 mg",
+      "Vitamina A": "132 mcg"
+    },
+    "indice_glucemico": "65",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Hidratante", "Ayuda a la digestión"],
+    "contraindicaciones": ["No recomendado en exceso para diabéticos"],
+    "combinaciones_recomendadas": ["Menta", "Yogur", "Limón"],
+    "cantidad_recomendada_por_dia": "1-2 tazas"
+  },
+
+  {
+    "nombre": "Guanábana",
+    "categorias": ["Fruta"],
+    "porcion": "1 taza de pulpa (200g)",
+    "calorias": "100 kcal",
+    "proteinas": "2.3 g",
+    "grasas": "0.7 g",
+    "carbohidratos": "24 g",
+    "fibra": "4.8 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "29 mg",
+      "Potasio": "400 mg",
+      "Magnesio": "23 mg"
+    },
+    "indice_glucemico": "35",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Fortalece el sistema inmune", "Propiedades antioxidantes"],
+    "contraindicaciones": ["No recomendada en exceso para personas con hipotensión"],
+    "combinaciones_recomendadas": ["Leche", "Miel", "Banano"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Chontaduro",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad (50g)",
+    "calorias": "123 kcal",
+    "proteinas": "2.5 g",
+    "grasas": "4.5 g",
+    "carbohidratos": "21 g",
+    "fibra": "2.3 g",
+    "vitaminas_y_minerales": {
+      "Vitamina A": "1500 mcg",
+      "Hierro": "1 mg",
+      "Fósforo": "70 mg"
+    },
+    "indice_glucemico": "35",
+    "restricciones_dieteticas": ["Sin gluten"],
+    "beneficios": ["Fuente de energía natural", "Bueno para la piel y la vista"],
+    "contraindicaciones": ["Evitar en dietas bajas en grasas"],
+    "combinaciones_recomendadas": ["Miel", "Queso", "Leche"],
+    "cantidad_recomendada_por_dia": "2 unidades"
+  },
+  {
+    "nombre": "Feijoa",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad (50g)",
+    "calorias": "34 kcal",
+    "proteinas": "0.4 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "9 g",
+    "fibra": "2.3 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "25 mg",
+      "Calcio": "17 mg",
+      "Hierro": "0.3 mg"
+    },
+    "indice_glucemico": "30",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Mejora la digestión", "Rica en antioxidantes"],
+    "contraindicaciones": ["Evitar en personas con problemas de absorción de fructosa"],
+    "combinaciones_recomendadas": ["Yogur", "Miel", "Naranja"],
+    "cantidad_recomendada_por_dia": "2 unidades"
+  },
+  {
+    "nombre": "Granadilla",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad (110g)",
+    "calorias": "98 kcal",
+    "proteinas": "2.2 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "23 g",
+    "fibra": "5.3 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "20 mg",
+      "Potasio": "348 mg",
+      "Magnesio": "29 mg"
+    },
+    "indice_glucemico": "30",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Relajante natural", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar somnolencia en algunas personas"],
+    "combinaciones_recomendadas": ["Yogur", "Miel", "Cítricos"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+  {
+    "nombre": "Tomate de árbol",
+    "categorias": ["Fruta"],
+    "porcion": "1 unidad (100g)",
+    "calorias": "36 kcal",
+    "proteinas": "1.5 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "8 g",
+    "fibra": "1.4 g",
+    "vitaminas_y_minerales": {
+      "Vitamina A": "180 mcg",
+      "Vitamina C": "35 mg",
+      "Potasio": "321 mg"
+    },
+    "indice_glucemico": "30",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Regula la presión arterial", "Fuente de antioxidantes"],
+    "contraindicaciones": ["Evitar en personas con reflujo gástrico"],
+    "combinaciones_recomendadas": ["Leche", "Miel", "Banano"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+    {
+    "nombre": "Espinaca",
+    "categorias": ["Verdura", "Hoja verde"],
+    "porcion": "1 taza (30g)",
+    "calorias": "7 kcal",
+    "proteinas": "0.9 g",
+    "grasas": "0.1 g",
+    "carbohidratos": "1.1 g",
+    "fibra": "0.7 g",
+    "vitaminas_y_minerales": {
+      "Vitamina A": "2813 IU",
+      "Hierro": "0.8 mg",
+      "Calcio": "30 mg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Favorece la salud ocular", "Rica en antioxidantes"],
+    "contraindicaciones": ["Puede interferir con anticoagulantes por su alto contenido de vitamina K"],
+    "combinaciones_recomendadas": ["Queso", "Huevo", "Aguacate"],
+    "cantidad_recomendada_por_dia": "1-2 tazas"
+  },
+  {
+    "nombre": "Brócoli",
+    "categorias": ["Verdura", "Crucífera"],
+    "porcion": "1 taza (91g)",
+    "calorias": "31 kcal",
+    "proteinas": "2.6 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "6 g",
+    "fibra": "2.4 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "81 mg",
+      "Vitamina K": "92 mcg",
+      "Potasio": "288 mg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Apoya el sistema inmunológico", "Rico en fibra para la digestión"],
+    "contraindicaciones": ["Puede causar gases en algunas personas"],
+    "combinaciones_recomendadas": ["Zanahoria", "Queso", "Pollo"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Zanahoria",
+    "categorias": ["Verdura", "Raíz"],
+    "porcion": "1 unidad mediana (61g)",
+    "calorias": "25 kcal",
+    "proteinas": "0.6 g",
+    "grasas": "0.1 g",
+    "carbohidratos": "6 g",
+    "fibra": "1.7 g",
+    "vitaminas_y_minerales": {
+      "Vitamina A": "10191 IU",
+      "Potasio": "195 mg"
+    },
+    "indice_glucemico": "35",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Favorece la visión", "Rica en antioxidantes"],
+    "contraindicaciones": ["El exceso puede provocar carotenemia (piel amarillenta)"],
+    "combinaciones_recomendadas": ["Naranja", "Jengibre", "Brócoli"],
+    "cantidad_recomendada_por_dia": "1-2 unidades"
+  },
+  {
+    "nombre": "Lechuga",
+    "categorias": ["Verdura", "Hoja verde"],
+    "porcion": "1 taza (36g)",
+    "calorias": "5 kcal",
+    "proteinas": "0.5 g",
+    "grasas": "0.1 g",
+    "carbohidratos": "1 g",
+    "fibra": "0.5 g",
+    "vitaminas_y_minerales": {
+      "Vitamina K": "56 mcg",
+      "Ácido fólico": "13 mcg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Hidratante y baja en calorías", "Favorece la digestión"],
+    "contraindicaciones": ["Puede contener residuos de pesticidas si no se lava bien"],
+    "combinaciones_recomendadas": ["Tomate", "Pepino", "Aguacate"],
+    "cantidad_recomendada_por_dia": "1-2 tazas"
+  },
+  {
+    "nombre": "Pepino",
+    "categorias": ["Verdura"],
+    "porcion": "1 taza (104g)",
+    "calorias": "16 kcal",
+    "proteinas": "0.8 g",
+    "grasas": "0.1 g",
+    "carbohidratos": "3.8 g",
+    "fibra": "0.5 g",
+    "vitaminas_y_minerales": {
+      "Vitamina K": "16 mcg",
+      "Potasio": "152 mg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Hidratante y refrescante", "Bajo en calorías"],
+    "contraindicaciones": ["Puede causar hinchazón en algunas personas"],
+    "combinaciones_recomendadas": ["Tomate", "Yogur", "Menta"],
+    "cantidad_recomendada_por_dia": "1 taza"
+  },
+  {
+    "nombre": "Tomate",
+    "categorias": ["Verdura", "Fruta"],
+    "porcion": "1 unidad mediana (123g)",
+    "calorias": "22 kcal",
+    "proteinas": "1.1 g",
+    "grasas": "0.2 g",
+    "carbohidratos": "4.8 g",
+    "fibra": "1.5 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "17 mg",
+      "Licopeno": "2573 mcg"
+    },
+    "indice_glucemico": "30",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Antioxidante", "Mejora la salud del corazón"],
+    "contraindicaciones": ["Puede causar acidez en algunas personas"],
+    "combinaciones_recomendadas": ["Queso", "Aceite de oliva", "Albahaca"],
+    "cantidad_recomendada_por_dia": "1 unidad"
+  },
+  {
+    "nombre": "Cebolla",
+    "categorias": ["Verdura", "Bulbo"],
+    "porcion": "1 taza picada (115g)",
+    "calorias": "46 kcal",
+    "proteinas": "1.3 g",
+    "grasas": "0.1 g",
+    "carbohidratos": "10.6 g",
+    "fibra": "1.9 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "12 mg",
+      "Azufre": "Compuestos organosulfurados"
+    },
+    "indice_glucemico": "10",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Propiedades antiinflamatorias", "Fortalece el sistema inmunológico"],
+    "contraindicaciones": ["Puede causar molestias digestivas"],
+    "combinaciones_recomendadas": ["Tomate", "Aguacate", "Cilantro"],
+    "cantidad_recomendada_por_dia": "1/2 taza"
+  },
+  {
+    "nombre": "Pimentón",
+    "categorias": ["Verdura"],
+    "porcion": "1 taza picada (92g)",
+    "calorias": "46 kcal",
+    "proteinas": "1.5 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "9 g",
+    "fibra": "3.1 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "152 mg",
+      "Vitamina A": "3726 IU"
+    },
+    "indice_glucemico": "40",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Rico en antioxidantes", "Refuerza el sistema inmunológico"],
+    "contraindicaciones": ["Puede causar irritación estomacal en exceso"],
+    "combinaciones_recomendadas": ["Cebolla", "Tomate", "Carne"],
+    "cantidad_recomendada_por_dia": "1/2 taza"
+  },
+
+  {
+    "nombre": "Calabacín",
+    "categorias": ["Verdura"],
+    "porcion": "1 taza en rodajas (124g)",
+    "calorias": "21 kcal",
+    "proteinas": "1.5 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "3.9 g",
+    "fibra": "1.2 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "22 mg",
+      "Potasio": "325 mg",
+      "Magnesio": "19 mg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Ayuda a la digestión", "Bajo en calorías y alto en agua"],
+    "contraindicaciones": ["Puede causar hinchazón en algunas personas"],
+    "combinaciones_recomendadas": ["Queso", "Ajo", "Pimientos"],
+    "cantidad_recomendada_por_dia": "1-2 tazas"
+  },
+  {
+    "nombre": "Coliflor",
+    "categorias": ["Verdura", "Crucífera"],
+    "porcion": "1 taza picada (107g)",
+    "calorias": "27 kcal",
+    "proteinas": "2.1 g",
+    "grasas": "0.3 g",
+    "carbohidratos": "5.3 g",
+    "fibra": "2.1 g",
+    "vitaminas_y_minerales": {
+      "Vitamina C": "51 mg",
+      "Vitamina K": "17 mcg",
+      "Ácido fólico": "57 mcg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos", "Sin gluten"],
+    "beneficios": ["Antiinflamatorio", "Favorece la salud digestiva"],
+    "contraindicaciones": ["Puede generar gases debido a su contenido de fibra"],
+    "combinaciones_recomendadas": ["Cúrcuma", "Queso", "Brócoli"],
+    "cantidad_recomendada_por_dia": "1-2 tazas"
+  },
+   {
+    "nombre": "Carne de cordero",
+    "categoria": ["Proteína animal"],
+    "calorias": "294 kcal por 100g",
+    "proteinas": "25 g",
+    "grasas": "21 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Hierro", "Zinc", "Vitamina B12"],
+    "beneficios": "Alto en hierro y proteínas, ideal para dietas ricas en nutrientes.",
+    "restricciones": "Alto contenido graso, moderar en dietas bajas en grasa.",
+    "cantidad_recomendada": "100-150 g por porción"
+  },
+  {
+    "nombre": "Conejo",
+    "categoria": ["Proteína animal"],
+    "calorias": "173 kcal por 100g",
+    "proteinas": "27 g",
+    "grasas": "8 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Fósforo", "Selenio", "Vitamina B12"],
+    "beneficios": "Bajo en grasa y colesterol, ideal para dietas saludables.",
+    "restricciones": "No recomendado para personas con problemas renales en exceso.",
+    "cantidad_recomendada": "100-150 g por porción"
+  },
+  {
+    "nombre": "Pato",
+    "categoria": ["Proteína animal"],
+    "calorias": "337 kcal por 100g",
+    "proteinas": "27 g",
+    "grasas": "28 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Hierro", "Niacina", "Vitamina B6"],
+    "beneficios": "Buena fuente de hierro y proteínas.",
+    "restricciones": "Alto en grasas saturadas, no recomendado en dietas bajas en grasa.",
+    "cantidad_recomendada": "100 g por porción"
+  },
+  {
+    "nombre": "Trucha",
+    "categoria": ["Proteína animal", "Pescado"],
+    "calorias": "148 kcal por 100g",
+    "proteinas": "20 g",
+    "grasas": "6 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Omega-3", "Vitamina D", "Selenio"],
+    "beneficios": "Alto en omega-3, bueno para la salud cardiovascular.",
+    "restricciones": "Puede contener mercurio, moderar el consumo.",
+    "cantidad_recomendada": "150 g por porción"
+  },
+  {
+    "nombre": "Bagre",
+    "categoria": ["Proteína animal", "Pescado"],
+    "calorias": "105 kcal por 100g",
+    "proteinas": "18 g",
+    "grasas": "3 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Vitamina D", "Fósforo", "Selenio"],
+    "beneficios": "Fuente económica de proteínas y ácidos grasos saludables.",
+    "restricciones": "Puede tener niveles de contaminantes en algunas regiones.",
+    "cantidad_recomendada": "150 g por porción"
+  },
+  {
+    "nombre": "Carne de chigüiro",
+    "categoria": ["Proteína animal"],
+    "calorias": "123 kcal por 100g",
+    "proteinas": "22 g",
+    "grasas": "3 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Hierro", "Zinc", "Vitamina B12"],
+    "beneficios": "Bajo en grasa y rico en proteínas.",
+    "restricciones": "No disponible en todas las regiones.",
+    "cantidad_recomendada": "100-150 g por porción"
+  },
+  {
+    "nombre": "Codorniz",
+    "categoria": ["Proteína animal"],
+    "calorias": "134 kcal por 100g",
+    "proteinas": "22 g",
+    "grasas": "4 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Vitamina B6", "Hierro", "Fósforo"],
+    "beneficios": "Buena fuente de proteínas y baja en grasas.",
+    "restricciones": "Puede ser difícil de conseguir en algunas zonas.",
+    "cantidad_recomendada": "100-150 g por porción"
+  },
+  {
+    "nombre": "Mojarra",
+    "categoria": ["Proteína animal", "Pescado"],
+    "calorias": "128 kcal por 100g",
+    "proteinas": "26 g",
+    "grasas": "2 g",
+    "carbohidratos": "0 g",
+    "vitaminas_minerales": ["Vitamina D", "Fósforo", "Omega-3"],
+    "beneficios": "Bajo en grasas y alto en proteínas, bueno para la salud del corazón.",
+    "restricciones": "Puede contener contaminantes en algunas zonas.",
+    "cantidad_recomendada": "150 g por porción"
+  },
+  {
+    "nombre": "Pollo",
+    "categorias": ["Proteína Animal"],
+    "porcion": "100g (pechuga sin piel)",
+    "calorias": "165 kcal",
+    "proteinas": "31 g",
+    "grasas": "3.6 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Vitamina B6": "0.6 mg",
+      "Fósforo": "220 mg",
+      "Selenio": "22 mcg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Fuente de proteína magra", "Favorece el desarrollo muscular"],
+    "contraindicaciones": ["Evitar en dietas bajas en proteínas"],
+    "combinaciones_recomendadas": ["Verduras", "Arroz integral", "Legumbres"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Carne de res",
+    "categorias": ["Proteína Animal"],
+    "porcion": "100g (corte magro)",
+    "calorias": "250 kcal",
+    "proteinas": "26 g",
+    "grasas": "17 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "2.7 mg",
+      "Zinc": "5.4 mg",
+      "Vitamina B12": "2.6 mcg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Alto en hierro", "Favorece la formación de glóbulos rojos"],
+    "contraindicaciones": ["Evitar en dietas bajas en grasas saturadas"],
+    "combinaciones_recomendadas": ["Verduras", "Papas", "Frijoles"],
+    "cantidad_recomendada_por_dia": "100-150g"
+  },
+  {
+    "nombre": "Salmón",
+    "categorias": ["Proteína Animal", "Pescado"],
+    "porcion": "100g",
+    "calorias": "208 kcal",
+    "proteinas": "20 g",
+    "grasas": "13 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Omega-3": "2.2 g",
+      "Vitamina D": "10 mcg",
+      "Selenio": "30 mcg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Protege el corazón", "Rico en ácidos grasos saludables"],
+    "contraindicaciones": ["Evitar en casos de alergia al pescado"],
+    "combinaciones_recomendadas": ["Ensaladas", "Quinoa", "Aguacate"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Atún",
+    "categorias": ["Proteína Animal", "Pescado"],
+    "porcion": "100g",
+    "calorias": "144 kcal",
+    "proteinas": "30 g",
+    "grasas": "1 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Omega-3": "0.8 g",
+      "Vitamina B12": "2.4 mcg",
+      "Selenio": "60 mcg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Favorece el desarrollo muscular", "Alto en proteínas"],
+    "contraindicaciones": ["Evitar en exceso por posible contenido de mercurio"],
+    "combinaciones_recomendadas": ["Pan integral", "Aguacate", "Tomate"],
+    "cantidad_recomendada_por_dia": "100-150g"
+  },
+  {
+    "nombre": "Tilapia",
+    "categorias": ["Proteína Animal", "Pescado"],
+    "porcion": "100g",
+    "calorias": "96 kcal",
+    "proteinas": "20 g",
+    "grasas": "2 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Selenio": "47 mcg",
+      "Fósforo": "200 mg",
+      "Vitamina B12": "1.2 mcg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Bajo en calorías", "Fuente de proteínas magras"],
+    "contraindicaciones": ["Evitar en dietas bajas en pescado"],
+    "combinaciones_recomendadas": ["Arroz", "Verduras", "Pasta"],
+    "cantidad_recomendada_por_dia": "100-150g"
+  },
+  {
+    "nombre": "Huevo",
+    "categorias": ["Proteína Animal"],
+    "porcion": "1 unidad (50g)",
+    "calorias": "70 kcal",
+    "proteinas": "6 g",
+    "grasas": "5 g",
+    "carbohidratos": "0.6 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Colina": "147 mg",
+      "Vitamina D": "1 mcg",
+      "Hierro": "0.9 mg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos"],
+    "beneficios": ["Favorece el desarrollo muscular", "Alto valor biológico"],
+    "contraindicaciones": ["Evitar en casos de alergia al huevo"],
+    "combinaciones_recomendadas": ["Avena", "Pan integral", "Aguacate"],
+    "cantidad_recomendada_por_dia": "1-3 unidades"
+  },
+  {
+    "nombre": "Camarones",
+    "categorias": ["Proteína Animal", "Mariscos"],
+    "porcion": "100g",
+    "calorias": "85 kcal",
+    "proteinas": "20 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "0.2 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Selenio": "40 mcg",
+      "Omega-3": "0.3 g",
+      "Vitamina B12": "1.1 mcg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Bajo en grasas", "Fuente de selenio y antioxidantes"],
+    "contraindicaciones": ["Evitar en casos de alergia a los mariscos"],
+    "combinaciones_recomendadas": ["Ensaladas", "Pasta", "Arroz"],
+    "cantidad_recomendada_por_dia": "100-150g"
+  },
+  {
+    "nombre": "Cerdo",
+    "categorias": ["Proteína Animal"],
+    "porcion": "100g (corte magro)",
+    "calorias": "242 kcal",
+    "proteinas": "27 g",
+    "grasas": "14 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Vitamina B1": "1.1 mg",
+      "Zinc": "2.4 mg",
+      "Hierro": "0.9 mg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Fuente de proteína completa", "Alto en vitamina B1"],
+    "contraindicaciones": ["Evitar en dietas bajas en grasas"],
+    "combinaciones_recomendadas": ["Verduras", "Legumbres", "Arroz"],
+    "cantidad_recomendada_por_dia": "100-150g"
+  },
+
+  {
+    "nombre": "Calamares",
+    "categorias": ["Proteína Animal", "Mariscos"],
+    "porcion": "100g",
+    "calorias": "92 kcal",
+    "proteinas": "18 g",
+    "grasas": "1.4 g",
+    "carbohidratos": "3.1 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Selenio": "44 mcg",
+      "Vitamina B12": "1.3 mcg",
+      "Fósforo": "210 mg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Bajo en calorías", "Alto contenido de selenio y fósforo"],
+    "contraindicaciones": ["Evitar en casos de alergia a mariscos"],
+    "combinaciones_recomendadas": ["Ensaladas", "Arroz", "Verduras"],
+    "cantidad_recomendada_por_dia": "100-150g"
+  },
+  {
+    "nombre": "Pavo",
+    "categorias": ["Proteína Animal"],
+    "porcion": "100g (pechuga sin piel)",
+    "calorias": "135 kcal",
+    "proteinas": "29 g",
+    "grasas": "1 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_y_minerales": {
+      "Niacina (B3)": "10 mg",
+      "Fósforo": "200 mg",
+      "Selenio": "30 mcg"
+    },
+    "indice_glucemico": "0",
+    "restricciones_dieteticas": ["No apto para veganos/vegetarianos"],
+    "beneficios": ["Alto en proteínas magras", "Favorece el desarrollo muscular"],
+    "contraindicaciones": ["Evitar en dietas bajas en proteínas"],
+    "combinaciones_recomendadas": ["Verduras", "Arroz integral", "Legumbres"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+   {
+    "nombre": "Lentejas",
+    "categorias": ["Proteína Vegetal", "Legumbre"],
+    "porcion": "100g (cocidas)",
+    "calorias": "116 kcal",
+    "proteinas": "9 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "20 g",
+    "fibra": "8 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "3.3 mg",
+      "Magnesio": "36 mg",
+      "Ácido fólico": "181 mcg"
+    },
+    "indice_glucemico": "32",
+    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+    "beneficios": ["Fuente de proteína vegetal", "Alto contenido en fibra"],
+    "contraindicaciones": ["Puede causar hinchazón en personas sensibles"],
+    "combinaciones_recomendadas": ["Arroz", "Verduras", "Semillas"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Garbanzos",
+    "categorias": ["Proteína Vegetal", "Legumbre"],
+    "porcion": "100g (cocidos)",
+    "calorias": "164 kcal",
+    "proteinas": "8.9 g",
+    "grasas": "2.6 g",
+    "carbohidratos": "27 g",
+    "fibra": "7.6 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "2.9 mg",
+      "Magnesio": "48 mg",
+      "Ácido fólico": "172 mcg"
+    },
+    "indice_glucemico": "28",
+    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+    "beneficios": ["Favorece la digestión", "Regula el azúcar en sangre"],
+    "contraindicaciones": ["Puede causar gases en algunas personas"],
+    "combinaciones_recomendadas": ["Cereales", "Verduras", "Salsas naturales"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Tofu",
+    "categorias": ["Proteína Vegetal", "Derivado de la Soja"],
+    "porcion": "100g",
+    "calorias": "144 kcal",
+    "proteinas": "15 g",
+    "grasas": "8 g",
+    "carbohidratos": "2 g",
+    "fibra": "1 g",
+    "vitaminas_y_minerales": {
+      "Calcio": "350 mg",
+      "Hierro": "5.4 mg",
+      "Magnesio": "30 mg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+    "beneficios": ["Fuente de proteína completa", "Bajo en carbohidratos"],
+    "contraindicaciones": ["Evitar en personas con problemas de tiroides"],
+    "combinaciones_recomendadas": ["Verduras", "Salsas naturales", "Arroz"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Quinoa",
+    "categorias": ["Proteína Vegetal", "Cereal"],
+    "porcion": "100g (cocida)",
+    "calorias": "120 kcal",
+    "proteinas": "4 g",
+    "grasas": "1.9 g",
+    "carbohidratos": "21 g",
+    "fibra": "2.8 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "1.5 mg",
+      "Magnesio": "64 mg",
+      "Fósforo": "152 mg"
+    },
+    "indice_glucemico": "53",
+    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+    "beneficios": ["Proteína completa", "Regula el azúcar en sangre"],
+    "contraindicaciones": ["Puede causar molestias digestivas si se consume en exceso"],
+    "combinaciones_recomendadas": ["Verduras", "Frutas", "Legumbres"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+
+  {
+    "nombre": "Frijoles",
+    "categorias": ["Proteína Vegetal", "Legumbre"],
+    "porcion": "100g (cocidos)",
+    "calorias": "127 kcal",
+    "proteinas": "8.7 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "23.7 g",
+    "fibra": "6.4 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "2.1 mg",
+      "Magnesio": "43 mg",
+      "Ácido fólico": "130 mcg"
+    },
+    "indice_glucemico": "29",
+    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+    "beneficios": ["Fuente de proteínas y fibra", "Regula el colesterol"],
+    "contraindicaciones": ["Puede causar gases en algunas personas"],
+    "combinaciones_recomendadas": ["Arroz integral", "Verduras", "Carnes magras"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Tempeh",
+    "categorias": ["Proteína Vegetal", "Derivado de la Soja"],
+    "porcion": "100g",
+    "calorias": "195 kcal",
+    "proteinas": "19 g",
+    "grasas": "11 g",
+    "carbohidratos": "9 g",
+    "fibra": "5 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "2.7 mg",
+      "Calcio": "111 mg",
+      "Magnesio": "81 mg"
+    },
+    "indice_glucemico": "15",
+    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+    "beneficios": ["Fuente de proteína completa", "Probiótico natural"],
+    "contraindicaciones": ["Evitar en personas con problemas de tiroides"],
+    "combinaciones_recomendadas": ["Verduras salteadas", "Salsas naturales", "Quinoa"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Seitán",
+    "categorias": ["Proteína Vegetal", "Gluten de trigo"],
+    "porcion": "100g",
+    "calorias": "120 kcal",
+    "proteinas": "24 g",
+    "grasas": "1 g",
+    "carbohidratos": "4 g",
+    "fibra": "1 g",
+    "vitaminas_y_minerales": {
+      "Hierro": "2.9 mg",
+      "Magnesio": "25 mg",
+      "Fósforo": "140 mg"
+    },
+    "indice_glucemico": "20",
+    "restricciones_dieteticas": ["No apto para celíacos"],
+    "beneficios": ["Alta cantidad de proteínas", "Bajo en grasas"],
+    "contraindicaciones": ["No apto para personas con intolerancia al gluten"],
+    "combinaciones_recomendadas": ["Verduras", "Salsas naturales", "Arroz"],
+    "cantidad_recomendada_por_dia": "100-200g"
+  },
+  {
+    "nombre": "Chía",
+    "categorias": ["Proteína Vegetal", "Semilla"],
+    "porcion": "28g (2 cucharadas)",
+    "calorias": "138 kcal",
+    "proteinas": "4.7 g",
+    "grasas": "8.6 g",
+    "carbohidratos": "12 g",
+    "fibra": "10 g",
+    "vitaminas_y_minerales": {
+      "Calcio": "179 mg",
+      "Magnesio": "95 mg",
+      "Omega-3": "4915 mg"
+    },
+    "indice_glucemico": "1",
+    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+    "beneficios": ["Alto contenido en omega-3", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar malestar digestivo en exceso"],
+    "combinaciones_recomendadas": ["Yogurt", "Batidos", "Ensaladas"],
+    "cantidad_recomendada_por_dia": "15-30g"
+  },
+
+{
+  "nombre": "Soja",
+  "categorias": ["Proteína Vegetal", "Legumbre"],
+  "porcion": "100g (cocida)",
+  "calorias": "173 kcal",
+  "proteinas": "16.6 g",
+  "grasas": "9 g",
+  "carbohidratos": "9.9 g",
+  "fibra": "6 g",
+  "vitaminas_y_minerales": {
+    "Hierro": "5.1 mg",
+    "Calcio": "277 mg",
+    "Magnesio": "86 mg",
+    "Potasio": "515 mg"
+  },
+  "indice_glucemico": "15",
+  "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
+  "beneficios": [
+    "Fuente completa de proteínas",
+    "Alto contenido en isoflavonas, beneficiosas para la salud hormonal",
+    "Ayuda a reducir el colesterol"
+  ],
+  "contraindicaciones": [
+    "Puede afectar la función tiroidea en personas con hipotiroidismo",
+    "No recomendada en exceso para personas con antecedentes hormonales sensibles"
+  ],
+  "combinaciones_recomendadas": ["Verduras", "Cereales integrales", "Frutos secos"],
+  "cantidad_recomendada_por_dia": "50-100g"
+}, 
+
+  {
+    "nombre": "Maíz",
+    "categoria": ["Proteína Vegetal", "Cereal"],
+    "calorias": "86 kcal",
+    "proteinas": "3.2 g",
+    "grasas": "1.2 g",
+    "carbohidratos": "19 g",
+    "fibra": "2.7 g",
+    "vitaminas_minerales": ["Vitamina B1", "Vitamina B3", "Magnesio", "Fósforo"],
+    "indice_glucemico": "55",
+    "restricciones": ["Puede contener gluten si se procesa con otros cereales"],
+    "beneficios": ["Fuente de energía", "Alto contenido en fibra", "Mejora la digestión"],
+    "contraindicaciones": ["En exceso puede causar problemas digestivos"],
+    "combinaciones_recomendadas": ["Frijoles", "Queso", "Verduras"],
+    "cantidad_recomendada_por_dia": "100 g"
+  },
+  {
+    "nombre": "Amaranto",
+    "categoria": ["Proteína Vegetal", "Cereal"],
+    "calorias": "371 kcal",
+    "proteinas": "14 g",
+    "grasas": "7 g",
+    "carbohidratos": "65 g",
+    "fibra": "7 g",
+    "vitaminas_minerales": ["Calcio", "Hierro", "Magnesio", "Fósforo"],
+    "indice_glucemico": "35",
+    "restricciones": ["Puede contener antinutrientes si no se cocina bien"],
+    "beneficios": ["Fuente completa de proteínas", "Rico en calcio", "Regula la digestión"],
+    "contraindicaciones": ["No recomendado en exceso para personas con problemas renales"],
+    "combinaciones_recomendadas": ["Frutas", "Yogur", "Miel"],
+    "cantidad_recomendada_por_dia": "50 g"
+  },
+  {
+    "nombre": "Fríjol cabecita negra",
+    "categoria": ["Proteína Vegetal", "Legumbre"],
+    "calorias": "132 kcal",
+    "proteinas": "8.9 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "23.7 g",
+    "fibra": "6.8 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Ácido fólico"],
+    "indice_glucemico": "30",
+    "restricciones": ["Puede causar gases e hinchazón"],
+    "beneficios": ["Favorece la salud cardiovascular", "Fuente de proteína vegetal", "Alto en fibra"],
+    "contraindicaciones": ["No recomendado en exceso para personas con síndrome del intestino irritable"],
+    "combinaciones_recomendadas": ["Arroz", "Verduras", "Maíz"],
+    "cantidad_recomendada_por_dia": "100 g"
+  },
+  {
+    "nombre": "Chachafruto",
+    "categoria": ["Proteína Vegetal", "Legumbre"],
+    "calorias": "140 kcal",
+    "proteinas": "12 g",
+    "grasas": "0.8 g",
+    "carbohidratos": "24 g",
+    "fibra": "5 g",
+    "vitaminas_minerales": ["Hierro", "Calcio", "Magnesio"],
+    "indice_glucemico": "40",
+    "restricciones": ["Debe cocinarse bien para evitar toxicidad"],
+    "beneficios": ["Alto en proteínas", "Regula el azúcar en sangre", "Rico en minerales"],
+    "contraindicaciones": ["Puede ser tóxico si se consume crudo"],
+    "combinaciones_recomendadas": ["Arroz", "Verduras"],
+    "cantidad_recomendada_por_dia": "80 g"
+  },
+  {
+    "nombre": "Sacha inchi",
+    "categoria": ["Proteína Vegetal", "Semilla"],
+    "calorias": "480 kcal",
+    "proteinas": "27 g",
+    "grasas": "35 g",
+    "carbohidratos": "9 g",
+    "fibra": "6 g",
+    "vitaminas_minerales": ["Omega 3", "Vitamina E", "Magnesio"],
+    "indice_glucemico": "10",
+    "restricciones": ["Puede causar alergias en algunas personas"],
+    "beneficios": ["Mejora la salud cardiovascular", "Alto en proteína", "Fuente de ácidos grasos esenciales"],
+    "contraindicaciones": ["No recomendado en exceso para personas con problemas hepáticos"],
+    "combinaciones_recomendadas": ["Ensaladas", "Batidos", "Yogur"],
+    "cantidad_recomendada_por_dia": "30 g"
+  },
+  {
+    "nombre": "Ñame",
+    "categoria": ["Proteína Vegetal", "Tubérculo"],
+    "calorias": "118 kcal",
+    "proteinas": "2 g",
+    "grasas": "0.1 g",
+    "carbohidratos": "27 g",
+    "fibra": "4 g",
+    "vitaminas_minerales": ["Vitamina C", "Potasio", "Manganeso"],
+    "indice_glucemico": "54",
+    "restricciones": ["Puede causar alergia en algunas personas"],
+    "beneficios": ["Regula el azúcar en sangre", "Alto contenido en fibra", "Fuente de energía"],
+    "contraindicaciones": ["En exceso puede elevar los niveles de azúcar en sangre"],
+    "combinaciones_recomendadas": ["Carne", "Pollo", "Verduras"],
+    "cantidad_recomendada_por_dia": "100 g"
+  },
+  {
+    "nombre": "Leche",
+    "categorias": ["Lácteos"],
+    "calorias": "42 kcal por 100g",
+    "proteinas": "3.4g por 100g",
+    "grasas": "1g por 100g",
+    "carbohidratos": "5g por 100g",
+    "vitaminas_minerales": ["Calcio", "Vitamina D", "Vitamina B12"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Yogur",
+    "categorias": ["Lácteos"],
+    "calorias": "59 kcal por 100g",
+    "proteinas": "3.5g por 100g",
+    "grasas": "3.3g por 100g",
+    "carbohidratos": "4.7g por 100g",
+    "vitaminas_minerales": ["Calcio", "Probióticos", "Vitamina B12"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Queso fresco",
+    "categorias": ["Lácteos"],
+    "calorias": "80 kcal por 100g",
+    "proteinas": "8g por 100g",
+    "grasas": "5g por 100g",
+    "carbohidratos": "1g por 100g",
+    "vitaminas_minerales": ["Calcio", "Fósforo", "Vitamina A"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Mantequilla",
+    "categorias": ["Lácteos"],
+    "calorias": "717 kcal por 100g",
+    "proteinas": "0.9g por 100g",
+    "grasas": "81g por 100g",
+    "carbohidratos": "0.1g por 100g",
+    "vitaminas_minerales": ["Vitamina A", "Vitamina D", "Vitamina E"],
+    "restricciones": ["Alto en grasas saturadas"]
+  },
+  {
+    "nombre": "Kéfir",
+    "categorias": ["Lácteos"],
+    "calorias": "41 kcal por 100g",
+    "proteinas": "3.3g por 100g",
+    "grasas": "0.9g por 100g",
+    "carbohidratos": "4.5g por 100g",
+    "vitaminas_minerales": ["Probióticos", "Calcio", "Vitamina B12"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Crema de leche",
+    "categorias": ["Lácteos"],
+    "calorias": "193 kcal por 100g",
+    "proteinas": "2g por 100g",
+    "grasas": "19g por 100g",
+    "carbohidratos": "3g por 100g",
+    "vitaminas_minerales": ["Vitamina A", "Calcio"],
+    "restricciones": ["Alto en grasas"]
+  },
+  {
+    "nombre": "Suero costeño",
+    "categorias": ["Lácteos"],
+    "calorias": "68 kcal por 100g",
+    "proteinas": "5g por 100g",
+    "grasas": "4g por 100g",
+    "carbohidratos": "2g por 100g",
+    "vitaminas_minerales": ["Calcio", "Fósforo"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Cuajada",
+    "categorias": ["Lácteos"],
+    "calorias": "70 kcal por 100g",
+    "proteinas": "7g por 100g",
+    "grasas": "4g por 100g",
+    "carbohidratos": "1g por 100g",
+    "vitaminas_minerales": ["Calcio", "Vitamina A"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Leche en polvo",
+    "categorias": ["Lácteos"],
+    "calorias": "500 kcal por 100g",
+    "proteinas": "26g por 100g",
+    "grasas": "27g por 100g",
+    "carbohidratos": "38g por 100g",
+    "vitaminas_minerales": ["Calcio", "Vitamina D", "Vitamina B12"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Requesón",
+    "categorias": ["Lácteos"],
+    "calorias": "98 kcal por 100g",
+    "proteinas": "11g por 100g",
+    "grasas": "4.3g por 100g",
+    "carbohidratos": "3.4g por 100g",
+    "vitaminas_minerales": ["Calcio", "Vitamina A", "Fósforo"],
+    "restricciones": ["Intolerancia a la lactosa"]
+  },
+  {
+    "nombre": "Arequipe / Dulce de leche",
+    "categorias": ["Lácteos", "Dulces"],
+    "calorias": "315 kcal por 100g",
+    "proteinas": "5g por 100g",
+    "grasas": "6g por 100g",
+    "carbohidratos": "58g por 100g",
+    "vitaminas_minerales": ["Calcio"],
+    "restricciones": ["Alto en azúcar"]
+  },
+  {
+        "nombre": "Aguacate",
+        "categoria": [
+            "Grasas saludables",
+            "Frutas"
+        ],
+        "porcion": "100g",
+        "calorias": "160 kcal",
+        "macronutrientes": {
+            "proteinas": "2g",
+            "grasas": "15g",
+            "carbohidratos": "9g",
+            "fibra": "7g"
+        },
+        "vitaminas_y_minerales": [
+            "Vitamina K",
+            "Vitamina E",
+            "Potasio",
+            "Folato"
+        ],
+        "indice_glucemico": "Bajo",
+        "restricciones": [
+            "No recomendado en dietas muy bajas en grasas"
+        ],
+        "beneficios": [
+            "Buena fuente de grasas monoinsaturadas",
+            "Contribuye a la salud del corazón"
+        ],
+        "contraindicaciones": [
+            "Alto en calorías, moderar en dietas de pérdida de peso"
+        ],
+           "combinaciones_recomendadas": [
+            "Ensaladas",
+            "Tostadas",
+            "Batidos"
+        ],
+        "cantidad_recomendada_dia": "1/2 aguacate"
+    },
+    {
+        "nombre": "Almendras",
+        "categoria": [
+            "Grasas saludables",
+            "Frutos secos"
+        ],
+        "porcion": "28g (aprox. 23 unidades)",
+        "calorias": "170 kcal",
+        "macronutrientes": {
+            "proteinas": "6g",
+            "grasas": "15g",
+            "carbohidratos": "6g",
+            "fibra": "3.5g"
+        },
+        "vitaminas_y_minerales": [
+            "Vitamina E",
+            "Magnesio",
+            "Calcio"
+        ],
+        "indice_glucemico": "Bajo",
+        "restricciones": [
+            "Alérgenos: Frutos secos"
+        ],
+        "beneficios": [
+            "Favorecen la salud cardiovascular",
+            "Ricas en antioxidantes"
+        ],
+        "contraindicaciones": [
+            "Pueden causar alergias",
+            "Altas en calorías"
+        ],
+        "combinaciones_recomendadas": [
+            "Yogur",
+            "Batidos",
+            "Ensaladas"
+        ],
+        "cantidad_recomendada_dia": "28g (un puñado)"
+    },
+    {
+        "nombre": "Nueces",
+        "categoria": [
+            "Grasas saludables",
+            "Frutos secos"
+        ],
+        "porcion": "28g (aprox. 7 unidades)",
+        "calorias": "185 kcal",
+        "macronutrientes": {
+            "proteinas": "4g",
+            "grasas": "18g",
+            "carbohidratos": "4g",
+            "fibra": "2g"
+        },
+        "vitaminas_y_minerales": [
+            "Omega-3",
+            "Magnesio",
+            "Fósforo"
+        ],
+        "indice_glucemico": "Bajo",
+        "restricciones": [
+            "Alérgenos: Frutos secos"
+        ],
+        "beneficios": [
+            "Mejoran la función cerebral",
+            "Ricas en grasas saludables"
+        ],
+        "contraindicaciones": [
+            "Pueden causar alergias",
+            "Altas en calorías"
+        ],
+        "combinaciones_recomendadas": [
+            "Avena",
+            "Postres",
+            "Ensaladas"
+        ],
+        "cantidad_recomendada_dia": "28g (un puñado)"
+    },
+    {
+        "nombre": "Maní",
+        "categoria": [
+            "Grasas saludables",
+            "Legumbres"
+        ],
+        "porcion": "28g (aprox. 35 unidades)",
+        "calorias": "160 kcal",
+        "macronutrientes": {
+            "proteinas": "7g",
+            "grasas": "14g",
+            "carbohidratos": "6g",
+            "fibra": "2.5g"
+        },
+        "vitaminas_y_minerales": [
+            "Vitamina B3",
+            "Magnesio",
+            "Fósforo"
+        ],
+        "indice_glucemico": "Bajo",
+        "restricciones": [
+            "Alérgenos: Maní"
+        ],
+        "beneficios": [
+            "Favorecen el rendimiento deportivo",
+            "Fuente económica de proteínas"
+        ],
+        "contraindicaciones": [
+            "Pueden causar alergias",
+            "Altas en calorías"
+        ],
+        "combinaciones_recomendadas": [
+            "Mantequilla de maní",
+            "Batidos",
+            "Salsas"
+        ],
+        "cantidad_recomendada_dia": "28g (un puñado)"
+    },
+    {
+        "nombre": "Aceite de oliva",
+        "categoria": [
+            "Grasas saludables"
+        ],
+        "porcion": "1 cucharada (15ml)",
+        "calorias": "120 kcal",
+        "macronutrientes": {
+            "proteinas": "0g",
+            "grasas": "14g",
+            "carbohidratos": "0g",
+            "fibra": "0g"
+        },
+        "vitaminas_y_minerales": [
+            "Vitamina E",
+            "Antioxidantes"
+        ],
+        "indice_glucemico": "No aplica",
+        "restricciones": [
+            "No recomendado en frituras a altas temperaturas"
+        ],
+        "beneficios": [
+            "Salud cardiovascular",
+            "Propiedades antiinflamatorias"
+        ],
+        "contraindicaciones": [
+            "Altamente calórico"
+        ],
+        "combinaciones_recomendadas": [
+            "Ensaladas",
+            "Aderezos",
+            "Salteados"
+        ],
+        "cantidad_recomendada_dia": "1-2 cucharadas"
+    },
+    {
+        "nombre": "Aceite de coco",
+        "categoria": [
+            "Grasas saludables"
+        ],
+        "porcion": "1 cucharada (15ml)",
+        "calorias": "120 kcal",
+        "macronutrientes": {
+            "proteinas": "0g",
+            "grasas": "14g",
+            "carbohidratos": "0g",
+            "fibra": "0g"
+        },
+        "vitaminas_y_minerales": [
+            "Ácidos grasos de cadena media"
+        ],
+        "indice_glucemico": "No aplica",
+        "restricciones": [
+            "Puede elevar el colesterol LDL"
+        ],
+        "beneficios": [
+            "Fuente de energía rápida",
+            "Antimicrobiano natural"
+        ],
+        "contraindicaciones": [
+            "No recomendado en exceso por su contenido en grasas saturadas"
+        ],
+        "combinaciones_recomendadas": [
+            "Batidos",
+            "Repostería",
+            "Salteados"
+        ],
+        "cantidad_recomendada_dia": "1 cucharada"
+    },
+    {
+        "nombre": "Semillas de girasol",
+        "categoria": [
+            "Grasas saludables",
+            "Semillas"
+        ],
+        "porcion": "28g (aprox. 2 cucharadas)",
+        "calorias": "163 kcal",
+        "macronutrientes": {
+            "proteinas": "5.5g",
+            "grasas": "14g",
+            "carbohidratos": "6g",
+            "fibra": "3g"
+        },
+        "vitaminas_y_minerales": [
+            "Vitamina E",
+            "Magnesio",
+            "Selenio"
+        ],
+        "indice_glucemico": "Bajo",
+        "restricciones": [
+            "Altas en calorías"
+        ],
+        "beneficios": [
+            "Salud del corazón",
+            "Ricas en antioxidantes"
+        ],
+        "contraindicaciones": [
+            "Pueden ser altas en sodio si están saladas"
+        ],
+        "combinaciones_recomendadas": [
+            "Ensaladas",
+            "Panadería",
+            "Snacks"
+        ],
+        "cantidad_recomendada_dia": "28g"
+    },
+     {
+    "nombre": "Salmón",
+    "categorias": ["Proteína Animal", "Grasas Saludables"],
+    "porcion": "100g",
+    "calorias": 208,
+    "proteinas": "20g",
+    "grasas": "13g",
+    "carbohidratos": "0g",
+    "fibra": "0g",
+    "vitaminas_y_minerales": {
+      "Omega-3": "2.3g",
+      "Vitamina D": "11mcg",
+      "Vitamina B12": "3.2mcg",
+      "Selenio": "36mcg"
+    },
+    "indice_glucemico": 0,
+    "restricciones_dieteticas": ["Alérgenos: Pescado"],
     "beneficios": [
-      "Refuerza el sistema inmune",
-      "Prevención de resfriados"
+      "Alto en Omega-3, bueno para la salud cardiovascular",
+      "Rico en proteínas de alta calidad",
+      "Fuente natural de vitamina D"
     ],
     "contraindicaciones": [
-      "Evitar si se tiene reflujo ácido frecuente"
-    ]
+      "Puede contener mercurio en pequeñas cantidades",
+      "No recomendado para personas con alergia al pescado"
+    ],
+    "combinaciones_recomendadas": ["Verduras asadas", "Quinoa", "Aguacate"],
+    "cantidad_recomendada_por_dia": "100-150g"
   },
+  {
+    "nombre": "Sardinas",
+    "categorias": ["Proteína Animal", "Grasas Saludables"],
+    "porcion": "100g",
+    "calorias": 208,
+    "proteinas": "25g",
+    "grasas": "11g",
+    "carbohidratos": "0g",
+    "fibra": "0g",
+    "vitaminas_y_minerales": {
+      "Omega-3": "1.5g",
+      "Vitamina D": "4.8mcg",
+      "Vitamina B12": "8.9mcg",
+      "Calcio": "382mg"
+    },
+    "indice_glucemico": 0,
+    "restricciones_dieteticas": ["Alérgenos: Pescado"],
+    "beneficios": [
+      "Buena fuente de Omega-3 para la salud del corazón",
+      "Rico en calcio si se consumen con espinas",
+      "Alto contenido de proteínas"
+    ],
+    "contraindicaciones": [
+      "Puede contener altos niveles de sodio enlatado",
+      "No recomendado para personas con alergia al pescado"
+    ],
+    "combinaciones_recomendadas": ["Ensaladas", "Pan integral", "Aceite de oliva"],
+    "cantidad_recomendada_por_dia": "100-150g"
+  },
+
+
+  {
+    "nombre": "Aceite de linaza",
+    "categoria": ["Grasas Saludables"],
+    "calorias": "884 kcal",
+    "grasas": "100 g",
+    "proteinas": "0 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_minerales": ["Omega-3", "Vitamina E"],
+    "indice_glucemico": "Bajo",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Mejora la salud del corazón", "Propiedades antiinflamatorias"],
+    "contraindicaciones": ["Alto en calorías, moderar consumo"],
+    "tamaño_porcion": "1 cucharada (14 g)"
+  },
+  {
+    "nombre": "Aceite de sésamo",
+    "categoria": ["Grasas Saludables"],
+    "calorias": "884 kcal",
+    "grasas": "100 g",
+    "proteinas": "0 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_minerales": ["Vitamina E", "Zinc"],
+    "indice_glucemico": "Bajo",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Propiedades antioxidantes", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar alergias en personas sensibles al sésamo"],
+    "tamaño_porcion": "1 cucharada (14 g)"
+  },
+  {
+    "nombre": "Semillas de lino (linaza)",
+    "categoria": ["Grasas Saludables"],
+    "calorias": "534 kcal",
+    "grasas": "42 g",
+    "proteinas": "18 g",
+    "carbohidratos": "29 g",
+    "fibra": "27 g",
+    "vitaminas_minerales": ["Omega-3", "Magnesio", "Fósforo"],
+    "indice_glucemico": "Bajo",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Regula el tránsito intestinal", "Mejora la salud cardiovascular"],
+    "contraindicaciones": ["Puede interferir con ciertos medicamentos anticoagulantes"],
+    "tamaño_porcion": "28 g (aprox. 2 cucharadas)"
+  },
+  {
+    "nombre": "Aceitunas",
+    "categoria": ["Grasas Saludables"],
+    "calorias": "115 kcal",
+    "grasas": "10.7 g",
+    "proteinas": "0.8 g",
+    "carbohidratos": "6 g",
+    "fibra": "3.2 g",
+    "vitaminas_minerales": ["Vitamina E", "Hierro", "Cobre"],
+    "indice_glucemico": "Bajo",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Antioxidantes naturales", "Mejora la salud del corazón"],
+    "contraindicaciones": ["Contienen sodio en conserva"],
+    "tamaño_porcion": "28 g (aprox. 5 aceitunas grandes)"
+  },
+   {
+    "nombre": "Lentejas",
+    "categoria": ["Legumbres", "Proteínas Vegetales"],
+    "calorias": "116 kcal",
+    "grasas": "0.4 g",
+    "proteinas": "9 g",
+    "carbohidratos": "20 g",
+    "fibra": "8 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Fósforo", "Vitamina B1"],
+    "indice_glucemico": "Medio",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Favorecen la digestión", "Fuente de proteína vegetal"],
+    "contraindicaciones": ["Pueden causar gases si no se cocinan bien"],
+    "tamaño_porcion": "100 g (cocidas)"
+  },
+  {
+    "nombre": "Garbanzos",
+    "categoria": ["Legumbres", "Proteínas Vegetales"],
+    "calorias": "164 kcal",
+    "grasas": "2.6 g",
+    "proteinas": "8.9 g",
+    "carbohidratos": "27 g",
+    "fibra": "7.6 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Zinc", "Vitamina B6"],
+    "indice_glucemico": "Medio",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Regulan el azúcar en sangre", "Favorecen la salud digestiva"],
+    "contraindicaciones": ["Pueden causar hinchazón si se consumen en exceso"],
+    "tamaño_porcion": "100 g (cocidos)"
+  },
+  {
+    "nombre": "Frijoles negros",
+    "categoria": ["Legumbres", "Proteínas Vegetales"],
+    "calorias": "132 kcal",
+    "grasas": "0.5 g",
+    "proteinas": "8.9 g",
+    "carbohidratos": "23.7 g",
+    "fibra": "8.7 g",
+    "vitaminas_minerales": ["Hierro", "Fósforo", "Calcio", "Vitamina B1"],
+    "indice_glucemico": "Bajo",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Fuente de proteína vegetal", "Regulan el colesterol"],
+    "contraindicaciones": ["Pueden causar gases y malestar digestivo"],
+    "tamaño_porcion": "100 g (cocidos)"
+  },
+  {
+    "nombre": "Frijoles rojos",
+    "categoria": ["Legumbres", "Proteínas Vegetales"],
+    "calorias": "127 kcal",
+    "grasas": "0.5 g",
+    "proteinas": "8.7 g",
+    "carbohidratos": "22.8 g",
+    "fibra": "6.4 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Potasio", "Vitamina B9"],
+    "indice_glucemico": "Bajo",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Favorecen la salud cardiovascular", "Ayudan a controlar el azúcar en sangre"],
+    "contraindicaciones": ["Pueden ser difíciles de digerir si no se remojan bien"],
+    "tamaño_porcion": "100 g (cocidos)"
+  },
+  {
+    "nombre": "Arvejas",
+    "categoria": ["Legumbres", "Proteínas Vegetales"],
+    "calorias": "81 kcal",
+    "grasas": "0.4 g",
+    "proteinas": "5.4 g",
+    "carbohidratos": "14.5 g",
+    "fibra": "5.1 g",
+    "vitaminas_minerales": ["Vitamina C", "Hierro", "Magnesio", "Vitamina K"],
+    "indice_glucemico": "Medio",
+    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
+    "beneficios": ["Mejoran la digestión", "Fortalecen el sistema inmunológico"],
+    "contraindicaciones": ["Pueden causar hinchazón en personas sensibles"],
+    "tamaño_porcion": "100 g (cocidas)"
+  },
+
+
+  {
+    "nombre": "Habas",
+    "categoria": ["Legumbres"],
+    "calorias": "88 kcal",
+    "proteinas": "8 g",
+    "grasas": "0.4 g",
+    "carbohidratos": "15 g",
+    "fibra": "5 g",
+    "vitaminas_y_minerales": ["Hierro", "Magnesio", "Ácido fólico"],
+    "indice_glucemico": "Bajo",
+    "restricciones": ["Favismo (deficiencia de G6PD)"],
+    "beneficios": ["Favorecen la salud cardiovascular", "Aportan proteínas y fibra"],
+    "contraindicaciones": ["No recomendadas en personas con favismo"],
+    "combinaciones_recomendadas": ["Verduras", "Carnes magras"],
+    "cantidad_recomendada_por_dia": "1 taza cocida"
+  },
+  {
+    "nombre": "Caupí (Frijol cabecita negra)",
+    "categoria": ["Legumbres"],
+    "calorias": "90 kcal",
+    "proteinas": "8 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "17 g",
+    "fibra": "6 g",
+    "vitaminas_y_minerales": ["Hierro", "Magnesio", "Potasio"],
+    "indice_glucemico": "Bajo",
+    "restricciones": ["Posible alergia a legumbres"],
+    "beneficios": ["Fuente de proteínas vegetales", "Regula el tránsito intestinal"],
+    "contraindicaciones": ["Puede causar gases"],
+    "combinaciones_recomendadas": ["Arroz", "Carnes", "Verduras"],
+    "cantidad_recomendada_por_dia": "1 taza cocida"
+  },
+  {
+    "nombre": "Frijol canario",
+    "categoria": ["Legumbres"],
+    "calorias": "130 kcal",
+    "proteinas": "9 g",
+    "grasas": "0.7 g",
+    "carbohidratos": "24 g",
+    "fibra": "7 g",
+    "vitaminas_y_minerales": ["Hierro", "Magnesio", "Zinc"],
+    "indice_glucemico": "Bajo",
+    "restricciones": ["Posible alergia a legumbres"],
+    "beneficios": ["Aporta proteínas y fibra", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar hinchazón"],
+    "combinaciones_recomendadas": ["Sopas", "Arroz"],
+    "cantidad_recomendada_por_dia": "1 taza cocida"
+  },
+  {
+    "nombre": "Frijol bola roja",
+    "categoria": ["Legumbres"],
+    "calorias": "128 kcal",
+    "proteinas": "9 g",
+    "grasas": "0.5 g",
+    "carbohidratos": "23 g",
+    "fibra": "6.5 g",
+    "vitaminas_y_minerales": ["Hierro", "Magnesio", "Potasio"],
+    "indice_glucemico": "Bajo",
+    "restricciones": ["Posible alergia a legumbres"],
+    "beneficios": ["Fuente de proteínas vegetales", "Buena opción para dietas equilibradas"],
+    "contraindicaciones": ["Puede causar gases"],
+    "combinaciones_recomendadas": ["Arroz", "Verduras"],
+    "cantidad_recomendada_por_dia": "1 taza cocida"
+  },
+  {
+    "nombre": "Frijol cargamanto",
+    "categoria": ["Legumbres"],
+    "calorias": "140 kcal",
+    "proteinas": "9 g",
+    "grasas": "0.7 g",
+    "carbohidratos": "26 g",
+    "fibra": "7 g",
+    "vitaminas_y_minerales": ["Hierro", "Magnesio", "Zinc"],
+    "indice_glucemico": "Bajo",
+    "restricciones": ["Posible alergia a legumbres"],
+    "beneficios": ["Aporta energía y fibra", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar gases"],
+    "combinaciones_recomendadas": ["Arroz", "Verduras"],
+    "cantidad_recomendada_por_dia": "1 taza cocida"
+  },
+  {
+    "nombre": "Guandú (Frijol gandul)",
+    "categoria": ["Legumbres"],
+    "calorias": "130 kcal",
+    "proteinas": "9 g",
+    "grasas": "1 g",
+    "carbohidratos": "22 g",
+    "fibra": "6 g",
+    "vitaminas_y_minerales": ["Hierro", "Magnesio", "Potasio"],
+    "indice_glucemico": "Bajo",
+    "restricciones": ["Posible alergia a legumbres"],
+    "beneficios": ["Fuente de proteínas vegetales", "Buena opción para dietas vegetarianas"],
+    "contraindicaciones": ["Puede causar hinchazón"],
+    "combinaciones_recomendadas": ["Arroz", "Sopas"],
+    "cantidad_recomendada_por_dia": "1 taza cocida"
+  },
+   {
+    "nombre": "Arroz integral",
+    "categoria": ["Cereales y granos"],
+    "calorias": "111 kcal",
+    "proteinas": "2.6 g",
+    "grasas": "0.9 g",
+    "carbohidratos": "23 g",
+    "fibra": "1.8 g",
+    "vitaminas_minerales": ["Magnesio", "Fósforo", "Vitamina B6"],
+    "indice_glucemico": "50",
+    "beneficios": "Fuente de fibra, regula el azúcar en sangre, favorece la digestión.",
+    "contraindicaciones": "Evitar en dietas bajas en carbohidratos.",
+    "tamaño_porcion": "100 g cocido"
+  },
+  {
+    "nombre": "Avena",
+    "categoria": ["Cereales y granos"],
+    "calorias": "389 kcal",
+    "proteinas": "16.9 g",
+    "grasas": "6.9 g",
+    "carbohidratos": "66 g",
+    "fibra": "10.6 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Zinc", "Vitamina B1"],
+    "indice_glucemico": "55",
+    "beneficios": "Ayuda a reducir el colesterol, buena para la salud intestinal.",
+    "contraindicaciones": "Puede causar hinchazón en algunas personas sensibles a la fibra.",
+    "tamaño_porcion": "100 g crudo"
+  },
+  {
+    "nombre": "Trigo",
+    "categoria": ["Cereales y granos"],
+    "calorias": "340 kcal",
+    "proteinas": "13.2 g",
+    "grasas": "2.5 g",
+    "carbohidratos": "72 g",
+    "fibra": "10.7 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Fósforo"],
+    "indice_glucemico": "41",
+    "beneficios": "Buena fuente de fibra, aporta energía sostenida.",
+    "contraindicaciones": "No apto para celíacos.",
+    "tamaño_porcion": "100 g crudo"
+  },
+  {
+    "nombre": "Integral panorámico",
+    "categoria": ["Cereales y granos"],
+    "calorias": "280 kcal",
+    "proteinas": "8 g",
+    "grasas": "3 g",
+    "carbohidratos": "50 g",
+    "fibra": "7 g",
+    "vitaminas_minerales": ["Vitamina B", "Hierro", "Magnesio"],
+    "indice_glucemico": "45",
+    "beneficios": "Aporta fibra, mejora la digestión y controla el azúcar en sangre.",
+    "contraindicaciones": "Evitar en casos de intolerancia al gluten.",
+    "tamaño_porcion": "100 g"
+  },
+  {
+    "nombre": "Pasta integral",
+    "categoria": ["Cereales y granos"],
+    "calorias": "150 kcal",
+    "proteinas": "5.5 g",
+    "grasas": "1 g",
+    "carbohidratos": "30 g",
+    "fibra": "3.2 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Vitamina B3"],
+    "indice_glucemico": "42",
+    "beneficios": "Aporta energía prolongada, regula el tránsito intestinal.",
+    "contraindicaciones": "No apto para celíacos.",
+    "tamaño_porcion": "100 g cocido"
+  },
+  {
+    "nombre": "Maíz",
+    "categoria": ["Cereales y granos"],
+    "calorias": "86 kcal",
+    "proteinas": "3.2 g",
+    "grasas": "1.2 g",
+    "carbohidratos": "19 g",
+    "fibra": "2.7 g",
+    "vitaminas_minerales": ["Vitamina C", "Magnesio", "Fósforo"],
+    "indice_glucemico": "52",
+    "beneficios": "Buena fuente de antioxidantes, favorece la digestión.",
+    "contraindicaciones": "Puede causar inflamación en personas sensibles.",
+    "tamaño_porcion": "100 g cocido"
+  },
+  {
+    "nombre": "Cebada",
+    "categoria": ["Cereales y granos"],
+    "calorias": "354 kcal",
+    "proteinas": "12.5 g",
+    "grasas": "2.3 g",
+    "carbohidratos": "73.5 g",
+    "fibra": "17.3 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Zinc"],
+    "indice_glucemico": "30",
+    "beneficios": "Ayuda a reducir el colesterol y mejora la digestión.",
+    "contraindicaciones": "No apto para celíacos.",
+    "tamaño_porcion": "100 g crudo"
+  },
+  {
+    "nombre": "Centeno",
+    "categoria": ["Cereales y granos"],
+    "calorias": "338 kcal",
+    "proteinas": "10.3 g",
+    "grasas": "1.6 g",
+    "carbohidratos": "75.9 g",
+    "fibra": "15.1 g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Fósforo"],
+    "indice_glucemico": "34",
+    "beneficios": "Ayuda a regular el azúcar en sangre y favorece la digestión.",
+    "contraindicaciones": "No apto para celíacos.",
+    "tamaño_porcion": "100 g crudo"
+  },
+  {
+    "nombre": "Mijo",
+    "categoria": ["Cereales y granos"],
+    "calorias": "378 kcal",
+    "proteinas": "11 g",
+    "grasas": "4.2 g",
+    "carbohidratos": "72 g",
+    "fibra": "8.5 g",
+    "vitaminas_minerales": ["Magnesio", "Fósforo", "Hierro"],
+    "indice_glucemico": "54",
+    "beneficios": "Apto para celíacos, bueno para la salud digestiva.",
+    "contraindicaciones": "Puede contener antinutrientes que afectan la absorción de minerales.",
+    "tamaño_porcion": "100 g crudo"
+  },
+    {
+    "nombre": "Miel",
+    "categoria": ["Endulzantes naturales"],
+    "calorias": "304 kcal",
+    "proteinas": "0.3 g",
+    "grasas": "0 g",
+    "carbohidratos": "82 g",
+    "fibra": "0.2 g",
+    "vitaminas_minerales": ["Calcio", "Potasio", "Hierro", "Vitamina C"],
+    "indice_glucemico": "58",
+    "beneficios": "Fuente de antioxidantes, ayuda a aliviar la garganta, mejora la digestión.",
+    "contraindicaciones": "No apta para bebés menores de 1 año debido al riesgo de botulismo.",
+    "tamaño_porcion": "100 g"
+  },
+  {
+    "nombre": "Panela",
+    "categoria": ["Endulzantes naturales"],
+    "calorias": "350 kcal",
+    "proteinas": "0.5 g",
+    "grasas": "0 g",
+    "carbohidratos": "90 g",
+    "fibra": "0 g",
+    "vitaminas_minerales": ["Calcio", "Hierro", "Magnesio", "Fósforo"],
+    "indice_glucemico": "55",
+    "beneficios": "Fuente de energía natural, aporta minerales esenciales.",
+    "contraindicaciones": "No recomendada en exceso para diabéticos.",
+    "tamaño_porcion": "100 g"
+  },
+  {
+    "nombre": "Stevia",
+    "categoria": ["Endulzantes naturales"],
+    "calorias": "0 kcal",
+    "proteinas": "0 g",
+    "grasas": "0 g",
+    "carbohidratos": "0 g",
+    "fibra": "0 g",
+    "vitaminas_minerales": ["Ninguno"],
+    "indice_glucemico": "0",
+    "beneficios": "No eleva el azúcar en sangre, apta para diabéticos.",
+    "contraindicaciones": "Puede tener un regusto amargo en altas concentraciones.",
+    "tamaño_porcion": "100 g"
+  },
+  {
+    "nombre": "Azúcar de coco",
+    "categoria": ["Endulzantes naturales"],
+    "calorias": "375 kcal",
+    "proteinas": "0.5 g",
+    "grasas": "0 g",
+    "carbohidratos": "100 g",
+    "fibra": "0 g",
+    "vitaminas_minerales": ["Potasio", "Zinc", "Hierro"],
+    "indice_glucemico": "35",
+    "beneficios": "Bajo índice glucémico, rico en minerales.",
+    "contraindicaciones": "No recomendado en grandes cantidades para diabéticos.",
+    "tamaño_porcion": "100 g"
+  },
+    {
+    "nombre": "Leche de linaza",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "25 kcal por 100 ml",
+    "proteinas": "1 g por 100 ml",
+    "grasas": "2 g por 100 ml",
+    "carbohidratos": "1 g por 100 ml",
+    "fibra": "0.5 g por 100 ml",
+    "beneficios": "Fuente de ácidos grasos omega-3 y baja en calorías.",
+    "alergenos": []
+  },
+  {
+    "nombre": "Leche de chía",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "45 kcal por 100 ml",
+    "proteinas": "2 g por 100 ml",
+    "grasas": "3 g por 100 ml",
+    "carbohidratos": "4 g por 100 ml",
+    "fibra": "1 g por 100 ml",
+    "beneficios": "Rica en omega-3 y fibra, con propiedades antiinflamatorias.",
+    "alergenos": []
+  },
+  {
+    "nombre": "Leche de quinoa",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "40 kcal por 100 ml",
+    "proteinas": "1.5 g por 100 ml",
+    "grasas": "1.2 g por 100 ml",
+    "carbohidratos": "6 g por 100 ml",
+    "fibra": "0.6 g por 100 ml",
+    "beneficios": "Alta en proteínas y contiene todos los aminoácidos esenciales.",
+    "alergenos": []
+  },
+  {
+    "nombre": "Leche de cáñamo",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "55 kcal por 100 ml",
+    "proteinas": "3 g por 100 ml",
+    "grasas": "4 g por 100 ml",
+    "carbohidratos": "2 g por 100 ml",
+    "fibra": "0.5 g por 100 ml",
+    "beneficios": "Rica en ácidos grasos omega-3 y 6, y en proteínas vegetales.",
+    "alergenos": ["Cáñamo"]
+  },
+  {
+    "nombre": "Crema vegetal",
+    "categoria": ["Derivados vegetales"],
+    "calorias": "150 kcal por 100 ml",
+    "proteinas": "1 g por 100 ml",
+    "grasas": "15 g por 100 ml",
+    "carbohidratos": "3 g por 100 ml",
+    "fibra": "0.5 g por 100 ml",
+    "beneficios": "Alternativa sin lácteos a la crema de leche, ideal para cocinar.",
+    "alergenos": []
+  },
+
+
+  {
+    "nombre": "Leche de almendras",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "15 kcal por 100 ml",
+    "proteinas": "0.5 g por 100 ml",
+    "grasas": "1.2 g por 100 ml",
+    "carbohidratos": "0.3 g por 100 ml",
+    "fibra": "0.2 g por 100 ml",
+    "beneficios": "Baja en calorías y rica en grasas saludables.",
+    "alergenos": ["Frutos secos"]
+  },
+  {
+    "nombre": "Leche de avena",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "40 kcal por 100 ml",
+    "proteinas": "1 g por 100 ml",
+    "grasas": "0.8 g por 100 ml",
+    "carbohidratos": "7 g por 100 ml",
+    "fibra": "0.4 g por 100 ml",
+    "beneficios": "Fuente de fibra y con un sabor ligeramente dulce.",
+    "alergenos": []
+  },
+  {
+    "nombre": "Leche de coco",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "150 kcal por 100 ml",
+    "proteinas": "1.5 g por 100 ml",
+    "grasas": "15 g por 100 ml",
+    "carbohidratos": "3 g por 100 ml",
+    "fibra": "0.5 g por 100 ml",
+    "beneficios": "Alta en grasas saludables, ideal para cocinar y batidos.",
+    "alergenos": ["Coco"]
+  },
+  {
+    "nombre": "Leche de soya",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "54 kcal por 100 ml",
+    "proteinas": "3.3 g por 100 ml",
+    "grasas": "1.8 g por 100 ml",
+    "carbohidratos": "6 g por 100 ml",
+    "fibra": "0.5 g por 100 ml",
+    "beneficios": "Rica en proteínas y calcio, una de las mejores alternativas a la leche de vaca.",
+    "alergenos": ["Soja"]
+  },
+  {
+    "nombre": "Leche de arroz",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "47 kcal por 100 ml",
+    "proteinas": "0.3 g por 100 ml",
+    "grasas": "1 g por 100 ml",
+    "carbohidratos": "9 g por 100 ml",
+    "fibra": "0.3 g por 100 ml",
+    "beneficios": "Fácil de digerir y naturalmente dulce.",
+    "alergenos": []
+  },
+  {
+    "nombre": "Leche de nueces",
+    "categoria": ["Lácteos vegetales"],
+    "calorias": "30 kcal por 100 ml",
+    "proteinas": "0.5 g por 100 ml",
+    "grasas": "2.5 g por 100 ml",
+    "carbohidratos": "1 g por 100 ml",
+    "fibra": "0.2 g por 100 ml",
+    "beneficios": "Aportan ácidos grasos saludables y buen sabor.",
+    "alergenos": ["Frutos secos"]
+  },
+  {
+    "nombre": "Yogur vegetal",
+    "categoria": ["Derivados vegetales"],
+    "calorias": "60 kcal por 100 g",
+    "proteinas": "2 g por 100 g",
+    "grasas": "3 g por 100 g",
+    "carbohidratos": "6 g por 100 g",
+    "fibra": "0.5 g por 100 g",
+    "beneficios": "Fuente de probióticos sin lácteos.",
+    "alergenos": []
+  },
+  {
+    "nombre": "Queso vegetal",
+    "categoria": ["Derivados vegetales"],
+    "calorias": "200 kcal por 100 g",
+    "proteinas": "4 g por 100 g",
+    "grasas": "18 g por 100 g",
+    "carbohidratos": "2 g por 100 g",
+    "fibra": "0.5 g por 100 g",
+    "beneficios": "Alternativa sin lácteos hecha de frutos secos o tofu.",
+    "alergenos": ["Frutos secos", "Soja"]
+  },
+  {
+    "nombre": "Mantequilla vegetal",
+    "categoria": ["Derivados vegetales"],
+    "calorias": "720 kcal por 100 g",
+    "proteinas": "1 g por 100 g",
+    "grasas": "80 g por 100 g",
+    "carbohidratos": "0 g por 100 g",
+    "fibra": "0 g por 100 g",
+    "beneficios": "Alternativa sin lácteos hecha de coco, almendras o anacardos.",
+    "alergenos": ["Frutos secos"]
+  },
+  {
+    "nombre": "Kéfir de coco",
+    "categoria": ["Derivados vegetales"],
+    "calorias": "50 kcal por 100 ml",
+    "proteinas": "1 g por 100 ml",
+    "grasas": "3 g por 100 ml",
+    "carbohidratos": "5 g por 100 ml",
+    "fibra": "0.5 g por 100 ml",
+    "beneficios": "Alternativa probiótica sin lácteos.",
+    "alergenos": ["Coco"]
+  },
+   {
+    "nombre": "Proteína en polvo (suero)",
+    "categoria": ["Suplementos"],
+    "calorias": "120 kcal por porción (30 g)",
+    "proteinas": "25 g por porción",
+    "grasas": "1.5 g por porción",
+    "carbohidratos": "2 g por porción",
+    "fibra": "0 g por porción",
+    "beneficios": "Favorece la recuperación muscular y el crecimiento muscular.",
+    "alergenos": ["Lácteos"]
+  },
+  {
+    "nombre": "Proteína en polvo (vegetal)",
+    "categoria": ["Suplementos"],
+    "calorias": "110 kcal por porción (30 g)",
+    "proteinas": "22 g por porción",
+    "grasas": "2 g por porción",
+    "carbohidratos": "4 g por porción",
+    "fibra": "2 g por porción",
+    "beneficios": "Alternativa vegana rica en proteínas de origen vegetal.",
+    "alergenos": ["Soja", "Legumbres", "Frutos secos"]
+  },
+  {
+    "nombre": "Creatina",
+    "categoria": ["Suplementos"],
+    "calorias": "0 kcal por porción (5 g)",
+    "proteinas": "0 g por porción",
+    "grasas": "0 g por porción",
+    "carbohidratos": "0 g por porción",
+    "fibra": "0 g por porción",
+    "beneficios": "Mejora el rendimiento deportivo y el crecimiento muscular.",
+    "alergenos": []
+  },
+  {
+    "nombre": "Omega-3",
+    "categoria": ["Suplementos"],
+    "calorias": "10 kcal por porción (1 cápsula)",
+    "proteinas": "0 g por porción",
+    "grasas": "1 g por porción",
+    "carbohidratos": "0 g por porción",
+    "fibra": "0 g por porción",
+    "beneficios": "Apoya la salud cardiovascular y reduce la inflamación.",
+    "alergenos": ["Pescado"]
+  },
+  {
+    "nombre": "Vitaminas y minerales",
+    "categoria": ["Suplementos"],
+    "calorias": "0 kcal por porción (1 tableta)",
+    "proteinas": "0 g por porción",
+    "grasas": "0 g por porción",
+    "carbohidratos": "0 g por porción",
+    "fibra": "0 g por porción",
+    "beneficios": "Apoya el sistema inmunológico y el metabolismo general.",
+    "alergenos": []
+  },
+   {
+    "nombre": "Papa",
+    "categoria": ["Tubérculos y raíces"],
+    "calorias": "77 kcal por 100g",
+    "proteinas": "2 g por 100g",
+    "grasas": "0.1 g por 100g",
+    "carbohidratos": "17 g por 100g",
+    "fibra": "2.2 g por 100g",
+    "vitaminas_minerales": ["Vitamina C", "Potasio", "Vitamina B6"],
+    "indice_glucemico": "Moderado (60-70)",
+    "restricciones_dieteticas": ["No recomendada para dietas cetogénicas"],
+    "beneficios": ["Fuente de energía", "Alto contenido en potasio"],
+    "contraindicaciones": ["Evitar en dietas bajas en carbohidratos"],
+    "combinaciones_recomendadas": ["Verduras", "Carnes", "Lácteos"],
+    "cantidad_recomendada": "100-150g por comida"
+  },
+  {
+    "nombre": "Yuca",
+    "categoria": ["Tubérculos y raíces"],
+    "calorias": "160 kcal por 100g",
+    "proteinas": "1.4 g por 100g",
+    "grasas": "0.3 g por 100g",
+    "carbohidratos": "38 g por 100g",
+    "fibra": "1.8 g por 100g",
+    "vitaminas_minerales": ["Vitamina C", "Manganeso", "Calcio"],
+    "indice_glucemico": "Alto (70-90)",
+    "restricciones_dieteticas": ["No recomendada para personas con diabetes"],
+    "beneficios": ["Buena fuente de energía", "Libre de gluten"],
+    "contraindicaciones": ["Alto índice glucémico"],
+    "combinaciones_recomendadas": ["Carnes", "Quesos", "Sopas"],
+    "cantidad_recomendada": "100g por porción"
+  },
+ {
+    "nombre": "Espirulina",
+    "categoria": ["Algas comestibles"],
+    "calorias": "290 kcal por 100g",
+    "proteinas": "57 g por 100g",
+    "grasas": "7.7 g por 100g",
+    "carbohidratos": "23.9 g por 100g",
+    "fibra": "3.6 g por 100g",
+    "vitaminas_minerales": ["Hierro", "Magnesio", "Vitamina B12"],
+    "indice_glucemico": "Bajo (<20)",
+    "restricciones_dieteticas": ["Evitar en personas con trastornos autoinmunes"],
+    "beneficios": ["Alta en proteínas", "Antioxidante"],
+    "contraindicaciones": ["No apto para personas con problemas tiroideos"],
+    "combinaciones_recomendadas": ["Batidos", "Jugos", "Ensaladas"],
+    "cantidad_recomendada": "1-2 cucharaditas al día"
+  },
+  {
+    "nombre": "Nori",
+    "categoria": ["Algas comestibles"],
+    "calorias": "35 kcal por 100g",
+    "proteinas": "5.8 g por 100g",
+    "grasas": "0.3 g por 100g",
+    "carbohidratos": "5.1 g por 100g",
+    "fibra": "0.3 g por 100g",
+    "vitaminas_minerales": ["Yodo", "Vitamina A", "Hierro"],
+    "indice_glucemico": "Bajo (<20)",
+    "restricciones_dieteticas": ["Alto en yodo, evitar en hipertiroidismo"],
+    "beneficios": ["Rico en minerales", "Bajo en calorías"],
+    "contraindicaciones": ["No recomendado en exceso por el yodo"],
+    "combinaciones_recomendadas": ["Sushi", "Ensaladas", "Sopas"],
+    "cantidad_recomendada": "2-3 láminas por día"
+  },
+
 {
-  "nombre": "Pechuga de pollo",
-  "categoria": ["Proteína"],
-  "porcion": "100g",
-  "calorias": 165,
-  "proteinas": 31,
-  "grasas": 3.6,
-  "carbohidratos": 0,
-  "fibra": 0,
-  "vitaminas_y_minerales": {
-    "Hierro": "1 mg"
+    "nombre": "Canela",
+    "categoria": ["Especias y hierbas"],
+    "calorias": "247 kcal por 100g",
+    "proteinas": "4 g por 100g",
+    "grasas": "1.2 g por 100g",
+    "carbohidratos": "81 g por 100g",
+    "fibra": "53 g por 100g",
+    "vitaminas_minerales": ["Calcio", "Hierro", "Vitamina K"],
+    "indice_glucemico": "Bajo (<20)",
+    "restricciones_dieteticas": ["Evitar en embarazo en grandes cantidades"],
+    "beneficios": ["Regula el azúcar en sangre", "Antiinflamatorio"],
+    "contraindicaciones": ["Puede irritar el estómago en exceso"],
+    "combinaciones_recomendadas": ["Bebidas", "Postres", "Café"],
+    "cantidad_recomendada": "1-2 g por día"
   },
-  "indice_glucemico": 0,
-  "restricciones_dieteticas": ["Sin gluten"],
-  "beneficios": ["Alta en proteína", "Ayuda a ganar masa muscular"],
-  "contraindicaciones": []
-},
-{
-  "nombre": "Huevo",
-  "categoria": ["Proteína"],
-  "porcion": "1 unidad",
-  "calorias": 70,
-  "proteinas": 6,
-  "grasas": 5,
-  "carbohidratos": 0.6,
-  "fibra": 0,
-  "vitaminas_y_minerales": {
-    "Vitamina B12": "0.6 mcg"
-  },
-  "indice_glucemico": 0,
-  "restricciones_dieteticas": ["Sin gluten"],
-  "beneficios": ["Proteína completa", "Rico en nutrientes"],
-  "contraindicaciones": ["Moderar en colesterol alto"]
-},
-{
-  "nombre": "Atún",
-  "categoria": ["Proteína"],
-  "porcion": "100g",
-  "calorias": 132,
-  "proteinas": 28,
-  "grasas": 1,
-  "carbohidratos": 0,
-  "fibra": 0,
-  "vitaminas_y_minerales": {
-    "Omega 3": "1.3 g"
-  },
-  "indice_glucemico": 0,
-  "restricciones_dieteticas": ["Sin gluten"],
-  "beneficios": ["Rico en omega 3", "Bueno para el corazón"],
-  "contraindicaciones": ["Moderar en embarazo"]
-},
-{
-  "nombre": "Arroz integral",
-  "categoria": ["Carbohidrato"],
-  "porcion": "1 taza",
-  "calorias": 216,
-  "proteinas": 5,
-  "grasas": 1.8,
-  "carbohidratos": 45,
-  "fibra": 3.5,
-  "vitaminas_y_minerales": {
-    "Magnesio": "84 mg"
-  },
-  "indice_glucemico": 50,
-  "restricciones_dieteticas": ["Apto para veganos"],
-  "beneficios": ["Energía sostenida"],
-  "contraindicaciones": []
-},
-{
-  "nombre": "Papa",
-  "categoria": ["Carbohidrato"],
-  "porcion": "1 mediana",
-  "calorias": 161,
-  "proteinas": 4,
-  "grasas": 0.2,
-  "carbohidratos": 37,
-  "fibra": 4,
-  "vitaminas_y_minerales": {
-    "Potasio": "926 mg"
-  },
-  "indice_glucemico": 78,
-  "restricciones_dieteticas": ["Apto para veganos"],
-  "beneficios": ["Fuente de energía"],
-  "contraindicaciones": ["Alto índice glucémico"]
-},
-{
-  "nombre": "Brócoli",
-  "categoria": ["Verdura"],
-  "porcion": "1 taza",
-  "calorias": 55,
-  "proteinas": 3.7,
-  "grasas": 0.6,
-  "carbohidratos": 11,
-  "fibra": 5,
-  "vitaminas_y_minerales": {
-    "Vitamina C": "81 mg"
-  },
-  "indice_glucemico": 15,
-  "restricciones_dieteticas": ["Apto para veganos"],
-  "beneficios": ["Antioxidante"],
-  "contraindicaciones": []
-},
-{
-  "nombre": "Zanahoria",
-  "categoria": ["Verdura"],
-  "porcion": "1 mediana",
-  "calorias": 41,
-  "proteinas": 1,
-  "grasas": 0.2,
-  "carbohidratos": 10,
-  "fibra": 2.8,
-  "vitaminas_y_minerales": {
-    "Vitamina A": "835 mcg"
-  },
-  "indice_glucemico": 47,
-  "restricciones_dieteticas": ["Apto para veganos"],
-  "beneficios": ["Salud visual"],
-  "contraindicaciones": []
-}
+  {
+    "nombre": "Jengibre",
+    "categoria": ["Especias y hierbas"],
+    "calorias": "80 kcal por 100g",
+    "proteinas": "1.8 g por 100g",
+    "grasas": "0.8 g por 100g",
+    "carbohidratos": "18 g por 100g",
+    "fibra": "2 g por 100g",
+    "vitaminas_minerales": ["Vitamina C", "Potasio", "Magnesio"],
+    "indice_glucemico": "Bajo (<20)",
+    "restricciones_dieteticas": ["Evitar en personas con úlceras gástricas"],
+    "beneficios": ["Antiinflamatorio", "Favorece la digestión"],
+    "contraindicaciones": ["Puede causar acidez en exceso"],
+    "combinaciones_recomendadas": ["Tés", "Sopas", "Batidos"],
+    "cantidad_recomendada": "1-2 g por día"
+  }
+
+
 ]
+
+
+
+
+
+
+
+
+

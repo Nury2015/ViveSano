@@ -49,25 +49,32 @@ fetch("menu.html")
 <script src="generador.js"></script>
 
 <script>
+  console.log(typeof generarReceta);
 // ===============================
 // GENERAR TARJETAS AUTOMÁTICAS
 // ===============================
+
+if (!alimentos || alimentos.length === 0) {
+  console.warn("Aún no hay alimentos");
+} else {
+  mostrarRecetas();
+}
 function mostrarRecetas() {
   const contenedor = document.getElementById("contenedorRecetas");
 
   contenedor.innerHTML = "";
 
-  // Generamos varias recetas (ej: 6)
   for (let i = 0; i < 6; i++) {
 
     let receta = generarReceta();
-    if (!receta) return;
+
+    if (!receta) continue; // 🔥 CORREGIDO
 
     const chips = generarChips(receta);
 
     contenedor.innerHTML += `
       <div class="tarjeta">
-        <img src="https://source.unsplash.com/400x300/?healthy-food,food" alt="">
+        <img src="https://source.unsplash.com/400x300/?healthy-food" alt="">
 
         <div class="contenido">
           <h3>${receta.nombre}</h3>
