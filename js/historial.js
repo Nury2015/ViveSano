@@ -153,7 +153,7 @@ function renderIngFavoritos() {
 // ─── ABRIR RECETA ─────────────────────────────────────────────
 function abrirReceta(receta) {
   localStorage.setItem("recetaActual", JSON.stringify(receta));
-  window.location.href = "detalleDeReceta.html";
+  window.location.href = "detalle.html";
 }
 
 // ─── FILTROS ─────────────────────────────────────────────────

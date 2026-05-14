@@ -6,18 +6,22 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background: #f0f2f0;
   margin: 0;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
-/* ── BARRA META CALÓRICA ─────────────────────────── */
-.meta-calorica {
-  background: linear-gradient(135deg, #1b5233, #2e7d32);
-  color: white;
-  padding: 16px 24px;
+/* ══ BARRA STICKY (meta + plan del día) ══════════ */
+.barra-sticky {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+}
+
+/* ── META CALÓRICA ──────────────────────────────── */
+.meta-calorica {
+  background: linear-gradient(135deg, #1b5233, #2e7d32);
+  color: white;
+  padding: 10px 16px 8px;
 }
 
 .meta-texto {
@@ -25,31 +29,24 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 8px;
+  gap: 4px;
+  margin-bottom: 6px;
 }
 
-.meta-titulo {
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.meta-detalle {
-  font-size: 20px;
-  font-weight: 700;
-}
+.meta-titulo  { font-size: 13px; font-weight: 500; }
+.meta-detalle { font-size: 18px; font-weight: 700; }
 
 .barra-progreso-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .barra-progreso {
   flex: 1;
   background: rgba(255,255,255,0.25);
   border-radius: 20px;
-  height: 10px;
+  height: 8px;
   overflow: hidden;
 }
 
@@ -61,13 +58,61 @@ body {
   width: 0%;
 }
 
-.progreso-msg {
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0.9;
+.progreso-msg { font-size: 11px; white-space: nowrap; opacity: 0.85; }
+
+/* ── PANEL PLAN DEL DÍA (dentro de la barra sticky) */
+.panel-plan-dia {
+  background: #1b5233;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding: 8px 16px;
 }
 
-/* ── AVISO ALMUERZO PESADO ───────────────────────── */
+.plan-dia-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
+}
+
+.plan-dia-grid {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.plan-dia-grid::-webkit-scrollbar { display: none; }
+
+.plan-card {
+  flex-shrink: 0;
+  width: 90px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.plan-card:hover { transform: scale(1.05); }
+
+.plan-card img, .plan-card .plan-card-ef {
+  width: 100%;
+  height: 50px;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  background: rgba(255,255,255,0.1);
+}
+
+.plan-card-info { padding: 4px 6px; }
+.plan-tipo { font-size: 9px; opacity: 0.7; color: white; }
+.plan-card-info p { font-size: 10px; color: white; margin: 1px 0; line-height: 1.2; font-weight: 600; }
+.plan-kcal { font-size: 9px; color: rgba(255,255,255,0.65); }
+
+/* ── AVISO PESADO ───────────────────────────────── */
 .aviso-heavy {
   background: #fff3cd;
   border-left: 4px solid #f57f17;
@@ -75,721 +120,360 @@ body {
   padding: 10px 20px;
   font-size: 13px;
   font-weight: 500;
-  animation: fadeIn 0.3s;
 }
 
-/* ── BANNER CONDICIÓN MÉDICA ─────────────────────── */
+/* ── BANNER CONDICIÓN ───────────────────────────── */
 .banner-salud {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #fff8e1;
   border-left: 4px solid #ffb300;
-  padding: 10px 20px;
-  font-size: 13px;
+  padding: 8px 16px;
+  font-size: 12px;
   color: #5d4037;
 }
 
-/* ── INSTRUCCIÓN ─────────────────────────────────── */
-.instruccion {
-  text-align: center;
-  color: #666;
-  font-size: 13px;
-  margin: 10px 0 4px;
-  padding: 0 16px;
+/* ── CONTROLES GLOBALES ─────────────────────────── */
+.controles-globales {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px 4px;
 }
 
-/* ── SECCIONES DE COMIDA ─────────────────────────── */
+.ctrl-btn {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 2px solid #ccc;
+  background: white;
+  color: #555;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ctrl-btn:hover         { border-color: #2e7d32; color: #2e7d32; }
+.ctrl-btn.activo        { background: #2e7d32; border-color: #2e7d32; color: white; }
+#btn-mis-favoritos      { border-color: #e57373; color: #c62828; }
+#btn-mis-favoritos:hover{ background: #ffebee; }
+
+/* ══ ACORDEÓN DE SECCIONES ══════════════════════ */
 .meal-section {
   background: white;
-  border-radius: 14px;
-  margin: 12px 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  margin: 8px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   overflow: hidden;
 }
 
 .section-header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: #f9fbe7;
-  border-bottom: 1px solid #e8f5e9;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
 }
 
-.section-icono {
-  font-size: 28px;
-  line-height: 1;
-}
+.section-header:hover  { background: #f9fbe7; }
+.section-header:active { background: #e8f5e9; }
 
-.section-header h2 {
+.section-icono { font-size: 26px; flex-shrink: 0; }
+
+.section-text h2 {
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
   color: #1b5233;
 }
 
-.section-header p {
+.section-estado {
   margin: 2px 0 0;
   font-size: 12px;
-  color: #777;
+  color: #999;
+  transition: color 0.2s;
 }
 
-.slot-check {
-  margin-left: auto;
-  font-size: 22px;
+.section-estado.elegida { color: #2e7d32; font-weight: 600; }
+
+.slot-check  { font-size: 18px; margin-left: auto; }
+.section-arrow {
+  font-size: 13px;
+  color: #aaa;
+  transition: transform 0.25s;
+  flex-shrink: 0;
 }
 
-/* ── GRID DE OPCIONES (3 por fila) ───────────────── */
+.meal-section.abierta .section-arrow { transform: rotate(180deg); }
+
+/* Grilla de recetas — oculta por defecto (acordeón) */
 .recetas-opciones {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  border-top: 1px solid #f0f0f0;
 }
 
-/* ── TARJETA DE OPCIÓN ───────────────────────────── */
+.meal-section.abierta .recetas-opciones { display: grid; }
+
+/* ── TARJETAS DE OPCIÓN ─────────────────────────── */
 .opcion-card {
   border-right: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
-.opcion-card:last-child,
 .opcion-card:nth-child(3n) { border-right: none; }
-
-.opcion-card:hover { background: #f9fbe7; }
+.opcion-card:hover          { background: #f9fbe7; }
 
 .opcion-card.seleccionada {
   background: #e8f5e9;
   border: 2px solid #2e7d32;
-  border-radius: 4px;
 }
 
-.opcion-card img {
+/* Imagen clickeable */
+.img-receta-clickable {
   width: 100%;
-  height: 170px;
+  height: 150px;
   object-fit: cover;
   display: block;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
-.opcion-info {
-  padding: 10px 12px;
+.img-receta-clickable:hover { opacity: 0.88; }
+
+/* Sin foto — fondo de color con emoji */
+.sin-foto {
+  width: 100%;
+  height: 150px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-}
-
-.opcion-info h4 {
-  margin: 0 0 4px;
-  font-size: 14px;
-  color: #1a1a1a;
-  line-height: 1.3;
-}
-
-.opcion-desc {
-  font-size: 11px;
-  color: #777;
-  margin: 0 0 8px;
-  line-height: 1.4;
-}
-
-.opcion-macros {
-  display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
   gap: 4px;
-  margin-bottom: 8px;
 }
 
-.opcion-macros span {
-  background: #f1f8e9;
-  color: #33691e;
-  font-size: 10px;
+.sin-foto:hover { opacity: 0.85; }
+
+.sin-foto-emoji { font-size: 42px; line-height: 1; }
+
+.sin-foto p {
+  font-size: 11px;
+  color: white;
+  text-align: center;
   font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 10px;
+  padding: 0 8px;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Fallback pequeño para resultados de búsqueda y favoritos */
+.sin-foto-sm {
+  width: 110px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  background: #2d6a4f;
+  flex-shrink: 0;
+}
+
+/* ── INFO DE TARJETA ────────────────────────────── */
+.opcion-info { padding: 10px 12px; display: flex; flex-direction: column; flex: 1; }
+.opcion-info h4 { margin: 0 0 4px; font-size: 13px; color: #1a1a1a; line-height: 1.3; }
+.opcion-desc { font-size: 11px; color: #777; margin: 0 0 6px; line-height: 1.4; }
+
+.opcion-macros { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 6px; }
+.opcion-macros span {
+  background: #f1f8e9; color: #33691e;
+  font-size: 10px; font-weight: 600;
+  padding: 2px 6px; border-radius: 8px;
+}
+
+.adaptacion-msg {
+  background: #e3f2fd; border-left: 3px solid #1976d2;
+  color: #0d47a1; font-size: 11px;
+  padding: 4px 7px; border-radius: 4px; margin: 3px 0;
 }
 
 .nota-aviso {
-  font-size: 11px;
-  color: #e65100;
-  background: #fff3e0;
-  padding: 4px 8px;
-  border-radius: 6px;
-  margin: 4px 0;
+  font-size: 11px; color: #e65100;
+  background: #fff3e0; padding: 4px 7px;
+  border-radius: 4px; margin: 3px 0;
 }
+
+.badge-vegano {
+  display: inline-block; background: #e8f5e9; color: #2e7d32;
+  border: 1px solid #a5d6a7; border-radius: 8px;
+  padding: 1px 6px; font-size: 10px; font-weight: 600;
+}
+
+.opcion-botones { display: flex; gap: 5px; margin-top: auto; }
 
 .btn-seleccionar {
-  margin-top: auto;
-  padding: 7px 0;
-  border: 2px solid #2e7d32;
-  border-radius: 8px;
-  background: white;
-  color: #2e7d32;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
+  flex: 1; padding: 7px 0;
+  border: 2px solid #2e7d32; border-radius: 8px;
+  background: white; color: #2e7d32;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; width: 100%;
 }
 
-.btn-seleccionar:hover {
-  background: #2e7d32;
-  color: white;
-}
-
-.opcion-card.seleccionada .btn-seleccionar {
-  background: #2e7d32;
-  color: white;
-}
-
-/* ── RESUMEN FINAL ───────────────────────────────── */
-.resumen-plan {
-  background: white;
-  border-radius: 14px;
-  margin: 12px 16px;
-  padding: 20px 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border-top: 4px solid #2e7d32;
-}
-
-.resumen-plan h3 {
-  margin: 0 0 14px;
-  color: #1b5233;
-  font-size: 17px;
-}
-
-.resumen-lista {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 12px;
-}
-
-.resumen-lista li {
-  padding: 6px 0;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 13px;
-  color: #444;
-}
-
-.resumen-lista li:last-child { border-bottom: none; }
-
-.resumen-total {
-  text-align: right;
-  font-size: 14px;
-  color: #1b5233;
-  margin: 8px 0 16px;
-}
-
-#btn-guardar-plan {
-  background: #2e7d32;
-  color: white;
-  border: none;
-  padding: 12px 28px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.2s;
-}
-
-#btn-guardar-plan:hover { background: #1b5233; }
-
-/* ── VOLVER ──────────────────────────────────────── */
-.volver {
-  display: block;
-  width: fit-content;
-  margin: 16px auto 28px;
-  padding: 10px 24px;
-  background: #2e7d32;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-/* ════════════════════════════════════════════════════
-   CONTROLES GLOBALES
-   ════════════════════════════════════════════════════ */
-
-.controles-globales {
-  display: flex;
-  gap: 8px;
-  padding: 6px 16px 2px;
-}
-
-.ctrl-btn {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 2px solid #ccc;
-  background: white;
-  color: #555;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.ctrl-btn:hover { border-color: #2e7d32; color: #2e7d32; }
-.ctrl-btn.activo { background: #2e7d32; border-color: #2e7d32; color: white; }
-#btn-vegano.activo { background: #388e3c; border-color: #388e3c; }
-#btn-mis-favoritos { border-color: #e57373; color: #c62828; }
-#btn-mis-favoritos:hover { background: #ffebee; }
-
-/* ── BADGE VEGANO ───────────────────────────────── */
-.badge-vegano {
-  display: inline-block;
-  background: #e8f5e9;
-  color: #2e7d32;
-  border: 1px solid #a5d6a7;
-  border-radius: 10px;
-  padding: 1px 7px;
-  font-size: 11px;
-  font-weight: 600;
-  vertical-align: middle;
-}
-
-/* ── ADAPTACIÓN MÉDICA ─────────────────────────── */
-.adaptacion-msg {
-  background: #e3f2fd;
-  border-left: 3px solid #1976d2;
-  color: #0d47a1;
-  font-size: 11px;
-  padding: 5px 8px;
-  border-radius: 4px;
-  margin: 4px 0;
-}
-
-/* ── BOTONES DE TARJETA (2 botones) ────────────── */
-.opcion-botones {
-  display: flex;
-  gap: 5px;
-  margin-top: 6px;
-}
+.btn-seleccionar:hover { background: #2e7d32; color: white; }
+.opcion-card.seleccionada .btn-seleccionar { background: #2e7d32; color: white; }
 
 .btn-ver-receta {
-  background: white;
-  border: 1px solid #aaa;
-  color: #555;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
+  background: white; border: 1px solid #bbb; color: #555;
+  padding: 7px 10px; border-radius: 8px; font-size: 12px;
+  cursor: pointer; transition: all 0.2s;
 }
+
 .btn-ver-receta:hover { background: #f5f5f5; }
 
-/* ── PANEL MI PLAN DEL DÍA ─────────────────────── */
-.panel-plan-dia {
-  background: #1b5233;
-  color: white;
-  margin: 8px 16px;
-  border-radius: 12px;
-  padding: 12px 16px;
-  animation: fadeIn 0.3s;
-}
-
-.plan-dia-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.plan-dia-hint { font-size: 11px; opacity: 0.75; font-weight: 400; }
-
-.plan-dia-grid {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-
-.plan-card {
-  flex-shrink: 0;
-  width: 120px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.15s;
-}
-
-.plan-card:hover { transform: scale(1.04); }
-
-.plan-card img {
-  width: 100%;
-  height: 70px;
-  object-fit: cover;
-  display: block;
-}
-
-.plan-card-info {
-  padding: 6px 8px;
-}
-
-.plan-tipo { font-size: 10px; opacity: 0.8; }
-
-.plan-card-info p {
-  font-size: 11px;
-  margin: 2px 0;
-  line-height: 1.3;
-  font-weight: 600;
-}
-
-.plan-kcal { font-size: 10px; opacity: 0.75; }
-
-/* ── PANEL MIS FAVORITOS ───────────────────────── */
+/* ══ PANEL MIS FAVORITOS ════════════════════════ */
 .panel-favoritos {
-  background: white;
-  margin: 8px 16px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
+  background: white; margin: 8px 12px;
+  border-radius: 12px; border: 1px solid #e0e0e0;
   overflow: hidden;
-  animation: fadeIn 0.2s;
 }
 
-.panel-fav-header {
-  background: #fce4ec;
-  padding: 12px 16px;
-  border-bottom: 1px solid #f8bbd0;
-}
+.panel-fav-header { background: #fce4ec; padding: 12px 16px; border-bottom: 1px solid #f8bbd0; }
+.panel-fav-header h3 { margin: 0 0 8px; font-size: 14px; color: #c62828; }
 
-.panel-fav-header h3 {
-  margin: 0 0 8px;
-  font-size: 15px;
-  color: #c62828;
-}
-
-.fav-filtros {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
+.fav-filtros { display: flex; gap: 5px; flex-wrap: wrap; }
 .fav-fil {
-  background: white;
-  border: 1.5px solid #f48fb1;
-  color: #c62828;
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.15s;
+  background: white; border: 1.5px solid #f48fb1; color: #c62828;
+  padding: 3px 10px; border-radius: 14px; font-size: 11px; cursor: pointer;
 }
+.fav-fil.activo, .fav-fil:hover { background: #c62828; color: white; border-color: #c62828; }
 
-.fav-fil:hover, .fav-fil.activo {
-  background: #c62828;
-  color: white;
-  border-color: #c62828;
-}
-
-.fav-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-}
-
-.fav-card {
-  border-right: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
+.fav-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.fav-card { border-right: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
 .fav-card:hover { background: #fafafa; }
 
-.fav-card img {
-  width: 100%;
-  height: 90px;
-  object-fit: cover;
-  display: block;
-}
+.fav-img-wrap { position: relative; }
+.fav-img-wrap img { width: 100%; height: 80px; object-fit: cover; display: block; }
+.fav-sin-foto { width: 100%; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: #2d6a4f; }
 
-.fav-card-info {
-  padding: 8px 10px;
-}
+.fav-card-info { padding: 6px 8px; }
+.fav-tipo  { font-size: 10px; color: #aaa; text-transform: capitalize; }
+.fav-card-info p { font-size: 11px; color: #222; margin: 2px 0; font-weight: 600; line-height: 1.3; }
+.fav-kcal  { font-size: 10px; color: #2e7d32; }
+.fav-vacio { grid-column: 1/-1; text-align: center; color: #aaa; font-size: 12px; padding: 20px; }
 
-.fav-tipo {
-  font-size: 10px;
-  color: #aaa;
-  text-transform: capitalize;
-}
-
-.fav-card-info p {
-  font-size: 12px;
-  color: #222;
-  margin: 2px 0;
-  line-height: 1.3;
-  font-weight: 600;
-}
-
-.fav-kcal { font-size: 11px; color: #2e7d32; }
-
-.fav-vacio {
-  padding: 24px;
-  text-align: center;
-  color: #aaa;
-  font-size: 13px;
-  grid-column: 1 / -1;
-}
-
-/* ── PANEL PLAN MINIATURAS responsive ──────────── */
-@media (max-width: 600px) {
-  .fav-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* ════════════════════════════════════════════════════
-   SELECTOR DE INGREDIENTES FAVORITOS
-   ════════════════════════════════════════════════════ */
-
-.selector-wrap {
-  margin: 10px 16px 4px;
-}
+/* ══ SELECTOR DE INGREDIENTES ═══════════════════ */
+.selector-wrap { margin: 6px 12px 4px; }
 
 .btn-toggle-selector {
-  width: 100%;
-  background: white;
-  border: 2px solid #2e7d32;
-  color: #2e7d32;
-  padding: 12px 18px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s;
+  width: 100%; background: white; border: 2px solid #2e7d32;
+  color: #2e7d32; padding: 10px 16px; border-radius: 10px;
+  font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;
+  display: flex; align-items: center; gap: 6px; transition: all 0.2s;
 }
 
-.btn-toggle-selector:hover {
-  background: #e8f5e9;
-}
-
+.btn-toggle-selector:hover { background: #e8f5e9; }
 #toggle-arrow { margin-left: auto; }
 
 .fav-badge {
-  background: #2e7d32;
-  color: white;
-  border-radius: 20px;
-  padding: 1px 8px;
-  font-size: 11px;
+  background: #2e7d32; color: white;
+  border-radius: 20px; padding: 1px 7px; font-size: 11px;
 }
 
 .selector-panel {
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-top: none;
-  border-radius: 0 0 12px 12px;
-  padding: 16px;
-  animation: fadeIn 0.2s ease;
+  background: white; border: 1px solid #ddd; border-top: none;
+  border-radius: 0 0 10px 10px; padding: 14px;
 }
 
-.selector-intro {
-  font-size: 13px;
-  color: #666;
-  margin: 0 0 14px;
-}
-
-.cat-grupo {
-  margin-bottom: 14px;
-}
-
-.cat-titulo {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-
-.chips-fila {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
+.selector-intro { font-size: 12px; color: #666; margin: 0 0 12px; }
+.cat-grupo { margin-bottom: 12px; }
+.cat-titulo { display: block; font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+.chips-fila { display: flex; flex-wrap: wrap; gap: 5px; }
 
 .chip-ing {
-  background: #f5f5f5;
-  border: 1.5px solid #ddd;
-  color: #555;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.15s;
+  background: #f5f5f5; border: 1.5px solid #ddd; color: #555;
+  padding: 4px 10px; border-radius: 18px; font-size: 12px;
+  cursor: pointer; transition: all 0.15s;
+}
+.chip-ing:hover       { border-color: #2e7d32; color: #2e7d32; }
+.chip-ing.chip-sel    { background: #e8f5e9; border-color: #2e7d32; color: #1b5233; font-weight: 600; }
+.chip-ing.chip-fav    { border-color: #f9a825; }
+
+.selector-acciones { display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #f0f0f0; padding-top: 12px; }
+.btn-fav    { flex: 1; background: white; border: 2px solid #f9a825; color: #6d4c00; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-generar{ flex: 1; background: #2e7d32; border: none; color: white; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+.resultado-busqueda { margin-top: 12px; border-top: 1px solid #e8f5e9; padding-top: 12px; }
+.resultado-busqueda h4 { margin: 0 0 8px; color: #1b5233; font-size: 13px; }
+.cards-resultado { display: flex; flex-direction: column; gap: 8px; }
+
+.card-resultado { display: flex; gap: 10px; background: #f9fbe7; border-radius: 8px; overflow: hidden; border: 1px solid #e8f5e9; }
+.card-res-img { width: 110px; flex-shrink: 0; }
+.card-res-img img { width: 110px; height: 80px; object-fit: cover; display: block; }
+.card-res-info { padding: 8px; flex: 1; }
+.card-res-info h5 { margin: 0 0 3px; font-size: 12px; color: #222; }
+.match-info  { font-size: 10px; color: #777; margin: 0 0 3px; }
+.kcal-small  { font-size: 11px; color: #2e7d32; font-weight: 600; margin: 0 0 5px; }
+.card-res-info button { background: #2e7d32; color: white; border: none; padding: 4px 10px; border-radius: 5px; font-size: 11px; cursor: pointer; }
+.sin-match   { color: #aaa; font-size: 12px; text-align: center; padding: 12px; }
+
+/* ══ RESUMEN FINAL ══════════════════════════════ */
+.resumen-plan {
+  background: white; border-radius: 12px; margin: 8px 12px;
+  padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-top: 4px solid #2e7d32;
 }
 
-.chip-ing:hover {
-  border-color: #2e7d32;
-  color: #2e7d32;
+.resumen-plan h3 { margin: 0 0 12px; color: #1b5233; font-size: 16px; }
+.resumen-lista { list-style: none; padding: 0; margin: 0 0 10px; }
+.resumen-lista li { padding: 5px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px; color: #444; }
+.resumen-lista li:last-child { border-bottom: none; }
+.resumen-total { text-align: right; font-size: 13px; color: #1b5233; margin: 6px 0 14px; }
+
+#btn-guardar-plan {
+  background: #2e7d32; color: white; border: none;
+  padding: 11px; border-radius: 10px; font-size: 13px;
+  font-weight: 600; cursor: pointer; width: 100%;
+}
+#btn-guardar-plan:hover { background: #1b5233; }
+
+/* ══ VOLVER ═════════════════════════════════════ */
+.volver {
+  display: block; width: fit-content;
+  margin: 12px auto 24px; padding: 10px 20px;
+  background: #2e7d32; color: white;
+  text-decoration: none; border-radius: 8px; font-size: 13px;
 }
 
-.chip-ing.chip-sel {
-  background: #e8f5e9;
-  border-color: #2e7d32;
-  color: #1b5233;
-  font-weight: 600;
-}
-
-.chip-ing.chip-fav {
-  border-color: #f9a825;
-}
-
-.chip-ing.chip-sel.chip-fav {
-  background: #fff8e1;
-  border-color: #f9a825;
-  color: #6d4c00;
-}
-
-.selector-acciones {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 14px;
-}
-
-.btn-fav {
-  flex: 1;
-  background: white;
-  border: 2px solid #f9a825;
-  color: #6d4c00;
-  padding: 9px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-fav:hover { background: #fff8e1; }
-
-.btn-generar {
-  flex: 1;
-  background: #2e7d32;
-  border: none;
-  color: white;
-  padding: 9px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-generar:hover { background: #1b5233; }
-
-/* RESULTADO DE BÚSQUEDA */
-.resultado-busqueda {
-  margin-top: 16px;
-  border-top: 1px solid #e8f5e9;
-  padding-top: 14px;
-}
-
-.resultado-busqueda h4 {
-  margin: 0 0 10px;
-  color: #1b5233;
-  font-size: 14px;
-}
-
-.cards-resultado {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.card-resultado {
-  display: flex;
-  gap: 12px;
-  background: #f9fbe7;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #e8f5e9;
-}
-
-.card-resultado img {
-  width: 110px;
-  height: 90px;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.card-res-info {
-  padding: 8px 10px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.card-res-info h5 {
-  margin: 0 0 4px;
-  font-size: 13px;
-  color: #1a1a1a;
-}
-
-.match-info {
-  font-size: 11px;
-  color: #777;
-  margin: 0 0 4px;
-}
-
-.kcal-small {
-  font-size: 11px;
-  color: #2e7d32;
-  font-weight: 600;
-  margin: 0 0 6px;
-}
-
-.card-res-info button {
-  align-self: flex-start;
-  background: #2e7d32;
-  color: white;
-  border: none;
-  padding: 5px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.sin-match {
-  color: #888;
-  font-size: 13px;
-  text-align: center;
-  padding: 16px 0;
-}
-
-/* ── ANIMACIÓN ───────────────────────────────────── */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ══ MENÚ LATERAL (desktop ≥ 900px) ══════════════ */
+/* ══ MENÚ LATERAL (desktop ≥ 900px) ════════════ */
 @media (min-width: 900px) {
   body { margin-left: 240px; }
-
-  .meta-calorica { left: 240px; right: 0; }
+  .barra-sticky { left: 240px; right: 0; position: fixed; top: 0; }
+  body { padding-top: 80px; } /* espacio para la barra fixed */
 }
 
-/* ══ TABLET ══════════════════════════════════════ */
+/* ══ TABLET ═════════════════════════════════════ */
 @media (max-width: 899px) {
-  body { margin-top: 80px; }
+  body { margin-top: 60px; } /* espacio para el menu top */
+  .barra-sticky { top: 60px; } /* debajo del menu hamburguesa */
   .recetas-opciones { grid-template-columns: repeat(2, 1fr); }
+  .fav-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ══ MÓVIL ═══════════════════════════════════════ */
+/* ══ MÓVIL ══════════════════════════════════════ */
 @media (max-width: 560px) {
+  body { margin-top: 60px; }
+  .barra-sticky { top: 60px; }
+  .meta-titulo  { font-size: 12px; }
+  .meta-detalle { font-size: 15px; }
   .recetas-opciones { grid-template-columns: 1fr; }
-  .meta-titulo { font-size: 13px; }
-  .meta-detalle { font-size: 16px; }
+  .fav-grid { grid-template-columns: repeat(2, 1fr); }
+  .controles-globales { gap: 6px; }
+  .ctrl-btn { font-size: 11px; padding: 6px 10px; }
+  .sin-foto { height: 130px; }
+  .img-receta-clickable { height: 130px; }
 }

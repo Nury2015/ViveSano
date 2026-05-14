@@ -67,7 +67,7 @@ const RECETAS = {
       nombre: "Changua bogotana con fresas",
       descripcion: "Sopa de leche con huevo pochado y almojábana — con fresas frescas de temporada",
       calorias: 430, proteinas: 20, carbohidratos: 46, grasas: 15,
-      foto: "1547592166-23ac45744acd",
+      foto: "1533089860892-a7c6f0a88666",
       adaptaciones: {
         diabetes: "Fresas = IG bajo ✓. Usa leche descremada para reducir grasas.",
         hipertension: "Sin sal en la changua. La leche tiene sodio natural bajo.",
@@ -202,7 +202,7 @@ const RECETAS = {
       nombre: "Chontaduro con sal y limón",
       descripcion: "Fruto energético del Pacífico — rico en betacaroteno y grasas saludables",
       calorias: 150, proteinas: 3, carbohidratos: 24, grasas: 5,
-      foto: "1519996529931-28324d5a630e",
+      foto: null,
       ingredientes: [
         { nombre: "Chontaduro cocido",  cantidad: "4 unidades (160 g)", calorias: 150 },
         { nombre: "Sal y limón",        cantidad: "al gusto",           calorias: 0   },
@@ -218,7 +218,7 @@ const RECETAS = {
       nombre: "Arepa con quesito y agua de panela",
       descripcion: "Mini arepa paisa con queso campesino y agua de panela caliente",
       calorias: 270, proteinas: 9, carbohidratos: 40, grasas: 9,
-      foto: "1565299624246-b47537da3d09",
+      foto: null,
       ingredientes: [
         { nombre: "Arepa de maíz pequeña", cantidad: "1 unidad (70 g)",  calorias: 160 },
         { nombre: "Queso campesino",       cantidad: "1 tajada (25 g)",  calorias: 80  },
@@ -284,7 +284,7 @@ const RECETAS = {
       nombre: "Obleas con arequipe",
       descripcion: "Clásico colombiano: obleas crocantes con arequipe y bocadillo",
       calorias: 220, proteinas: 4, carbohidratos: 38, grasas: 6,
-      foto: "1484723091739-30a097e8f929",
+      foto: null,
       ingredientes: [
         { nombre: "Obleas",                    cantidad: "2 unidades (30 g)",  calorias: 80  },
         { nombre: "Arequipe (dulce de leche)", cantidad: "2 cdas. (40 g)",    calorias: 120 },
@@ -322,7 +322,7 @@ const RECETAS = {
       nombre: "Sancocho de pollo",
       descripcion: "Sopa contundente con pollo, papa, yuca y mazorca — corazón de la cocina colombiana",
       calorias: 490, proteinas: 34, carbohidratos: 52, grasas: 12,
-      foto: "1547592166-23ac45744acd",
+      foto: "1604503468506-a8da13d11d36",
       adaptaciones: {
         diabetes: "El sancocho es de IG moderado. Evita el arroz de acompañamiento.",
         hipertension: "Sin sal adicional. Usa ajo y comino para el sabor.",
@@ -504,7 +504,7 @@ const RECETAS = {
       nombre: "🌱 Sancocho de verduras",
       descripcion: "Sancocho sin carne con papa, yuca, mazorca, plátano y ahuyama — nutritivo y abundante",
       calorias: 340, proteinas: 8, carbohidratos: 70, grasas: 3,
-      foto: "1547592166-23ac45744acd",
+      foto: "1504674900247-0877df9cc836",
       ingredientes: [
         { nombre: "Papa pastusa y criolla",    cantidad: "1 c/u (200 g)", calorias: 130 },
         { nombre: "Yuca",                      cantidad: "60 g",          calorias: 75  },
@@ -530,7 +530,7 @@ const RECETAS = {
       nombre: "Sopa de pasta con verduras",
       descripcion: "Sopa liviana de fideos con zanahoria, habichuela y papa",
       calorias: 300, proteinas: 10, carbohidratos: 52, grasas: 6,
-      foto: "1547592166-23ac45744acd",
+      foto: "1563379926046-8fc73d2e75fb",
       ingredientes: [
         { nombre: "Pasta o fideos",          cantidad: "50 g",           calorias: 175 },
         { nombre: "Zanahoria y habichuela",  cantidad: "½ taza c/u (80 g)",calorias: 50},
@@ -550,7 +550,7 @@ const RECETAS = {
       nombre: "Crema de ahuyama",
       descripcion: "Sopa crema de zapallo con leche — suave, cálida y fácil de preparar",
       calorias: 260, proteinas: 8, carbohidratos: 38, grasas: 8,
-      foto: "1547592166-23ac45744acd",
+      foto: "1495214783159-3364eced4fc8",
       ingredientes: [
         { nombre: "Ahuyama (zapallo) pelada",  cantidad: "250 g",          calorias: 100 },
         { nombre: "Leche entera",              cantidad: "½ taza (120 ml)",calorias: 75  },
@@ -570,7 +570,7 @@ const RECETAS = {
       nombre: "Arroz con huevo y ensalada verde",
       descripcion: "Cena sencilla: arroz blanco, huevos y ensalada fresca con limón",
       calorias: 390, proteinas: 20, carbohidratos: 52, grasas: 12,
-      foto: "1482049016688-2d3e1b311543",
+      foto: null,
       ingredientes: [
         { nombre: "Arroz blanco",               cantidad: "1 taza (185 g)",   calorias: 200 },
         { nombre: "Huevos cocidos o fritos",    cantidad: "2 unidades (110 g)",calorias: 140},
@@ -590,7 +590,7 @@ const RECETAS = {
       nombre: "Caldo de costilla bogotano",
       descripcion: "Caldo reconfortante de costilla con papa criolla y cilantro",
       calorias: 290, proteinas: 22, carbohidratos: 28, grasas: 10,
-      foto: "1547592166-23ac45744acd",
+      foto: null,
       ingredientes: [
         { nombre: "Costilla de res",               cantidad: "100 g (2 trozos)", calorias: 180 },
         { nombre: "Papa criolla o pastusa",        cantidad: "1 pequeña (90 g)", calorias: 80  },
@@ -610,7 +610,7 @@ const RECETAS = {
       nombre: "Sopa de fideo con pollo",
       descripcion: "Sopa ligera de fideos con pollo desmechado — liviana y digestiva para la noche",
       calorias: 270, proteinas: 18, carbohidratos: 36, grasas: 5,
-      foto: "1547592166-23ac45744acd",
+      foto: null,
       ingredientes: [
         { nombre: "Fideos delgados",          cantidad: "60 g",           calorias: 210 },
         { nombre: "Pollo desmechado",         cantidad: "50 g",           calorias: 85  },
@@ -630,7 +630,7 @@ const RECETAS = {
       nombre: "🌱 Crema de ahuyama con leche de coco",
       descripcion: "Sopa crema de zapallo con leche de coco — suave, tropical y 100% vegetal",
       calorias: 240, proteinas: 4, carbohidratos: 32, grasas: 11,
-      foto: "1547592166-23ac45744acd",
+      foto: "1540420773420-3450ac2483d7",
       ingredientes: [
         { nombre: "Ahuyama pelada",        cantidad: "250 g",           calorias: 100 },
         { nombre: "Leche de coco",         cantidad: "½ taza (120 ml)", calorias: 90  },
@@ -649,7 +649,7 @@ const RECETAS = {
       nombre: "🌱 Sopa de verduras colombiana",
       descripcion: "Sopa nutritiva de papa, zanahoria, espinaca y plátano — completamente vegetal",
       calorias: 220, proteinas: 7, carbohidratos: 44, grasas: 2,
-      foto: "1547592166-23ac45744acd",
+      foto: "1546069901-ba9599a7e63c",
       ingredientes: [
         { nombre: "Papa pastusa",          cantidad: "1 mediana (130 g)", calorias: 90  },
         { nombre: "Zanahoria",             cantidad: "1 unidad (70 g)",   calorias: 30  },
@@ -687,13 +687,80 @@ let modoVegano = false;
 function caloriasObjetivo()    { return parseInt(localStorage.getItem("caloriasObjetivo")) || 2000; }
 function caloriasSeleccionadas() { return Object.values(selecciones).reduce((s, r) => s + (r ? r.calorias : 0), 0); }
 
-function urlFoto(receta) {
-  return `https://images.unsplash.com/photo-${receta.foto}?w=400&h=220&fit=crop&auto=format&q=80`;
+// ─── EMOJI POR NOMBRE DE RECETA ──────────────────────────────
+function getEmoji(receta) {
+  const n = (receta.nombre || "").toLowerCase().replace(/🌱 /g, "");
+  if (n.includes("changua"))             return "🥛";
+  if (n.includes("avena"))               return "🥣";
+  if (n.includes("arepa"))               return "🫓";
+  if (n.includes("calentado"))           return "🍳";
+  if (n.includes("perico") || n.includes("huevo revuelto")) return "🍳";
+  if (n.includes("chontaduro"))          return "🌴";
+  if (n.includes("pandebono"))           return "🥐";
+  if (n.includes("oblea") || n.includes("arequipe")) return "🍪";
+  if (n.includes("yogur"))               return "🫙";
+  if (n.includes("fruta"))               return "🍊";
+  if (n.includes("sancocho"))            return "🫕";
+  if (n.includes("ajiaco"))              return "🥣";
+  if (n.includes("arroz"))               return "🍚";
+  if (n.includes("sopa") || n.includes("crema") || n.includes("caldo")) return "🍲";
+  if (n.includes("bandeja"))             return "🍽️";
+  if (n.includes("lenteja"))             return "🫘";
+  if (n.includes("frijol"))              return "🫘";
+  if (n.includes("aguacate"))            return "🥑";
+  if (n.includes("sudado"))              return "🥩";
+  if (n.includes("pasta") || n.includes("fideo")) return "🍝";
+  if (n.includes("verdura"))             return "🥦";
+  return "🍴";
 }
+
+// Colores de fondo para tarjetas sin foto (por tipo de comida)
+const SIN_FOTO_COLOR = { desayuno: "#e07a5f", once: "#52b788", almuerzo: "#2d6a4f", cena: "#264653" };
+
+function urlFoto(receta) {
+  if (!receta.foto) return null;
+  return `https://images.unsplash.com/photo-${receta.foto}?w=400&h=150&fit=crop&auto=format&q=80`;
+}
+
+// urlFallback ya no se usa en cards principales; se mantiene para el plan del día
 function urlFallback(tipo) {
-  const col = { desayuno: "ff9800", once: "8bc34a", almuerzo: "1976d2", cena: "7b1fa2" };
-  const txt = { desayuno: "Desayuno", once: "Onces", almuerzo: "Almuerzo", cena: "Cena" };
-  return `https://placehold.co/400x220/${col[tipo]||"4caf50"}/ffffff?text=${txt[tipo]||"Receta"}`;
+  const col = { desayuno: "e07a5f", once: "52b788", almuerzo: "2d6a4f", cena: "264653" };
+  return `https://placehold.co/90x50/${col[tipo]||"2d6a4f"}/ffffff?text=+`;
+}
+
+// ─── ACORDEÓN ────────────────────────────────────────────────
+function toggleSeccion(slotId) {
+  const seccion = document.getElementById(`sec-${slotId}`);
+  if (!seccion) return;
+
+  const estaAbierta = seccion.classList.contains("abierta");
+
+  // Cerrar todas
+  SLOTS.forEach(s => {
+    document.getElementById(`sec-${s.id}`)?.classList.remove("abierta");
+    const a = document.getElementById(`arrow-${s.id}`);
+    if (a) a.textContent = "▼";
+  });
+
+  // Abrir la tocada (si no estaba abierta)
+  if (!estaAbierta) {
+    seccion.classList.add("abierta");
+    const arrow = document.getElementById(`arrow-${slotId}`);
+    if (arrow) arrow.textContent = "▲";
+    setTimeout(() => seccion.scrollIntoView({ behavior: "smooth", block: "nearest" }), 60);
+  }
+}
+
+function actualizarEstadoSeccion(slotId) {
+  const el = document.getElementById(`estado-${slotId}`);
+  if (!el) return;
+  const r = selecciones[slotId];
+  if (r) {
+    el.textContent = `✓ ${r.nombre.replace(/🌱 /g, "")} · ${r.calorias} kcal`;
+    el.classList.add("elegida");
+  } else {
+    el.classList.remove("elegida");
+  }
 }
 
 // ─── RENDER SECCIÓN ──────────────────────────────────────────
@@ -711,21 +778,37 @@ function renderSeccion(slot) {
   grid.innerHTML = "";
 
   if (!recetas.length) {
-    grid.innerHTML = `<p class="sin-resultados">No hay opciones veganas para este tiempo. Más próximamente.</p>`;
+    grid.innerHTML = `<p style="padding:16px;color:#aaa;font-size:12px">No hay opciones veganas. Más próximamente.</p>`;
     return;
   }
 
+  const bgColor = SIN_FOTO_COLOR[slot.tipo] || "#2d6a4f";
+
   recetas.forEach(r => {
-    const sel = selecciones[slot.id]?.id === r.id;
-    const adaptacion = enfermedad && enfermedad !== "ninguna" && r.adaptaciones?.[enfermedad]
-      ? `<p class="adaptacion-msg">💊 Para ti (${enfermedad}): ${r.adaptaciones[enfermedad]}</p>`
+    const sel       = selecciones[slot.id]?.id === r.id;
+    const adaptacion= enfermedad && enfermedad !== "ninguna" && r.adaptaciones?.[enfermedad]
+      ? `<p class="adaptacion-msg">💊 ${r.adaptaciones[enfermedad]}</p>` : "";
+    const esVeg     = r.vegano ? '<span class="badge-vegano">🌱 Vegano</span>' : "";
+    const fotoUrl   = urlFoto(r);
+    const emoji     = getEmoji(r);
+
+    // Imagen: si hay foto real, mostrar img (con fallback a sin-foto si falla)
+    // Si no hay foto: mostrar sin-foto directamente
+    const imgHTML = fotoUrl
+      ? `<img src="${fotoUrl}" alt="${r.nombre}" loading="lazy" class="img-receta-clickable"
+             onclick="verRecetaDetalle('${slot.id}','${r.id}')"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
       : "";
-    const esVeg = r.vegano ? '<span class="badge-vegano">🌱 Vegano</span>' : "";
+    const sinFotoHTML = `<div class="sin-foto"
+         style="display:${fotoUrl ? "none" : "flex"};background:${bgColor}"
+         onclick="verRecetaDetalle('${slot.id}','${r.id}')">
+      <span class="sin-foto-emoji">${emoji}</span>
+      <p>${r.nombre.replace(/🌱 /g, "")}</p>
+    </div>`;
 
     grid.innerHTML += `
       <div class="opcion-card ${sel ? "seleccionada" : ""}" id="card-${slot.id}-${r.id}">
-        <img src="${urlFoto(r)}" alt="${r.nombre}" loading="lazy"
-             onerror="this.onerror=null;this.src='${urlFallback(slot.tipo)}'">
+        ${imgHTML}${sinFotoHTML}
         <div class="opcion-info">
           <h4>${r.nombre} ${esVeg}</h4>
           <p class="opcion-desc">${r.descripcion}</p>
@@ -752,10 +835,11 @@ function renderSeccion(slot) {
 function seleccionarReceta(slotId, recetaId) {
   const slot   = SLOTS.find(s => s.id === slotId);
   const receta = RECETAS[slot.tipo].find(r => r.id === recetaId);
+  const fueDeseleccion = selecciones[slotId]?.id === recetaId;
 
-  selecciones[slotId] = (selecciones[slotId]?.id === recetaId) ? null : receta;
+  selecciones[slotId] = fueDeseleccion ? null : receta;
 
-  if (receta?.pesado) mostrarAvisoHeavy(receta.nota);
+  if (receta?.pesado && !fueDeseleccion) mostrarAvisoHeavy(receta.nota);
 
   renderSeccion(slot);
   actualizarProgreso();
@@ -764,6 +848,29 @@ function seleccionarReceta(slotId, recetaId) {
 
   const check = document.getElementById(`check-${slotId}`);
   if (check) check.textContent = selecciones[slotId] ? "✅" : "";
+  actualizarEstadoSeccion(slotId);
+
+  if (!fueDeseleccion) {
+    // Cerrar sección actual
+    document.getElementById(`sec-${slotId}`)?.classList.remove("abierta");
+    const arrow = document.getElementById(`arrow-${slotId}`);
+    if (arrow) arrow.textContent = "▼";
+
+    // Abrir automáticamente la siguiente sin elegir
+    const idx = SLOTS.findIndex(s => s.id === slotId);
+    const next = SLOTS[idx + 1];
+    if (next && !selecciones[next.id]) {
+      setTimeout(() => {
+        const secNext = document.getElementById(`sec-${next.id}`);
+        if (secNext) {
+          secNext.classList.add("abierta");
+          const a = document.getElementById(`arrow-${next.id}`);
+          if (a) a.textContent = "▲";
+          secNext.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 350);
+    }
+  }
 }
 
 // ─── VER RECETA DESDE TARJETA ────────────────────────────────
@@ -772,7 +879,7 @@ function verRecetaDetalle(slotId, recetaId) {
   const receta = RECETAS[slot.tipo].find(r => r.id === recetaId);
   if (receta) {
     localStorage.setItem("recetaActual", JSON.stringify(receta));
-    window.location.href = "detalleDeReceta.html";
+    window.location.href = "detalle.html";
   }
 }
 
@@ -847,27 +954,37 @@ function actualizarPlanDelDia() {
   if (!panel) return;
 
   const selArr = SLOTS.map(s => ({ slot: s, receta: selecciones[s.id] })).filter(x => x.receta);
-  if (!selArr.length) { panel.style.display = "none"; return; }
+  if (!selArr.length) {
+    panel.style.display = "none";
+    document.body.style.paddingBottom = "";
+    return;
+  }
 
   panel.style.display = "block";
   const grid = panel.querySelector(".plan-dia-grid");
-  grid.innerHTML = selArr.map(({ slot, receta }) => `
-    <div class="plan-card" onclick="abrirPlanReceta('${slot.tipo}','${receta.id}')">
-      <img src="${urlFoto(receta)}"
-           onerror="this.onerror=null;this.src='${urlFallback(slot.tipo)}'">
+  grid.innerHTML = selArr.map(({ slot, receta }) => {
+    const fotoUrl = urlFoto(receta);
+    const imgHTML = fotoUrl
+      ? `<img src="${fotoUrl}" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      : "";
+    const efHTML = `<div class="plan-card-ef" style="display:${fotoUrl?"none":"flex"}">${getEmoji(receta)}</div>`;
+    return `<div class="plan-card" onclick="abrirPlanReceta('${slot.tipo}','${receta.id}')">
+      ${imgHTML}${efHTML}
       <div class="plan-card-info">
         <span class="plan-tipo">${slot.label}</span>
-        <p>${receta.nombre}</p>
+        <p>${receta.nombre.replace(/🌱 /g,"")}</p>
         <span class="plan-kcal">${receta.calorias} kcal</span>
       </div>
-    </div>`).join("");
+    </div>`;
+  }).join("");
 }
 
 function abrirPlanReceta(tipo, id) {
   const receta = RECETAS[tipo]?.find(r => r.id === id);
   if (receta) {
     localStorage.setItem("recetaActual", JSON.stringify(receta));
-    window.location.href = "detalleDeReceta.html";
+    window.location.href = "detalle.html";
   }
 }
 
@@ -912,6 +1029,9 @@ function initPlaneador() {
   document.getElementById("meta-header").textContent = caloriasObjetivo();
   SLOTS.forEach(s => renderSeccion(s));
   actualizarProgreso();
+
+  // Abrir desayuno por defecto
+  toggleSeccion("desayuno");
 }
 
 document.addEventListener("DOMContentLoaded", initPlaneador);

@@ -8,28 +8,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <title>ViveSano — Mi plan del día</title>
 </head>
-
 <body>
 
 <div id="menu"></div>
 
-<!-- ── ANUNCIO META CALÓRICA ───────────────────────── -->
-<div class="meta-calorica">
-  <div class="meta-texto">
-    <span class="meta-titulo">
-      🎯 Elige tus recetas de hoy para completar
-      <strong id="meta-header">2000</strong> kcal
-    </span>
-    <span class="meta-detalle">
-      <span id="kcal-sel">0</span> / <span id="kcal-meta">2000</span> kcal seleccionadas
-    </span>
-  </div>
-  <div class="barra-progreso-wrap">
-    <div class="barra-progreso">
-      <div class="barra-relleno" id="barra-relleno"></div>
+<!-- ══ BARRA STICKY (calorías + plan del día) ════════ -->
+<div class="barra-sticky" id="barra-sticky">
+
+  <!-- META CALÓRICA -->
+  <div class="meta-calorica">
+    <div class="meta-texto">
+      <span class="meta-titulo">
+        🎯 Meta: <strong id="meta-header">2000</strong> kcal
+      </span>
+      <span class="meta-detalle">
+        <span id="kcal-sel">0</span> / <span id="kcal-meta">2000</span> kcal
+      </span>
     </div>
-    <span class="progreso-msg" id="progreso-msg">Empieza eligiendo tu desayuno</span>
+    <div class="barra-progreso-wrap">
+      <div class="barra-progreso">
+        <div class="barra-relleno" id="barra-relleno"></div>
+      </div>
+      <span class="progreso-msg" id="progreso-msg">Empieza eligiendo tu desayuno</span>
+    </div>
   </div>
+
+  <!-- PLAN DEL DÍA (aparece al elegir primera receta) -->
+  <div id="panel-plan-dia" class="panel-plan-dia" style="display:none">
+    <div class="plan-dia-label">📋 Tu plan de hoy · toca para ver</div>
+    <div class="plan-dia-grid"></div>
+  </div>
+
 </div>
 
 <!-- aviso almuerzo pesado -->
@@ -37,35 +46,6 @@
 
 <!-- condición médica -->
 <div id="banner-condicion"></div>
-
-<!-- ══ SELECTOR DE INGREDIENTES FAVORITOS ═══════════ -->
-<div class="selector-wrap">
-  <button class="btn-toggle-selector" onclick="toggleSelector()" id="btn-toggle">
-    🥄 Crear receta con mis ingredientes
-    <span id="fav-count" class="fav-badge" style="display:none"></span>
-    <span id="toggle-arrow">▼</span>
-  </button>
-
-  <div id="selector-ingredientes" class="selector-panel" style="display:none">
-
-    <p class="selector-intro">
-      Marca los ingredientes que tienes en casa. Guarda tus favoritos y te buscamos la mejor receta colombiana con lo que tienes.
-    </p>
-
-    <div id="categorias-ing"></div>
-
-    <div class="selector-acciones">
-      <button class="btn-fav" onclick="guardarFavoritos()">⭐ Guardar como mis favoritos</button>
-      <button class="btn-generar" onclick="generarConMisIngredientes()">🍳 Buscar receta con esto</button>
-    </div>
-
-    <!-- resultado de búsqueda -->
-    <div id="resultado-busqueda" style="display:none" class="resultado-busqueda">
-      <h4>Recetas que puedes preparar:</h4>
-      <div id="cards-resultado" class="cards-resultado"></div>
-    </div>
-  </div>
-</div>
 
 <!-- ── CONTROLES GLOBALES ──────────────────────────── -->
 <div class="controles-globales">
@@ -88,84 +68,92 @@
   <div id="fav-grid" class="fav-grid"></div>
 </div>
 
-<!-- ══ PANEL MI PLAN DEL DÍA ══════════════════════════ -->
-<div id="panel-plan-dia" class="panel-plan-dia" style="display:none">
-  <div class="plan-dia-header">
-    <span>📋 Tu plan de hoy</span>
-    <span class="plan-dia-hint">Toca una receta para ver los detalles</span>
+<!-- ══ SELECTOR DE INGREDIENTES ══════════════════════ -->
+<div class="selector-wrap">
+  <button class="btn-toggle-selector" onclick="toggleSelector()" id="btn-toggle">
+    🥄 Crear receta con mis ingredientes
+    <span id="fav-count" class="fav-badge" style="display:none"></span>
+    <span id="toggle-arrow">▼</span>
+  </button>
+  <div id="selector-ingredientes" class="selector-panel" style="display:none">
+    <p class="selector-intro">Marca los ingredientes que tienes en casa. Te buscamos la mejor receta colombiana.</p>
+    <div id="categorias-ing"></div>
+    <div class="selector-acciones">
+      <button class="btn-fav" onclick="guardarFavoritos()">⭐ Guardar como mis favoritos</button>
+      <button class="btn-generar" onclick="generarConMisIngredientes()">🍳 Buscar receta</button>
+    </div>
+    <div id="resultado-busqueda" style="display:none" class="resultado-busqueda">
+      <h4>Recetas que puedes preparar:</h4>
+      <div id="cards-resultado" class="cards-resultado"></div>
+    </div>
   </div>
-  <div class="plan-dia-grid"></div>
 </div>
 
-<!-- ── INSTRUCCIÓN ─────────────────────────────────── -->
-<p class="instruccion">
-  Selecciona <strong>1 opción por tiempo de comida</strong>.
-  Puedes cambiar tu selección en cualquier momento.
-</p>
+<!-- ══ ACORDEÓN DE COMIDAS ════════════════════════════ -->
 
-<!-- ══ SECCIÓN: DESAYUNO ══════════════════════════════ -->
 <section class="meal-section" id="sec-desayuno">
-  <div class="section-header">
+  <div class="section-header" onclick="toggleSeccion('desayuno')">
     <span class="section-icono">🌅</span>
-    <div>
+    <div class="section-text">
       <h2>Desayuno</h2>
-      <p>Elige 1 · Entre 360 y 580 kcal</p>
+      <p class="section-estado" id="estado-desayuno">Toca para elegir · 360–580 kcal</p>
     </div>
     <span class="slot-check" id="check-desayuno"></span>
+    <span class="section-arrow" id="arrow-desayuno">▼</span>
   </div>
-  <div class="recetas-opciones" id="ops-desayuno"></div>
+  <div class="recetas-opciones"></div>
 </section>
 
-<!-- ══ SECCIÓN: ONCES MAÑANA ══════════════════════════ -->
 <section class="meal-section" id="sec-once_manana">
-  <div class="section-header">
+  <div class="section-header" onclick="toggleSeccion('once_manana')">
     <span class="section-icono">🍎</span>
-    <div>
-      <h2>Onces de la mañana</h2>
-      <p>Elige 1 · Entre 130 y 280 kcal</p>
+    <div class="section-text">
+      <h2>Onces mañana</h2>
+      <p class="section-estado" id="estado-once_manana">Toca para elegir · 130–280 kcal</p>
     </div>
     <span class="slot-check" id="check-once_manana"></span>
+    <span class="section-arrow" id="arrow-once_manana">▼</span>
   </div>
-  <div class="recetas-opciones" id="ops-once_manana"></div>
+  <div class="recetas-opciones"></div>
 </section>
 
-<!-- ══ SECCIÓN: ALMUERZO ══════════════════════════════ -->
 <section class="meal-section" id="sec-almuerzo">
-  <div class="section-header">
+  <div class="section-header" onclick="toggleSeccion('almuerzo')">
     <span class="section-icono">☀️</span>
-    <div>
+    <div class="section-text">
       <h2>Almuerzo</h2>
-      <p>Elige 1 · Entre 400 y 730 kcal</p>
+      <p class="section-estado" id="estado-almuerzo">Toca para elegir · 340–730 kcal</p>
     </div>
     <span class="slot-check" id="check-almuerzo"></span>
+    <span class="section-arrow" id="arrow-almuerzo">▼</span>
   </div>
-  <div class="recetas-opciones" id="ops-almuerzo"></div>
+  <div class="recetas-opciones"></div>
 </section>
 
-<!-- ══ SECCIÓN: ONCES TARDE ═══════════════════════════ -->
 <section class="meal-section" id="sec-once_tarde">
-  <div class="section-header">
+  <div class="section-header" onclick="toggleSeccion('once_tarde')">
     <span class="section-icono">🍊</span>
-    <div>
-      <h2>Onces de la tarde</h2>
-      <p>Elige 1 · Entre 130 y 280 kcal</p>
+    <div class="section-text">
+      <h2>Onces tarde</h2>
+      <p class="section-estado" id="estado-once_tarde">Toca para elegir · 130–280 kcal</p>
     </div>
     <span class="slot-check" id="check-once_tarde"></span>
+    <span class="section-arrow" id="arrow-once_tarde">▼</span>
   </div>
-  <div class="recetas-opciones" id="ops-once_tarde"></div>
+  <div class="recetas-opciones"></div>
 </section>
 
-<!-- ══ SECCIÓN: CENA ══════════════════════════════════ -->
 <section class="meal-section" id="sec-cena">
-  <div class="section-header">
+  <div class="section-header" onclick="toggleSeccion('cena')">
     <span class="section-icono">🌙</span>
-    <div>
+    <div class="section-text">
       <h2>Cena</h2>
-      <p>Elige 1 · Entre 260 y 390 kcal</p>
+      <p class="section-estado" id="estado-cena">Toca para elegir · 220–390 kcal</p>
     </div>
     <span class="slot-check" id="check-cena"></span>
+    <span class="section-arrow" id="arrow-cena">▼</span>
   </div>
-  <div class="recetas-opciones" id="ops-cena"></div>
+  <div class="recetas-opciones"></div>
 </section>
 
 <!-- ══ RESUMEN DEL PLAN ════════════════════════════════ -->
@@ -191,32 +179,15 @@ fetch("components/menu.html")
 
 <script>
 // ════════════════════════════════════════════════════
-// SELECTOR DE INGREDIENTES FAVORITOS
+// SELECTOR DE INGREDIENTES
 // ════════════════════════════════════════════════════
-
 const PANTRY = {
-  "🍗 Proteínas": [
-    "Pollo","Carne de res","Huevos","Atún","Frijoles rojos",
-    "Lentejas","Costilla de res","Tofu","Sardinas"
-  ],
-  "🍚 Carbohidratos": [
-    "Arroz","Papa criolla","Papa pastusa","Yuca",
-    "Plátano verde","Plátano maduro","Mazorca","Arepa","Fideos"
-  ],
-  "🥦 Verduras": [
-    "Tomate","Cebolla","Zanahoria","Habichuela",
-    "Ahuyama","Brócoli","Espinaca","Lechuga","Pepino"
-  ],
-  "🥛 Lácteos": [
-    "Leche","Queso blanco","Yogur natural","Mantequilla","Crema de leche"
-  ],
-  "🍌 Frutas": [
-    "Banano","Mango","Papaya","Naranja","Fresas","Piña","Aguacate"
-  ],
-  "🧄 Cocina colombiana": [
-    "Cilantro","Cebolla larga","Ajo","Comino","Hogao",
-    "Color / achiote","Panela","Caldo de pollo"
-  ]
+  "🍗 Proteínas": ["Pollo","Carne de res","Huevos","Atún","Frijoles rojos","Lentejas","Costilla de res","Tofu","Sardinas"],
+  "🍚 Carbohidratos": ["Arroz","Papa criolla","Papa pastusa","Yuca","Plátano verde","Plátano maduro","Mazorca","Arepa","Fideos"],
+  "🥦 Verduras": ["Tomate","Cebolla","Zanahoria","Habichuela","Ahuyama","Brócoli","Espinaca","Lechuga","Pepino"],
+  "🥛 Lácteos": ["Leche","Queso blanco","Yogur natural","Mantequilla","Crema de leche"],
+  "🍌 Frutas": ["Banano","Mango","Papaya","Naranja","Fresas","Piña","Aguacate"],
+  "🧄 Cocina colombiana": ["Cilantro","Cebolla larga","Ajo","Comino","Hogao","Color / achiote","Panela","Caldo de pollo"]
 };
 
 let seleccionados = new Set();
@@ -232,42 +203,25 @@ function toggleSelector() {
 
 function renderPantry() {
   const favoritos = new Set(JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]"));
-  // Pre-seleccionar favoritos
   seleccionados = new Set([...favoritos]);
-
   const cont = document.getElementById("categorias-ing");
   cont.innerHTML = "";
-
   for (const [cat, items] of Object.entries(PANTRY)) {
     let chips = items.map(item => {
       const sel = seleccionados.has(item);
       const fav = favoritos.has(item);
-      return `<button
-        class="chip-ing${sel ? " chip-sel" : ""}${fav ? " chip-fav" : ""}"
-        onclick="toggleIngrediente('${item}', this)"
-        title="${fav ? "⭐ Favorito" : ""}"
-      >${fav ? "⭐ " : ""}${item}</button>`;
+      return `<button class="chip-ing${sel?" chip-sel":""}${fav?" chip-fav":""}"
+        onclick="toggleIngrediente('${item}',this)">${fav?"⭐ ":""}${item}</button>`;
     }).join("");
-
-    cont.innerHTML += `
-      <div class="cat-grupo">
-        <span class="cat-titulo">${cat}</span>
-        <div class="chips-fila">${chips}</div>
-      </div>`;
+    cont.innerHTML += `<div class="cat-grupo"><span class="cat-titulo">${cat}</span><div class="chips-fila">${chips}</div></div>`;
   }
   actualizarBadge();
 }
 
 function toggleIngrediente(nombre, btn) {
-  if (seleccionados.has(nombre)) {
-    seleccionados.delete(nombre);
-    btn.classList.remove("chip-sel");
-  } else {
-    seleccionados.add(nombre);
-    btn.classList.add("chip-sel");
-  }
+  if (seleccionados.has(nombre)) { seleccionados.delete(nombre); btn.classList.remove("chip-sel"); }
+  else { seleccionados.add(nombre); btn.classList.add("chip-sel"); }
   actualizarBadge();
-  // Ocultar resultado anterior si cambia la selección
   document.getElementById("resultado-busqueda").style.display = "none";
 }
 
@@ -283,76 +237,47 @@ function guardarFavoritos() {
   const btn = document.querySelector(".btn-fav");
   btn.textContent = "✓ Guardado";
   setTimeout(() => { btn.textContent = "⭐ Guardar como mis favoritos"; }, 2000);
-  renderPantry(); // Re-render para marcar las estrellitas
+  renderPantry();
 }
 
 function generarConMisIngredientes() {
-  if (seleccionados.size === 0) {
-    alert("Selecciona al menos 1 ingrediente primero");
-    return;
-  }
-
+  if (!seleccionados.size) { alert("Selecciona al menos 1 ingrediente"); return; }
   const elegidos = [...seleccionados];
-
-  // Buscar recetas que contengan los ingredientes elegidos
   const todasRecetas = [];
-  for (const [tipo, lista] of Object.entries(RECETAS)) {
-    lista.forEach(r => todasRecetas.push({ ...r, tipoMeal: tipo }));
-  }
-
+  for (const [tipo, lista] of Object.entries(RECETAS)) lista.forEach(r => todasRecetas.push({...r, tipoMeal: tipo}));
   const resultados = todasRecetas.map(r => {
-    const matches = elegidos.filter(sel =>
-      r.ingredientes.some(ing => {
-        const ni = ing.nombre.toLowerCase();
-        const ns = sel.toLowerCase();
-        return ni.includes(ns) || ns.split(" ")[0].length > 3 && ni.includes(ns.split(" ")[0]);
-      })
-    );
+    const matches = elegidos.filter(sel => r.ingredientes.some(ing => {
+      const ni = ing.nombre.toLowerCase(), ns = sel.toLowerCase();
+      return ni.includes(ns) || (ns.split(" ")[0].length > 3 && ni.includes(ns.split(" ")[0]));
+    }));
     return { receta: r, puntaje: matches.length, matches };
-  })
-  .filter(x => x.puntaje >= 1)
-  .sort((a, b) => b.puntaje - a.puntaje)
-  .slice(0, 3);
+  }).filter(x => x.puntaje >= 1).sort((a, b) => b.puntaje - a.puntaje).slice(0, 3);
 
-  const divRes  = document.getElementById("resultado-busqueda");
+  const divRes = document.getElementById("resultado-busqueda");
   const divCards = document.getElementById("cards-resultado");
-
-  if (!resultados.length) {
-    divCards.innerHTML = `<p class="sin-match">No encontramos recetas con esos ingredientes. Intenta con más.</p>`;
-    divRes.style.display = "block";
-    return;
-  }
+  if (!resultados.length) { divCards.innerHTML = `<p class="sin-match">No encontramos recetas. Intenta con más ingredientes.</p>`; divRes.style.display = "block"; return; }
 
   divCards.innerHTML = resultados.map(({ receta, puntaje, matches }) => {
-    const fotoid = receta.foto || "";
-    const imgUrl = fotoid
-      ? `https://images.unsplash.com/photo-${fotoid}?w=300&h=160&fit=crop&auto=format&q=80`
-      : `https://placehold.co/300x160/2e7d32/white?text=${encodeURIComponent(receta.nombre.split(" ").slice(0,2).join("+")||"Receta")}`;
-    const fallback = `https://placehold.co/300x160/4caf50/white?text=Receta`;
-
-    return `
-      <div class="card-resultado">
-        <img src="${imgUrl}" alt="${receta.nombre}"
-             onerror="this.onerror=null;this.src='${fallback}'">
-        <div class="card-res-info">
-          <h5>${receta.nombre}</h5>
-          <p class="match-info">
-            Tienes ${puntaje} de los ingredientes:
-            <em>${matches.join(", ")}</em>
-          </p>
-          <p class="kcal-small">${receta.calorias} kcal · ${receta.proteinas}g prot.</p>
-          <button onclick='abrirReceta(${JSON.stringify(receta)})'>Ver receta completa →</button>
-        </div>
-      </div>`;
+    const fotoUrl = receta.foto ? `https://images.unsplash.com/photo-${receta.foto}?w=300&h=160&fit=crop&auto=format&q=80` : null;
+    const imgHtml = fotoUrl ? `<img src="${fotoUrl}" alt="${receta.nombre}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : "";
+    const sfHtml  = `<div class="sin-foto-sm" style="display:${fotoUrl?"none":"flex"}">${getEmoji(receta)}</div>`;
+    return `<div class="card-resultado">
+      <div class="card-res-img">${imgHtml}${sfHtml}</div>
+      <div class="card-res-info">
+        <h5>${receta.nombre}</h5>
+        <p class="match-info">Tienes ${puntaje} ingredientes: <em>${matches.join(", ")}</em></p>
+        <p class="kcal-small">${receta.calorias} kcal · ${receta.proteinas}g prot.</p>
+        <button onclick='abrirReceta(${JSON.stringify(receta)})'>Ver receta →</button>
+      </div>
+    </div>`;
   }).join("");
-
   divRes.style.display = "block";
   divRes.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function abrirReceta(receta) {
   localStorage.setItem("recetaActual", JSON.stringify(receta));
-  window.location.href = "detalleDeReceta.html";
+  window.location.href = "detalle.html";
 }
 
 // ════════════════════════════════════════════════════
@@ -369,65 +294,36 @@ function toggleFavoritos() {
 
 function renderFavoritos() {
   const historial = JSON.parse(localStorage.getItem("historial")) || [];
-
-  // Extraer recetas individuales del historial (excluir planes de día)
   const recetasGuardadas = [];
   historial.forEach(item => {
-    if (item.tipo === "plan_dia") {
-      // Del plan extraer cada comida individualmente
-      if (item.comidas) {
-        Object.values(item.comidas).forEach(r => {
-          if (r && r.nombre && !recetasGuardadas.find(x => x.id === r.id)) {
-            recetasGuardadas.push(r);
-          }
-        });
-      }
-    } else if (item.nombre) {
-      // Receta individual guardada
-      if (!recetasGuardadas.find(x => x.id === item.id)) {
-        recetasGuardadas.push(item);
-      }
+    if (item.tipo === "plan_dia" && item.comidas) {
+      Object.values(item.comidas).forEach(r => { if (r?.nombre && !recetasGuardadas.find(x => x.id === r.id)) recetasGuardadas.push(r); });
+    } else if (item.nombre && !recetasGuardadas.find(x => x.id === item.id)) {
+      recetasGuardadas.push(item);
     }
   });
 
-  const lista = filtroFav === "todos"
-    ? recetasGuardadas
+  const lista = filtroFav === "todos" ? recetasGuardadas
     : recetasGuardadas.filter(r => r.tipo === filtroFav || r.tipoMeal === filtroFav);
-
   const grid = document.getElementById("fav-grid");
-
-  if (!lista.length) {
-    grid.innerHTML = `<p class="fav-vacio">
-      ${filtroFav === "todos"
-        ? "Aún no tienes recetas guardadas. Selecciona recetas del planeador y guarda tu plan."
-        : "No tienes recetas guardadas de esta categoría."}
-    </p>`;
-    return;
-  }
-
-  const COLORES_TIPO = { desayuno: "ff9800", once: "8bc34a", almuerzo: "1976d2", cena: "7b1fa2" };
-  const LABELS_TIPO  = { desayuno: "🌅", once: "🍎", almuerzo: "☀️", cena: "🌙" };
-
+  if (!lista.length) { grid.innerHTML = `<p class="fav-vacio">${filtroFav === "todos" ? "Aún no tienes recetas guardadas. Selecciona recetas y guarda tu plan." : "No tienes recetas guardadas de esta categoría."}</p>`; return; }
+  const LABELS = { desayuno: "🌅", once: "🍎", almuerzo: "☀️", cena: "🌙" };
   grid.innerHTML = lista.map(r => {
-    const tipo    = r.tipo || r.tipoMeal || "almuerzo";
-    const fotoId  = r.foto || "";
-    const imgUrl  = fotoId
-      ? `https://images.unsplash.com/photo-${fotoId}?w=300&h=160&fit=crop&auto=format&q=80`
-      : `https://placehold.co/300x160/${COLORES_TIPO[tipo]||"4caf50"}/white?text=${encodeURIComponent(r.nombre?.split(" ").slice(0,2).join("+") || "Receta")}`;
-
+    const tipo = r.tipo || r.tipoMeal || "almuerzo";
+    const fotoUrl = r.foto ? `https://images.unsplash.com/photo-${r.foto}?w=300&h=90&fit=crop&auto=format&q=80` : null;
+    const imgHtml = fotoUrl ? `<img src="${fotoUrl}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : "";
+    const sfHtml  = `<div class="fav-sin-foto" style="display:${fotoUrl?"none":"flex"}">${getEmoji(r)}</div>`;
     return `<div class="fav-card" onclick='abrirReceta(${JSON.stringify(r)})'>
-      <img src="${imgUrl}"
-           onerror="this.onerror=null;this.src='https://placehold.co/300x160/4caf50/white?text=Receta'">
+      <div class="fav-img-wrap">${imgHtml}${sfHtml}</div>
       <div class="fav-card-info">
-        <span class="fav-tipo">${LABELS_TIPO[tipo] || "🍽️"} ${tipo}</span>
+        <span class="fav-tipo">${LABELS[tipo]||"🍽️"} ${tipo}</span>
         <p>${r.nombre}</p>
-        <span class="fav-kcal">${r.calorias || "-"} kcal · ${r.proteinas || "-"}g prot.</span>
+        <span class="fav-kcal">${r.calorias||"-"} kcal</span>
       </div>
     </div>`;
   }).join("");
 }
 
-// Botones de filtro de favoritos
 document.querySelectorAll(".fav-fil").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".fav-fil").forEach(b => b.classList.remove("activo"));
