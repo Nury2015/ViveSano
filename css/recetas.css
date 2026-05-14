@@ -452,8 +452,8 @@ body {
 /* ══ MENÚ LATERAL (desktop ≥ 900px) ════════════ */
 @media (min-width: 900px) {
   body { margin-left: 240px; }
-  .barra-sticky { left: 240px; right: 0; position: fixed; top: 0; }
-  body { padding-top: 80px; } /* espacio para la barra fixed */
+  /* sticky: empuja el contenido hacia abajo automáticamente,
+     sin necesidad de padding-top manual */
 }
 
 /* ══ TABLET ═════════════════════════════════════ */

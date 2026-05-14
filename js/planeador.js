@@ -956,7 +956,6 @@ function actualizarPlanDelDia() {
   const selArr = SLOTS.map(s => ({ slot: s, receta: selecciones[s.id] })).filter(x => x.receta);
   if (!selArr.length) {
     panel.style.display = "none";
-    document.body.style.paddingBottom = "";
     return;
   }
 
