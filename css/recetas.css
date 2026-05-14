@@ -13,7 +13,7 @@ body {
 .barra-sticky {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1001; /* encima del nav mobile (z-index:1000) para no quedar tapada */
   box-shadow: 0 3px 12px rgba(0,0,0,0.25);
 }
 
@@ -456,17 +456,20 @@ body {
      sin necesidad de padding-top manual */
 }
 
-/* ══ TABLET ═════════════════════════════════════ */
+/* ══ TABLET (sin nav top) ═══════════════════════ */
 @media (max-width: 899px) {
-  body { margin-top: 60px; } /* espacio para el menu top */
-  .barra-sticky { top: 60px; } /* debajo del menu hamburguesa */
   .recetas-opciones { grid-template-columns: repeat(2, 1fr); }
   .fav-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ══ MÓVIL ══════════════════════════════════════ */
+/* ══ MOBILE — nav top aparece exactamente en ≤768px (menu.css) ══ */
+@media (max-width: 768px) {
+  body { padding-top: 60px; } /* empuja todo el contenido 60px abajo */
+  .barra-sticky { top: 60px; } /* queda pegada justo debajo del nav */
+}
+
+/* ══ MÓVIL PEQUEÑO ══════════════════════════════ */
 @media (max-width: 560px) {
-  body { margin-top: 60px; }
   .barra-sticky { top: 60px; }
   .meta-titulo  { font-size: 12px; }
   .meta-detalle { font-size: 15px; }
