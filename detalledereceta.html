@@ -3,103 +3,283 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="detalledereceta.css">
-  <title>Detalle de receta</title>
+  <link rel="stylesheet" href="css/detalledereceta.css">
+  <title>Detalle de receta — ViveSano</title>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <a href="recetas.html" class="volver">⬅ Volver</a>
   <h2>Detalle de receta</h2>
 </div>
 
-<!-- IMAGEN -->
 <div class="imagen">
-  <img id="imagenReceta" src="https://source.unsplash.com/600x400/?healthy-food" alt="">
+  <img id="imagenReceta" src="" alt="Imagen de la receta"
+       onerror="this.onerror=null;this.src='https://placehold.co/600x300/2e7d32/white?text=ViveSano'">
 </div>
 
-<!-- CONTENIDO -->
 <div class="contenedor">
-
-  <!-- 👇 TÍTULO DINÁMICO -->
   <h1 id="titulo"></h1>
+  <p class="descripcion" id="descripcion"></p>
 
-  <!-- 👇 DESCRIPCIÓN -->
-  <p class="descripcion" id="descripcion">
-    Receta personalizada según tus necesidades nutricionales.
-  </p>
-
-  <!-- INFO NUTRICIONAL -->
+  <!-- MACROS TOTALES -->
   <div class="info">
-    <div><strong id="calorias">0</strong><span>kcal</span></div>
+    <div><strong id="calorias">-</strong><span>kcal totales</span></div>
     <div><strong id="proteina">-</strong><span>Proteína</span></div>
+    <div><strong id="carbs">-</strong><span>Carbos</span></div>
     <div><strong id="grasa">-</strong><span>Grasa</span></div>
   </div>
 
+  <p class="nota-cantidad">
+    💡 <strong>Recuerda:</strong> no importa solo lo que comes, sino <strong>cuánto</strong>.
+    Cada ingrediente indica su peso en gramos y la medida casera equivalente.
+  </p>
+
   <!-- INGREDIENTES -->
   <div class="seccion">
-    <h3>Ingredientes</h3>
-    <ul id="ingredientes"></ul>
+    <h3>Ingredientes y cantidades</h3>
+    <ul id="ingredientes" class="lista-ingredientes"></ul>
   </div>
 
   <!-- PREPARACIÓN -->
   <div class="seccion">
     <h3>Preparación</h3>
-    <ol id="preparacion">
-      <li>Lava y prepara los ingredientes.</li>
-      <li>Cocina de forma saludable (plancha, vapor o hervido).</li>
-      <li>Combina los ingredientes.</li>
-      <li>Sirve y disfruta 💚</li>
-    </ol>
+    <ol id="preparacion"></ol>
   </div>
 
   <!-- BOTONES -->
   <div class="acciones">
-    <button class="guardar" onclick="guardarReceta()">💚 Guardar</button>
-    <button class="compartir">📤 Compartir</button>
+    <button class="guardar" onclick="guardarReceta()">💚 Guardar en historial</button>
+    <button class="compartir" onclick="compartirReceta()">📤 Compartir</button>
   </div>
-
 </div>
 
-<!-- JS -->
-<script src="generador.js"></script>
-
 <script>
-// ===============================
-// CARGAR RECETA
-// ===============================
+// ──────────────────────────────────────────────
+// CONVERTIDOR: cantidad/gramos ↔ medida casera
+// ──────────────────────────────────────────────
+function extraerGramos(cantidad) {
+  if (!cantidad) return null;
+  const m = String(cantidad).match(/(\d+(?:[.,]\d+)?)\s*g\b/i);
+  return m ? parseFloat(m[1].replace(",", ".")) : null;
+}
+
+function gramosAMedida(gramos, nombre) {
+  if (!gramos || gramos <= 0) return "";
+  const n = (nombre || "").toLowerCase();
+
+  if (n.includes("pollo") || n.includes("pechuga")) {
+    return gramos <= 80  ? "½ pechuga pequeña" :
+           gramos <= 140 ? "1 pechuga mediana (tamaño palma de mano)" :
+                           "1 pechuga grande";
+  }
+  if (n.includes("carne") || n.includes("res") || n.includes("murillo") ||
+      n.includes("sobrebarriga") || n.includes("lomo")) {
+    return `≈ ${Math.round(gramos/100)} porción (tamaño baraja de cartas)`;
+  }
+  if (n.includes("costilla")) {
+    return `${Math.round(gramos/50)} trozos medianos`;
+  }
+  if (n.includes("arroz")) {
+    const t = gramos / 185;
+    return t <= 0.6 ? "½ taza cocinada" :
+           t <= 1.1 ? "1 taza cocinada" :
+                      "1½ tazas cocinadas";
+  }
+  if (n.includes("frijol")) {
+    return gramos <= 120 ? "½ taza cocinada con caldo" : "1 taza cocinada";
+  }
+  if (n.includes("lenteja")) {
+    const t = gramos / 100;
+    return `${t <= 0.55 ? "½" : "1"} taza de lentejas secas`;
+  }
+  if (n.includes("papa criolla")) {
+    return gramos <= 60  ? "3-4 papas criollas" :
+           gramos <= 120 ? "6-8 papas criollas" :
+                           "10-12 papas criollas";
+  }
+  if (n.includes("papa")) {
+    return gramos <= 90  ? "1 papa pequeña" :
+           gramos <= 170 ? "1 papa mediana (tamaño puño)" :
+                           "2 papas medianas";
+  }
+  if (n.includes("yuca")) return "1 trozo mediano de yuca";
+  if (n.includes("mazorca") || n.includes("choclo")) {
+    return gramos <= 90 ? "½ mazorca" : "1 mazorca entera";
+  }
+  if (n.includes("plátano verde") || n.includes("patacones")) {
+    return `${Math.round(gramos/100)} plátano verde`;
+  }
+  if (n.includes("plátano maduro")) {
+    return gramos <= 80 ? "½ plátano maduro" : "1 plátano maduro";
+  }
+  if (n.includes("huevo")) {
+    const h = Math.round(gramos / 55);
+    return `${h} huevo${h !== 1 ? "s" : ""} (sin cáscara ≈ 55 g c/u)`;
+  }
+  if (n.includes("leche")) {
+    return gramos <= 150 ? "½ taza (1 pocillo tintero)" :
+           gramos <= 260 ? "1 taza (1 vaso normal)" :
+                           "1½ tazas";
+  }
+  if (n.includes("avena")) {
+    return gramos <= 50 ? "⅓ taza de avena seca" : "½ taza de avena seca";
+  }
+  if (n.includes("queso")) {
+    return gramos <= 30 ? "1 tajada delgada" :
+           gramos <= 60 ? "2 tajadas medianas" :
+                          "3 tajadas";
+  }
+  if (n.includes("yogur")) {
+    return gramos <= 130 ? "½ taza (1 pote pequeño)" : "1 taza (1 pote grande)";
+  }
+  if (n.includes("arepa")) {
+    return gramos <= 100 ? "1 arepa pequeña" :
+           gramos <= 180 ? "1 arepa mediana" :
+                           "1 arepa grande";
+  }
+  if (n.includes("ahuyama") || n.includes("zapallo")) {
+    return `${Math.round(gramos/250)} tajadas medianas (${gramos} g pelada)`;
+  }
+  if (n.includes("pasta") || n.includes("fideo")) {
+    return gramos <= 40 ? "⅓ taza seca" : "½ taza seca (1 puñado)";
+  }
+  if (n.includes("aceite")) {
+    const c = Math.round(gramos / 14);
+    return `${c} cuchara${c !== 1 ? "das" : "da"} sopera${c !== 1 ? "s" : ""}`;
+  }
+  if (n.includes("mantequilla") || n.includes("crema")) {
+    return `${Math.round(gramos/15)} cucharada${gramos > 20 ? "s" : ""}`;
+  }
+  // Genérico
+  if (gramos <= 5)   return "1 cucharadita";
+  if (gramos <= 15)  return "1 cucharada sopera";
+  if (gramos <= 45)  return "3 cucharadas";
+  if (gramos <= 100) return "½ taza";
+  if (gramos <= 200) return "1 taza";
+  return "1 taza y media";
+}
+
+function medidaCasera(ing) {
+  // 1. Si la cantidad ya incluye gramos → la usamos como referencia
+  const gramosDeCantidad = extraerGramos(ing.cantidad);
+  const gramosBase = ing.gramos || gramosDeCantidad;
+
+  if (gramosBase) {
+    const medida = gramosAMedida(gramosBase, ing.nombre);
+    return { gramos: gramosBase, medida };
+  }
+
+  // 2. Si solo tiene medida casera en cantidad (sin gramos), inferir
+  const c = (ing.cantidad || ing.porcionAjustada || "").toLowerCase();
+  let g = null;
+
+  if (c.includes("taza"))    g = c.includes("½") ? 100 : 185;
+  else if (c.includes("unidad") || c.includes("und")) {
+    const num = parseInt(c) || 1;
+    const n = ing.nombre.toLowerCase();
+    if (n.includes("huevo")) g = num * 55;
+    else if (n.includes("papa")) g = 150;
+    else if (n.includes("arepa")) g = 100;
+    else if (n.includes("banano")) g = 120;
+  }
+  else if (c.includes("cda"))  g = 15;
+  else if (c.includes("cdita")) g = 5;
+
+  if (g) {
+    return { gramos: g, medida: gramosAMedida(g, ing.nombre) };
+  }
+  return { gramos: null, medida: ing.cantidad || ing.porcionAjustada || "" };
+}
+
+// ──────────────────────────────────────────────
+// CARGAR Y MOSTRAR RECETA
+// ──────────────────────────────────────────────
 const receta = JSON.parse(localStorage.getItem("recetaActual"));
 
 if (!receta) {
-  document.body.innerHTML = "<h2>No hay receta 😢</h2>";
-}
-
-// ===============================
-// MOSTRAR DATOS
-// ===============================
-document.getElementById("titulo").textContent = receta.nombre;
-document.getElementById("calorias").textContent = receta.calorias;
-
-// ===============================
-// INGREDIENTES (CON AVISOS)
-// ===============================
-receta.ingredientes.forEach(ing => {
-
-  let aviso = "";
-
-  if (ing.estado === "moderado") {
-    aviso = `<span class="aviso">⚠️ Moderar</span>`;
+  document.body.innerHTML = "<p style='padding:30px;text-align:center;font-family:sans-serif'>"
+    + "No hay receta guardada. <a href='recetas.html'>Volver</a></p>";
+} else {
+  // Imagen
+  const img = document.getElementById("imagenReceta");
+  if (receta.foto) {
+    img.src = `https://images.unsplash.com/photo-${receta.foto}?w=600&h=300&fit=crop&auto=format&q=80`;
+  } else if (receta.imagen) {
+    img.src = receta.imagen;
   }
 
-  document.getElementById("ingredientes").innerHTML += `
-    <li>
-      ${ing.nombre} - ${ing.calorias} kcal (${ing.porcionAjustada || ""})
-      ${aviso}
-    </li>
-  `;
-});
+  // Nombre y descripción
+  document.getElementById("titulo").textContent = receta.nombre;
+  if (receta.descripcion) {
+    document.getElementById("descripcion").textContent = receta.descripcion;
+  }
+
+  // Macros totales
+  const totalProt  = receta.ingredientes.reduce((s, i) => s + (i.proteinas || 0), 0);
+  const totalGrasa = receta.ingredientes.reduce((s, i) => s + (i.grasas    || 0), 0);
+  const totalCarbs = receta.ingredientes.reduce((s, i) => s + (i.carbohidratos || 0), 0);
+
+  document.getElementById("calorias").textContent = receta.calorias || "-";
+  document.getElementById("proteina").textContent = receta.proteinas ? receta.proteinas + "g"
+                                                    : (Math.round(totalProt) || "-") + "g";
+  document.getElementById("carbs").textContent    = receta.carbohidratos ? receta.carbohidratos + "g"
+                                                    : (Math.round(totalCarbs) || "-") + "g";
+  document.getElementById("grasa").textContent    = receta.grasas ? receta.grasas + "g"
+                                                    : (Math.round(totalGrasa) || "-") + "g";
+
+  // Ingredientes con cantidades
+  const ulIng = document.getElementById("ingredientes");
+  receta.ingredientes.forEach(ing => {
+    const { gramos, medida } = medidaCasera(ing);
+    const esMode = ing.estado === "moderado";
+
+    ulIng.innerHTML += `
+      <li class="ing-item${esMode ? " ingrediente-moderado" : ""}">
+        <div class="ing-nombre">
+          <strong>${ing.nombre}</strong>
+          ${esMode ? '<span class="aviso">⚠️ Consumir con moderación</span>' : ""}
+        </div>
+        <div class="ing-cantidad">
+          ${gramos ? `<span class="ing-gramos">${gramos} g</span>` : ""}
+          ${medida  ? `<span class="ing-medida">≈ ${medida}</span>` : ""}
+        </div>
+        ${(ing.calorias || 0) > 0
+          ? `<div class="ing-kcal">${Math.round(ing.calorias)} kcal</div>`
+          : ""}
+      </li>`;
+  });
+
+  // Preparación dinámica
+  if (receta.preparacion && receta.preparacion.length > 0) {
+    const ol = document.getElementById("preparacion");
+    ol.innerHTML = "";
+    receta.preparacion.forEach(paso => {
+      ol.innerHTML += `<li>${paso}</li>`;
+    });
+  }
+}
+
+function guardarReceta() {
+  if (!receta) return;
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+  historial.push({ ...receta, fechaGuardado: new Date().toLocaleDateString("es-CO") });
+  localStorage.setItem("historial", JSON.stringify(historial));
+  const btn = document.querySelector(".guardar");
+  btn.textContent = "✓ Guardada";
+  setTimeout(() => btn.textContent = "💚 Guardar en historial", 2000);
+}
+
+function compartirReceta() {
+  if (!receta) return;
+  const texto = `🍽️ ${receta.nombre}\n🔥 ${receta.calorias} kcal\n\nReceta generada con ViveSano`;
+  if (navigator.share) {
+    navigator.share({ title: receta.nombre, text: texto });
+  } else {
+    navigator.clipboard?.writeText(texto).then(() => alert("Copiado al portapapeles"));
+  }
+}
 </script>
 
 </body>

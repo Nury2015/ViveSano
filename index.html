@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora Nutricional</title>
-  <link rel="stylesheet" href="index.css">
-  <link rel="stylesheet" href="menu.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/menu.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
@@ -149,7 +149,7 @@
 
 
 
-  </div>
+  
   </div>
 
   <p style="margin-top: 20px; font-size: 14px; text-align: center; color: white;">
@@ -178,10 +178,10 @@
   
  
 
-<script src="menu.js"></script>
+<script src="js/menu.js"></script>
 
 <script>
-fetch("menu.html")
+fetch("components/menu.html")
   .then(res => res.text())
   .then(data => {
     document.getElementById("menu").innerHTML = data;
@@ -193,8 +193,8 @@ fetch("menu.html")
   });
 </script>
 
-<script src="calculadora.js"></script>
-<script src="modal.js"></script>
+<script src="js/calculadora.js"></script>
+<script src="js/modal.js"></script>
 </body>
 
 </html>
