@@ -210,12 +210,24 @@ function renderPantry() {
     let chips = items.map(item => {
       const sel = seleccionados.has(item);
       const fav = favoritos.has(item);
+      // Si es favorito, muestra ⭐ + botón ✕ para quitarlo de favoritos
+      const favHTML = fav
+        ? `<span class="chip-fav-star">⭐</span>${item}<button class="chip-quitar-fav" onclick="quitarFavorito('${item}',event)" title="Quitar de favoritos">✕</button>`
+        : item;
       return `<button class="chip-ing${sel?" chip-sel":""}${fav?" chip-fav":""}"
-        onclick="toggleIngrediente('${item}',this)">${fav?"⭐ ":""}${item}</button>`;
+        onclick="toggleIngrediente('${item}',this)">${favHTML}</button>`;
     }).join("");
     cont.innerHTML += `<div class="cat-grupo"><span class="cat-titulo">${cat}</span><div class="chips-fila">${chips}</div></div>`;
   }
   actualizarBadge();
+}
+
+function quitarFavorito(nombre, event) {
+  event.stopPropagation(); // no activar el toggleIngrediente del chip padre
+  const favs = JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]");
+  localStorage.setItem("ingredientesFavoritos", JSON.stringify(favs.filter(f => f !== nombre)));
+  seleccionados.delete(nombre);
+  renderPantry();
 }
 
 function toggleIngrediente(nombre, btn) {

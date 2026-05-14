@@ -837,7 +837,8 @@ function seleccionarReceta(slotId, recetaId) {
   const receta = RECETAS[slot.tipo].find(r => r.id === recetaId);
   const fueDeseleccion = selecciones[slotId]?.id === recetaId;
 
-  selecciones[slotId] = fueDeseleccion ? null : receta;
+  // Agrega tipo del slot para que los filtros de historial funcionen
+  selecciones[slotId] = fueDeseleccion ? null : { ...receta, tipo: slot.tipo };
 
   if (receta?.pesado && !fueDeseleccion) mostrarAvisoHeavy(receta.nota);
 
@@ -989,12 +990,16 @@ function abrirPlanReceta(tipo, id) {
 
 // ─── GUARDAR PLAN ────────────────────────────────────────────
 function guardarPlan() {
-  const plan = {
-    fecha:    new Date().toLocaleDateString("es-CO"),
-    tipo:     "plan_dia",
-    calorias: caloriasSeleccionadas(),
-    objetivo: caloriasObjetivo(),
-    comidas:  {}
+  const hoy   = new Date();
+  const DIAS  = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+  const plan  = {
+    fecha:     hoy.toLocaleDateString("es-CO"),
+    fechaISO:  hoy.toISOString().split("T")[0],   // "2026-05-14" para ordenar
+    diaSemana: DIAS[hoy.getDay()],
+    tipo:      "plan_dia",
+    calorias:  caloriasSeleccionadas(),
+    objetivo:  caloriasObjetivo(),
+    comidas:   {}
   };
   SLOTS.forEach(s => { if (selecciones[s.id]) plan.comidas[s.id] = selecciones[s.id]; });
 
@@ -1004,8 +1009,8 @@ function guardarPlan() {
 
   const btn = document.getElementById("btn-guardar-plan");
   if (btn) {
-    btn.textContent = "✓ Plan guardado";
-    setTimeout(() => { btn.textContent = "Guardar mi plan del día"; }, 2500);
+    btn.innerHTML = `✓ Plan guardado &nbsp;·&nbsp; <a href="historial.html" style="color:white;text-decoration:underline">Ver en Mi Historial →</a>`;
+    setTimeout(() => { btn.textContent = "Guardar mi plan del día"; }, 5000);
   }
 }
 

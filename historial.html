@@ -16,38 +16,49 @@
 
   <h1>Mi Historial</h1>
 
-  <!-- RESUMEN -->
+  <!-- RESUMEN RÁPIDO -->
   <div class="stats-bar" id="stats-bar"></div>
 
-  <!-- INGREDIENTES FAVORITOS -->
-  <section class="ing-fav-sec">
-    <h2>⭐ Mis ingredientes favoritos</h2>
-    <div id="ingredientesFav" class="ing-chips"></div>
-    <p id="ing-vacio" style="display:none;color:#aaa;font-size:13px">
-      No tienes ingredientes favoritos guardados aún.
-      <a href="recetas.html">Ir a recetas</a> y usa el selector de ingredientes.
-    </p>
+  <!-- ══ PLANES DEL DÍA ══════════════════════════════════ -->
+  <section class="hist-section">
+    <div class="hist-sec-header">
+      <h2>📋 Planes del día</h2>
+      <button class="btn-borrar-sec" onclick="borrarTodosPlanes()">🗑️ Borrar todos</button>
+    </div>
+    <div id="planesLista" class="planes-lista"></div>
   </section>
 
-  <!-- FILTROS POR TIPO -->
-  <section class="recetas-sec">
-    <div class="sec-header-row">
+  <!-- ══ RECETAS GUARDADAS ════════════════════════════════ -->
+  <section class="hist-section">
+    <div class="hist-sec-header">
       <h2>🍽️ Recetas guardadas</h2>
-      <div class="hist-filtros">
-        <button class="hfil activo" data-tipo="todos">Todos</button>
-        <button class="hfil" data-tipo="plan_dia">📋 Planes</button>
-        <button class="hfil" data-tipo="desayuno">🌅 Desayunos</button>
-        <button class="hfil" data-tipo="once">🍎 Onces</button>
-        <button class="hfil" data-tipo="almuerzo">☀️ Almuerzos</button>
-        <button class="hfil" data-tipo="cena">🌙 Cenas</button>
-      </div>
+    </div>
+    <div class="hist-filtros">
+      <button class="hfil activo" data-tipo="todos">Todos</button>
+      <button class="hfil" data-tipo="desayuno">🌅 Desayunos</button>
+      <button class="hfil" data-tipo="once">🍎 Onces</button>
+      <button class="hfil" data-tipo="almuerzo">☀️ Almuerzos</button>
+      <button class="hfil" data-tipo="cena">🌙 Cenas</button>
     </div>
     <div id="recetasGrid" class="recetas-grid"></div>
   </section>
 
+  <!-- ══ INGREDIENTES FAVORITOS ═══════════════════════════ -->
+  <section class="hist-section">
+    <div class="hist-sec-header">
+      <h2>⭐ Ingredientes favoritos</h2>
+      <button class="btn-borrar-sec" onclick="borrarTodosFavoritos()">🗑️ Borrar todos</button>
+    </div>
+    <div id="ingredientesFav" class="ing-chips"></div>
+    <p id="ing-vacio" style="display:none;color:#aaa;font-size:13px;padding:12px 0">
+      No tienes ingredientes favoritos. Ve a
+      <a href="recetas.html">Recetas</a> y guarda tus ingredientes.
+    </p>
+  </section>
+
 </div>
 
-<a href="index.html" class="volver">⬅ Volver a la calculadora</a>
+<a href="recetas.html" class="volver">← Ir a recetas</a>
 
 <script src="js/menu.js"></script>
 <script>

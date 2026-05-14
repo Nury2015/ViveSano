@@ -401,7 +401,14 @@ body {
 }
 .chip-ing:hover       { border-color: #2e7d32; color: #2e7d32; }
 .chip-ing.chip-sel    { background: #e8f5e9; border-color: #2e7d32; color: #1b5233; font-weight: 600; }
-.chip-ing.chip-fav    { border-color: #f9a825; }
+.chip-ing.chip-fav    { border-color: #f9a825; background: #fffde7; display: inline-flex; align-items: center; gap: 4px; }
+.chip-fav-star        { font-size: 12px; }
+.chip-quitar-fav {
+  background: none; border: none; cursor: pointer;
+  color: #bbb; font-size: 12px; padding: 0 0 0 2px;
+  line-height: 1; font-weight: bold;
+}
+.chip-quitar-fav:hover { color: #e53935; }
 
 .selector-acciones { display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #f0f0f0; padding-top: 12px; }
 .btn-fav    { flex: 1; background: white; border: 2px solid #f9a825; color: #6d4c00; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }

@@ -1,141 +1,217 @@
 // ============================================================
-// HISTORIAL — lee del localStorage real
+// HISTORIAL — datos reales desde localStorage
 // ============================================================
 
-const COLORES = { desayuno: "ff9800", once: "8bc34a", almuerzo: "1976d2", cena: "7b1fa2", plan_dia: "6a1b9a" };
-const LABELS  = { desayuno: "🌅 Desayuno", once: "🍎 Once", almuerzo: "☀️ Almuerzo", cena: "🌙 Cena", plan_dia: "📋 Plan del día" };
+const TIPO_LABELS  = { desayuno:"🌅 Desayuno", once:"🍎 Once", almuerzo:"☀️ Almuerzo", cena:"🌙 Cena" };
+const TIPO_COLORES = { desayuno:"e07a5f", once:"52b788", almuerzo:"2d6a4f", cena:"264653" };
+const DIAS_SLOT    = { desayuno:"🌅", once_manana:"🍎", almuerzo:"☀️", once_tarde:"🍊", cena:"🌙" };
 
-let filtroActual = "todos";
-let todoItems    = [];   // recetas + planes aplanados
+let historialData = [];
+let filtroRecetas = "todos";
 
-// ─── CARGAR HISTORIAL ────────────────────────────────────────
-function cargarHistorial() {
-  const raw = JSON.parse(localStorage.getItem("historial")) || [];
-  todoItems = [];
-
-  raw.forEach(item => {
-    if (item.tipo === "plan_dia") {
-      // Guardar el plan completo
-      todoItems.push({ ...item, _displayTipo: "plan_dia" });
-      // Y también cada receta individual del plan
-      if (item.comidas) {
-        Object.values(item.comidas).forEach(r => {
-          if (r && r.nombre) {
-            todoItems.push({ ...r, _displayTipo: r.tipo || "desayuno", _dePlan: item.fecha });
-          }
-        });
-      }
-    } else if (item.nombre) {
-      todoItems.push({ ...item, _displayTipo: item.tipo || item.tipoMeal || "almuerzo" });
-    }
-  });
-
-  // Deduplicar por id+fecha para no mostrar doble
-  const vistos = new Set();
-  todoItems = todoItems.filter(i => {
-    const key = `${i._displayTipo}-${i.id || i.nombre}-${i.fecha || ""}`;
-    if (vistos.has(key)) return false;
-    vistos.add(key);
-    return true;
-  });
-
-  renderStats();
-  renderGrid();
-  renderIngFavoritos();
+// ─── EMOJI ───────────────────────────────────────────────────
+function getEmoji(receta) {
+  const n = (receta.nombre || "").toLowerCase().replace(/🌱 /g, "");
+  if (n.includes("changua"))                      return "🥛";
+  if (n.includes("avena"))                        return "🥣";
+  if (n.includes("arepa"))                        return "🫓";
+  if (n.includes("calentado"))                    return "🍳";
+  if (n.includes("perico") || n.includes("huevo")) return "🍳";
+  if (n.includes("chontaduro"))                   return "🌴";
+  if (n.includes("pandebono"))                    return "🥐";
+  if (n.includes("oblea") || n.includes("arequipe")) return "🍪";
+  if (n.includes("yogur"))                        return "🫙";
+  if (n.includes("fruta"))                        return "🍊";
+  if (n.includes("sancocho"))                     return "🫕";
+  if (n.includes("ajiaco"))                       return "🥣";
+  if (n.includes("arroz"))                        return "🍚";
+  if (n.includes("sopa") || n.includes("crema") || n.includes("caldo")) return "🍲";
+  if (n.includes("bandeja"))                      return "🍽️";
+  if (n.includes("lenteja") || n.includes("frijol")) return "🫘";
+  if (n.includes("aguacate"))                     return "🥑";
+  if (n.includes("sudado"))                       return "🥩";
+  if (n.includes("pasta") || n.includes("fideo")) return "🍝";
+  if (n.includes("verdura"))                      return "🥦";
+  return "🍴";
 }
 
-// ─── STATS ────────────────────────────────────────────────────
-function renderStats() {
-  const total    = todoItems.length;
-  const planes   = todoItems.filter(i => i._displayTipo === "plan_dia").length;
-  const recetas  = total - planes;
-  const tiposCont = {};
-  todoItems.filter(i => i._displayTipo !== "plan_dia").forEach(i => {
-    tiposCont[i._displayTipo] = (tiposCont[i._displayTipo] || 0) + 1;
-  });
+// ─── CARGAR ──────────────────────────────────────────────────
+function cargarHistorial() {
+  historialData = JSON.parse(localStorage.getItem("historial")) || [];
+  renderStats();
+  renderPlanes();
+  renderRecetas();
+  renderFavoritos();
+}
 
-  const bar = document.getElementById("stats-bar");
-  bar.innerHTML = `
-    <div class="stat"><strong>${total}</strong><span>Total guardados</span></div>
-    <div class="stat"><strong>${planes}</strong><span>Planes del día</span></div>
-    <div class="stat"><strong>${recetas}</strong><span>Recetas</span></div>
-    <div class="stat"><strong>${tiposCont.desayuno || 0}</strong><span>Desayunos</span></div>
-    <div class="stat"><strong>${tiposCont.almuerzo || 0}</strong><span>Almuerzos</span></div>
-    <div class="stat"><strong>${tiposCont.cena || 0}</strong><span>Cenas</span></div>
+// ─── STATS ───────────────────────────────────────────────────
+function renderStats() {
+  const planes  = historialData.filter(i => i.tipo === "plan_dia").length;
+  const recetas = historialData.filter(i => i.nombre && i.tipo !== "plan_dia").length;
+  // Recetas extraídas de planes
+  const totalRecetas = recetas + historialData
+    .filter(i => i.tipo === "plan_dia")
+    .reduce((s, p) => s + (p.comidas ? Object.keys(p.comidas).length : 0), 0);
+
+  document.getElementById("stats-bar").innerHTML = `
+    <div class="stat"><strong>${planes}</strong><span>Planes guardados</span></div>
+    <div class="stat"><strong>${totalRecetas}</strong><span>Recetas guardadas</span></div>
+    <div class="stat"><strong>${planes + recetas}</strong><span>Total</span></div>
   `;
 }
 
-// ─── GRID DE RECETAS ──────────────────────────────────────────
-function renderGrid() {
-  const grid = document.getElementById("recetasGrid");
+// ─── PLANES ──────────────────────────────────────────────────
+function renderPlanes() {
+  const planes = historialData
+    .map((item, idx) => ({ ...item, _idx: idx }))
+    .filter(i => i.tipo === "plan_dia")
+    .sort((a, b) => (b.fechaISO || "").localeCompare(a.fechaISO || "")); // más reciente primero
 
-  let lista = filtroActual === "todos"
-    ? todoItems
-    : todoItems.filter(i => i._displayTipo === filtroActual);
+  const cont = document.getElementById("planesLista");
+
+  if (!planes.length) {
+    cont.innerHTML = `<p class="hist-vacio">No tienes planes guardados aún.<br>
+      Ve a <a href="recetas.html">Recetas</a>, elige tus comidas del día y pulsa <strong>"Guardar mi plan del día"</strong>.</p>`;
+    return;
+  }
+
+  cont.innerHTML = planes.map(plan => {
+    const comidas  = plan.comidas ? Object.entries(plan.comidas) : [];
+    const pct      = plan.objetivo ? Math.min(Math.round((plan.calorias / plan.objetivo) * 100), 100) : 0;
+    const color    = pct >= 90 ? "#43a047" : pct >= 60 ? "#fb8c00" : "#42a5f5";
+
+    const lista = comidas.map(([slot, r]) => {
+      const emoji = DIAS_SLOT[slot] || "🍽️";
+      const foto  = r.foto
+        ? `<img src="https://images.unsplash.com/photo-${r.foto}?w=60&h=60&fit=crop&auto=format&q=70"
+               onerror="this.style.display='none'" loading="lazy">`
+        : `<span class="plan-comida-ef" style="background:#${TIPO_COLORES[r.tipo]||"2d6a4f"}">${getEmoji(r)}</span>`;
+      return `
+        <li class="plan-comida-item" onclick='abrirReceta(${JSON.stringify(r)})'>
+          ${foto}
+          <div>
+            <span class="plan-comida-label">${emoji} ${TIPO_LABELS[r.tipo] || slot}</span>
+            <p>${r.nombre?.replace(/🌱 /g,"") || "-"}</p>
+            <span>${r.calorias || "-"} kcal</span>
+          </div>
+        </li>`;
+    }).join("");
+
+    return `
+      <div class="plan-item">
+        <div class="plan-item-header">
+          <div>
+            <span class="plan-dia">${plan.diaSemana || "Plan"}</span>
+            <span class="plan-date">${plan.fecha}</span>
+          </div>
+          <div class="plan-meta">
+            <span class="plan-kcal-badge">${plan.calorias} / ${plan.objetivo || "?"} kcal</span>
+            <button class="btn-borrar-plan" onclick="borrarPlan(${plan._idx})" title="Borrar este plan">🗑️ Borrar</button>
+          </div>
+        </div>
+        <div class="plan-barra-wrap">
+          <div class="plan-barra-fill" style="width:${pct}%;background:${color}"></div>
+        </div>
+        <ul class="plan-comidas-lista">${lista}</ul>
+      </div>`;
+  }).join("");
+}
+
+// ─── BORRAR UN PLAN ──────────────────────────────────────────
+function borrarPlan(idx) {
+  if (!confirm("¿Borrar este plan del día?")) return;
+  historialData.splice(idx, 1);
+  localStorage.setItem("historial", JSON.stringify(historialData));
+  cargarHistorial();
+}
+
+// ─── BORRAR TODOS LOS PLANES ─────────────────────────────────
+function borrarTodosPlanes() {
+  if (!confirm("¿Borrar TODOS los planes guardados? Esta acción no se puede deshacer.")) return;
+  historialData = historialData.filter(i => i.tipo !== "plan_dia");
+  localStorage.setItem("historial", JSON.stringify(historialData));
+  cargarHistorial();
+}
+
+// ─── RECETAS ─────────────────────────────────────────────────
+function renderRecetas() {
+  // Extraer recetas únicas de planes + guardadas individualmente
+  const vistas   = new Set();
+  const recetas  = [];
+
+  // De planes
+  historialData.filter(i => i.tipo === "plan_dia").forEach(plan => {
+    if (!plan.comidas) return;
+    Object.values(plan.comidas).forEach(r => {
+      const key = r.id || r.nombre;
+      if (r?.nombre && !vistas.has(key)) {
+        vistas.add(key);
+        recetas.push({ ...r, _dePlan: plan.fecha });
+      }
+    });
+  });
+
+  // Individuales guardadas
+  historialData.forEach(item => {
+    if (item.nombre && item.tipo !== "plan_dia") {
+      const key = item.id || item.nombre;
+      if (!vistas.has(key)) {
+        vistas.add(key);
+        recetas.push(item);
+      }
+    }
+  });
+
+  const lista = filtroRecetas === "todos"
+    ? recetas
+    : recetas.filter(r => r.tipo === filtroRecetas);
+
+  const cont = document.getElementById("recetasGrid");
 
   if (!lista.length) {
-    grid.innerHTML = `<p class="hist-vacio">
-      ${filtroActual === "todos"
-        ? "Aún no tienes nada guardado. Ve a <a href='recetas.html'>Recetas</a> y guarda tu plan del día."
-        : `No tienes ${LABELS[filtroActual]?.replace(/[^\w\s]/g, "") || filtroActual} guardados.`}
+    cont.innerHTML = `<p class="hist-vacio">
+      ${filtroRecetas === "todos"
+        ? "No hay recetas guardadas. Guarda un plan del día para verlas aquí."
+        : `No hay ${TIPO_LABELS[filtroRecetas] || filtroRecetas}s guardados.`}
     </p>`;
     return;
   }
 
-  grid.innerHTML = lista.map(item => {
-    if (item._displayTipo === "plan_dia") return renderPlanCard(item);
-    return renderRecetaCard(item);
+  cont.innerHTML = lista.map(r => {
+    const tipo   = r.tipo || "almuerzo";
+    const fotoId = r.foto;
+    const imgURL = fotoId
+      ? `https://images.unsplash.com/photo-${fotoId}?w=200&h=100&fit=crop&auto=format&q=80`
+      : null;
+
+    return `
+      <div class="hist-card" onclick='abrirReceta(${JSON.stringify(r)})'>
+        ${imgURL
+          ? `<img src="${imgURL}" loading="lazy"
+                  onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          : ""}
+        <div class="hist-sin-foto" style="display:${imgURL?"none":"flex"};background:#${TIPO_COLORES[tipo]||"2d6a4f"}">
+          ${getEmoji(r)}
+        </div>
+        <div class="hist-card-info">
+          <span class="hist-tipo ${tipo}">${TIPO_LABELS[tipo] || tipo}</span>
+          <p>${r.nombre?.replace(/🌱 /g,"") || "-"}</p>
+          <span class="hist-kcal">${r.calorias || "-"} kcal · ${r.proteinas || "-"}g prot.</span>
+          <span class="hist-fecha">${r._dePlan ? "Plan del "+r._dePlan : (r.fechaGuardado || "")}</span>
+        </div>
+      </div>`;
   }).join("");
 }
 
-function renderRecetaCard(r) {
-  const tipo   = r._displayTipo || "almuerzo";
-  const fotoId = r.foto || "";
-  const imgUrl = fotoId
-    ? `https://images.unsplash.com/photo-${fotoId}?w=300&h=160&fit=crop&auto=format&q=80`
-    : `https://placehold.co/300x160/${COLORES[tipo]||"4caf50"}/white?text=${encodeURIComponent(r.nombre?.split(" ").slice(0,2).join("+") || "Receta")}`;
-
-  return `
-    <div class="hist-card" onclick='abrirReceta(${JSON.stringify(r)})'>
-      <img src="${imgUrl}" loading="lazy"
-           onerror="this.onerror=null;this.src='https://placehold.co/300x160/4caf50/white?text=Receta'">
-      <div class="hist-card-info">
-        <span class="hist-tipo ${tipo}">${LABELS[tipo] || tipo}</span>
-        ${r.vegano ? '<span class="badge-v">🌱</span>' : ""}
-        <p>${r.nombre}</p>
-        <span class="hist-kcal">${r.calorias || "-"} kcal · ${r.proteinas || "-"}g prot.</span>
-        ${r.fechaGuardado ? `<span class="hist-fecha">${r.fechaGuardado}</span>` : ""}
-        ${r._dePlan ? `<span class="hist-fecha">Del plan del ${r._dePlan}</span>` : ""}
-      </div>
-    </div>`;
+// ─── ABRIR RECETA ────────────────────────────────────────────
+function abrirReceta(receta) {
+  localStorage.setItem("recetaActual", JSON.stringify(receta));
+  window.location.href = "detalle.html";
 }
 
-function renderPlanCard(plan) {
-  const comidas = plan.comidas ? Object.values(plan.comidas) : [];
-  const fotos   = comidas.slice(0, 3).map(r =>
-    r.foto
-      ? `<img src="https://images.unsplash.com/photo-${r.foto}?w=100&h=80&fit=crop&auto=format&q=80" loading="lazy"
-              onerror="this.onerror=null;this.src='https://placehold.co/100x80/6a1b9a/white?text=Plan'">`
-      : `<img src="https://placehold.co/100x80/6a1b9a/white?text=Comida">`
-  ).join("");
-
-  return `
-    <div class="hist-card plan-card-hist">
-      <div class="plan-fotos">${fotos}</div>
-      <div class="hist-card-info">
-        <span class="hist-tipo plan_dia">📋 Plan del día</span>
-        <p>${plan.fecha || "Plan guardado"}</p>
-        <span class="hist-kcal">${plan.calorias || "-"} kcal / ${plan.objetivo || "-"} objetivo</span>
-        <div class="plan-comidas-mini">
-          ${comidas.map(r => `<span>${r.nombre?.split(" ").slice(0,2).join(" ")}</span>`).join("")}
-        </div>
-      </div>
-    </div>`;
-}
-
-// ─── INGREDIENTES FAVORITOS ───────────────────────────────────
-function renderIngFavoritos() {
-  const favs = JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]");
+// ─── FAVORITOS ───────────────────────────────────────────────
+function renderFavoritos() {
+  const favs  = JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]");
   const cont  = document.getElementById("ingredientesFav");
   const empty = document.getElementById("ing-vacio");
 
@@ -147,16 +223,27 @@ function renderIngFavoritos() {
 
   cont.style.display  = "flex";
   empty.style.display = "none";
-  cont.innerHTML = favs.map(f => `<span class="ing-chip">⭐ ${f}</span>`).join("");
+  cont.innerHTML = favs.map(f =>
+    `<span class="ing-chip">
+       ⭐ ${f}
+       <button class="ing-chip-remove" onclick="quitarFavoritoH('${f}')" title="Quitar de favoritos">✕</button>
+     </span>`
+  ).join("");
 }
 
-// ─── ABRIR RECETA ─────────────────────────────────────────────
-function abrirReceta(receta) {
-  localStorage.setItem("recetaActual", JSON.stringify(receta));
-  window.location.href = "detalle.html";
+function quitarFavoritoH(nombre) {
+  const favs = JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]");
+  localStorage.setItem("ingredientesFavoritos", JSON.stringify(favs.filter(f => f !== nombre)));
+  renderFavoritos();
 }
 
-// ─── FILTROS ─────────────────────────────────────────────────
+function borrarTodosFavoritos() {
+  if (!confirm("¿Borrar todos los ingredientes favoritos?")) return;
+  localStorage.removeItem("ingredientesFavoritos");
+  renderFavoritos();
+}
+
+// ─── FILTROS RECETAS ─────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   cargarHistorial();
 
@@ -164,8 +251,8 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".hfil").forEach(b => b.classList.remove("activo"));
       btn.classList.add("activo");
-      filtroActual = btn.dataset.tipo;
-      renderGrid();
+      filtroRecetas = btn.dataset.tipo;
+      renderRecetas();
     });
   });
 });
