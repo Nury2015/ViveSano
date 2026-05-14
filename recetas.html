@@ -240,16 +240,39 @@ function guardarFavoritos() {
   renderPantry();
 }
 
+// Comprueba si un ingrediente de receta coincide con un ítem del pantry.
+// Maneja: plural→singular ("Huevos"→"Huevo"), multi-palabra, notación distinta.
+function ingredienteMatch(nombreIng, pantryItem) {
+  const ni = nombreIng.toLowerCase();
+  const np = pantryItem.toLowerCase();
+
+  // 1. Contención directa: "muslo de pollo".includes("pollo") ✓
+  if (ni.includes(np)) return true;
+
+  // 2. Singular de plural: "Huevos"→"huevo", "Fresas"→"fresa"
+  if (np.endsWith("s") && np.length > 3 && ni.includes(np.slice(0, -1))) return true;
+
+  // 3. Cada palabra significativa del pantry (≥4 letras)
+  //    "Color / achiote" → ["color","achiote"] → busca cada una en el ingrediente
+  const palabras = np.split(/[\s/,]+/).filter(p => p.length >= 4);
+  for (const p of palabras) {
+    if (ni.includes(p)) return true;
+    // singular de esa palabra: "lentejas"→"lenteja"
+    if (p.endsWith("s") && p.length > 4 && ni.includes(p.slice(0, -1))) return true;
+  }
+
+  return false;
+}
+
 function generarConMisIngredientes() {
   if (!seleccionados.size) { alert("Selecciona al menos 1 ingrediente"); return; }
   const elegidos = [...seleccionados];
   const todasRecetas = [];
   for (const [tipo, lista] of Object.entries(RECETAS)) lista.forEach(r => todasRecetas.push({...r, tipoMeal: tipo}));
   const resultados = todasRecetas.map(r => {
-    const matches = elegidos.filter(sel => r.ingredientes.some(ing => {
-      const ni = ing.nombre.toLowerCase(), ns = sel.toLowerCase();
-      return ni.includes(ns) || (ns.split(" ")[0].length > 3 && ni.includes(ns.split(" ")[0]));
-    }));
+    const matches = elegidos.filter(sel =>
+      r.ingredientes.some(ing => ingredienteMatch(ing.nombre, sel))
+    );
     return { receta: r, puntaje: matches.length, matches };
   }).filter(x => x.puntaje >= 1).sort((a, b) => b.puntaje - a.puntaje).slice(0, 3);
 

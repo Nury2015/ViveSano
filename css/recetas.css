@@ -13,7 +13,7 @@ body {
 .barra-sticky {
   position: sticky;
   top: 0;
-  z-index: 1001; /* encima del nav mobile (z-index:1000) para no quedar tapada */
+  z-index: 99; /* debajo del nav (z-index:1000) */
   box-shadow: 0 3px 12px rgba(0,0,0,0.25);
 }
 
@@ -464,8 +464,12 @@ body {
 
 /* ══ MOBILE — nav top aparece exactamente en ≤768px (menu.css) ══ */
 @media (max-width: 768px) {
-  body { padding-top: 60px; } /* empuja todo el contenido 60px abajo */
-  .barra-sticky { top: 60px; } /* queda pegada justo debajo del nav */
+  body { padding-top: 60px; } /* empuja contenido 60px abajo del nav fijo */
+  .barra-sticky { top: 60px; } /* se pega justo debajo del nav */
+  /* La sombra original del nav (4px 0 15px 62%) es muy intensa y baja
+     15px tapando la barra. La reducimos solo en mobile para que no se vea
+     esa franja negra entre nav y barra. */
+  .navbar { box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
 }
 
 /* ══ MÓVIL PEQUEÑO ══════════════════════════════ */
