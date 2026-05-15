@@ -151,13 +151,13 @@ function renderRecetas() {
     });
   });
 
-  // Individuales guardadas
-  historialData.forEach(item => {
+  // Individuales guardadas (guardamos el índice para poder borrarlas)
+  historialData.forEach((item, idx) => {
     if (item.nombre && item.tipo !== "plan_dia") {
       const key = item.id || item.nombre;
       if (!vistas.has(key)) {
         vistas.add(key);
-        recetas.push(item);
+        recetas.push({ ...item, _histIdx: idx });
       }
     }
   });
@@ -184,8 +184,13 @@ function renderRecetas() {
       ? `https://images.unsplash.com/photo-${fotoId}?w=200&h=100&fit=crop&auto=format&q=80`
       : null;
 
+    const btnBorrar = r._histIdx !== undefined
+      ? `<button class="hist-card-del" onclick="event.stopPropagation();borrarRecetaGuardada(${r._histIdx})" title="Borrar receta">✕</button>`
+      : "";
+
     return `
       <div class="hist-card" onclick='abrirReceta(${JSON.stringify(r)})'>
+        ${btnBorrar}
         ${imgURL
           ? `<img src="${imgURL}" loading="lazy"
                   onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
@@ -197,10 +202,28 @@ function renderRecetas() {
           <span class="hist-tipo ${tipo}">${TIPO_LABELS[tipo] || tipo}</span>
           <p>${r.nombre?.replace(/🌱 /g,"") || "-"}</p>
           <span class="hist-kcal">${r.calorias || "-"} kcal · ${r.proteinas || "-"}g prot.</span>
-          <span class="hist-fecha">${r._dePlan ? "Plan del "+r._dePlan : (r.fechaGuardado || "")}</span>
+          <span class="hist-fecha">${r._dePlan ? "📋 Del plan del "+r._dePlan : (r.fechaGuardado || "")}</span>
         </div>
       </div>`;
   }).join("");
+}
+
+// ─── BORRAR RECETA INDIVIDUAL ────────────────────────────────
+function borrarRecetaGuardada(idx) {
+  if (!confirm("¿Borrar esta receta del historial?")) return;
+  historialData.splice(idx, 1);
+  localStorage.setItem("historial", JSON.stringify(historialData));
+  cargarHistorial();
+}
+
+// ─── BORRAR TODAS LAS RECETAS INDIVIDUALES ───────────────────
+function borrarTodasRecetasGuardadas() {
+  const n = historialData.filter(i => i.nombre && i.tipo !== "plan_dia").length;
+  if (!n) return;
+  if (!confirm(`¿Borrar las ${n} recetas guardadas individualmente? Los planes no se verán afectados.`)) return;
+  historialData = historialData.filter(i => i.tipo === "plan_dia" || !i.nombre);
+  localStorage.setItem("historial", JSON.stringify(historialData));
+  cargarHistorial();
 }
 
 // ─── ABRIR RECETA ────────────────────────────────────────────
