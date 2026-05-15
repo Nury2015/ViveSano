@@ -1210,15 +1210,19 @@ function renderSeccion(slot) {
 
     grid.innerHTML += `
       <div class="opcion-card ${sel ? "seleccionada" : ""}" id="card-${slot.id}-${r.id}">
-        ${imgHTML}${sinFotoHTML}
+        <div class="card-img-wrap">
+          ${imgHTML}${sinFotoHTML}
+          <button class="btn-fav-heart" aria-label="Favorito">♡</button>
+        </div>
         <div class="opcion-info">
-          <h4>${r.nombre} ${esVeg}</h4>
+          <h4>${r.nombre.replace(/🌱 /g, "")}</h4>
+          ${esVeg}
           <p class="opcion-desc">${r.descripcion}</p>
           <div class="opcion-macros">
-            <span>${r.calorias} kcal</span>
-            <span>${r.proteinas}g prot.</span>
-            <span>${r.carbohidratos}g carbs</span>
-            <span>${r.grasas}g grasas</span>
+            <span><span class="macro-ico">🔥</span>${r.calorias} kcal</span>
+            <span><span class="macro-ico">🌿</span>${r.proteinas}g prot.</span>
+            <span><span class="macro-ico">🌾</span>${r.carbohidratos}g carbs</span>
+            <span><span class="macro-ico">💧</span>${r.grasas}g grasas</span>
           </div>
           ${adaptacion}
           ${r.nota ? `<p class="nota-aviso">${r.nota}</p>` : ""}
@@ -1226,7 +1230,7 @@ function renderSeccion(slot) {
             <button class="btn-seleccionar" onclick="seleccionarReceta('${slot.id}','${r.id}')">
               ${sel ? "✓ Seleccionada" : "Seleccionar"}
             </button>
-            <button class="btn-ver-receta" onclick="verRecetaDetalle('${slot.id}','${r.id}')">Ver</button>
+            <button class="btn-ver-receta" onclick="verRecetaDetalle('${slot.id}','${r.id}')">👁 Ver</button>
           </div>
         </div>
       </div>`;
