@@ -155,6 +155,63 @@ const RECETAS = {
         "Acompaña con la fruta fresca y el café",
       ],
     },
+    {
+      id: "chocolate_queso_arepa", vegano: false, pesado: false,
+      nombre: "Chocolate santafereño con queso y arepa",
+      descripcion: "Chocolate de mesa en leche, queso blanco campesino y arepa de maíz — desayuno de las abuelas bogotanas",
+      calorias: 430, proteinas: 14, carbohidratos: 52, grasas: 18,
+      foto: null,
+      contraindicada: ["diabetes"],
+      adaptaciones: {
+        hipertension: "El queso campesino es moderado en sodio. Sin sal adicional.",
+        colesterol: "Usa chocolate amargo y reduce el queso a 1 tajada delgada.",
+        celiaquia: "La arepa de maíz es sin gluten ✓. Verifica que el chocolate sea puro cacao.",
+        embarazo: "Excelente fuente de calcio (leche + queso) ✓. Modera el chocolate — tiene cafeína.",
+        gastritis: "La leche caliente puede aliviar el ardor ✓. Modera la cantidad de chocolate.",
+      },
+      ingredientes: [
+        { nombre: "Chocolate de mesa (pastilla de cacao)", cantidad: "1 pastilla (30 g)", calorias: 120 },
+        { nombre: "Leche entera",                          cantidad: "1 taza (240 ml)",   calorias: 150 },
+        { nombre: "Arepa de maíz",                         cantidad: "1 mediana (90 g)",  calorias: 90  },
+        { nombre: "Queso blanco campesino",                cantidad: "1 tajada (35 g)",   calorias: 70  },
+      ],
+      preparacion: [
+        "Ralla o pica la pastilla de chocolate en una olla pequeña",
+        "Agrega la leche y calienta a fuego medio revolviendo constantemente",
+        "Bate con molinillo hasta hacer espuma — el toque bogotano",
+        "Calienta la arepa en comal hasta dorar por ambos lados",
+        "Sirve el chocolate caliente con la arepa y el queso al lado",
+      ],
+    },
+    {
+      id: "revuelto_choclo_arepa", vegano: false, pesado: false,
+      nombre: "Revuelto de choclo con huevo y arepa",
+      descripcion: "Maíz tierno desgranado revuelto con huevo, tomate y cebolla — sabor del campo colombiano",
+      calorias: 480, proteinas: 22, carbohidratos: 58, grasas: 16,
+      foto: null,
+      adaptaciones: {
+        diabetes: "El choclo tiene IG moderado. Reduce a ½ mazorca. Evita el mango de fruta.",
+        hipertension: "Sin sal adicional. El choclo es naturalmente dulce.",
+        celiaquia: "Sin gluten ✓. Todos los ingredientes son naturales.",
+        embarazo: "Los huevos bien cocidos aportan proteína y colina esencial ✓. Muy nutritivo.",
+        gastritis: "Reduce el tomate. El choclo es suave para el estómago. Huevos bien cocidos.",
+        obesidad: "Rica en proteína y baja en grasa ✓. Limita la arepa a 1 pequeña.",
+      },
+      ingredientes: [
+        { nombre: "Maíz tierno desgranado (choclo)", cantidad: "1 mazorca (120 g)",    calorias: 130 },
+        { nombre: "Huevos frescos",                   cantidad: "2 unidades (110 g)",   calorias: 140 },
+        { nombre: "Tomate chonto y cebolla cabezona", cantidad: "½ taza (80 g)",        calorias: 30  },
+        { nombre: "Arepa de maíz",                    cantidad: "1 mediana (90 g)",     calorias: 150 },
+        { nombre: "Aceite, sal y cilantro",           cantidad: "al gusto",             calorias: 30  },
+      ],
+      preparacion: [
+        "Saltea la cebolla y el tomate picado en aceite a fuego medio 2-3 min",
+        "Agrega el maíz desgranado y cocina 3-4 minutos revolviendo",
+        "Bate los huevos y vierte sobre el maíz; revuelve con espátula hasta cuajar",
+        "Sazona con sal, pimienta y cilantro picado",
+        "Calienta la arepa en comal y sirve al lado del revuelto",
+      ],
+    },
     // ── VEGANOS ────────────────────────────────────────────
     {
       id: "avena_vegana_fruta", vegano: true, pesado: false,
@@ -314,7 +371,58 @@ const RECETAS = {
         "Coloca la segunda oblea encima y sirve de inmediato",
       ],
     },
+    {
+      id: "bocadillo_queso", vegano: false, pesado: false,
+      nombre: "Bocadillo veleño con queso blanco",
+      descripcion: "Bocadillo de guayaba de Vélez con queso campesino — el clásico dulce-salado colombiano",
+      calorias: 200, proteinas: 6, carbohidratos: 30, grasas: 7,
+      foto: null,
+      contraindicada: ["diabetes", "obesidad", "gastritis"],
+      adaptaciones: {
+        colesterol: "Reduce a 1 tajada de bocadillo. El queso blanco es moderado en grasa.",
+        celiaquia: "Sin gluten ✓.",
+        embarazo: "El queso aporta calcio ✓. Limita el bocadillo a 1 tajada por el azúcar.",
+        hipertension: "Come con moderación. El queso campesino tiene sodio natural.",
+      },
+      ingredientes: [
+        { nombre: "Bocadillo de guayaba (Vélez)", cantidad: "2 tajadas (60 g)", calorias: 130 },
+        { nombre: "Queso blanco campesino",       cantidad: "1 tajada (30 g)", calorias: 70  },
+      ],
+      preparacion: [
+        "Corta el bocadillo en tajadas medianas",
+        "Acompaña con el queso campesino fresco",
+        "Sirve como once dulce-salado a media mañana o tarde",
+      ],
+    },
     // ── VEGANOS ────────────────────────────────────────────
+    {
+      id: "empanada_pipian", vegano: true, pesado: false,
+      nombre: "🌱 Empanada de pipián vallecaucana",
+      descripcion: "Empanada de masa de maíz rellena de papa criolla con salsa de maní — tradicional del Valle del Cauca",
+      calorias: 250, proteinas: 7, carbohidratos: 34, grasas: 10,
+      foto: null,
+      adaptaciones: {
+        diabetes: "El maíz tiene IG moderado. Limita a 1 empanada y acompaña con agua.",
+        hipertension: "Sin sal extra en el relleno. Prefiere la versión horneada.",
+        celiaquia: "La masa de maíz es sin gluten ✓. Verifica que la masarepa sea certificada.",
+        embarazo: "Fuente de carbohidratos y grasa vegetal ✓. Prefiere la versión al horno.",
+        gastritis: "Hornea en lugar de freír. Evita el ají de acompañamiento.",
+        obesidad: "Hornea en vez de freír para reducir calorías. Limita a 1 unidad.",
+        renal: "El maní aporta proteína vegetal moderada. Limita a 1 empanada.",
+      },
+      ingredientes: [
+        { nombre: "Masarepa (harina de maíz)",        cantidad: "80 g",          calorias: 140 },
+        { nombre: "Papa criolla cocinada y machacada", cantidad: "100 g",         calorias: 70  },
+        { nombre: "Maní tostado molido",              cantidad: "1 cda. (15 g)", calorias: 40  },
+      ],
+      preparacion: [
+        "Mezcla la masarepa con agua tibia y sal hasta obtener masa suave",
+        "Cocina la papa criolla, máchacala con sal y sofrito de hogao",
+        "Añade el maní molido tostado al relleno de papa y mezcla bien",
+        "Forma discos de masa, rellena con la mezcla y sella los bordes",
+        "Fríe en aceite caliente 3-4 min por lado, o hornea a 200°C 20 min",
+      ],
+    },
     {
       id: "once_vegana_semillas", vegano: true, pesado: false,
       nombre: "🌱 Frutas con semillas y maní",
@@ -507,6 +615,99 @@ const RECETAS = {
         "Sirve todo en plato grande con hogao y aguacate",
       ],
     },
+    {
+      id: "cocido_boyacense", vegano: false, pesado: false,
+      nombre: "Cocido boyacense",
+      descripcion: "Sopa andina con papas nativas, cubios, chuguas, habas, mazorca y costilla — herencia de Boyacá",
+      calorias: 420, proteinas: 22, carbohidratos: 58, grasas: 10,
+      foto: null,
+      contraindicada: ["renal"],
+      adaptaciones: {
+        diabetes: "Sopa de IG moderado. Reduce la porción de papa a la mitad.",
+        hipertension: "Sin sal. Los tubérculos tienen sabor natural suficiente con el hogao.",
+        colesterol: "Usa pollo en lugar de costilla de res para reducir la grasa saturada.",
+        celiaquia: "Sin gluten ✓. Todos los ingredientes son naturalmente libres de gluten.",
+        embarazo: "Riquísima en vitaminas andinas ✓. Las habas aportan ácido fólico esencial.",
+        gastritis: "Sopa suave y nutritiva ✓. Bien cocida es fácil de digerir.",
+        obesidad: "Muy nutritiva y baja en grasa ✓. Porción moderada de papa.",
+      },
+      ingredientes: [
+        { nombre: "Costilla de res o pollo",      cantidad: "100 g",           calorias: 160 },
+        { nombre: "Papa pastusa y criolla",        cantidad: "1 c/u (180 g)",   calorias: 120 },
+        { nombre: "Cubios y chuguas (tubérculos)", cantidad: "80 g c/u",        calorias: 60  },
+        { nombre: "Habas frescas",                 cantidad: "½ taza (60 g)",   calorias: 50  },
+        { nombre: "Mazorca",                       cantidad: "½ mazorca (80 g)",calorias: 70  },
+        { nombre: "Hogao, cilantro, comino",       cantidad: "al gusto",        calorias: 20  },
+      ],
+      preparacion: [
+        "Cocina la costilla en agua con sal hasta ablandar (45 min en olla a presión)",
+        "Agrega los tubérculos (papa, cubios, chuguas) pelados y troceados",
+        "Añade la mazorca partida y las habas frescas",
+        "Cocina 25 min hasta que todo esté tierno",
+        "Sirve con hogao aparte y abundante cilantro fresco",
+      ],
+    },
+    {
+      id: "arroz_atollado", vegano: false, pesado: false,
+      nombre: "Arroz atollado con pollo",
+      descripcion: "Arroz caldoso y cremoso con pollo desmechado, papa y zanahoria — especialidad del Valle del Cauca",
+      calorias: 510, proteinas: 30, carbohidratos: 66, grasas: 12,
+      foto: null,
+      adaptaciones: {
+        diabetes: "El arroz atollado tiene más caldo que el seco — mejor tolerado. Reduce la porción de arroz.",
+        hipertension: "Sin sal adicional. Usa achiote y comino para el color y sabor.",
+        renal: "Reduce el pollo a 80g. Omite la zanahoria si hay restricción de potasio.",
+        colesterol: "Usa pechuga sin piel. Cocina con mínimo aceite.",
+        celiaquia: "Sin gluten ✓.",
+        embarazo: "Excelente fuente de proteína ✓. La zanahoria aporta betacaroteno para el bebé.",
+        gastritis: "El arroz caldoso es ideal para gastritis ✓. Suave y muy digestivo.",
+        obesidad: "Reduce la porción de arroz a ½ taza. Agrega más verduras al caldo.",
+      },
+      ingredientes: [
+        { nombre: "Pechuga de pollo",            cantidad: "120 g",           calorias: 200 },
+        { nombre: "Arroz blanco",                cantidad: "¾ taza (140 g)",  calorias: 185 },
+        { nombre: "Papa pastusa en cubos",        cantidad: "1 mediana (130 g)",calorias: 80 },
+        { nombre: "Zanahoria y arveja",           cantidad: "½ taza c/u (80 g)",calorias: 50},
+        { nombre: "Hogao, achiote, comino",       cantidad: "al gusto",        calorias: 25  },
+      ],
+      preparacion: [
+        "Cocina el pollo en caldo con sal y comino hasta tierno; desméchalo y reserva el caldo",
+        "Sofríe el hogao en la olla, agrega el arroz y revuelve 2 min",
+        "Cubre con caldo (3 tazas por 1 de arroz — más caldoso que el arroz seco)",
+        "Añade papa, zanahoria, arveja y achiote; cocina tapado 20 min",
+        "Agrega el pollo desmechado al final. Debe quedar cremoso, no seco",
+      ],
+    },
+    {
+      id: "mondongo_antioqueño", vegano: false, pesado: false,
+      nombre: "Mondongo antioqueño",
+      descripcion: "Sopa de menudo con papa, yuca, zanahoria y hogao — plato emblema de Antioquia",
+      calorias: 380, proteinas: 28, carbohidratos: 42, grasas: 10,
+      foto: null,
+      contraindicada: ["colesterol", "cardiaca"],
+      adaptaciones: {
+        diabetes: "IG moderado. Reduce la papa a ½ porción y omite la yuca.",
+        hipertension: "Sin sal. El menudo tiene sabor natural suficiente con el hogao y comino.",
+        renal: "Reduce la porción de menudo a 80g. Omite la yuca.",
+        celiaquia: "Sin gluten ✓.",
+        embarazo: "El menudo es rico en hierro y zinc ✓. Cocina muy bien (mínimo 2 horas). Muy recomendado.",
+        gastritis: "Puede ser pesado. Come porción pequeña y bien cocido. Omite el ají.",
+      },
+      ingredientes: [
+        { nombre: "Menudo (panza de res) limpio", cantidad: "150 g",            calorias: 160 },
+        { nombre: "Papa pastusa",                 cantidad: "1 mediana (130 g)",calorias: 80  },
+        { nombre: "Yuca",                         cantidad: "50 g",             calorias: 65  },
+        { nombre: "Zanahoria y maíz",             cantidad: "½ taza c/u (80 g)",calorias: 60 },
+        { nombre: "Hogao, comino, cilantro",      cantidad: "al gusto",         calorias: 25  },
+      ],
+      preparacion: [
+        "Limpia y corta el menudo en trozos pequeños; cocina en olla a presión 45 min con sal",
+        "En una olla grande prepara hogao con tomate, cebolla, ajo y comino",
+        "Agrega el menudo cocido y caldo; hierve 20 min más",
+        "Incorpora papa, yuca y zanahoria en trozos; cocina hasta ablandar",
+        "Sirve con cilantro fresco, hogao aparte y arepa",
+      ],
+    },
     // ── VEGANO ─────────────────────────────────────────────
     {
       id: "arroz_frijoles_vegano", vegano: true, pesado: false,
@@ -526,6 +727,36 @@ const RECETAS = {
         "Asa el plátano maduro en sartén con poco aceite",
         "Prepara el aguacate con sal y limón",
         "Sirve arroz con frijoles, plátano y aguacate al lado",
+      ],
+    },
+    {
+      id: "crema_papa_criolla", vegano: true, pesado: false,
+      nombre: "🌱 Crema de papa criolla",
+      descripcion: "Papa criolla licuada con hogao y caldo vegetal — cremosa, sabrosa y 100% colombiana",
+      calorias: 300, proteinas: 6, carbohidratos: 54, grasas: 8,
+      foto: null,
+      adaptaciones: {
+        diabetes: "La papa criolla tiene IG alto. Reduce la porción a ½ plato y añade más caldo.",
+        hipertension: "Sin sal. El hogao y las hierbas dan sabor suficiente. ✓",
+        celiaquia: "Sin gluten ✓.",
+        embarazo: "La papa criolla aporta vitamina C y potasio ✓. Nutritiva y digestiva.",
+        gastritis: "Excelente opción ✓. La crema de papa es muy suave para el estómago.",
+        obesidad: "Reduce la porción a ½ taza. Agrega caldo extra para mayor volumen.",
+        renal: "Modera la porción — la papa criolla tiene potasio moderado.",
+      },
+      ingredientes: [
+        { nombre: "Papa criolla",             cantidad: "6 unidades (300 g)",  calorias: 180 },
+        { nombre: "Cebolla larga y ajo",      cantidad: "al gusto",            calorias: 20  },
+        { nombre: "Hogao (tomate + cebolla)", cantidad: "2 cdas. (30 g)",      calorias: 35  },
+        { nombre: "Caldo vegetal",            cantidad: "2 tazas (480 ml)",    calorias: 15  },
+        { nombre: "Aceite de oliva",          cantidad: "1 cda. (14 g)",       calorias: 50  },
+      ],
+      preparacion: [
+        "Cocina la papa criolla con cebolla larga y ajo hasta ablandar (15-20 min)",
+        "Reserva un poco del caldo de cocción",
+        "Licúa la papa con el caldo hasta obtener una crema suave",
+        "Calienta en olla, agrega el hogao y ajusta la consistencia con más caldo",
+        "Sirve caliente con un hilo de aceite de oliva y cilantro fresco",
       ],
     },
     {
@@ -663,6 +894,65 @@ const RECETAS = {
         "Sirve caliente con cilantro y limón",
       ],
     },
+    {
+      id: "sopa_guineo", vegano: false, pesado: false,
+      nombre: "Sopa de guineo con pollo",
+      descripcion: "Plátano verde en cubos con pollo desmechado, papa criolla y hogao — cena liviana y reconfortante",
+      calorias: 260, proteinas: 16, carbohidratos: 40, grasas: 5,
+      foto: null,
+      adaptaciones: {
+        diabetes: "El guineo verde tiene almidón resistente de IG bajo ✓. Excelente opción.",
+        hipertension: "Sin sal adicional. El plátano verde es naturalmente bajo en sodio.",
+        renal: "Reduce el pollo a 50g. El plátano verde es moderado en potasio.",
+        celiaquia: "Sin gluten ✓.",
+        embarazo: "El guineo verde aporta potasio y fibra ✓. Cena nutritiva y digestiva.",
+        gastritis: "El plátano verde es suave y alcalino ✓. Excelente para gastritis.",
+        obesidad: "Muy baja en calorías y grasa ✓. Muy saciante por el almidón resistente.",
+        colesterol: "Sin grasa saturada ✓. El caldo claro es cardioprotector.",
+      },
+      ingredientes: [
+        { nombre: "Plátano verde",              cantidad: "1 unidad mediana (200 g)", calorias: 120 },
+        { nombre: "Pollo desmechado",           cantidad: "60 g",                    calorias: 100 },
+        { nombre: "Papa criolla",               cantidad: "1 pequeña (80 g)",         calorias: 55  },
+        { nombre: "Hogao, cilantro, caldo",     cantidad: "al gusto",                 calorias: 20  },
+      ],
+      preparacion: [
+        "Pela y corta el plátano verde en cubos medianos",
+        "Hierve con caldo de pollo, hogao y sal a fuego medio 15 min",
+        "Agrega la papa criolla y cocina 10 min más hasta ablandar",
+        "Incorpora el pollo desmechado los últimos 3 minutos",
+        "Sirve caliente con abundante cilantro fresco picado",
+      ],
+    },
+    {
+      id: "arroz_leche", vegano: false, pesado: false,
+      nombre: "Arroz con leche santafereño",
+      descripcion: "Arroz cremoso cocinado en leche con canela y panela — cena dulce y reconfortante de las abuelas",
+      calorias: 310, proteinas: 8, carbohidratos: 56, grasas: 6,
+      foto: null,
+      contraindicada: ["diabetes"],
+      adaptaciones: {
+        hipertension: "Sin sal adicional. La leche tiene sodio natural moderado.",
+        colesterol: "Usa leche descremada para reducir la grasa.",
+        celiaquia: "Sin gluten ✓.",
+        embarazo: "Aporta calcio y energía ✓. Porción moderada — no como cena principal.",
+        gastritis: "Excelente opción ✓. Suave, alcalino y reconfortante. Muy recomendado.",
+        obesidad: "Reduce la porción a ½ taza. Endulza con stevia en lugar de panela.",
+      },
+      ingredientes: [
+        { nombre: "Arroz blanco",       cantidad: "½ taza seca (90 g)",  calorias: 150 },
+        { nombre: "Leche entera",       cantidad: "1½ tazas (360 ml)",   calorias: 110 },
+        { nombre: "Canela en rama",     cantidad: "1 rama",               calorias: 5   },
+        { nombre: "Panela raspada",     cantidad: "1 cda. (15 g)",        calorias: 45  },
+      ],
+      preparacion: [
+        "Cocina el arroz con 1 taza de agua y la canela a fuego medio hasta absorber (15 min)",
+        "Agrega la leche caliente poco a poco revolviendo constantemente",
+        "Endulza con panela al gusto; cocina 10 min más a fuego bajo sin dejar de revolver",
+        "Debe quedar cremoso — retira antes de que se seque del todo",
+        "Sirve caliente o tibio con canela en polvo espolvoreada encima",
+      ],
+    },
     // ── VEGANOS ────────────────────────────────────────────
     {
       id: "crema_ahuyama_vegana", vegano: true, pesado: false,
@@ -730,6 +1020,22 @@ const SLOTS = [
 const selecciones = { desayuno: null, once_manana: null, almuerzo: null, once_tarde: null, cena: null };
 
 let modoVegano = false;
+
+// ─── MEZCLA ALEATORIA (una vez por carga de página) ──────────
+let RECETAS_MEZCLADAS = {};
+function shufflearRecetas() {
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  Object.keys(RECETAS).forEach(tipo => {
+    RECETAS_MEZCLADAS[tipo] = shuffle(RECETAS[tipo]);
+  });
+}
 
 function caloriasObjetivo()    { return parseInt(localStorage.getItem("caloriasObjetivo")) || 2000; }
 function caloriasSeleccionadas() { return Object.values(selecciones).reduce((s, r) => s + (r ? r.calorias : 0), 0); }
@@ -820,7 +1126,7 @@ function renderSeccion(slot) {
   const condicion  = usuario.condicion  || "";
   const objetivo   = usuario.objetivo   || "";
 
-  let recetas = RECETAS[slot.tipo] || [];
+  let recetas = RECETAS_MEZCLADAS[slot.tipo] || RECETAS[slot.tipo] || [];
   if (modoVegano) recetas = recetas.filter(r => r.vegano);
   if (enfermedad && enfermedad !== "ninguna") {
     recetas = recetas.filter(r => !r.contraindicada?.includes(enfermedad));
@@ -1090,6 +1396,7 @@ function initPlaneador() {
       banner.innerHTML = `<div class="banner-salud"><span>ℹ️</span><div>${lineas.join("<br>")}</div></div>`;
   }
 
+  shufflearRecetas();
   document.getElementById("meta-header").textContent = caloriasObjetivo();
   SLOTS.forEach(s => renderSeccion(s));
   actualizarProgreso();
