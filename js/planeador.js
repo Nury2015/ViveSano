@@ -12,12 +12,14 @@ const RECETAS = {
       nombre: "Calentado paisa con fruta",
       descripcion: "Arroz con frijoles y huevo frito, arepa y fruta fresca — el desayuno más colombiano",
       calorias: 645, proteinas: 28, carbohidratos: 84, grasas: 16,
-      foto: "1547592180-85f173990554",
+      foto: "1723693407562-bb4fcae76797",
       adaptaciones: {
         diabetes: "Elige naranja o fresas (IG bajo). Reduce el arroz a ½ taza.",
         hipertension: "Prepara el hogao sin sal. Omite el chicharrón si lo hay.",
         renal: "Reduce los frijoles a ¼ taza. Porción de huevo: 1 unidad.",
         celiaquia: "Todos los ingredientes son naturalmente sin gluten. ✓",
+        gastritis: "Prepara el hogao suave, sin exceso de tomate ácido. Elige papaya o banano como fruta (no cítricos). Come en porción moderada.",
+        embarazo: "Excelente ✓. Los frijoles aportan ácido fólico y el huevo proteína completa. Elige papaya como fruta.",
       },
       ingredientes: [
         { nombre: "Arroz blanco recalentado",           cantidad: "1 taza cocinada",        calorias: 195 },
@@ -40,12 +42,14 @@ const RECETAS = {
       nombre: "Huevos pericos con arepa y fruta",
       descripcion: "Huevos revueltos con tomate y cebolla, arepa tostada y papaya de temporada",
       calorias: 500, proteinas: 23, carbohidratos: 56, grasas: 18,
-      foto: "1482049016688-2d3e1b311543",
+      foto: "1525184782196-8e2ded604bf7",
       adaptaciones: {
         diabetes: "Elige papaya verde o fresas. Usa 1 solo huevo si el colesterol es alto.",
         hipertension: "Sin sal adicional en los huevos. Más cilantro para el sabor.",
         renal: "Reduce a 1 huevo. Omite el queso si lo usas.",
         celiaquia: "La arepa de maíz es sin gluten. ✓",
+        gastritis: "Reduce el tomate al mínimo en el sofrito. Elige papaya o banano como fruta. Evita el café de acompañamiento.",
+        embarazo: "Los huevos son esenciales en embarazo ✓. Cocínalos bien revueltos (no queden líquidos). Elige papaya como fruta.",
       },
       ingredientes: [
         { nombre: "Huevos frescos",                   cantidad: "2 unidades (110 g)", calorias: 140 },
@@ -67,12 +71,14 @@ const RECETAS = {
       nombre: "Changua bogotana con fresas",
       descripcion: "Sopa de leche con huevo pochado y almojábana — con fresas frescas de temporada",
       calorias: 430, proteinas: 20, carbohidratos: 46, grasas: 15,
-      foto: "1533089860892-a7c6f0a88666",
+      foto: "1616501268826-ee9731c915d4",
+      contraindicada: ["celiaquia", "embarazo"],
       adaptaciones: {
         diabetes: "Fresas = IG bajo ✓. Usa leche descremada para reducir grasas.",
         hipertension: "Sin sal en la changua. La leche tiene sodio natural bajo.",
         digestiva: "Reemplaza la leche por caldo de pollo suave + crema de coco.",
         celiaquia: "Omite la almojábana, reemplaza por arepa de maíz.",
+        gastritis: "La leche fría puede aliviar el ardor. Usa arepa en lugar de almojábana. Evita el tinto de acompañamiento.",
       },
       ingredientes: [
         { nombre: "Leche entera",              cantidad: "1½ tazas (360 ml)",  calorias: 225 },
@@ -94,12 +100,15 @@ const RECETAS = {
       nombre: "Avena con huevo cocido y banano",
       descripcion: "Avena cremosa con canela y panela, huevo cocido y banano fresco — energía sostenida",
       calorias: 430, proteinas: 18, carbohidratos: 64, grasas: 10,
-      foto: "1495214783159-3364eced4fc8",
+      foto: "1581559178851-b99664da71ba",
+      contraindicada: ["celiaquia", "diabetes"],
       adaptaciones: {
         diabetes: "Usa stevia en lugar de panela. Cambia banano por fresas o manzana (IG bajo).",
         hipertension: "Sin sal. La avena ayuda a reducir la presión arterial. ✓",
         celiaquia: "Verifica que la avena sea certificada sin gluten.",
         renal: "Solo 1 huevo. Reduce el banano a ½ unidad.",
+        gastritis: "La avena protege la mucosa estomacal ✓. Usa banano como fruta (no cítricos). Endulza con poca panela o stevia.",
+        embarazo: "La avena aporta hierro y fibra ✓. Asegura que el huevo esté bien cocido. Prefiere fresas ricas en vitamina C.",
       },
       ingredientes: [
         { nombre: "Avena en hojuelas",     cantidad: "½ taza seca (45 g)",    calorias: 150 },
@@ -121,12 +130,15 @@ const RECETAS = {
       nombre: "Arepa de choclo con huevo y fruta",
       descripcion: "Arepa dulce de maíz tierno con huevo frito y mango fresco — sabor del Valle del Cauca",
       calorias: 510, proteinas: 16, carbohidratos: 70, grasas: 16,
-      foto: "1565299624246-b47537da3d09",
+      foto: "1644753787071-8933b5daed2d",
+      contraindicada: ["diabetes", "obesidad"],
       adaptaciones: {
         diabetes: "Elige naranja o fresas en lugar de mango (IG más bajo).",
         colesterol: "Usa solo 1 huevo y cocínalo hervido en vez de frito.",
         celiaquia: "La arepa de choclo es sin gluten. ✓",
         renal: "Reduce a 1 huevo. Porción de arepa: ½ unidad.",
+        gastritis: "Elige banano o papaya como fruta (no mango ni cítricos). Cocina el huevo hervido o pochado en lugar de frito.",
+        embarazo: "Buena opción ✓. El huevo bien cocido (frito o duro). Elige banano o papaya de fruta.",
       },
       ingredientes: [
         { nombre: "Arepa de choclo",           cantidad: "1 grande (180 g)",     calorias: 220 },
@@ -149,7 +161,8 @@ const RECETAS = {
       nombre: "🌱 Avena vegana con fruta y semillas",
       descripcion: "Avena en leche de avena o coco, con fruta fresca y semillas de chía — desayuno 100% vegetal",
       calorias: 390, proteinas: 12, carbohidratos: 60, grasas: 12,
-      foto: "1495214783159-3364eced4fc8",
+      foto: "1581559178851-b99664da71ba",
+      contraindicada: ["celiaquia"],
       adaptaciones: {
         diabetes: "Usa fresas o arándanos (IG bajo). Endulza con stevia.",
         celiaquia: "Avena certificada sin gluten + semillas de chía. ✓",
@@ -172,11 +185,12 @@ const RECETAS = {
       nombre: "🌱 Arepa con aguacate, tomate y fruta",
       descripcion: "Arepa de maíz con aguacate cremoso, tomate fresco y fruta de temporada — vegetariano y saciante",
       calorias: 410, proteinas: 9, carbohidratos: 52, grasas: 18,
-      foto: "1519162808019-7de1100098c3",
+      foto: "1587603366933-aa6947174c65",
       adaptaciones: {
         diabetes: "El aguacate tiene IG = 0. Fruta: fresas o guanábana.",
         colesterol: "El aguacate tiene grasas monoinsaturadas beneficiosas. ✓",
         celiaquia: "Arepa de maíz sin gluten. ✓",
+        embarazo: "El aguacate aporta ácido fólico esencial ✓. Muy recomendada en embarazo.",
       },
       ingredientes: [
         { nombre: "Arepa de maíz",             cantidad: "1 mediana (90 g)",      calorias: 150 },
@@ -219,6 +233,7 @@ const RECETAS = {
       descripcion: "Mini arepa paisa con queso campesino y agua de panela caliente",
       calorias: 270, proteinas: 9, carbohidratos: 40, grasas: 9,
       foto: null,
+      contraindicada: ["diabetes"],
       ingredientes: [
         { nombre: "Arepa de maíz pequeña", cantidad: "1 unidad (70 g)",  calorias: 160 },
         { nombre: "Queso campesino",       cantidad: "1 tajada (25 g)",  calorias: 80  },
@@ -236,6 +251,7 @@ const RECETAS = {
       descripcion: "Mix tropical de mango, papaya y piña con sal, limón y ají",
       calorias: 130, proteinas: 2, carbohidratos: 31, grasas: 1,
       foto: "1519996529931-28324d5a630e",
+      contraindicada: ["gastritis"],
       ingredientes: [
         { nombre: "Mango Tommy",                  cantidad: "½ unidad (120 g)",  calorias: 60  },
         { nombre: "Papaya o piña",                cantidad: "1 taza picada (150 g)",calorias: 55},
@@ -252,7 +268,7 @@ const RECETAS = {
       nombre: "Pandebono vallecaucano",
       descripcion: "Pan de yuca y queso del Valle del Cauca — esponjoso y recién horneado",
       calorias: 210, proteinas: 6, carbohidratos: 30, grasas: 8,
-      foto: "1484723091739-30a097e8f929",
+      foto: "1559141680-d0bd7bc5af84",
       ingredientes: [
         { nombre: "Pandebono",         cantidad: "2 unidades (80 g)", calorias: 210 },
         { nombre: "Aromática o tinto", cantidad: "1 taza (240 ml)",   calorias: 0   },
@@ -268,6 +284,7 @@ const RECETAS = {
       descripcion: "Yogur natural con granola crujiente y fruta fresca de temporada",
       calorias: 280, proteinas: 11, carbohidratos: 42, grasas: 7,
       foto: "1488477181946-6428a0291777",
+      contraindicada: ["celiaquia"],
       ingredientes: [
         { nombre: "Yogur natural sin azúcar", cantidad: "1 taza (200 g)", calorias: 150 },
         { nombre: "Granola",                  cantidad: "3 cdas. (30 g)", calorias: 90  },
@@ -285,6 +302,7 @@ const RECETAS = {
       descripcion: "Clásico colombiano: obleas crocantes con arequipe y bocadillo",
       calorias: 220, proteinas: 4, carbohidratos: 38, grasas: 6,
       foto: null,
+      contraindicada: ["diabetes", "colesterol", "obesidad", "gastritis"],
       ingredientes: [
         { nombre: "Obleas",                    cantidad: "2 unidades (30 g)",  calorias: 80  },
         { nombre: "Arequipe (dulce de leche)", cantidad: "2 cdas. (40 g)",    calorias: 120 },
@@ -322,11 +340,13 @@ const RECETAS = {
       nombre: "Sancocho de pollo",
       descripcion: "Sopa contundente con pollo, papa, yuca y mazorca — corazón de la cocina colombiana",
       calorias: 490, proteinas: 34, carbohidratos: 52, grasas: 12,
-      foto: "1604503468506-a8da13d11d36",
+      foto: "1644753787097-37de1f3fc9b4",
       adaptaciones: {
         diabetes: "El sancocho es de IG moderado. Evita el arroz de acompañamiento.",
         hipertension: "Sin sal adicional. Usa ajo y comino para el sabor.",
         renal: "Reduce la porción de pollo a 80g. Omite la yuca.",
+        gastritis: "El sancocho es una de las mejores opciones ✓. Evita el ají casero de acompañamiento. Come en porciones moderadas.",
+        embarazo: "Excelente ✓. El pollo aporta proteína completa y el caldo hidrata. Muy recomendado en embarazo.",
       },
       ingredientes: [
         { nombre: "Muslo de pollo",              cantidad: "150 g",          calorias: 200 },
@@ -349,11 +369,13 @@ const RECETAS = {
       nombre: "Arroz con pollo colombiano",
       descripcion: "Arroz amarillo con pollo guisado, arveja y patacones",
       calorias: 560, proteinas: 36, carbohidratos: 68, grasas: 11,
-      foto: "1604503468506-a8da13d11d36",
+      foto: "1664992960082-0ea299a9c53e",
       adaptaciones: {
         diabetes: "Reduce el arroz a ½ taza. Añade más verduras al arroz.",
         hipertension: "Cocina sin sal; usa comino, ajo y cúrcuma para sazón.",
         renal: "Reduce el pollo a 80g. Omite los patacones.",
+        gastritis: "Omite los patacones (fritura). Prepara el hogao con poco tomate. Come despacio y en porción moderada.",
+        embarazo: "Buena fuente de proteína ✓. Agrega zanahoria extra por betacaroteno. Omite los patacones si hay náuseas.",
       },
       ingredientes: [
         { nombre: "Pechuga de pollo desmechada", cantidad: "120 g",          calorias: 200 },
@@ -374,11 +396,13 @@ const RECETAS = {
       nombre: "Ajiaco bogotano",
       descripcion: "Las tres papas, pollo y mazorca con guascas — patrimonio de Bogotá",
       calorias: 470, proteinas: 30, carbohidratos: 58, grasas: 9,
-      foto: "1547592166-23ac45744acd",
+      foto: "1644753787064-9f2846d6c995",
       adaptaciones: {
         diabetes: "Las tres papas son de IG alto. Reduce la porción a ½ plato.",
         hipertension: "Sin sal. Las guascas dan sabor sin sodio. ✓",
         renal: "Reduce el pollo a 60g. Omite la crema de leche.",
+        gastritis: "Excelente opción ✓. Omite la crema de leche. Evita el ají. La papa criolla suaviza el caldo.",
+        embarazo: "Excelente ✓. La papa criolla aporta vitamina C y el pollo proteína completa. Una de las mejores opciones.",
       },
       ingredientes: [
         { nombre: "Papa pastusa",            cantidad: "1 mediana (130 g)", calorias: 80  },
@@ -406,6 +430,8 @@ const RECETAS = {
         hipertension: "Sin sal; usa vinagre y hierbas para marinar la carne.",
         colesterol: "Usa corte magro (lomo). Cocina en sartén antiadherente.",
         renal: "Reduce la carne a 80g. Omite la sal. Aumenta la papa.",
+        gastritis: "Usa corte magro de res. Cocina bien cocido, no término medio. Reduce el hogao y evita condimentos fuertes.",
+        embarazo: "La carne de res es la mejor fuente de hierro hemo ✓. Fundamental en embarazo. Cocina bien cocida, nunca término medio.",
       },
       ingredientes: [
         { nombre: "Carne de res (murillo)",  cantidad: "150 g",           calorias: 250 },
@@ -427,11 +453,13 @@ const RECETAS = {
       nombre: "🌱 Sopa de lentejas con plátano",
       descripcion: "Lentejas con papa, zanahoria y plátano verde — proteína vegetal completa",
       calorias: 400, proteinas: 20, carbohidratos: 68, grasas: 5,
-      foto: "1547592180-85f173990554",
+      foto: "1621179817588-f4a923daa3ef",
       adaptaciones: {
         diabetes: "Lentejas IG bajo ✓. Omite el plátano, agrega más verduras.",
         hipertension: "Sin sal. Las lentejas tienen potasio que ayuda. ✓",
         renal: "Las lentejas son ricas en potasio; reduce a ¼ taza.",
+        gastritis: "Excelente opción ✓. Cocina bien las lentejas. Evita el aguacate si hay acidez activa. Come despacio.",
+        embarazo: "Las lentejas son la fuente más rica en ácido fólico ✓. Esenciales en el 1er trimestre. Muy recomendadas.",
       },
       ingredientes: [
         { nombre: "Lentejas",            cantidad: "½ taza seca (90 g)", calorias: 160 },
@@ -455,6 +483,7 @@ const RECETAS = {
       descripcion: "El plato emblema antioqueño: arroz, frijoles, carne, plátano, huevo y hogao",
       calorias: 730, proteinas: 42, carbohidratos: 84, grasas: 22,
       foto: "1504674900247-0877df9cc836",
+      contraindicada: ["cardiaca", "colesterol", "diabetes", "obesidad", "gastritis"],
       nota: "⚠️ Almuerzo muy completo — elige onces y cena livianos este día",
       adaptaciones: {
         diabetes: "Reduce arroz a ½ taza. Omite el chicharrón o el plátano.",
@@ -484,7 +513,7 @@ const RECETAS = {
       nombre: "🌱 Arroz con frijoles, aguacate y plátano",
       descripcion: "Combo vegano completo: proteína vegetal + carbos + grasa saludable — típico colombiano",
       calorias: 520, proteinas: 18, carbohidratos: 84, grasas: 12,
-      foto: "1547592180-85f173990554",
+      foto: "1698917467449-08bcd1d9014b",
       ingredientes: [
         { nombre: "Arroz blanco",              cantidad: "1 taza (185 g)",  calorias: 200 },
         { nombre: "Frijoles rojos cocinados",  cantidad: "½ taza (100 g)", calorias: 130 },
@@ -504,7 +533,7 @@ const RECETAS = {
       nombre: "🌱 Sancocho de verduras",
       descripcion: "Sancocho sin carne con papa, yuca, mazorca, plátano y ahuyama — nutritivo y abundante",
       calorias: 340, proteinas: 8, carbohidratos: 70, grasas: 3,
-      foto: "1504674900247-0877df9cc836",
+      foto: "1612108438004-257c47560118",
       ingredientes: [
         { nombre: "Papa pastusa y criolla",    cantidad: "1 c/u (200 g)", calorias: 130 },
         { nombre: "Yuca",                      cantidad: "60 g",          calorias: 75  },
@@ -531,6 +560,7 @@ const RECETAS = {
       descripcion: "Sopa liviana de fideos con zanahoria, habichuela y papa",
       calorias: 300, proteinas: 10, carbohidratos: 52, grasas: 6,
       foto: "1563379926046-8fc73d2e75fb",
+      contraindicada: ["celiaquia"],
       ingredientes: [
         { nombre: "Pasta o fideos",          cantidad: "50 g",           calorias: 175 },
         { nombre: "Zanahoria y habichuela",  cantidad: "½ taza c/u (80 g)",calorias: 50},
@@ -550,7 +580,11 @@ const RECETAS = {
       nombre: "Crema de ahuyama",
       descripcion: "Sopa crema de zapallo con leche — suave, cálida y fácil de preparar",
       calorias: 260, proteinas: 8, carbohidratos: 38, grasas: 8,
-      foto: "1495214783159-3364eced4fc8",
+      foto: "1604152135912-04a022e23696",
+      adaptaciones: {
+        gastritis: "Una de las mejores cenas para gastritis ✓. La ahuyama es suave y alcalina. Usa leche descremada y come caliente.",
+        embarazo: "La ahuyama aporta vitamina A y hierro ✓. Excelente cena. Usa leche pasteurizada.",
+      },
       ingredientes: [
         { nombre: "Ahuyama (zapallo) pelada",  cantidad: "250 g",          calorias: 100 },
         { nombre: "Leche entera",              cantidad: "½ taza (120 ml)",calorias: 75  },
@@ -591,6 +625,10 @@ const RECETAS = {
       descripcion: "Caldo reconfortante de costilla con papa criolla y cilantro",
       calorias: 290, proteinas: 22, carbohidratos: 28, grasas: 10,
       foto: null,
+      adaptaciones: {
+        gastritis: "El caldo claro es excelente para gastritis ✓. Cocina bien la costilla y retira la grasa superficial. Sin sal excesiva.",
+        embarazo: "El caldo aporta colágeno y minerales ✓. Cocina bien cocida la costilla. Retira la grasa de la superficie.",
+      },
       ingredientes: [
         { nombre: "Costilla de res",               cantidad: "100 g (2 trozos)", calorias: 180 },
         { nombre: "Papa criolla o pastusa",        cantidad: "1 pequeña (90 g)", calorias: 80  },
@@ -611,6 +649,7 @@ const RECETAS = {
       descripcion: "Sopa ligera de fideos con pollo desmechado — liviana y digestiva para la noche",
       calorias: 270, proteinas: 18, carbohidratos: 36, grasas: 5,
       foto: null,
+      contraindicada: ["celiaquia"],
       ingredientes: [
         { nombre: "Fideos delgados",          cantidad: "60 g",           calorias: 210 },
         { nombre: "Pollo desmechado",         cantidad: "50 g",           calorias: 85  },
@@ -630,7 +669,11 @@ const RECETAS = {
       nombre: "🌱 Crema de ahuyama con leche de coco",
       descripcion: "Sopa crema de zapallo con leche de coco — suave, tropical y 100% vegetal",
       calorias: 240, proteinas: 4, carbohidratos: 32, grasas: 11,
-      foto: "1540420773420-3450ac2483d7",
+      foto: "1510431198580-7727c9fa1e3a",
+      adaptaciones: {
+        gastritis: "Excelente opción ✓. La ahuyama protege el estómago. La leche de coco es suave. Come caliente y despacio.",
+        embarazo: "Excelente ✓. Betacaroteno de la ahuyama beneficia al bebé. 100% vegetal y muy nutritiva.",
+      },
       ingredientes: [
         { nombre: "Ahuyama pelada",        cantidad: "250 g",           calorias: 100 },
         { nombre: "Leche de coco",         cantidad: "½ taza (120 ml)", calorias: 90  },
@@ -650,6 +693,10 @@ const RECETAS = {
       descripcion: "Sopa nutritiva de papa, zanahoria, espinaca y plátano — completamente vegetal",
       calorias: 220, proteinas: 7, carbohidratos: 44, grasas: 2,
       foto: "1546069901-ba9599a7e63c",
+      adaptaciones: {
+        gastritis: "La mejor cena posible para gastritis ✓. Sin grasa, sin ácidos. Omite el limón al servir.",
+        embarazo: "Excelente ✓. Rica en vitaminas y minerales. Agrega frijoles para aumentar el ácido fólico.",
+      },
       ingredientes: [
         { nombre: "Papa pastusa",          cantidad: "1 mediana (130 g)", calorias: 90  },
         { nombre: "Zanahoria",             cantidad: "1 unidad (70 g)",   calorias: 30  },
@@ -770,24 +817,42 @@ function renderSeccion(slot) {
 
   const usuario    = JSON.parse(localStorage.getItem("datosUsuario")) || {};
   const enfermedad = usuario.enfermedad;
+  const condicion  = usuario.condicion  || "";
+  const objetivo   = usuario.objetivo   || "";
 
   let recetas = RECETAS[slot.tipo] || [];
   if (modoVegano) recetas = recetas.filter(r => r.vegano);
+  if (enfermedad && enfermedad !== "ninguna") {
+    recetas = recetas.filter(r => !r.contraindicada?.includes(enfermedad));
+  }
+  if (condicion === "embarazo") {
+    recetas = recetas.filter(r => !r.contraindicada?.includes("embarazo"));
+  }
+  if (objetivo === "masa") {
+    recetas = [...recetas].sort((a, b) => (b.proteinas || 0) - (a.proteinas || 0));
+  }
 
   const grid = seccion.querySelector(".recetas-opciones");
   grid.innerHTML = "";
 
   if (!recetas.length) {
-    grid.innerHTML = `<p style="padding:16px;color:#aaa;font-size:12px">No hay opciones veganas. Más próximamente.</p>`;
+    grid.innerHTML = `<p style="padding:16px;color:#aaa;font-size:12px">No hay opciones disponibles para tu condición en esta categoría.</p>`;
     return;
   }
 
   const bgColor = SIN_FOTO_COLOR[slot.tipo] || "#2d6a4f";
 
   recetas.forEach(r => {
-    const sel       = selecciones[slot.id]?.id === r.id;
-    const adaptacion= enfermedad && enfermedad !== "ninguna" && r.adaptaciones?.[enfermedad]
-      ? `<p class="adaptacion-msg">💊 ${r.adaptaciones[enfermedad]}</p>` : "";
+    const sel = selecciones[slot.id]?.id === r.id;
+
+    const msgs = [];
+    if (enfermedad && enfermedad !== "ninguna" && r.adaptaciones?.[enfermedad])
+      msgs.push(`💊 ${r.adaptaciones[enfermedad]}`);
+    if (condicion === "embarazo" && r.adaptaciones?.embarazo)
+      msgs.push(`🤰 ${r.adaptaciones.embarazo}`);
+    if (objetivo === "masa" && (r.proteinas || 0) >= 25)
+      msgs.push(`💪 ${r.proteinas}g proteína — ideal para ganar músculo`);
+    const adaptacion = msgs.map(m => `<p class="adaptacion-msg">${m}</p>`).join("");
     const esVeg     = r.vegano ? '<span class="badge-vegano">🌱 Vegano</span>' : "";
     const fotoUrl   = urlFoto(r);
     const emoji     = getEmoji(r);
@@ -852,25 +917,9 @@ function seleccionarReceta(slotId, recetaId) {
   actualizarEstadoSeccion(slotId);
 
   if (!fueDeseleccion) {
-    // Cerrar sección actual
     document.getElementById(`sec-${slotId}`)?.classList.remove("abierta");
     const arrow = document.getElementById(`arrow-${slotId}`);
     if (arrow) arrow.textContent = "▼";
-
-    // Abrir automáticamente la siguiente sin elegir
-    const idx = SLOTS.findIndex(s => s.id === slotId);
-    const next = SLOTS[idx + 1];
-    if (next && !selecciones[next.id]) {
-      setTimeout(() => {
-        const secNext = document.getElementById(`sec-${next.id}`);
-        if (secNext) {
-          secNext.classList.add("abierta");
-          const a = document.getElementById(`arrow-${next.id}`);
-          if (a) a.textContent = "▲";
-          secNext.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 350);
-    }
   }
 }
 
@@ -1018,16 +1067,27 @@ function guardarPlan() {
 function initPlaneador() {
   const usuario    = JSON.parse(localStorage.getItem("datosUsuario")) || {};
   const enfermedad = usuario.enfermedad;
+  const condicion  = usuario.condicion  || "";
+  const objetivo   = usuario.objetivo   || "";
   const etiquetas  = {
     diabetes:"Diabetes", hipertension:"Hipertensión", colesterol:"Colesterol alto",
     obesidad:"Obesidad", celiaquia:"Celiaquía", tiroides:"Tiroides",
-    renal:"Enfermedad renal", cardiaca:"Cardiovascular", digestiva:"Digestivo"
+    renal:"Enfermedad renal", cardiaca:"Cardiovascular", digestiva:"Digestivo",
+    gastritis:"Gastritis"
   };
   const banner = document.getElementById("banner-condicion");
-  if (banner && enfermedad && enfermedad !== "ninguna") {
-    banner.innerHTML = `<div class="banner-salud"><span>🩺</span>
-      <span>Recetas adaptadas para: <strong>${etiquetas[enfermedad]||enfermedad}</strong>
-      — cada receta muestra las modificaciones sugeridas para tu condición</span></div>`;
+  if (banner) {
+    const lineas = [];
+    if (enfermedad && enfermedad !== "ninguna")
+      lineas.push(`🩺 Recetas adaptadas para: <strong>${etiquetas[enfermedad]||enfermedad}</strong>`);
+    if (condicion === "embarazo")
+      lineas.push(`🤰 Recetas adaptadas para: <strong>Embarazo</strong> — algunas opciones de riesgo están ocultas`);
+    if (condicion === "lactancia")
+      lineas.push(`🍼 Recetas adaptadas para: <strong>Lactancia</strong> — mayor aporte calórico recomendado`);
+    if (objetivo === "masa")
+      lineas.push(`💪 Recetas ordenadas por <strong>mayor proteína</strong> — ideal para ganar músculo`);
+    if (lineas.length)
+      banner.innerHTML = `<div class="banner-salud"><span>ℹ️</span><div>${lineas.join("<br>")}</div></div>`;
   }
 
   document.getElementById("meta-header").textContent = caloriasObjetivo();

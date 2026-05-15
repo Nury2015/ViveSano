@@ -1169,27 +1169,6 @@
     "cantidad_recomendada_por_dia": "100-200g"
   },
   {
-    "nombre": "Garbanzos",
-    "categorias": ["Proteína Vegetal", "Legumbre"],
-    "porcion": "100g (cocidos)",
-    "calorias": "164 kcal",
-    "proteinas": "8.9 g",
-    "grasas": "2.6 g",
-    "carbohidratos": "27 g",
-    "fibra": "7.6 g",
-    "vitaminas_y_minerales": {
-      "Hierro": "2.9 mg",
-      "Magnesio": "48 mg",
-      "Ácido fólico": "172 mcg"
-    },
-    "indice_glucemico": "28",
-    "restricciones_dieteticas": ["Apto para veganos/vegetarianos"],
-    "beneficios": ["Favorece la digestión", "Regula el azúcar en sangre"],
-    "contraindicaciones": ["Puede causar gases en algunas personas"],
-    "combinaciones_recomendadas": ["Cereales", "Verduras", "Salsas naturales"],
-    "cantidad_recomendada_por_dia": "100-200g"
-  },
-  {
     "nombre": "Tofu",
     "categorias": ["Proteína Vegetal", "Derivado de la Soja"],
     "porcion": "100g",
@@ -1945,21 +1924,6 @@
     "beneficios": ["Favorecen la digestión", "Fuente de proteína vegetal"],
     "contraindicaciones": ["Pueden causar gases si no se cocinan bien"],
     "tamaño_porcion": "100 g (cocidas)"
-  },
-  {
-    "nombre": "Garbanzos",
-    "categoria": ["Legumbres", "Proteínas Vegetales"],
-    "calorias": "164 kcal",
-    "grasas": "2.6 g",
-    "proteinas": "8.9 g",
-    "carbohidratos": "27 g",
-    "fibra": "7.6 g",
-    "vitaminas_minerales": ["Hierro", "Magnesio", "Zinc", "Vitamina B6"],
-    "indice_glucemico": "Medio",
-    "restricciones_dieteticas": ["Apto para veganos", "Libre de gluten"],
-    "beneficios": ["Regulan el azúcar en sangre", "Favorecen la salud digestiva"],
-    "contraindicaciones": ["Pueden causar hinchazón si se consumen en exceso"],
-    "tamaño_porcion": "100 g (cocidos)"
   },
   {
     "nombre": "Frijoles negros",

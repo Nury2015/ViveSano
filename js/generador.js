@@ -124,6 +124,7 @@ function filtrarSalud(lista, enfermedad) {
     if (enfermedad === "cardiaca")     return grasas < 5;
     if (enfermedad === "obesidad")     return calorias < 150;
     if (enfermedad === "tiroides")     return !contra.includes("tiroides") && !contra.includes("bocio");
+    if (enfermedad === "gastritis")    return grasas < 10 && !contra.includes("acido") && !contra.includes("picante");
     return true;
   });
 }
@@ -151,8 +152,8 @@ function crearIngrediente(alimento, porcion, enfermedad) {
 // ==============================
 const FOTO_POR_ALIMENTO = {
   // Proteínas animales
-  "pollo":    "1604503468506-a8da13d11d36",
-  "pechuga":  "1604503468506-a8da13d11d36",
+  "pollo":    "1665556899022-9761f95769e5",
+  "pechuga":  "1665556899022-9761f95769e5",
   "salmón":   "1512621776951-a57ef161cb07",
   "salmon":   "1512621776951-a57ef161cb07",
   "atún":     "1512621776951-a57ef161cb07",
@@ -172,7 +173,7 @@ const FOTO_POR_ALIMENTO = {
   "huevo":    "1482049016688-2d3e1b311543",
   "huevos":   "1482049016688-2d3e1b311543",
   // Cereales / carbohidratos
-  "avena":    "1495214783159-3364eced4fc8",
+  "avena":    "1581559178851-b99664da71ba",
   "arroz":    "1536304929831-ee1ca9d44906",
   "papa":     "1518977676393-b03001a3b01f",
   "yuca":     "1518977676393-b03001a3b01f",
@@ -181,11 +182,10 @@ const FOTO_POR_ALIMENTO = {
   "yogurt":   "1488477181946-6428a0291777",
   "leche":    "1550583724-b2692b85b150",
   // Proteínas vegetales
-  "lentejas": "1547592180-85f173990554",
-  "lenteja":  "1547592180-85f173990554",
-  "frijol":   "1547592180-85f173990554",
-  "fríjol":   "1547592180-85f173990554",
-  "garbanzo": "1547592180-85f173990554",
+  "lentejas": "1621179817588-f4a923daa3ef",
+  "lenteja":  "1621179817588-f4a923daa3ef",
+  "frijol":   "1698917467449-08bcd1d9014b",
+  "fríjol":   "1698917467449-08bcd1d9014b",
   "tofu":     "1546069901-ba9599a7e63c",
   "quinua":   "1546069901-ba9599a7e63c",
   "soja":     "1546069901-ba9599a7e63c",

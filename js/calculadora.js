@@ -69,7 +69,7 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   const condicion  = document.getElementById("condicionFemenina").value;
   const trimestre  = document.getElementById("trimestre")?.value || "1";
 
-  const datos = { peso, estatura, edad, sexo, actividad, enfermedad, objetivo };
+  const datos = { peso, estatura, edad, sexo, actividad, enfermedad, objetivo, condicion };
   localStorage.setItem("datosUsuario", JSON.stringify(datos));
 
   if (!peso || !estatura || !edad || !sexo || !actividad) {

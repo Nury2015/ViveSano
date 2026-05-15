@@ -471,17 +471,15 @@ body {
 
 /* ══ MOBILE — nav top aparece exactamente en ≤768px (menu.css) ══ */
 @media (max-width: 768px) {
-  body { padding-top: 60px; } /* empuja contenido 60px abajo del nav fijo */
-  .barra-sticky { top: 60px; } /* se pega justo debajo del nav */
-  /* La sombra original del nav (4px 0 15px 62%) es muy intensa y baja
-     15px tapando la barra. La reducimos solo en mobile para que no se vea
-     esa franja negra entre nav y barra. */
+  body { padding-top: 64px; }
+  .meta-calorica{margin-top: 36px;}
+  .barra-sticky { top: 64px; }
   .navbar { box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
 }
 
 /* ══ MÓVIL PEQUEÑO ══════════════════════════════ */
 @media (max-width: 560px) {
-  .barra-sticky { top: 60px; }
+  .barra-sticky { top: 64px; }
   .meta-titulo  { font-size: 12px; }
   .meta-detalle { font-size: 15px; }
   .recetas-opciones { grid-template-columns: 1fr; }
