@@ -1274,6 +1274,39 @@ function actualizarProgreso() {
   else if (pct <= 110)   msg = "¡Meta completada! 🎉";
   else                    msg = "⚠️ Superaste tu meta calórica";
   document.getElementById("progreso-msg").textContent = msg;
+
+  // ── Alerta visible cuando se supera la meta ──────────────
+  const alertaEl  = document.getElementById("alerta-calorias");
+  if (!alertaEl) return;
+
+  if (sel > meta) {
+    const exceso = sel - meta;
+    document.getElementById("alerta-exceso").textContent = exceso;
+
+    // Ordenar comidas seleccionadas de mayor a menor caloría
+    const pesadas = SLOTS
+      .map(s => ({ slot: s, receta: selecciones[s.id] }))
+      .filter(x => x.receta)
+      .sort((a, b) => (b.receta.calorias || 0) - (a.receta.calorias || 0))
+      .slice(0, 2);
+
+    document.getElementById("alerta-opciones").innerHTML = pesadas.map(({ slot, receta }) => `
+      <div class="alerta-opcion">
+        <div class="alerta-opcion-info">
+          <span class="alerta-slot">${slot.label}</span>
+          <span class="alerta-nombre">${receta.nombre.replace(/🌱 /g, "")}</span>
+          <span class="alerta-kcal">${receta.calorias} kcal</span>
+        </div>
+        <button class="alerta-btn-cambiar"
+          onclick="seleccionarReceta('${slot.id}','${receta.id}');toggleSeccion('${slot.id}')">
+          ↩ Cambiar
+        </button>
+      </div>`).join("");
+
+    alertaEl.style.display = "block";
+  } else {
+    alertaEl.style.display = "none";
+  }
 }
 
 // ─── AVISO PESADO ────────────────────────────────────────────

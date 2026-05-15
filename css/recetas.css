@@ -122,6 +122,70 @@ body {
   font-weight: 500;
 }
 
+/* ── ALERTA CALORÍAS EXCEDIDAS ─────────────────── */
+.alerta-calorias {
+  background: #fff3e0;
+  border-left: 4px solid #e65100;
+  padding: 12px 16px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.alerta-cal-header {
+  font-size: 14px;
+  color: #bf360c;
+  margin-bottom: 4px;
+}
+
+.alerta-cal-sub {
+  font-size: 12px;
+  color: #888;
+  margin: 0 0 8px;
+}
+
+.alerta-opcion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: white;
+  border: 1px solid #ffcc80;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 6px;
+}
+
+.alerta-opcion-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  overflow: hidden;
+}
+
+.alerta-slot  { font-size: 10px; color: #aaa; }
+.alerta-nombre{ font-size: 13px; color: #222; font-weight: 600;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.alerta-kcal  { font-size: 11px; color: #e65100; font-weight: 600; }
+
+.alerta-btn-cambiar {
+  flex-shrink: 0;
+  background: #e65100;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.alerta-btn-cambiar:hover { background: #bf360c; }
+
 /* ── BANNER CONDICIÓN ───────────────────────────── */
 .banner-salud {
   display: flex;
