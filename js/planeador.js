@@ -1038,7 +1038,38 @@ function shufflearRecetas() {
 }
 
 function caloriasObjetivo()    { return parseInt(localStorage.getItem("caloriasObjetivo")) || 2000; }
+
+function editarMeta() {
+  const actual = caloriasObjetivo();
+  const nueva = prompt("Nueva meta calórica diaria (kcal):", actual);
+  if (nueva === null) return;
+  const valor = parseInt(nueva);
+  if (!isNaN(valor) && valor > 0) {
+    localStorage.setItem("caloriasObjetivo", valor);
+    actualizarProgreso();
+  }
+}
 function caloriasSeleccionadas() { return Object.values(selecciones).reduce((s, r) => s + (r ? r.calorias : 0), 0); }
+
+function macrosSeleccionados() {
+  return Object.values(selecciones).reduce((acc, r) => {
+    if (!r) return acc;
+    return {
+      prot:   acc.prot   + (r.proteinas     || 0),
+      carbs:  acc.carbs  + (r.carbohidratos || 0),
+      grasas: acc.grasas + (r.grasas        || 0),
+    };
+  }, { prot: 0, carbs: 0, grasas: 0 });
+}
+
+function macrosObjetivo() {
+  const meta = caloriasObjetivo();
+  return {
+    prot:   Math.round(meta * 0.20 / 4),
+    carbs:  Math.round(meta * 0.50 / 4),
+    grasas: Math.round(meta * 0.30 / 9),
+  };
+}
 
 // ─── EMOJI POR NOMBRE DE RECETA ──────────────────────────────
 function getEmoji(receta) {
@@ -1252,28 +1283,60 @@ function toggleVegano() {
 
 // ─── PROGRESO ────────────────────────────────────────────────
 function actualizarProgreso() {
-  const meta = caloriasObjetivo();
-  const sel  = caloriasSeleccionadas();
-  const pct  = Math.min((sel / meta) * 100, 100);
+  const meta    = caloriasObjetivo();
+  const sel     = caloriasSeleccionadas();
+  const pct     = Math.round((sel / meta) * 100);
+  const pctCap  = Math.min(pct, 100);
+  const C       = 251.3; // 2π × r40
 
-  document.getElementById("kcal-sel").textContent  = sel;
-  document.getElementById("kcal-meta").textContent = meta;
+  // Kcal counters
+  const elSel  = document.getElementById("kcal-sel");
+  const elMeta = document.getElementById("kcal-meta");
+  const elMH   = document.getElementById("meta-header");
+  if (elSel)  elSel.textContent  = sel;
+  if (elMeta) elMeta.textContent = meta;
+  if (elMH)   elMH.textContent   = meta;
 
-  const barra = document.getElementById("barra-relleno");
-  barra.style.width = pct + "%";
+  // Circular ring
+  const ring    = document.getElementById("ring-fill");
+  const ringPct = document.getElementById("ring-pct");
+  if (ring) {
+    ring.style.strokeDashoffset = C - (pctCap / 100) * C;
+    ring.style.stroke = pct > 110 ? "#f44336" : "#4caf50";
+  }
+  if (ringPct) ringPct.textContent = pct + "%";
 
-  if (sel > meta * 1.1)       barra.style.background = "#e53935";
-  else if (sel >= meta * 0.9) barra.style.background = "#43a047";
-  else if (sel >= meta * 0.6) barra.style.background = "#fb8c00";
-  else                         barra.style.background = "#42a5f5";
+  // Kcal horizontal bar
+  const kcalBar = document.getElementById("kcal-bar-fill");
+  if (kcalBar) {
+    kcalBar.style.width = pctCap + "%";
+    kcalBar.style.background = pct > 110 ? "#f44336" : "#4caf50";
+  }
 
+  // Macro bars
+  const macros  = macrosSeleccionados();
+  const targets = macrosObjetivo();
+
+  const setMacro = (barId, valId, goalId, val, target) => {
+    const b = document.getElementById(barId);
+    const v = document.getElementById(valId);
+    const g = document.getElementById(goalId);
+    if (b) b.style.width = Math.min(Math.round((val / target) * 100), 100) + "%";
+    if (v) v.textContent = Math.round(val);
+    if (g) g.textContent = target;
+  };
+  setMacro("bar-prot",   "macro-prot",   "macro-prot-goal",   macros.prot,   targets.prot);
+  setMacro("bar-carbs",  "macro-carbs",  "macro-carbs-goal",  macros.carbs,  targets.carbs);
+  setMacro("bar-grasas", "macro-grasas", "macro-grasas-goal", macros.grasas, targets.grasas);
+
+  // Mensaje (kcal restantes)
   let msg = "";
-  if (sel === 0)         msg = "Empieza eligiendo tu desayuno";
-  else if (pct < 60)     msg = "Sigue eligiendo tus comidas del día";
-  else if (pct < 90)     msg = "¡Vas muy bien! Ya casi completas tu meta";
-  else if (pct <= 110)   msg = "¡Meta completada! 🎉";
-  else                    msg = "⚠️ Superaste tu meta calórica";
-  document.getElementById("progreso-msg").textContent = msg;
+  if (sel === 0)       msg = "Empieza eligiendo tu desayuno";
+  else if (sel < meta) msg = (meta - sel) + " kcal restantes";
+  else if (pct <= 110) msg = "¡Meta completada! 🎉";
+  else                  msg = "⚠️ +" + (sel - meta) + " kcal de más";
+  const msgEl = document.getElementById("progreso-msg");
+  if (msgEl) msgEl.textContent = msg;
 
   // ── Alerta visible cuando se supera la meta ──────────────
   const alertaEl  = document.getElementById("alerta-calorias");

@@ -20,22 +20,83 @@
 <!-- ══ BARRA STICKY (calorías + plan del día) ════════ -->
 <div class="barra-sticky" id="barra-sticky">
 
-  <!-- META CALÓRICA -->
-  <div class="meta-calorica">
-    <div class="meta-texto">
-      <span class="meta-titulo">
-        🎯 Meta: <strong id="meta-header">2000</strong> kcal
-      </span>
-      <span class="meta-detalle">
-        <span id="kcal-sel">0</span> / <span id="kcal-meta">2000</span> kcal
-      </span>
-    </div>
-    <div class="barra-progreso-wrap">
-      <div class="barra-progreso">
-        <div class="barra-relleno" id="barra-relleno"></div>
+  <!-- DASHBOARD CARD -->
+  <div class="dash-card">
+
+    <!-- Meta diaria -->
+    <div class="dash-meta-section">
+      <span class="meta-flame">🔥</span>
+      <div class="meta-info">
+        <span class="meta-label">Meta diaria</span>
+        <div class="meta-val-row">
+          <strong class="meta-kcal" id="meta-header">2000</strong>
+          <span class="meta-unit">kcal</span>
+          <button class="meta-edit-btn" title="Editar meta" onclick="editarMeta()">✏️</button>
+        </div>
       </div>
-      <span class="progreso-msg" id="progreso-msg">Empieza eligiendo tu desayuno</span>
     </div>
+
+    <div class="dash-sep"></div>
+
+    <!-- Ring + Kcal -->
+    <div class="dash-ring-kcal">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 100 100" class="ring-svg">
+          <circle class="ring-track" cx="50" cy="50" r="40"/>
+          <circle class="ring-progress" id="ring-fill" cx="50" cy="50" r="40"/>
+        </svg>
+        <div class="ring-center">
+          <span class="ring-pct" id="ring-pct">0%</span>
+        </div>
+      </div>
+
+      <div class="kcal-col">
+        <div class="kcal-counter">
+          <span class="kcal-current" id="kcal-sel">0</span>
+          <span class="kcal-sep"> / </span>
+          <span class="kcal-target" id="kcal-meta">2000</span>
+          <span class="kcal-unit"> kcal</span>
+        </div>
+        <div class="kcal-bar-track">
+          <div class="kcal-bar-fill" id="kcal-bar-fill"></div>
+        </div>
+        <span class="kcal-restantes" id="progreso-msg">Empieza eligiendo tu desayuno</span>
+        <div id="barra-relleno" style="display:none"></div>
+      </div>
+    </div>
+
+    <div class="dash-sep"></div>
+
+    <!-- Macros -->
+    <div class="macro-list">
+      <div class="macro-item">
+        <span class="mi-icon">🌿</span>
+        <div class="mi-bar-wrap">
+          <span class="mi-label">Proteínas</span>
+          <div class="mi-vals"><strong id="macro-prot">0</strong> g / <span id="macro-prot-goal">0</span> g</div>
+          <div class="mi-track"><div class="mi-fill prot" id="bar-prot"></div></div>
+        </div>
+      </div>
+      <div class="macro-sep"></div>
+      <div class="macro-item">
+        <span class="mi-icon">🌾</span>
+        <div class="mi-bar-wrap">
+          <span class="mi-label">Carbohidratos</span>
+          <div class="mi-vals"><strong id="macro-carbs">0</strong> g / <span id="macro-carbs-goal">0</span> g</div>
+          <div class="mi-track"><div class="mi-fill carbs" id="bar-carbs"></div></div>
+        </div>
+      </div>
+      <div class="macro-sep"></div>
+      <div class="macro-item">
+        <span class="mi-icon">💧</span>
+        <div class="mi-bar-wrap">
+          <span class="mi-label">Grasas</span>
+          <div class="mi-vals"><strong id="macro-grasas">0</strong> g / <span id="macro-grasas-goal">0</span> g</div>
+          <div class="mi-track"><div class="mi-fill grasas" id="bar-grasas"></div></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- PLAN DEL DÍA (aparece al elegir primera receta) -->

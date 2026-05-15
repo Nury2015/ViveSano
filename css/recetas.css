@@ -9,56 +9,266 @@ body {
   padding-bottom: 20px;
 }
 
-/* ══ BARRA STICKY (meta + plan del día) ══════════ */
+/* ══ BARRA STICKY ════════════════════════════════ */
 .barra-sticky {
   position: sticky;
   top: 0;
-  z-index: 99; /* debajo del nav (z-index:1000) */
-  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  z-index: 99;
 }
 
-/* ── META CALÓRICA ──────────────────────────────── */
-.meta-calorica {
-  background: linear-gradient(135deg, #1b5233, #2e7d32);
-  color: white;
-  padding: 10px 16px 8px;
-}
-
-.meta-texto {
+/* ── DASHBOARD CARD ─────────────────────────────── */
+.dash-card {
+  background: white;
+  padding: 12px 16px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  border-bottom: 1px solid #eee;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dash-card::-webkit-scrollbar { display: none; }
+
+/* Vertical divider */
+.dash-sep {
+  width: 1px;
+  height: 52px;
+  background: #ebebeb;
+  margin: 0 14px;
+  flex-shrink: 0;
+}
+
+/* ── META DIARIA ────────────────────────────────── */
+.dash-meta-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.meta-flame { font-size: 26px; }
+
+.meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.meta-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 500;
+}
+
+.meta-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.meta-kcal {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+.meta-unit {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+}
+
+.meta-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 2px;
+  color: #bbb;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.meta-edit-btn:hover { color: #555; }
+
+/* ── RING + KCAL ────────────────────────────────── */
+.dash-ring-kcal {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.ring-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 76px;
+  height: 76px;
+}
+
+.ring-svg {
+  width: 76px;
+  height: 76px;
+  transform: rotate(-90deg);
+}
+
+.ring-track {
+  fill: none;
+  stroke: #ebebeb;
+  stroke-width: 10;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: #4caf50;
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 251.3;
+  stroke-dashoffset: 251.3;
+  transition: stroke-dashoffset 0.65s cubic-bezier(0.4,0,0.2,1), stroke 0.3s;
+}
+
+.ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-pct {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+/* Kcal column */
+.kcal-col {
+  display: flex;
+  flex-direction: column;
   gap: 4px;
-  margin-bottom: 6px;
+  min-width: 130px;
 }
 
-.meta-titulo  { font-size: 13px; font-weight: 500; }
-.meta-detalle { font-size: 18px; font-weight: 700; }
-
-.barra-progreso-wrap {
+.kcal-counter {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: baseline;
+  gap: 2px;
 }
 
-.barra-progreso {
-  flex: 1;
-  background: rgba(255,255,255,0.25);
-  border-radius: 20px;
-  height: 8px;
+.kcal-current {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1;
+}
+
+.kcal-sep { font-size: 14px; color: #bbb; }
+
+.kcal-target {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+.kcal-unit {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.kcal-bar-track {
+  height: 7px;
+  background: #ebebeb;
+  border-radius: 6px;
   overflow: hidden;
 }
 
-.barra-relleno {
+.kcal-bar-fill {
   height: 100%;
-  border-radius: 20px;
-  background: #42a5f5;
-  transition: width 0.5s ease, background 0.4s;
+  border-radius: 6px;
+  background: #4caf50;
   width: 0%;
+  transition: width 0.55s cubic-bezier(0.4,0,0.2,1), background 0.3s;
 }
 
-.progreso-msg { font-size: 11px; white-space: nowrap; opacity: 0.85; }
+.kcal-restantes {
+  font-size: 11px;
+  color: #888;
+}
+
+/* ── MACROS ─────────────────────────────────────── */
+.macro-list {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.macro-sep {
+  width: 1px;
+  height: 40px;
+  background: #ebebeb;
+  margin: 0 10px;
+  flex-shrink: 0;
+}
+
+.macro-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 80px;
+}
+
+.mi-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.mi-bar-wrap { flex: 1; min-width: 0; }
+
+.mi-label {
+  display: block;
+  font-size: 10px;
+  color: #888;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.mi-vals {
+  font-size: 12px;
+  color: #888;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.mi-vals strong {
+  font-size: 14px;
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.mi-track {
+  height: 4px;
+  background: #ebebeb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mi-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+
+.mi-fill.prot   { background: #4caf50; }
+.mi-fill.carbs  { background: #f9a825; }
+.mi-fill.grasas { background: #ef6c00; }
+
+/* Kept for compat — hidden */
+.barra-relleno { display: none; }
 
 /* ── PANEL PLAN DEL DÍA (dentro de la barra sticky) */
 .panel-plan-dia {
@@ -382,14 +592,14 @@ body {
 
 .btn-seleccionar {
   flex: 1; padding: 7px 0;
-  border: 2px solid #2e7d32; border-radius: 8px;
-  background: white; color: #2e7d32;
+  border: none; border-radius: 8px;
+  background: #2e7d32; color: white;
   font-size: 12px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s; width: 100%;
+  cursor: pointer; transition: background 0.2s; width: 100%;
 }
 
-.btn-seleccionar:hover { background: #2e7d32; color: white; }
-.opcion-card.seleccionada .btn-seleccionar { background: #2e7d32; color: white; }
+.btn-seleccionar:hover { background: #1b5233; }
+.opcion-card.seleccionada .btn-seleccionar { background: #1b5233; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.3); }
 
 .btn-ver-receta {
   background: white; border: 1px solid #bbb; color: #555;
