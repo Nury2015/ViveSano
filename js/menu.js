@@ -52,6 +52,12 @@ function iniciarMenu() {
     });
   });
 
+  // Actualizar nombre de usuario en nav si Firebase está cargado
+  if (typeof auth !== "undefined" && auth.currentUser) {
+    if (typeof actualizarNavUsuario === "function")
+      actualizarNavUsuario(auth.currentUser);
+  }
+
 }
 const links = document.querySelectorAll(".menu a");
 let currentPage = window.location.pathname.split("/").pop();

@@ -6,13 +6,20 @@
   <div class="logoViveSano"><img src="assets/img/logofondoblanco.png" alt="logovivesano"></div>
 
 <ul class="menu">
- 
+
   <li><a href="index.html"><i class="fa-solid fa-calculator"></i> Calculadora</a></li>
   <li><a href="recetas.html"><i class="fa-solid fa-book"></i> Mis recetas</a></li>
   <li><a href="historial.html"><i class="fa-solid fa-clock"></i> Historial</a></li>
+  <li id="nav-logout" style="display:none" onclick="cerrarSesion()">
+    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+  </li>
+  <li id="nav-login" onclick="mostrarModalAuth ? mostrarModalAuth() : (window.location.href='recetas.html')" style="display:none">
+    <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+  </li>
 </ul>
 
   <div class="user">
     <i class="fa fa-user"></i>
+    <span id="nav-user-nombre" style="font-size:11px;color:rgba(255,255,255,0.85);display:block;margin-top:3px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center"></span>
   </div>
 </nav>
