@@ -1209,7 +1209,7 @@ function renderSeccion(slot) {
     </div>`;
 
     grid.innerHTML += `
-      <div class="opcion-card ${sel ? "seleccionada" : ""}" id="card-${slot.id}-${r.id}">
+      <div class="opcion-card ${sel ? "seleccionada" : ""}" id="card-${slot.id}-${r.id}" data-kcal="${r.calorias}">
         <div class="card-img-wrap">
           ${imgHTML}${sinFotoHTML}
           <button class="btn-fav-heart" aria-label="Favorito">♡</button>
@@ -1287,12 +1287,83 @@ function toggleVegano() {
   SLOTS.forEach(s => renderSeccion(s));
 }
 
+function _abrirTodasSecciones() {
+  SLOTS.forEach(s => {
+    const sec = document.getElementById("sec-" + s.id);
+    if (sec && !sec.classList.contains("abierta")) {
+      sec.classList.add("abierta");
+      const arrow = document.getElementById("arrow-" + s.id);
+      if (arrow) arrow.textContent = "▲";
+    }
+  });
+}
+
 function buscarRecetas(q) {
   const texto = q.toLowerCase().trim();
-  document.querySelectorAll(".opcion-card").forEach(card => {
-    const nombre = (card.querySelector("h4")?.textContent || "").toLowerCase();
-    const desc   = (card.querySelector(".opcion-desc")?.textContent || "").toLowerCase();
-    card.style.display = (!texto || nombre.includes(texto) || desc.includes(texto)) ? "" : "none";
+
+  if (!texto) {
+    // Limpiar filtro de búsqueda, restaurar visibilidad
+    document.querySelectorAll(".opcion-card").forEach(c => c.style.display = "");
+    document.querySelectorAll(".meal-section").forEach(s => s.style.display = "");
+    return;
+  }
+
+  // Abrir todas las secciones para que los cards estén visibles
+  _abrirTodasSecciones();
+
+  // Filtrar por nombre o descripción
+  SLOTS.forEach(s => {
+    const sec = document.getElementById("sec-" + s.id);
+    if (!sec) return;
+    let hayMatch = false;
+    sec.querySelectorAll(".opcion-card").forEach(card => {
+      const nombre = (card.querySelector("h4")?.textContent || "").toLowerCase();
+      const desc   = (card.querySelector(".opcion-desc")?.textContent || "").toLowerCase();
+      const match  = nombre.includes(texto) || desc.includes(texto);
+      card.style.display = match ? "" : "none";
+      if (match) hayMatch = true;
+    });
+    sec.style.display = hayMatch ? "" : "none";
+  });
+}
+
+let filtroKcal = "todas";
+
+function toggleFiltros() {
+  const panel = document.getElementById("panel-filtros");
+  const btn   = document.querySelector(".ctrl-filtros");
+  if (!panel) return;
+  const visible = panel.style.display !== "none";
+  panel.style.display = visible ? "none" : "flex";
+  if (btn) btn.classList.toggle("activo", !visible);
+}
+
+function aplicarFiltroKcal(rango, btn) {
+  filtroKcal = rango;
+  document.querySelectorAll(".filtro-chip").forEach(c => c.classList.remove("activo"));
+  if (btn) btn.classList.add("activo");
+
+  if (rango === "todas") {
+    document.querySelectorAll(".opcion-card").forEach(c => c.style.display = "");
+    document.querySelectorAll(".meal-section").forEach(s => s.style.display = "");
+    return;
+  }
+
+  _abrirTodasSecciones();
+
+  SLOTS.forEach(s => {
+    const sec = document.getElementById("sec-" + s.id);
+    if (!sec) return;
+    let hayMatch = false;
+    sec.querySelectorAll(".opcion-card").forEach(card => {
+      const kcal = parseInt(card.dataset.kcal) || 0;
+      const match = rango === "low"  ? kcal <= 400
+                  : rango === "mid"  ? kcal > 400 && kcal <= 600
+                  :                    kcal > 600;
+      card.style.display = match ? "" : "none";
+      if (match) hayMatch = true;
+    });
+    sec.style.display = hayMatch ? "" : "none";
   });
 }
 

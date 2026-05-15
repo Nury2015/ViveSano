@@ -32,27 +32,17 @@
 /* ── Logo ───────────────────────────────── */
 .nav-logo {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 22px 18px 18px;
+  justify-content: center;
+  padding: 22px 18px 16px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   flex-shrink: 0;
 }
 
-.nav-logo-icon { font-size: 30px; }
-
-.nav-logo-title {
-  font-size: 16px;
-  font-weight: 800;
-  color: white;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-}
-
-.nav-logo-sub {
-  font-size: 10px;
-  color: rgba(255,255,255,0.45);
-  margin-top: 1px;
+.nav-logo-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* ── Menú de navegación ─────────────────── */
@@ -224,10 +214,13 @@
     padding: 0 12px;
     border-bottom: none;
     flex: 1;
+    justify-content: flex-start;
   }
-  .nav-logo-icon { font-size: 22px; }
-  .nav-logo-title { font-size: 14px; }
-  .nav-logo-sub { display: none; }
+
+  .nav-logo-img {
+    width: 42px;
+    height: 42px;
+  }
 
   .menu {
     position: absolute;

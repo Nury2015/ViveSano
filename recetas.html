@@ -134,7 +134,16 @@
            placeholder="Buscar recetas, ingredientes..."
            oninput="buscarRecetas(this.value)">
   </div>
-  <button class="ctrl-btn ctrl-filtros">⚙️ Filtros</button>
+  <button class="ctrl-btn ctrl-filtros" onclick="toggleFiltros()">⚙️ Filtros</button>
+</div>
+
+<!-- Panel de filtros -->
+<div id="panel-filtros" class="panel-filtros" style="display:none">
+  <span class="filtro-label">Calorías:</span>
+  <button class="filtro-chip activo" onclick="aplicarFiltroKcal('todas',this)">Todas</button>
+  <button class="filtro-chip"        onclick="aplicarFiltroKcal('low',this)">≤ 400 kcal</button>
+  <button class="filtro-chip"        onclick="aplicarFiltroKcal('mid',this)">400–600 kcal</button>
+  <button class="filtro-chip"        onclick="aplicarFiltroKcal('high',this)">≥ 600 kcal</button>
 </div>
 
 <!-- ══ PANEL MIS FAVORITOS ════════════════════════════ -->

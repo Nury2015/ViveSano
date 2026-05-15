@@ -471,6 +471,40 @@ body {
 
 .ctrl-filtros { border-color: #ddd; color: #555; flex-shrink: 0; }
 
+/* Panel de filtros */
+.panel-filtros {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f8f9f8;
+  border-bottom: 1px solid #eee;
+  animation: slideDown 0.2s ease;
+}
+
+.filtro-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  flex-shrink: 0;
+}
+
+.filtro-chip {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid #ddd;
+  background: white;
+  color: #555;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filtro-chip:hover  { border-color: #2e7d32; color: #2e7d32; }
+.filtro-chip.activo { background: #2e7d32; border-color: #2e7d32; color: white; }
+
 /* ── FEATURES ───────────────────────────────────── */
 .features-section {
   display: grid;
