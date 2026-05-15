@@ -167,6 +167,8 @@
 
 <!-- SCRIPTS -->
 <script src="js/menu.js"></script>
+<script src="js/registro.js"></script>
+<div id="modal-registro-wrap"></div>
 <script>
 fetch("components/menu.html")
   .then(r => r.text())
@@ -174,6 +176,9 @@ fetch("components/menu.html")
     document.getElementById("menu").innerHTML = data;
     setTimeout(() => iniciarMenu(), 0);
   });
+fetch("components/modal-registro.html")
+  .then(r => r.text())
+  .then(html => { document.getElementById("modal-registro-wrap").innerHTML = html; });
 </script>
 <script src="js/planeador.js"></script>
 
@@ -245,11 +250,13 @@ function actualizarBadge() {
 }
 
 function guardarFavoritos() {
-  localStorage.setItem("ingredientesFavoritos", JSON.stringify([...seleccionados]));
-  const btn = document.querySelector(".btn-fav");
-  btn.textContent = "✓ Guardado";
-  setTimeout(() => { btn.textContent = "⭐ Guardar como mis favoritos"; }, 2000);
-  renderPantry();
+  verificarYProceder(() => {
+    localStorage.setItem("ingredientesFavoritos", JSON.stringify([...seleccionados]));
+    const btn = document.querySelector(".btn-fav");
+    btn.textContent = "✓ Guardado";
+    setTimeout(() => { btn.textContent = "⭐ Guardar como mis favoritos"; }, 2000);
+    renderPantry();
+  });
 }
 
 // Comprueba si un ingrediente de receta coincide con un ítem del pantry.

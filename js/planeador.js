@@ -1345,6 +1345,10 @@ function abrirPlanReceta(tipo, id) {
 
 // ─── GUARDAR PLAN ────────────────────────────────────────────
 function guardarPlan() {
+  verificarYProceder(_guardarPlan);
+}
+
+function _guardarPlan() {
   const hoy   = new Date();
   const DIAS  = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
   const plan  = {

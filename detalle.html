@@ -59,6 +59,13 @@
   <a href="recetas.html" class="btn-volver-grande">← Volver a las recetas</a>
 </div>
 
+<div id="modal-registro-wrap"></div>
+<script src="js/registro.js"></script>
+<script>
+fetch("components/modal-registro.html")
+  .then(r => r.text())
+  .then(html => { document.getElementById("modal-registro-wrap").innerHTML = html; });
+</script>
 <script>
 // ──────────────────────────────────────────────
 // CONVERTIDOR: cantidad/gramos ↔ medida casera
@@ -267,12 +274,14 @@ if (!receta) {
 
 function guardarReceta() {
   if (!receta) return;
-  let historial = JSON.parse(localStorage.getItem("historial")) || [];
-  historial.push({ ...receta, fechaGuardado: new Date().toLocaleDateString("es-CO") });
-  localStorage.setItem("historial", JSON.stringify(historial));
-  const btn = document.querySelector(".guardar");
-  btn.textContent = "✓ Guardada";
-  setTimeout(() => btn.textContent = "💚 Guardar en historial", 2000);
+  verificarYProceder(() => {
+    let historial = JSON.parse(localStorage.getItem("historial")) || [];
+    historial.push({ ...receta, fechaGuardado: new Date().toLocaleDateString("es-CO") });
+    localStorage.setItem("historial", JSON.stringify(historial));
+    const btn = document.querySelector(".guardar");
+    btn.textContent = "✓ Guardada";
+    setTimeout(() => btn.textContent = "💚 Guardar en historial", 2000);
+  });
 }
 
 function compartirReceta() {
