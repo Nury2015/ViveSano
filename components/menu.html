@@ -1,25 +1,52 @@
 
-    <nav class="navbar">
-   <div class="hamburguesa" id="btn-menu">
- <i class="fa-solid fa-bars"></i>
-</div>
-  <div class="logoViveSano"><img src="assets/img/logofondoblanco.png" alt="logovivesano"></div>
+<nav class="navbar">
 
-<ul class="menu">
+  <!-- Hamburguesa (solo mobile) -->
+  <button class="hamburguesa" id="btn-menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
 
-  <li><a href="index.html"><i class="fa-solid fa-calculator"></i> Calculadora</a></li>
-  <li><a href="recetas.html"><i class="fa-solid fa-book"></i> Mis recetas</a></li>
-  <li><a href="historial.html"><i class="fa-solid fa-clock"></i> Historial</a></li>
-  <li id="nav-logout" style="display:none" onclick="cerrarSesion()">
-    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
-  </li>
-  <li id="nav-login" onclick="mostrarModalAuth ? mostrarModalAuth() : (window.location.href='recetas.html')" style="display:none">
-    <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
-  </li>
-</ul>
+  <!-- Logo -->
+  <div class="nav-logo">
+    <span class="nav-logo-icon">🥗</span>
+    <div>
+      <div class="nav-logo-title">VIVESANO</div>
+      <div class="nav-logo-sub">Nutrición inteligente</div>
+    </div>
+  </div>
 
-  <div class="user">
-    <i class="fa fa-user"></i>
-    <span id="nav-user-nombre" style="font-size:11px;color:rgba(255,255,255,0.85);display:block;margin-top:3px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center"></span>
+  <!-- Navegación principal -->
+  <ul class="menu">
+    <li><a href="index.html">    <i class="fa-solid fa-calculator"></i>         Calculadora</a></li>
+    <li><a href="recetas.html">  <i class="fa-solid fa-utensils"></i>           Mis recetas</a></li>
+    <li><a href="historial.html"><i class="fa-solid fa-clock-rotate-left"></i>  Historial</a></li>
+    <li class="nav-disabled"><a href="#"><i class="fa-regular fa-heart"></i>    Favoritos</a></li>
+    <li class="nav-disabled"><a href="#"><i class="fa-solid fa-gear"></i>       Ajustes</a></li>
+  </ul>
+
+  <!-- Footer del sidebar -->
+  <div class="nav-footer">
+
+    <!-- Tarjeta de usuario (visible cuando está logueado) -->
+    <div class="nav-user-card" id="nav-user-card" style="display:none">
+      <div class="nav-user-avatar"><i class="fa-solid fa-user"></i></div>
+      <div class="nav-user-info">
+        <span class="nav-user-name" id="nav-user-nombre">Usuario</span>
+        <span class="nav-user-badge" id="nav-user-badge" style="display:none">🌱 Modo Vegano</span>
+      </div>
+    </div>
+
+    <!-- Auth -->
+    <div id="nav-logout" class="nav-auth-item" style="display:none" onclick="cerrarSesion()">
+      <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+    </div>
+    <div id="nav-login" class="nav-auth-item" style="display:none"
+         onclick="mostrarModalAuth ? mostrarModalAuth() : (window.location.href='recetas.html')">
+      <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+    </div>
+
+    <!-- Quote -->
+    <div class="nav-quote">"Pequeños hábitos hacen grandes cambios" 🌿</div>
+
   </div>
 </nav>

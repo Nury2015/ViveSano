@@ -1282,7 +1282,18 @@ function toggleVegano() {
     btn.classList.toggle("activo", modoVegano);
     btn.textContent = modoVegano ? "🌱 Modo Vegano ON" : "🌱 Modo Vegano";
   }
+  const badge = document.getElementById("nav-user-badge");
+  if (badge) badge.style.display = modoVegano ? "block" : "none";
   SLOTS.forEach(s => renderSeccion(s));
+}
+
+function buscarRecetas(q) {
+  const texto = q.toLowerCase().trim();
+  document.querySelectorAll(".opcion-card").forEach(card => {
+    const nombre = (card.querySelector("h4")?.textContent || "").toLowerCase();
+    const desc   = (card.querySelector(".opcion-desc")?.textContent || "").toLowerCase();
+    card.style.display = (!texto || nombre.includes(texto) || desc.includes(texto)) ? "" : "none";
+  });
 }
 
 // ─── PROGRESO ────────────────────────────────────────────────

@@ -124,8 +124,17 @@
 
 <!-- ── CONTROLES GLOBALES ──────────────────────────── -->
 <div class="controles-globales">
-  <button id="btn-vegano" class="ctrl-btn" onclick="toggleVegano()">🌱 Modo Vegano</button>
-  <button id="btn-mis-favoritos" class="ctrl-btn" onclick="toggleFavoritos()">❤️ Mis favoritos</button>
+  <div class="ctrl-izq">
+    <button id="btn-vegano" class="ctrl-btn" onclick="toggleVegano()">🌱 Modo Vegano</button>
+    <button id="btn-mis-favoritos" class="ctrl-btn" onclick="toggleFavoritos()">❤️ Mis favoritos</button>
+  </div>
+  <div class="ctrl-search-wrap">
+    <span class="search-ico">🔍</span>
+    <input id="search-recetas" type="search" class="ctrl-search"
+           placeholder="Buscar recetas, ingredientes..."
+           oninput="buscarRecetas(this.value)">
+  </div>
+  <button class="ctrl-btn ctrl-filtros">⚙️ Filtros</button>
 </div>
 
 <!-- ══ PANEL MIS FAVORITOS ════════════════════════════ -->
@@ -236,6 +245,38 @@
   <h3>✅ Tu plan del día está completo</h3>
   <div id="resumen-contenido"></div>
   <button id="btn-guardar-plan" onclick="guardarPlan()">Guardar mi plan del día</button>
+</div>
+
+<!-- ══ FEATURES ══════════════════════════════════════ -->
+<div class="features-section">
+  <div class="feature-item">
+    <div class="feature-ico" style="background:#e8f5e9">🌿</div>
+    <div>
+      <strong>Ingredientes frescos</strong>
+      <p>Usamos alimentos naturales y de temporada.</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-ico" style="background:#fce4ec">❤️</div>
+    <div>
+      <strong>Recetas saludables</strong>
+      <p>Balanceadas y aprobadas por nutricionistas.</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-ico" style="background:#e3f2fd">🤖</div>
+    <div>
+      <strong>Inteligencia artificial</strong>
+      <p>Recomendaciones personalizadas según tus objetivos.</p>
+    </div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-ico" style="background:#fff8e1">🎯</div>
+    <div>
+      <strong>Hábitos que transforman</strong>
+      <p>Pequeños cambios diarios, grandes resultados.</p>
+    </div>
+  </div>
 </div>
 
 <a href="index.html" class="volver">⬅ Volver a la calculadora</a>

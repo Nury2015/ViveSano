@@ -1,172 +1,256 @@
+/* ══════════════════════════════════════════
+   SIDEBAR VIVESANO — verde oscuro
+   ══════════════════════════════════════════ */
 
+/* Hamburguesa (solo mobile) */
 .hamburguesa {
   display: none;
-  font-size: 25px;
+  background: none;
+  border: none;
+  font-size: 22px;
   color: white;
-  padding: 10px 20px;
+  padding: 10px 16px;
   cursor: pointer;
+  flex-shrink: 0;
 }
-.navbar{
+
+/* Sidebar principal */
+.navbar {
   position: fixed;
   left: 0;
   top: 0;
-  width: 240px;
+  width: 220px;
   height: 100vh;
-  background: linear-gradient(180deg,#53a799,#000000);
+  background: #1a3a2a;
   color: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 20px 0;
-    border-right: 1px solid rgb(255 255 255 / 77%);
-    box-shadow: 4px 0 15px rgb(0 0 0 / 62%);
+  z-index: 200;
+  box-shadow: 3px 0 15px rgba(0,0,0,0.25);
 }
 
-  
-.logoViveSano img{  
-  width: 125px;
-    height: 125px;
-    border-radius: 70px;
-    margin-left: 53px;
-}
-
-.menu{
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menu li{
-  padding: 15px 30px;
+/* ── Logo ───────────────────────────────── */
+.nav-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: large;
+  gap: 10px;
+  padding: 22px 18px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
 }
 
+.nav-logo-icon { font-size: 30px; }
 
-.menu li i{
-  width:20px;
-  text-align:center;
+.nav-logo-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
-.menu li:hover{
-  background: rgba(255,255,255,0.1);
+.nav-logo-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 1px;
 }
+
+/* ── Menú de navegación ─────────────────── */
+.menu {
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.menu li { margin: 2px 10px; }
 
 .menu a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 14px;
+  border-radius: 10px;
   text-decoration: none;
-  color: inherit;
+  color: rgba(255,255,255,0.62);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+
+.menu a:hover {
+  background: rgba(255,255,255,0.09);
+  color: rgba(255,255,255,0.95);
 }
 
 .menu a.active {
-  color: #2ecc71;
-  font-weight: bold;
-  border-bottom: 2px solid #2ecc71;
+  background: #2e7d32;
+  color: white;
+  font-weight: 600;
 }
-.user{
+
+.menu a i {
+  width: 18px;
   text-align: center;
-  padding: 20px;
-  font-size: 22px;
-  margin-bottom:30px;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-.user i{
-  background: rgba(255,255,255,0.1);
-  padding: 19px;
+/* Ítem desactivado */
+.nav-disabled a {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Footer del sidebar ─────────────────── */
+.nav-footer {
+  padding: 10px 12px 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Tarjeta de usuario */
+.nav-user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.nav-user-avatar {
+  width: 34px;
+  height: 34px;
+  background: rgba(255,255,255,0.12);
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
 }
 
+.nav-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.nav-user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+  display: block;
+}
+
+.nav-user-badge {
+  font-size: 10px;
+  color: #69f0ae;
+  font-weight: 500;
+}
+
+/* Auth items */
+.nav-auth-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-auth-item:hover {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+/* Quote motivacional */
+.nav-quote {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+  line-height: 1.5;
+  padding: 2px 4px;
+}
+
+/* ── Modales heredados ──────────────────── */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-
 }
 
-.oculto {
-  display: none;
-}
-
+.oculto { display: none; }
 
 .modal p {
   font-size: 18px;
   margin-bottom: 25px;
   line-height: 1.5;
 }
-/* Ajuste para móviles */
+
+/* ══ RESPONSIVE MOBILE ≤768px ══════════ */
 @media (max-width: 768px) {
 
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
+  .hamburguesa { display: block; }
+
+  .navbar {
     width: 100%;
     height: 60px;
     flex-direction: row;
-    justify-content: space-around;
     align-items: center;
-    z-index: 1000;
-  
-  }
-
-  /* Logo más pequeño */
-  .logoViveSano img {
-    width: 50px;
-    height: 50px;
-    margin: 0;
-  }
-
-  /* 👤 usuario más pequeño */
-  .user {
-    margin: 0;
     padding: 0;
   }
 
-  .user i {
-    padding: 10px;
+  .nav-logo {
+    padding: 0 12px;
+    border-bottom: none;
+    flex: 1;
   }
+  .nav-logo-icon { font-size: 22px; }
+  .nav-logo-title { font-size: 14px; }
+  .nav-logo-sub { display: none; }
 
-  /* 🍔 Mostrar hamburguesa */
-  .hamburguesa {
-    display: block;
-    color: #d0eaff;
-  }
-
-  /* 🚫 Ocultar menú */
   .menu {
     position: absolute;
     top: 60px;
     left: 0;
     width: 100%;
-    background: black;
+    background: #1a3a2a;
     display: none;
     flex-direction: column;
+    padding: 8px 0 12px;
+    z-index: 300;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
   }
 
-  /* ✅ Mostrar cuando se active */
- .menu.active {
-  display: flex;
-  background: white;
-        color: black;
-        margin-top: 41px;
-}
+  .menu.active { display: flex; }
 
-  /* 📱 Ajustar calculadora */
+  .menu li { margin: 1px 8px; }
+
+  .nav-footer { display: none; }
+
   .container {
     margin-left: 0;
     margin-top: 80px;
     width: 90%;
   }
-
- 
 }

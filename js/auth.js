@@ -197,19 +197,22 @@ async function cerrarSesion() {
 
 // ─── ACTUALIZAR NOMBRE EN EL NAV ─────────────────────────────
 function actualizarNavUsuario(user) {
-  const elNombre = document.getElementById("nav-user-nombre");
-  const elLogout = document.getElementById("nav-logout");
-  const elLogin  = document.getElementById("nav-login");
+  const elNombre   = document.getElementById("nav-user-nombre");
+  const elLogout   = document.getElementById("nav-logout");
+  const elLogin    = document.getElementById("nav-login");
+  const elUserCard = document.getElementById("nav-user-card");
 
   if (user) {
     const nombre = user.displayName || user.email?.split("@")[0] || "Usuario";
-    if (elNombre) elNombre.textContent = nombre;
-    if (elLogout) elLogout.style.display = "";
-    if (elLogin)  elLogin.style.display  = "none";
+    if (elNombre)   elNombre.textContent      = nombre;
+    if (elLogout)   elLogout.style.display    = "flex";
+    if (elLogin)    elLogin.style.display     = "none";
+    if (elUserCard) elUserCard.style.display  = "flex";
   } else {
-    if (elNombre) elNombre.textContent = "";
-    if (elLogout) elLogout.style.display = "none";
-    if (elLogin)  elLogin.style.display  = "";
+    if (elNombre)   elNombre.textContent      = "";
+    if (elLogout)   elLogout.style.display    = "none";
+    if (elLogin)    elLogin.style.display     = "flex";
+    if (elUserCard) elUserCard.style.display  = "none";
   }
 }
 
