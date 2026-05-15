@@ -22,7 +22,7 @@ function _calcularCalorias(d) {
 
 function mostrarModalRegistro(onSuccess) {
   const modal = document.getElementById("modal-registro");
-  if (!modal) { onSuccess?.(); return; }
+  if (!modal) return; // no ejecutar la acción si el modal no existe
   modal.style.display = "flex";
 
   // Pre-rellenar si ya tiene datos parciales
