@@ -1219,10 +1219,10 @@ function renderSeccion(slot) {
           ${esVeg}
           <p class="opcion-desc">${r.descripcion}</p>
           <div class="opcion-macros">
-            <span><span class="macro-ico">🔥</span>${r.calorias} kcal</span>
-            <span><span class="macro-ico">🌿</span>${r.proteinas}g prot.</span>
-            <span><span class="macro-ico">🌾</span>${r.carbohidratos}g carbs</span>
-            <span><span class="macro-ico">💧</span>${r.grasas}g grasas</span>
+            <span class="macro-kcal">  <span class="macro-ico">🔥</span>${r.calorias} kcal</span>
+            <span class="macro-prot">  <span class="macro-ico">🌿</span>${r.proteinas}g prot.</span>
+            <span class="macro-carbs"> <span class="macro-ico">🌾</span>${r.carbohidratos}g carbs</span>
+            <span class="macro-grasas"><span class="macro-ico">💧</span>${r.grasas}g grasas</span>
           </div>
           ${adaptacion}
           ${r.nota ? `<p class="nota-aviso">${r.nota}</p>` : ""}
