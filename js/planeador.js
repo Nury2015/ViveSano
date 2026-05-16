@@ -1376,6 +1376,7 @@ function seleccionarReceta(slotId, recetaId) {
   actualizarProgreso();
   actualizarResumen();
   actualizarPlanDelDia();
+  if (typeof actualizarListaCompras === "function") actualizarListaCompras();
 
   const check = document.getElementById(`check-${slotId}`);
   if (check) check.textContent = selecciones[slotId] ? "✅" : "";

@@ -130,6 +130,7 @@
     <button id="btn-vegano" class="ctrl-btn" onclick="toggleVegano()">🌱 Modo Vegano</button>
     <button id="btn-mis-favoritos" class="ctrl-btn" onclick="toggleFavoritos()">❤️ Mis favoritos</button>
     <button id="btn-mis-ingredientes" class="ctrl-btn" onclick="toggleSelector()">🥕 Ingredientes</button>
+    <button id="btn-lista-compras"   class="ctrl-btn" onclick="toggleListaCompras()">🛒 Lista</button>
   </div>
   <div class="ctrl-search-wrap">
     <span class="search-ico">🔍</span>
@@ -169,6 +170,17 @@
   <button class="filtro-chip"        onclick="aplicarFiltroKcal('low',this)">≤ 400 kcal</button>
   <button class="filtro-chip"        onclick="aplicarFiltroKcal('mid',this)">400–600 kcal</button>
   <button class="filtro-chip"        onclick="aplicarFiltroKcal('high',this)">≥ 600 kcal</button>
+</div>
+
+<!-- ══ PANEL LISTA DE COMPRAS ══════════════════════════ -->
+<div id="panel-lista-compras" class="panel-lista-compras" style="display:none">
+  <div class="lista-header">
+    <div class="lista-header-txt">
+      <h3>🛒 Lista de compras</h3>
+      <p>Ingredientes de tus recetas del día, agrupados por tipo</p>
+    </div>
+  </div>
+  <div id="lista-compras-contenido"></div>
 </div>
 
 <!-- ══ PANEL MIS FAVORITOS ════════════════════════════ -->
@@ -361,6 +373,7 @@ fetch("components/menu.html")
   });
 </script>
 <script src="js/planeador.js"></script>
+<script src="js/lista-compras.js"></script>
 
 <script>
 // ════════════════════════════════════════════════════
