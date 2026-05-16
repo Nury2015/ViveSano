@@ -1682,6 +1682,7 @@ function _guardarPlan() {
 
 // ─── INICIALIZAR ─────────────────────────────────────────────
 function initPlaneador() {
+  if (!document.getElementById("meta-header")) return; // solo en recetas.html
   const usuario    = JSON.parse(localStorage.getItem("datosUsuario")) || {};
   const enfermedad = usuario.enfermedad;
   const condicion  = usuario.condicion  || "";

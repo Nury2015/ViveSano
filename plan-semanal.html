@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Semanal — ViveSano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/plan-semanal.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Firebase (para lectura del perfil) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+</head>
+<body>
+
+<div id="menu"></div>
+
+<main class="ps-main">
+
+  <!-- Cabecera -->
+  <div class="ps-header">
+    <div class="ps-header-left">
+      <h1>📅 Plan semanal</h1>
+      <p>Desayuno, almuerzo y cena para los 7 días — adaptado a tu perfil</p>
+    </div>
+    <div class="ps-header-btns">
+      <button id="btn-vegano-sem" class="ps-btn" onclick="toggleVeganoSemanal()">🌱 Vegano</button>
+      <button class="ps-btn" onclick="generarPlanSemanal()">🔄 Regenerar</button>
+      <button id="btn-exportar" class="ps-btn" onclick="exportarPlan()">📋 Copiar plan</button>
+    </div>
+  </div>
+
+  <!-- Tags de adaptación activa -->
+  <div id="ps-banner-adapt" class="ps-banner-adapt"></div>
+
+  <!-- Grid de días -->
+  <div id="ps-contenido" class="ps-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:#888">
+      <i class="fa-solid fa-spinner fa-spin" style="font-size:28px;color:#2e7d32"></i>
+      <p style="margin-top:12px;font-size:14px">Generando tu plan…</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- Menú -->
+<script src="js/menu.js"></script>
+<script>
+fetch("components/menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+    setTimeout(() => iniciarMenu(), 0);
+  });
+</script>
+
+<!-- Recetas + lógica del planeador (contiene RECETAS, getEmoji, urlFoto, _scoreEmbarazo, etc.) -->
+<script src="js/planeador.js"></script>
+
+<!-- Lógica del plan semanal -->
+<script src="js/plan-semanal.js"></script>
+
+<!-- Actualizar nav con usuario logueado -->
+<script src="js/auth.js"></script>
+<script>
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    // Sincronizar perfil de Firestore → localStorage
+    try {
+      const doc = await db.collection("usuarios").doc(user.uid).get();
+      if (doc.exists) {
+        const datos = doc.data();
+        const local = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+        localStorage.setItem("datosUsuario", JSON.stringify({ ...local, ...datos }));
+      }
+    } catch(e) {}
+    if (typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+    // Re-renderizar con datos actualizados del perfil
+    if (typeof renderBannerAdapt === "function") renderBannerAdapt();
+    if (typeof planActual !== "undefined" && planActual) {
+      /* plan ya generado, solo actualizar banner */
+    } else if (typeof cargarPlanGuardado === "function") {
+      cargarPlanGuardado();
+    }
+  }
+});
+</script>
+
+</body>
+</html>
