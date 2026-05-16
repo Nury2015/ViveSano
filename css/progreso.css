@@ -1,0 +1,305 @@
+/* ══════════════════════════════════════════
+   PROGRESO DE PESO — ViveSano
+   ══════════════════════════════════════════ */
+
+body {
+  margin: 0;
+  background: #f4f7f4;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: #1a2e1a;
+}
+
+.prog-main {
+  margin-left: 220px;
+  padding: 28px 20px 60px;
+  max-width: 680px;
+}
+
+/* ── Cabecera ───────────────────────────── */
+.prog-header {
+  background: linear-gradient(135deg, #1b5233, #2e7d32);
+  border-radius: 18px;
+  padding: 20px 22px 18px;
+  color: white;
+  margin-bottom: 18px;
+}
+
+.prog-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.prog-header p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.78);
+}
+
+/* ── Stats ──────────────────────────────── */
+.prog-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.prog-stat {
+  background: white;
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.prog-stat-ico  { font-size: 22px; display: block; margin-bottom: 4px; }
+.prog-stat-val  { display: block; font-size: 20px; font-weight: 800; color: #1a2e1a; line-height: 1; }
+.prog-stat-lbl  { display: block; font-size: 10px; color: #888; margin-top: 3px; }
+.prog-stat-sub  { display: block; font-size: 10px; margin-top: 2px; font-weight: 600; }
+
+.prog-stat.positivo .prog-stat-val { color: #2e7d32; }
+.prog-stat.negativo .prog-stat-val { color: #e53935; }
+.prog-stat.neutro   .prog-stat-val { color: #f57f17; }
+
+/* ── Objetivo tag ───────────────────────── */
+.prog-objetivo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1b5233;
+}
+
+.prog-objetivo span:first-child { font-size: 18px; }
+
+/* ── Card contenedor ────────────────────── */
+.prog-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.prog-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.prog-card-header h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1b5233;
+}
+
+/* ── Gráfica SVG ────────────────────────── */
+.prog-chart-wrap {
+  padding: 16px 12px 8px;
+}
+
+.prog-chart-wrap svg {
+  width: 100%;
+  display: block;
+}
+
+.chart-empty {
+  text-align: center;
+  padding: 32px 20px;
+  color: #aaa;
+}
+
+.chart-empty span { font-size: 36px; display: block; margin-bottom: 10px; }
+.chart-empty p    { font-size: 13px; margin: 0; line-height: 1.6; }
+
+/* ── Formulario de registro ─────────────── */
+.prog-form {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prog-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.prog-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prog-campo label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.prog-campo input {
+  padding: 10px 13px;
+  border: 1.5px solid #dde8dd;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #1a2e1a;
+  background: #f8fbf8;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.prog-campo input:focus {
+  border-color: #2e7d32;
+  background: white;
+}
+
+.btn-registrar {
+  padding: 12px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-registrar:hover { background: #1b5233; }
+.btn-registrar.ok    { background: #43a047; }
+
+.prog-form-msg {
+  font-size: 12px;
+  min-height: 14px;
+  font-weight: 500;
+}
+
+.prog-form-msg.ok    { color: #2e7d32; }
+.prog-form-msg.error { color: #e53935; }
+
+/* ── Historial de pesajes ───────────────── */
+.prog-hist-lista {
+  padding: 4px 0 8px;
+}
+
+.prog-hist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.12s;
+}
+
+.prog-hist-item:last-child { border-bottom: none; }
+.prog-hist-item:hover      { background: #f9fbe7; }
+
+.prog-hist-fecha {
+  font-size: 12px;
+  color: #888;
+  min-width: 90px;
+}
+
+.prog-hist-peso {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.prog-hist-peso span {
+  font-size: 12px;
+  font-weight: 400;
+  color: #888;
+  margin-left: 2px;
+}
+
+.prog-delta {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.prog-delta.baja  { background: #e8f5e9; color: #2e7d32; }
+.prog-delta.sube  { background: #ffebee; color: #e53935; }
+.prog-delta.igual { background: #f5f5f5; color: #888; }
+
+.prog-hist-nota {
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.btn-del-peso {
+  background: none;
+  border: none;
+  color: #ddd;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+
+.btn-del-peso:hover { color: #e53935; }
+
+.prog-hist-vacio {
+  text-align: center;
+  padding: 28px;
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* IMC badge colores */
+.imc-bajo      { color: #1565c0; }
+.imc-normal    { color: #2e7d32; }
+.imc-sobrepeso { color: #f57f17; }
+.imc-obesidad  { color: #e53935; }
+
+/* ══ RESPONSIVE ══════════════════════════ */
+@media (max-width: 768px) {
+  .prog-main {
+    margin-left: 0;
+    margin-top: 68px;
+    padding: 14px 12px 60px;
+    max-width: 100%;
+  }
+
+  .prog-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .prog-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .prog-hist-nota { display: none; }
+}
+
+@media (max-width: 380px) {
+  .prog-stats { grid-template-columns: repeat(2, 1fr); }
+  .prog-form-row { grid-template-columns: 1fr; }
+}
