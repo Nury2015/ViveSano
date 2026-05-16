@@ -492,8 +492,21 @@ function toggleFavoritos() {
 }
 
 function renderFavoritos() {
-  const historial = JSON.parse(localStorage.getItem("historial")) || [];
   const recetasGuardadas = [];
+
+  // 1. Recetas marcadas con el corazón (favoritosRecetas)
+  const favIds = new Set(JSON.parse(localStorage.getItem("favoritosRecetas") || "[]"));
+  if (favIds.size > 0) {
+    for (const [tipo, lista] of Object.entries(RECETAS)) {
+      for (const r of lista) {
+        if (favIds.has(r.id) && !recetasGuardadas.find(x => x.id === r.id))
+          recetasGuardadas.push({ ...r, tipoMeal: tipo });
+      }
+    }
+  }
+
+  // 2. Recetas del historial guardado (compatibilidad)
+  const historial = JSON.parse(localStorage.getItem("historial")) || [];
   historial.forEach(item => {
     if (item.tipo === "plan_dia" && item.comidas) {
       Object.values(item.comidas).forEach(r => { if (r?.nombre && !recetasGuardadas.find(x => x.id === r.id)) recetasGuardadas.push(r); });
