@@ -617,7 +617,7 @@ body {
 .recetas-opciones {
   display: none;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 23px;
   padding: 0 16px 20px;
   background: white;
 }
@@ -631,13 +631,13 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.08);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .opcion-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.12);
 }
 
 .opcion-card.seleccionada {
@@ -759,19 +759,22 @@ body {
 /* Macros chips con color por categoría */
 .opcion-macros {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  gap: 5px;
   margin: 0;
 }
 
 .opcion-macros span {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
+  gap: 4px;
+  padding: 5px 8px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
+  white-space: nowrap;
+  flex: 1;
+  justify-content: center;
 }
 
 .macro-kcal   { background: #E8F5E9; color: #2E7D32; }
