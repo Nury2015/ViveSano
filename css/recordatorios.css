@@ -1,0 +1,287 @@
+/* ══════════════════════════════════════════
+   RECORDATORIOS — ViveSano
+   ══════════════════════════════════════════ */
+
+body {
+  margin: 0;
+  background: #f4f7f4;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: #1a2e1a;
+}
+
+.rec-main {
+  margin-left: 220px;
+  padding: 28px 20px 60px;
+  max-width: 560px;
+}
+
+/* ── Cabecera ───────────────────────────── */
+.rec-header {
+  background: linear-gradient(135deg, #1b5233, #2e7d32);
+  border-radius: 18px;
+  padding: 22px 22px 18px;
+  color: white;
+  margin-bottom: 18px;
+}
+
+.rec-header h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.rec-header p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.5;
+}
+
+/* ── Banner de permiso ──────────────────── */
+.rec-permiso-card {
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rec-permiso-card.pendiente {
+  background: #fff8e1;
+  border: 1.5px solid #ffe082;
+}
+
+.rec-permiso-card.concedido {
+  background: #e8f5e9;
+  border: 1.5px solid #a5d6a7;
+}
+
+.rec-permiso-card.denegado {
+  background: #ffebee;
+  border: 1.5px solid #ef9a9a;
+}
+
+.rec-permiso-ico {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.rec-permiso-txt h3 {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.rec-permiso-txt p {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.btn-permiso {
+  margin-top: 8px;
+  padding: 8px 18px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-permiso:hover { background: #1b5233; }
+
+/* ── Tarjetas de recordatorio ───────────── */
+.rec-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.rec-card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: box-shadow 0.15s;
+}
+
+.rec-card:has(.rec-toggle:checked) {
+  box-shadow: 0 2px 12px rgba(46,125,50,0.14);
+  border-left: 3px solid #2e7d32;
+}
+
+.rec-emoji {
+  font-size: 28px;
+  flex-shrink: 0;
+  width: 42px;
+  text-align: center;
+}
+
+.rec-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rec-nombre {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a2e1a;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.rec-hora-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rec-hora-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 500;
+}
+
+/* Input de hora */
+.rec-time {
+  padding: 4px 8px;
+  border: 1.5px solid #dde8dd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1b5233;
+  background: #f4f7f4;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  outline: none;
+}
+
+.rec-time:focus { border-color: #2e7d32; background: white; }
+
+/* ── Toggle switch ──────────────────────── */
+.rec-toggle-wrap { flex-shrink: 0; }
+
+.rec-toggle {
+  appearance: none;
+  width: 46px;
+  height: 26px;
+  background: #ddd;
+  border-radius: 13px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.rec-toggle::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.rec-toggle:checked {
+  background: #2e7d32;
+}
+
+.rec-toggle:checked::before {
+  transform: translateX(20px);
+}
+
+/* ── Botón guardar ──────────────────────── */
+.btn-guardar-rec {
+  width: 100%;
+  padding: 14px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  margin-bottom: 14px;
+}
+
+.btn-guardar-rec:hover { background: #1b5233; }
+
+.btn-guardar-rec.ok { background: #43a047; }
+
+/* ── Nota informativa ───────────────────── */
+.rec-nota {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.7;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.rec-nota strong { color: #1b5233; }
+
+/* ── Preview de próximos recordatorios ─── */
+.rec-proximos {
+  background: white;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 14px;
+}
+
+.rec-proximos h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1b5233;
+}
+
+.rec-prox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 13px;
+}
+
+.rec-prox-item:last-child { border-bottom: none; }
+
+.rec-prox-hora {
+  font-weight: 700;
+  color: #2e7d32;
+  min-width: 42px;
+}
+
+.rec-prox-apagado { color: #ccc; font-size: 12px; font-style: italic; }
+
+/* ══ RESPONSIVE ══════════════════════════ */
+@media (max-width: 768px) {
+  .rec-main {
+    margin-left: 0;
+    margin-top: 68px;
+    padding: 14px 12px 60px;
+    max-width: 100%;
+  }
+
+  .rec-header { border-radius: 14px; padding: 16px 16px 14px; }
+  .rec-header h1 { font-size: 18px; }
+}

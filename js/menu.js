@@ -73,3 +73,49 @@ links.forEach(link => {
 });
 
 window.iniciarMenu = iniciarMenu;
+
+// ── Checker de recordatorios (se ejecuta en todas las páginas) ──
+(function () {
+  function _iconRec() {
+    try { return new URL("assets/img/logofondoblanco.png", location.href).href; }
+    catch { return ""; }
+  }
+
+  function checkRecordatorios() {
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    const config = JSON.parse(localStorage.getItem("recordatorios") || "[]");
+    if (!config.length) return;
+
+    const ahora  = new Date();
+    const hhmm   = `${String(ahora.getHours()).padStart(2,"0")}:${String(ahora.getMinutes()).padStart(2,"0")}`;
+    const claveHoy = `rec_mostrado_${new Date().toDateString()}`;
+    const yaVistos = JSON.parse(sessionStorage.getItem(claveHoy) || "[]");
+
+    config.forEach(r => {
+      if (!r.activo || r.hora !== hhmm) return;
+      if (yaVistos.includes(r.id)) return;           // evitar duplicados en la misma sesión
+
+      const MENS = {
+        desayuno:    "¡Hora del desayuno! Empieza el día con energía 💪",
+        once_manana: "¡Hora de tus onces! Un snack saludable te espera 🍎",
+        almuerzo:    "¡Hora del almuerzo! Recarga energías para la tarde ☀️",
+        once_tarde:  "¡Merienda! Mantén tu metabolismo activo 🧁",
+        cena:        "¡Hora de cenar! Una cena liviana es lo ideal 🌙",
+      };
+
+      new Notification("ViveSano 🥗", {
+        body: MENS[r.id] || `¡Hora de ${r.label}!`,
+        icon: _iconRec(),
+        tag:  `vivesano-${r.id}`,                    // colapsa si ya hay una igual
+      });
+
+      yaVistos.push(r.id);
+      sessionStorage.setItem(claveHoy, JSON.stringify(yaVistos));
+    });
+  }
+
+  // Verificar cada minuto
+  setInterval(checkRecordatorios, 60_000);
+  // También al cargar la página (por si coincide la hora)
+  checkRecordatorios();
+})();

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recordatorios — ViveSano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/recordatorios.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="menu"></div>
+
+<main class="rec-main">
+
+  <!-- Cabecera -->
+  <div class="rec-header">
+    <h1>🔔 Recordatorios de comida</h1>
+    <p>Activa las alertas y elige el horario de cada comida. Recibirás una notificación cuando sea la hora, siempre que el navegador esté abierto.</p>
+  </div>
+
+  <!-- Estado del permiso de notificaciones -->
+  <div id="rec-permiso" class="rec-permiso-card pendiente"></div>
+
+  <!-- Preview: próximos recordatorios -->
+  <div class="rec-proximos">
+    <h3>⏰ Horario del día</h3>
+    <div id="rec-proximos-lista"></div>
+  </div>
+
+  <!-- Lista de recordatorios personalizables -->
+  <div id="rec-lista" class="rec-lista"></div>
+
+  <!-- Botón guardar -->
+  <button id="btn-guardar-rec" class="btn-guardar-rec" onclick="guardarRecordatorios()">
+    💾 Guardar recordatorios
+  </button>
+
+  <!-- Botón de prueba -->
+  <button class="btn-guardar-rec"
+          style="background:white;color:#2e7d32;border:1.5px solid #a5d6a7;margin-bottom:14px"
+          onclick="notificacionPrueba()">
+    🔔 Enviar notificación de prueba
+  </button>
+
+  <!-- Nota informativa -->
+  <div class="rec-nota">
+    <strong>¿Cómo funcionan los recordatorios?</strong><br>
+    · Las alertas se activan mientras el navegador esté abierto (en cualquier pestaña).<br>
+    · Cada recordatorio se muestra una sola vez por hora, aunque tengas varias pestañas abiertas.<br>
+    · Tus horarios se guardan en el dispositivo — no necesitas iniciar sesión.<br>
+    · Para recibir notificaciones cuando el navegador está cerrado, agréganos a la pantalla de inicio de tu teléfono.
+  </div>
+
+</main>
+
+<script src="js/menu.js"></script>
+<script>
+fetch("components/menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+    setTimeout(() => iniciarMenu(), 0);
+  });
+</script>
+<script src="js/recordatorios.js"></script>
+
+</body>
+</html>
