@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil — ViveSano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/perfil.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+</head>
+<body>
+
+<div id="menu"></div>
+
+<main class="perfil-main" id="perfil-main">
+
+  <!-- Estado: cargando -->
+  <div id="estado-cargando" style="padding:60px 20px;text-align:center;color:#888">
+    <i class="fa-solid fa-spinner fa-spin" style="font-size:30px;color:#2e7d32"></i>
+    <p style="margin-top:12px;font-size:14px">Cargando perfil…</p>
+  </div>
+
+  <!-- Estado: no logueado -->
+  <div id="estado-no-auth" class="perfil-no-auth" style="display:none">
+    <i class="fa-solid fa-circle-user"></i>
+    <h3>Inicia sesión para ver tu perfil</h3>
+    <p>Necesitas una cuenta para editar tu información.</p>
+    <a href="recetas.html" class="btn-ir-login">Ir a recetas</a>
+  </div>
+
+  <!-- Estado: logueado -->
+  <div id="estado-auth" style="display:none">
+
+    <!-- Cabecera -->
+    <div class="perfil-header">
+      <div class="perfil-avatar" id="perfil-avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <h2 id="perfil-nombre-display">—</h2>
+      <p id="perfil-email-display">—</p>
+      <span class="perfil-proveedor" id="perfil-proveedor"></span>
+    </div>
+
+    <!-- ── Información personal ── -->
+    <div class="perfil-card">
+      <h3><i class="fa-solid fa-id-card"></i> Información personal</h3>
+
+      <div class="campo">
+        <label>Nombre</label>
+        <input id="inp-nombre" type="text" placeholder="Tu nombre">
+      </div>
+
+      <div class="campo">
+        <label>Correo electrónico</label>
+        <input id="inp-email" type="email" placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="perfil-msg" id="msg-personal"></div>
+      <button class="btn-guardar" onclick="guardarInfoPersonal()">Guardar cambios</button>
+    </div>
+
+    <!-- ── Cambiar contraseña (solo email auth) ── -->
+    <div class="perfil-card" id="sec-password" style="display:none">
+      <h3><i class="fa-solid fa-lock"></i> Cambiar contraseña</h3>
+
+      <div class="campo">
+        <label>Contraseña actual</label>
+        <input id="inp-pass-actual" type="password" placeholder="Contraseña actual" autocomplete="current-password">
+      </div>
+
+      <div class="campo">
+        <label>Nueva contraseña</label>
+        <input id="inp-pass-nueva" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+      </div>
+
+      <div class="campo">
+        <label>Confirmar nueva contraseña</label>
+        <input id="inp-pass-confirmar" type="password" placeholder="Repite la nueva contraseña" autocomplete="new-password">
+      </div>
+
+      <div class="perfil-msg" id="msg-password"></div>
+      <button class="btn-guardar" onclick="cambiarContrasena()">Cambiar contraseña</button>
+    </div>
+
+    <!-- ── Datos físicos ── -->
+    <div class="perfil-card">
+      <h3><i class="fa-solid fa-heart-pulse"></i> Datos físicos</h3>
+
+      <div class="campo-row">
+        <div class="campo">
+          <label>Peso (kg)</label>
+          <input id="inp-peso" type="number" min="20" max="300" placeholder="70">
+        </div>
+        <div class="campo">
+          <label>Estatura (cm)</label>
+          <input id="inp-estatura" type="number" min="100" max="250" placeholder="170">
+        </div>
+        <div class="campo">
+          <label>Edad</label>
+          <input id="inp-edad" type="number" min="5" max="120" placeholder="25">
+        </div>
+      </div>
+
+      <div class="campo" style="margin-top:10px">
+        <label>Sexo asignado al nacer</label>
+        <select id="inp-sexo">
+          <option value="">Selecciona</option>
+          <option value="m">Masculino</option>
+          <option value="f">Femenino</option>
+          <option value="otro">Prefiero no responder</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Nivel de actividad</label>
+        <select id="inp-actividad">
+          <option value="">Selecciona</option>
+          <option value="sedentario">Sedentario (sin ejercicio)</option>
+          <option value="ligero">Ligero (1–3 veces/semana)</option>
+          <option value="moderado">Moderado (3–5 veces/semana)</option>
+          <option value="activo">Activo (6–7 veces/semana)</option>
+          <option value="muy_activo">Muy activo (atletas)</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Estado (embarazo / lactancia)</label>
+        <select id="inp-condicion" onchange="toggleTrimestre()">
+          <option value="ninguna">Ninguno</option>
+          <option value="embarazo">Embarazada</option>
+          <option value="lactancia">En lactancia</option>
+        </select>
+      </div>
+
+      <div class="campo" id="campo-trimestre" style="display:none">
+        <label>Trimestre de embarazo</label>
+        <select id="inp-trimestre">
+          <option value="1">1er trimestre (semanas 1–12)</option>
+          <option value="2">2do trimestre (semanas 13–26)</option>
+          <option value="3">3er trimestre (semanas 27–40)</option>
+        </select>
+      </div>
+
+      <div class="perfil-msg" id="msg-fisicos"></div>
+      <button class="btn-guardar" onclick="guardarDatosFisicos()">Guardar datos físicos</button>
+    </div>
+
+    <!-- ── Objetivos y salud ── -->
+    <div class="perfil-card">
+      <h3><i class="fa-solid fa-bullseye"></i> Objetivo y salud</h3>
+
+      <div class="campo">
+        <label>Objetivo nutricional</label>
+        <select id="inp-objetivo">
+          <option value="bajar">Bajar grasa</option>
+          <option value="masa">Ganar masa muscular</option>
+          <option value="tonificar">Tonificar / Definir</option>
+          <option value="mantener">Mantener peso</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Condición médica</label>
+        <select id="inp-enfermedad">
+          <option value="ninguna">Sin condición médica</option>
+          <option value="diabetes">Diabetes</option>
+          <option value="hipertension">Hipertensión</option>
+          <option value="colesterol">Colesterol alto</option>
+          <option value="obesidad">Obesidad / Sobrepeso</option>
+          <option value="celiaquia">Celiaquía</option>
+          <option value="gastritis">Gastritis</option>
+          <option value="tiroides">Tiroides</option>
+          <option value="renal">Enfermedad renal</option>
+          <option value="cardiaca">Cardiovascular</option>
+          <option value="digestiva">Problemas digestivos</option>
+        </select>
+      </div>
+
+      <div class="perfil-msg" id="msg-objetivos"></div>
+      <button class="btn-guardar" onclick="guardarObjetivos()">Guardar objetivo</button>
+    </div>
+
+    <!-- ── Cerrar sesión ── -->
+    <button class="btn-logout" onclick="cerrarSesionPerfil()">
+      <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
+    </button>
+
+  </div><!-- /estado-auth -->
+</main>
+
+<script src="js/menu.js"></script>
+
+<script>
+fetch("components/menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+    setTimeout(() => iniciarMenu(), 0);
+  });
+</script>
+
+<script>
+// ════════════════════════════════════════
+// PERFIL — lógica
+// ════════════════════════════════════════
+
+let _usuario = null;
+let _esGoogleAuth = false;
+
+auth.onAuthStateChanged(async (user) => {
+  document.getElementById("estado-cargando").style.display = "none";
+
+  if (!user) {
+    document.getElementById("estado-no-auth").style.display = "block";
+    return;
+  }
+
+  _usuario = user;
+  const proveedores = user.providerData.map(p => p.providerId);
+  _esGoogleAuth = proveedores.includes("google.com");
+
+  document.getElementById("estado-auth").style.display = "block";
+
+  // Avatar con foto de Google o inicial
+  const avatar = document.getElementById("perfil-avatar");
+  if (user.photoURL) {
+    avatar.innerHTML = `<img src="${user.photoURL}" alt="avatar">`;
+  } else {
+    const inicial = (user.displayName || user.email || "U").charAt(0).toUpperCase();
+    avatar.innerHTML = `<span style="font-size:28px;font-weight:700">${inicial}</span>`;
+  }
+
+  // Nombre y email en header
+  document.getElementById("perfil-nombre-display").textContent =
+    user.displayName || user.email?.split("@")[0] || "Usuario";
+  document.getElementById("perfil-email-display").textContent = user.email || "";
+
+  // Badge de proveedor
+  const prov = document.getElementById("perfil-proveedor");
+  prov.textContent = _esGoogleAuth ? "Cuenta Google" : "Cuenta con correo";
+
+  // Poblar campos de info personal
+  document.getElementById("inp-nombre").value = user.displayName || "";
+  const emailInp = document.getElementById("inp-email");
+  emailInp.value = user.email || "";
+  if (_esGoogleAuth) {
+    emailInp.setAttribute("readonly", true);
+    emailInp.title = "El correo de cuentas Google no se puede cambiar aquí";
+  }
+
+  // Mostrar sección de contraseña solo para email/password
+  if (!_esGoogleAuth) {
+    document.getElementById("sec-password").style.display = "block";
+  }
+
+  // Cargar datos guardados
+  let datos = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  if (!Object.keys(datos).length) {
+    try {
+      const doc = await db.collection("usuarios").doc(user.uid).get();
+      if (doc.exists) datos = doc.data();
+    } catch(e) {}
+  }
+
+  if (datos.peso)      document.getElementById("inp-peso").value      = datos.peso;
+  if (datos.estatura)  document.getElementById("inp-estatura").value  = datos.estatura;
+  if (datos.edad)      document.getElementById("inp-edad").value      = datos.edad;
+  if (datos.sexo)      document.getElementById("inp-sexo").value      = datos.sexo;
+  if (datos.actividad) document.getElementById("inp-actividad").value = datos.actividad;
+  if (datos.objetivo)  document.getElementById("inp-objetivo").value  = datos.objetivo;
+  if (datos.enfermedad)document.getElementById("inp-enfermedad").value= datos.enfermedad;
+  if (datos.condicion) {
+    document.getElementById("inp-condicion").value = datos.condicion;
+    toggleTrimestre();
+  }
+  if (datos.trimestre) document.getElementById("inp-trimestre").value = datos.trimestre;
+
+  // Actualizar nav (sidebar)
+  setTimeout(() => {
+    if (typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+  }, 400);
+});
+
+// ── Guardar nombre / email ────────────────
+async function guardarInfoPersonal() {
+  const nombre = document.getElementById("inp-nombre").value.trim();
+  const email  = document.getElementById("inp-email").value.trim();
+  const msg    = document.getElementById("msg-personal");
+
+  if (!nombre) { mostrarMsg(msg, "El nombre no puede estar vacío", "error"); return; }
+
+  try {
+    await _usuario.updateProfile({ displayName: nombre });
+
+    if (!_esGoogleAuth && email && email !== _usuario.email) {
+      await _usuario.updateEmail(email);
+    }
+
+    await db.collection("usuarios").doc(_usuario.uid).set({ nombre, email: _usuario.email }, { merge: true });
+
+    const datos = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+    datos.nombre = nombre;
+    localStorage.setItem("datosUsuario", JSON.stringify(datos));
+
+    document.getElementById("perfil-nombre-display").textContent = nombre;
+    if (typeof actualizarNavUsuario === "function") actualizarNavUsuario(_usuario);
+
+    mostrarMsg(msg, "✓ Información guardada", "ok");
+  } catch(e) {
+    const msgs = {
+      "auth/requires-recent-login": "Por seguridad, vuelve a iniciar sesión para cambiar el correo",
+      "auth/email-already-in-use":  "Ese correo ya está en uso",
+      "auth/invalid-email":         "Correo inválido",
+    };
+    mostrarMsg(msg, msgs[e.code] || "Error al guardar: " + e.message, "error");
+  }
+}
+
+// ── Cambiar contraseña ────────────────────
+async function cambiarContrasena() {
+  const actual    = document.getElementById("inp-pass-actual").value;
+  const nueva     = document.getElementById("inp-pass-nueva").value;
+  const confirmar = document.getElementById("inp-pass-confirmar").value;
+  const msg       = document.getElementById("msg-password");
+
+  if (!actual || !nueva || !confirmar) { mostrarMsg(msg, "Completa todos los campos", "error"); return; }
+  if (nueva.length < 6)                { mostrarMsg(msg, "La nueva contraseña debe tener al menos 6 caracteres", "error"); return; }
+  if (nueva !== confirmar)             { mostrarMsg(msg, "Las contraseñas no coinciden", "error"); return; }
+
+  try {
+    const credencial = firebase.auth.EmailAuthProvider.credential(_usuario.email, actual);
+    await _usuario.reauthenticateWithCredential(credencial);
+    await _usuario.updatePassword(nueva);
+
+    document.getElementById("inp-pass-actual").value    = "";
+    document.getElementById("inp-pass-nueva").value     = "";
+    document.getElementById("inp-pass-confirmar").value = "";
+    mostrarMsg(msg, "✓ Contraseña actualizada", "ok");
+  } catch(e) {
+    const msgs = {
+      "auth/wrong-password":      "La contraseña actual es incorrecta",
+      "auth/weak-password":       "La nueva contraseña es muy débil",
+      "auth/too-many-requests":   "Demasiados intentos. Espera un momento.",
+    };
+    mostrarMsg(msg, msgs[e.code] || "Error: " + e.message, "error");
+  }
+}
+
+// ── Toggle trimestre selector ─────────────
+function toggleTrimestre() {
+  const condicion = document.getElementById("inp-condicion").value;
+  document.getElementById("campo-trimestre").style.display =
+    condicion === "embarazo" ? "block" : "none";
+}
+
+// ── Guardar datos físicos ─────────────────
+async function guardarDatosFisicos() {
+  const msg      = document.getElementById("msg-fisicos");
+  const condicion = document.getElementById("inp-condicion").value;
+  const trimestre = document.getElementById("inp-trimestre").value;
+  const datos = {
+    peso:      parseFloat(document.getElementById("inp-peso").value)     || null,
+    estatura:  parseFloat(document.getElementById("inp-estatura").value) || null,
+    edad:      parseInt(document.getElementById("inp-edad").value)       || null,
+    sexo:      document.getElementById("inp-sexo").value || null,
+    actividad: document.getElementById("inp-actividad").value || null,
+    condicion: condicion || "ninguna",
+    trimestre: condicion === "embarazo" ? trimestre : null,
+  };
+
+  try {
+    await db.collection("usuarios").doc(_usuario.uid).set(datos, { merge: true });
+    const local = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+    localStorage.setItem("datosUsuario", JSON.stringify({ ...local, ...datos }));
+    mostrarMsg(msg, "✓ Datos físicos guardados", "ok");
+  } catch(e) {
+    mostrarMsg(msg, "Error al guardar", "error");
+  }
+}
+
+// ── Guardar objetivo y condición ──────────
+async function guardarObjetivos() {
+  const msg = document.getElementById("msg-objetivos");
+  const datos = {
+    objetivo:   document.getElementById("inp-objetivo").value,
+    enfermedad: document.getElementById("inp-enfermedad").value,
+  };
+
+  try {
+    await db.collection("usuarios").doc(_usuario.uid).set(datos, { merge: true });
+    const local = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+    localStorage.setItem("datosUsuario", JSON.stringify({ ...local, ...datos }));
+    mostrarMsg(msg, "✓ Objetivo guardado", "ok");
+  } catch(e) {
+    mostrarMsg(msg, "Error al guardar", "error");
+  }
+}
+
+// ── Cerrar sesión ─────────────────────────
+async function cerrarSesionPerfil() {
+  await auth.signOut();
+  localStorage.removeItem("datosUsuario");
+  localStorage.removeItem("caloriasObjetivo");
+  window.location.href = "index.html";
+}
+
+// ── Helper mensaje ────────────────────────
+function mostrarMsg(el, texto, tipo) {
+  el.textContent = texto;
+  el.className = "perfil-msg " + tipo;
+  setTimeout(() => { el.textContent = ""; el.className = "perfil-msg"; }, 4000);
+}
+</script>
+
+</body>
+</html>

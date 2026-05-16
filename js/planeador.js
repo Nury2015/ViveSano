@@ -1017,6 +1017,61 @@ const SLOTS = [
   { id: "cena",        label: "🌙 Cena",            tipo: "cena"     },
 ];
 
+// ─── NUTRICIÓN EMBARAZO ───────────────────────────────────────
+const NUTRIENTES_EMBARAZO = {
+  acidoFolico: ["lentejas", "frijoles", "espinaca", "brócoli", "habas", "aguacate", "naranja", "fresas", "lechuga"],
+  hierro:      ["carne de res", "costilla", "menudo", "pollo", "lentejas", "frijoles", "espinaca", "sardinas", "huevo"],
+  calcio:      ["leche", "queso", "yogur", "chocolate", "changua"],
+  proteina:    ["pollo", "carne de res", "huevo", "lentejas", "frijoles", "sardinas", "atún", "tofu", "costilla", "menudo"],
+};
+
+// Nutrientes prioritarios por trimestre + info calórica (OMS)
+const PRIORIDAD_TRIMESTRE = {
+  "1": { nutrientes: ["acidoFolico", "hierro",   "proteina"],  kcal: "+0 kcal/día",   tip: "Ácido fólico esencial para el tubo neural" },
+  "2": { nutrientes: ["hierro",      "calcio",   "proteina"],  kcal: "+340 kcal/día", tip: "Hierro y calcio para el crecimiento" },
+  "3": { nutrientes: ["calcio",      "proteina", "acidoFolico"], kcal: "+452 kcal/día", tip: "Calcio y proteína para el desarrollo óseo final" },
+};
+
+const LABELS_NUTRIENTE = {
+  acidoFolico: "🍃 Ác. fólico",
+  hierro:      "🩸 Hierro",
+  calcio:      "🦴 Calcio",
+  proteina:    "💪 Proteína",
+};
+
+function _scoreEmbarazo(receta, trimestre) {
+  const cfg = PRIORIDAD_TRIMESTRE[trimestre] || PRIORIDAD_TRIMESTRE["1"];
+  const noms = (receta.ingredientes || []).map(i => i.nombre.toLowerCase());
+  let score = 0;
+  cfg.nutrientes.forEach((nut, idx) => {
+    const kws = NUTRIENTES_EMBARAZO[nut] || [];
+    if (kws.some(kw => noms.some(n => n.includes(kw.toLowerCase())))) score += (3 - idx);
+  });
+  return score;
+}
+
+function _badgesEmbarazo(receta, trimestre) {
+  const cfg = PRIORIDAD_TRIMESTRE[trimestre] || PRIORIDAD_TRIMESTRE["1"];
+  const noms = (receta.ingredientes || []).map(i => i.nombre.toLowerCase());
+  return cfg.nutrientes.filter(nut => {
+    const kws = NUTRIENTES_EMBARAZO[nut] || [];
+    return kws.some(kw => noms.some(n => n.includes(kw.toLowerCase())));
+  }).map(nut => LABELS_NUTRIENTE[nut]);
+}
+
+function cambiarTrimestre(t) {
+  const datos = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  datos.trimestre = t;
+  localStorage.setItem("datosUsuario", JSON.stringify(datos));
+  document.querySelectorAll(".trimestre-chip").forEach(c => c.classList.toggle("activo", c.dataset.t === t));
+  const cfg = PRIORIDAD_TRIMESTRE[t];
+  const extraEl = document.getElementById("banner-trimestre-info");
+  if (extraEl) extraEl.textContent = `${cfg.kcal} · ${cfg.tip}`;
+  const priEl = document.getElementById("banner-trimestre-pri");
+  if (priEl) priEl.textContent = "Priorizando: " + cfg.nutrientes.map(n => LABELS_NUTRIENTE[n]).join(" · ");
+  SLOTS.forEach(s => renderSeccion(s));
+}
+
 const selecciones = { desayuno: null, once_manana: null, almuerzo: null, once_tarde: null, cena: null };
 
 let modoVegano = false;
@@ -1112,6 +1167,20 @@ function urlFallback(tipo) {
   return `https://placehold.co/90x50/${col[tipo]||"2d6a4f"}/ffffff?text=+`;
 }
 
+// ─── MATCH INGREDIENTES FAVORITOS ────────────────────────────
+function _ingMatch(nombreIng, favItem) {
+  const ni = nombreIng.toLowerCase();
+  const np = favItem.toLowerCase();
+  if (ni.includes(np)) return true;
+  if (np.endsWith("s") && np.length > 3 && ni.includes(np.slice(0, -1))) return true;
+  const palabras = np.split(/[\s/,]+/).filter(p => p.length >= 4);
+  for (const p of palabras) {
+    if (ni.includes(p)) return true;
+    if (p.endsWith("s") && p.length > 4 && ni.includes(p.slice(0, -1))) return true;
+  }
+  return false;
+}
+
 // ─── ACORDEÓN ────────────────────────────────────────────────
 function toggleSeccion(slotId) {
   const seccion = document.getElementById(`sec-${slotId}`);
@@ -1188,6 +1257,30 @@ function renderSeccion(slot) {
     recetas = [...recetas].sort((a, b) => (b.proteinas || 0) - (a.proteinas || 0));
   }
 
+  // ── Scoring combinado: embarazo (10×) + favoritos (1×) ───
+  const trimestre  = usuario.trimestre || "1";
+  const _favIngrs  = JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]");
+  const _scoreMap  = new Map();   // favoritos
+  const _embMap    = new Map();   // embarazo
+
+  recetas.forEach(r => {
+    const favScore = _favIngrs.length > 0
+      ? (r.ingredientes || []).filter(ing => _favIngrs.some(f => _ingMatch(ing.nombre, f))).length
+      : 0;
+    _scoreMap.set(r.id, favScore);
+    if (condicion === "embarazo") _embMap.set(r.id, _scoreEmbarazo(r, trimestre));
+  });
+
+  if (_favIngrs.length > 0 || condicion === "embarazo") {
+    recetas = [...recetas].sort((a, b) => {
+      const sA = (_embMap.get(a.id) || 0) * 10 + (_scoreMap.get(a.id) || 0);
+      const sB = (_embMap.get(b.id) || 0) * 10 + (_scoreMap.get(b.id) || 0);
+      const diff = sB - sA;
+      if (diff !== 0) return diff;
+      return objetivo === "masa" ? (b.proteinas || 0) - (a.proteinas || 0) : 0;
+    });
+  }
+
   const grid = seccion.querySelector(".recetas-opciones");
   grid.innerHTML = "";
 
@@ -1210,6 +1303,14 @@ function renderSeccion(slot) {
       msgs.push(`💪 ${r.proteinas}g proteína — ideal para ganar músculo`);
     const adaptacion = msgs.map(m => `<p class="adaptacion-msg">${m}</p>`).join("");
     const esVeg     = r.vegano ? '<span class="badge-vegano">🌱 Vegano</span>' : "";
+    const favScore  = _scoreMap.get(r.id) || 0;
+    const favBadge  = favScore > 0
+      ? `<span class="badge-fav-ing">⭐ ${favScore} de tus ingredientes</span>`
+      : "";
+    const embBadgesList = condicion === "embarazo" ? _badgesEmbarazo(r, trimestre) : [];
+    const embBadgesHTML = embBadgesList.length > 0
+      ? `<div class="badges-embarazo">${embBadgesList.map(b => `<span class="badge-embarazo">${b}</span>`).join("")}</div>`
+      : "";
     const fotoUrl   = urlFoto(r);
     const emoji     = getEmoji(r);
 
@@ -1238,7 +1339,8 @@ function renderSeccion(slot) {
         </div>
         <div class="opcion-info">
           <h4>${r.nombre.replace(/🌱 /g, "")}</h4>
-          ${esVeg}
+          ${esVeg}${favBadge}
+          ${embBadgesHTML}
           <p class="opcion-desc">${r.descripcion}</p>
           <div class="opcion-macros">
             <span class="macro-kcal">  <span class="macro-ico">🔥</span>${r.calorias} kcal</span>
@@ -1594,8 +1696,18 @@ function initPlaneador() {
     const lineas = [];
     if (enfermedad && enfermedad !== "ninguna")
       lineas.push(`🩺 Recetas adaptadas para: <strong>${etiquetas[enfermedad]||enfermedad}</strong>`);
-    if (condicion === "embarazo")
-      lineas.push(`🤰 Recetas adaptadas para: <strong>Embarazo</strong> — algunas opciones de riesgo están ocultas`);
+    if (condicion === "embarazo") {
+      const t   = usuario.trimestre || "1";
+      const cfg = PRIORIDAD_TRIMESTRE[t];
+      const chips = ["1","2","3"].map(tr =>
+        `<button class="trimestre-chip${tr===t?" activo":""}" data-t="${tr}" onclick="cambiarTrimestre('${tr}')">T${tr}</button>`
+      ).join("");
+      lineas.push(
+        `🤰 <strong>Embarazo</strong> &nbsp;${chips}` +
+        `<br><span id="banner-trimestre-info" style="font-size:11px;opacity:0.85">${cfg.kcal} · ${cfg.tip}</span>` +
+        `<br><span id="banner-trimestre-pri" style="font-size:11px;opacity:0.85">Priorizando: ${cfg.nutrientes.map(n=>LABELS_NUTRIENTE[n]).join(" · ")}</span>`
+      );
+    }
     if (condicion === "lactancia")
       lineas.push(`🍼 Recetas adaptadas para: <strong>Lactancia</strong> — mayor aporte calórico recomendado`);
     if (objetivo === "masa")

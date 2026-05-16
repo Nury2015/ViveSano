@@ -14,6 +14,23 @@
   flex-shrink: 0;
 }
 
+/* Botón usuario en barra mobile */
+.nav-user-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.nav-user-btn:hover { background: rgba(255,255,255,0.22); }
+
 /* Sidebar principal */
 .navbar {
   position: fixed;
@@ -36,6 +53,7 @@
   padding: 22px 18px 16px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .nav-logo-img {
@@ -200,7 +218,27 @@
 /* ══ RESPONSIVE MOBILE ≤768px ══════════ */
 @media (max-width: 768px) {
 
-  .hamburguesa { display: block; }
+  .hamburguesa {
+    display: block;
+    order: 1;
+    flex-shrink: 0;
+  }
+
+  .nav-logo {
+    order: 2;
+    flex: 1;
+    padding: 0;
+    border-bottom: none;
+    justify-content: center;
+  }
+
+  .nav-user-btn {
+    display: flex;
+    order: 3;
+    margin-left: 0;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
 
   .navbar {
     width: 100%;
@@ -208,13 +246,6 @@
     flex-direction: row;
     align-items: center;
     padding: 0;
-  }
-
-  .nav-logo {
-    padding: 0 12px;
-    border-bottom: none;
-    flex: 1;
-    justify-content: flex-start;
   }
 
   .nav-logo-img {

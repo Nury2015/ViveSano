@@ -129,6 +129,7 @@
   <div class="ctrl-izq">
     <button id="btn-vegano" class="ctrl-btn" onclick="toggleVegano()">🌱 Modo Vegano</button>
     <button id="btn-mis-favoritos" class="ctrl-btn" onclick="toggleFavoritos()">❤️ Mis favoritos</button>
+    <button id="btn-mis-ingredientes" class="ctrl-btn" onclick="toggleSelector()">🥕 Ingredientes</button>
   </div>
   <div class="ctrl-search-wrap">
     <span class="search-ico">🔍</span>
@@ -137,6 +138,28 @@
            oninput="buscarRecetas(this.value)">
   </div>
   <button class="ctrl-btn ctrl-filtros" onclick="toggleFiltros()">⚙️ Filtros</button>
+</div>
+
+<!-- ══ PANEL INGREDIENTES FAVORITOS ════════════════════ -->
+<div id="selector-ingredientes" class="panel-ingredientes" style="display:none">
+  <div class="panel-ing-header">
+    <h3>🥕 Mis ingredientes favoritos</h3>
+    <p class="panel-ing-sub">Selecciona los que tienes o prefieres — las recetas que los usen aparecerán primero con ⭐</p>
+  </div>
+  <div id="categorias-ing" class="categorias-ing-grid"></div>
+  <div class="selector-acciones">
+    <button class="btn-fav" onclick="guardarFavoritos()">
+      ⭐ Guardar favoritos
+      <span class="fav-badge" id="fav-count" style="display:none">0</span>
+    </button>
+    <button class="btn-generar" onclick="generarConMisIngredientes()">
+      🔍 Ver recetas con mis ingredientes
+    </button>
+  </div>
+  <div id="resultado-busqueda" class="resultado-busqueda" style="display:none">
+    <h4>Recetas que coinciden:</h4>
+    <div id="cards-resultado" class="cards-resultado"></div>
+  </div>
 </div>
 
 <!-- Panel de filtros -->
@@ -356,10 +379,11 @@ let seleccionados = new Set();
 
 function toggleSelector() {
   const panel = document.getElementById("selector-ingredientes");
-  const arrow = document.getElementById("toggle-arrow");
+  if (!panel) return;
   const abierto = panel.style.display !== "none";
   panel.style.display = abierto ? "none" : "block";
-  arrow.textContent   = abierto ? "▼" : "▲";
+  const btn = document.getElementById("btn-mis-ingredientes");
+  if (btn) btn.classList.toggle("activo", !abierto);
   if (!abierto) renderPantry();
 }
 
@@ -401,19 +425,26 @@ function toggleIngrediente(nombre, btn) {
 
 function actualizarBadge() {
   const badge = document.getElementById("fav-count");
+  if (!badge) return;
   const n = seleccionados.size;
   badge.textContent = n;
   badge.style.display = n > 0 ? "inline-block" : "none";
 }
 
 function guardarFavoritos() {
-  verificarYProceder(() => {
-    localStorage.setItem("ingredientesFavoritos", JSON.stringify([...seleccionados]));
-    const btn = document.querySelector(".btn-fav");
-    btn.textContent = "✓ Guardado";
-    setTimeout(() => { btn.textContent = "⭐ Guardar como mis favoritos"; }, 2000);
-    renderPantry();
-  });
+  localStorage.setItem("ingredientesFavoritos", JSON.stringify([...seleccionados]));
+  const btn = document.querySelector(".btn-fav");
+  if (btn) {
+    btn.innerHTML = "✓ Guardado";
+    setTimeout(() => {
+      btn.innerHTML = `⭐ Guardar favoritos <span class="fav-badge" id="fav-count" style="${seleccionados.size > 0 ? '' : 'display:none'}">${seleccionados.size}</span>`;
+    }, 2000);
+  }
+  renderPantry();
+  // Re-render recetas para aplicar priorización
+  if (typeof SLOTS !== "undefined" && typeof renderSeccion === "function") {
+    SLOTS.forEach(s => renderSeccion(s));
+  }
 }
 
 // Comprueba si un ingrediente de receta coincide con un ítem del pantry.

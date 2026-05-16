@@ -875,6 +875,123 @@ body {
 .fav-kcal  { font-size: 10px; color: #2e7d32; }
 .fav-vacio { grid-column: 1/-1; text-align: center; color: #aaa; font-size: 12px; padding: 20px; }
 
+/* ══ BADGES EMBARAZO ════════════════════════════ */
+.badges-embarazo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.badge-embarazo {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #fce4ec;
+  color: #ad1457;
+  border: 1px solid #f8bbd0;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Selector de trimestre en banner ─────────── */
+.trimestre-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 12px;
+  border: 1.5px solid #f48fb1;
+  background: white;
+  color: #ad1457;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0 2px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.trimestre-chip.activo {
+  background: #ad1457;
+  color: white;
+  border-color: #ad1457;
+}
+
+.trimestre-chip:hover:not(.activo) {
+  background: #fce4ec;
+}
+
+/* ── Banner de salud con selector ────────────── */
+.banner-salud {
+  line-height: 1.8;
+}
+
+/* ══ BADGE INGREDIENTES FAVORITOS ═══════════════ */
+.badge-fav-ing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff8e1;
+  color: #f57f17;
+  border: 1px solid #ffe082;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  width: fit-content;
+  margin-bottom: 2px;
+}
+
+/* ══ PANEL INGREDIENTES FAVORITOS ════════════════ */
+.panel-ingredientes {
+  background: white;
+  margin: 0 16px 8px;
+  border-radius: 14px;
+  border: 1.5px solid #ffe082;
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+}
+
+.panel-ing-header {
+  background: linear-gradient(135deg, #fff8e1, #fffde7);
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid #ffe082;
+}
+
+.panel-ing-header h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: #5d4037;
+  font-weight: 700;
+}
+
+.panel-ing-sub {
+  margin: 0;
+  font-size: 12px;
+  color: #8d6e63;
+}
+
+.categorias-ing-grid {
+  padding: 14px 16px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-ingredientes .selector-acciones {
+  margin: 0;
+  padding: 12px 16px 14px;
+  border-top: 1px solid #f5e8d0;
+}
+
+.panel-ingredientes .resultado-busqueda {
+  padding: 0 16px 14px;
+  border-top: 1px solid #e8f5e9;
+  margin-top: 0;
+}
+
 /* ══ SELECTOR DE INGREDIENTES ═══════════════════ */
 .selector-wrap { margin: 6px 12px 4px; }
 
@@ -976,7 +1093,8 @@ body {
 }
 @media (max-width: 600px) {
   .features-section { grid-template-columns: 1fr; }
-  .controles-globales { flex-wrap: wrap; }
+  .controles-globales { flex-wrap: wrap; gap: 6px; }
+  .ctrl-izq { flex-wrap: wrap; }
   .ctrl-search-wrap { order: 3; width: 100%; }
 }
 
@@ -986,12 +1104,63 @@ body {
   .fav-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-/* ══ MOBILE — nav top aparece exactamente en ≤768px (menu.css) ══ */
+/* ══ MOBILE — nav top ≤768px ══════════════════════ */
 @media (max-width: 768px) {
   body { padding-top: 64px; }
-  .meta-calorica{margin-top: 36px;}
   .barra-sticky { top: 64px; }
   .navbar { box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+
+  /* Dashboard: 2 filas, sin scroll horizontal */
+  .dash-card {
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    padding: 10px 14px;
+    gap: 0;
+    align-items: center;
+  }
+
+  /* Ocultar separadores verticales */
+  .dash-sep { display: none; }
+
+  /* Fila 1: meta | ring + kcal */
+  .dash-meta-section {
+    order: 1;
+    flex-shrink: 0;
+    padding-right: 12px;
+    border-right: 1px solid #ebebeb;
+  }
+
+  .dash-ring-kcal {
+    order: 2;
+    flex: 1;
+    min-width: 0;
+    padding-left: 12px;
+    gap: 10px;
+  }
+
+  /* Fila 2: macros al 100% */
+  .macro-list {
+    order: 3;
+    flex: 0 0 100%;
+    border-top: 1px solid #ebebeb;
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+
+  /* Tamaños reducidos */
+  .ring-wrap,
+  .ring-svg   { width: 54px; height: 54px; }
+  .ring-pct   { font-size: 12px; }
+  .meta-flame { font-size: 20px; }
+  .meta-kcal  { font-size: 18px; }
+  .kcal-col   { min-width: 0; }
+  .kcal-current { font-size: 16px; }
+  .kcal-restantes { font-size: 10px; }
+  .mi-icon    { font-size: 16px; }
+  .macro-sep  { margin: 0 6px; }
+  .mi-label   { font-size: 9px; }
+  .mi-vals    { font-size: 10px; }
+  .mi-vals strong { font-size: 12px; }
 }
 
 /* ══ MÓVIL PEQUEÑO ══════════════════════════════ */
