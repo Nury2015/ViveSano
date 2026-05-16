@@ -1147,6 +1147,25 @@ function actualizarEstadoSeccion(slotId) {
   }
 }
 
+// ─── FAVORITOS DE RECETAS ────────────────────────────────────
+function getFavsRecetas() {
+  return new Set(JSON.parse(localStorage.getItem("favoritosRecetas") || "[]"));
+}
+
+function toggleFavReceta(recetaId, btn) {
+  const favs = getFavsRecetas();
+  if (favs.has(recetaId)) {
+    favs.delete(recetaId);
+    btn.textContent = "♡";
+    btn.classList.remove("fav-activo");
+  } else {
+    favs.add(recetaId);
+    btn.textContent = "♥";
+    btn.classList.add("fav-activo");
+  }
+  localStorage.setItem("favoritosRecetas", JSON.stringify([...favs]));
+}
+
 // ─── RENDER SECCIÓN ──────────────────────────────────────────
 function renderSeccion(slot) {
   const seccion = document.getElementById(`sec-${slot.id}`);
@@ -1212,7 +1231,10 @@ function renderSeccion(slot) {
       <div class="opcion-card ${sel ? "seleccionada" : ""}" id="card-${slot.id}-${r.id}" data-kcal="${r.calorias}">
         <div class="card-img-wrap">
           ${imgHTML}${sinFotoHTML}
-          <button class="btn-fav-heart" aria-label="Favorito">♡</button>
+          <button class="btn-fav-heart${getFavsRecetas().has(r.id) ? ' fav-activo' : ''}"
+                  onclick="toggleFavReceta('${r.id}',this)" aria-label="Favorito">
+            ${getFavsRecetas().has(r.id) ? "♥" : "♡"}
+          </button>
         </div>
         <div class="opcion-info">
           <h4>${r.nombre.replace(/🌱 /g, "")}</h4>
