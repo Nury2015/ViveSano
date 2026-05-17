@@ -34,13 +34,18 @@ function registrarPeso() {
 
   const datos = cargarPesos();
 
-  // Si ya hay un registro del mismo día, preguntar si reemplazar
+  const cinturaVal = parseFloat(document.getElementById("inp-cintura-reg")?.value) || null;
+  const caderaVal  = parseFloat(document.getElementById("inp-cadera-reg")?.value)  || null;
+
+  // Si ya hay un registro del mismo día, reemplazar
   const existIdx = datos.findIndex(d => d.fechaISO === fechaISO);
   const nuevoItem = {
     id:       `${fechaISO}_${Date.now()}`,
     fechaISO,
     fecha:    formatFecha(fechaISO),
     peso:     pesoVal,
+    cintura:  cinturaVal,
+    cadera:   caderaVal,
     nota:     notaInp.value.trim(),
   };
 
@@ -53,6 +58,10 @@ function registrarPeso() {
   guardarPesos(datos);
   pesoInp.value = "";
   notaInp.value = "";
+  const cinturaInp = document.getElementById("inp-cintura-reg");
+  const caderaInp  = document.getElementById("inp-cadera-reg");
+  if (cinturaInp) cinturaInp.value = "";
+  if (caderaInp)  caderaInp.value  = "";
   mostrarMsg(msg, "✓ Peso registrado", "ok");
   renderTodo();
 }
@@ -274,15 +283,116 @@ function renderHistorial(datos) {
       deltaHTML  = `<span class="prog-delta ${cls}">${sym} ${Math.abs(diff)} kg</span>`;
     }
 
+    const medidas = [
+      d.cintura ? `📏 ${d.cintura} cm cintura` : "",
+      d.cadera  ? `🍑 ${d.cadera} cm cadera`  : "",
+    ].filter(Boolean).join(" · ");
+
     return `
       <div class="prog-hist-item">
         <span class="prog-hist-fecha">${d.fecha}</span>
-        <span class="prog-hist-peso">${d.peso}<span> kg</span></span>
+        <div class="prog-hist-centro">
+          <span class="prog-hist-peso">${d.peso}<span> kg</span></span>
+          ${medidas ? `<span class="prog-hist-medidas">${medidas}</span>` : ""}
+          ${d.nota  ? `<span class="prog-hist-nota">${d.nota}</span>` : ""}
+        </div>
         ${deltaHTML}
-        ${d.nota ? `<span class="prog-hist-nota">${d.nota}</span>` : ""}
         <button class="btn-del-peso" onclick="borrarPeso('${d.id}')" title="Borrar registro">🗑️</button>
       </div>`;
   }).join("");
+}
+
+// ─── Análisis composición corporal (músculo vs grasa) ────────
+function renderComposicion(datos) {
+  const wrap = document.getElementById("prog-composicion-wrap");
+  if (!wrap) return;
+
+  const usuario  = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  const objetivo = usuario.objetivo || "mantener";
+
+  if (datos.length < 2) { wrap.innerHTML = ""; return; }
+
+  const primero   = datos[0];
+  const ultimo    = datos[datos.length - 1];
+  const deltaPeso = +(ultimo.peso - primero.peso).toFixed(1);
+
+  if (Math.abs(deltaPeso) < 0.3 && objetivo !== "masa") { wrap.innerHTML = ""; return; }
+
+  const conCintura  = datos.filter(d => d.cintura);
+  const tieneCintura = conCintura.length >= 2;
+
+  let resultado = null;
+
+  if (tieneCintura) {
+    const primeraC  = conCintura[0];
+    const ultimaC   = conCintura[conCintura.length - 1];
+    const deltaCint = +(ultimaC.cintura - primeraC.cintura).toFixed(1);
+
+    if (deltaPeso > 0.5 && deltaCint <= 0.5) {
+      resultado = {
+        ico:    "💪",
+        titulo: "¡Probable ganancia de músculo!",
+        detalle: `Tu peso subió <strong>+${deltaPeso} kg</strong> y tu cintura ${deltaCint <= 0 ? `bajó ${Math.abs(deltaCint)} cm` : `solo subió ${deltaCint} cm`}. El músculo es más denso que la grasa: pesa más pero ocupa menos volumen. ¡Eso es progreso real!`,
+        color:  "#2e7d32", bg: "#e8f5e9", borde: "#a5d6a7",
+      };
+    } else if (deltaPeso > 0.5 && deltaCint > 1.5) {
+      resultado = {
+        ico:    "⚠️",
+        titulo: "Posible acumulación de grasa",
+        detalle: `Tu peso subió <strong>+${deltaPeso} kg</strong> y tu cintura también aumentó ${deltaCint} cm. Esto sugiere grasa abdominal. Ajusta tu superávit calórico y aumenta la proteína.`,
+        color:  "#e65100", bg: "#fff3e0", borde: "#ffcc80",
+      };
+    } else if (deltaPeso > 0.5) {
+      resultado = {
+        ico:    "📊",
+        titulo: "Composición mixta",
+        detalle: `Tu peso subió <strong>+${deltaPeso} kg</strong> con un cambio de cintura moderado (${deltaCint > 0 ? "+" : ""}${deltaCint} cm). Es probable una mezcla de músculo y algo de grasa — normal en fase de volumen.`,
+        color:  "#1565c0", bg: "#e3f2fd", borde: "#90caf9",
+      };
+    } else if (deltaPeso < -0.3) {
+      resultado = {
+        ico:    "📉",
+        titulo: deltaCint < 0 ? "¡Estás perdiendo grasa!" : "Bajando peso",
+        detalle: deltaCint < 0
+          ? `Tu peso bajó <strong>${deltaPeso} kg</strong> y tu cintura también bajó ${Math.abs(deltaCint)} cm — pérdida de grasa real. ¡Excelente progreso!`
+          : `Tu peso bajó <strong>${deltaPeso} kg</strong>. Sigue midiendo la cintura para confirmar si es grasa o músculo.`,
+        color:  "#2e7d32", bg: "#e8f5e9", borde: "#a5d6a7",
+      };
+    }
+  }
+
+  const sinCinturaHtml = (!tieneCintura && (objetivo === "masa" || deltaPeso > 0.3)) ? `
+    <div class="comp-tip">
+      <strong>¿El peso que subiste es músculo o grasa?</strong><br>
+      Sin calibrador de pliegue cutáneo, la forma más práctica es medir la <strong>cintura</strong>:<br>
+      · Peso ↑ + cintura estable o baja &nbsp;→&nbsp; <strong style="color:#2e7d32">probable músculo ✓</strong><br>
+      · Peso ↑ + cintura también sube &nbsp;&nbsp;→&nbsp; <strong style="color:#e65100">posible grasa ✗</strong><br>
+      <span class="comp-nota">Para precisión máxima, un nutricionista puede medir el pliegue cutáneo con calibrador y calcular tu % de grasa real.</span>
+    </div>` : "";
+
+  const masaTip = objetivo === "masa" && deltaPeso <= 0 ? `
+    <div class="comp-tip" style="border-left-color:#1565c0;background:#e3f2fd">
+      <strong>Ganando masa muscular:</strong> un superávit de ~300 kcal/día con entrenamiento de fuerza produce ~0.5–1 kg de músculo por mes. Si tu peso no sube, aumenta ligeramente las calorías.<br>
+      <span class="comp-nota">Recuerda: el músculo pesa más que la grasa — un aumento de peso puede ser excelente noticia.</span>
+    </div>` : "";
+
+  if (!resultado && !sinCinturaHtml && !masaTip) { wrap.innerHTML = ""; return; }
+
+  wrap.innerHTML = `
+    <div class="prog-card" style="border-left:3px solid ${resultado?.borde || "#c5e1a5"}">
+      <div class="prog-card-header">
+        <h3>🧬 Composición corporal</h3>
+      </div>
+      <div style="padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px">
+        ${resultado ? `
+          <div class="comp-resultado" style="background:${resultado.bg};border:1.5px solid ${resultado.borde};color:${resultado.color}">
+            <span class="comp-ico">${resultado.ico}</span>
+            <div><strong>${resultado.titulo}</strong><p>${resultado.detalle}</p></div>
+          </div>` : ""}
+        ${sinCinturaHtml}
+        ${masaTip}
+      </div>
+    </div>`;
 }
 
 // ─── Render completo ─────────────────────────────────────────
@@ -290,6 +400,7 @@ function renderTodo() {
   const datos = cargarPesos();
   renderStats(datos);
   renderChart(datos);
+  renderComposicion(datos);
   renderHistorial(datos);
 }
 

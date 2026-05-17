@@ -273,6 +273,65 @@ body {
   line-height: 1.6;
 }
 
+/* ── Historial centro ───────────────────── */
+.prog-hist-centro {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.prog-hist-medidas {
+  font-size: 11px;
+  color: #888;
+}
+
+/* ── Composición corporal ───────────────── */
+.comp-resultado {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.comp-ico {
+  font-size: 26px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.comp-resultado strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.comp-resultado p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.comp-tip {
+  background: #fff8e1;
+  border-left: 3px solid #f9a825;
+  border-radius: 0 10px 10px 0;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: #5d4037;
+  line-height: 1.8;
+}
+
+.comp-nota {
+  display: block;
+  margin-top: 6px;
+  color: #aaa;
+  font-size: 11px;
+}
+
 /* IMC badge colores */
 .imc-bajo      { color: #1565c0; }
 .imc-normal    { color: #2e7d32; }
