@@ -1383,9 +1383,17 @@ function seleccionarReceta(slotId, recetaId) {
   actualizarEstadoSeccion(slotId);
 
   if (!fueDeseleccion) {
+    // Cerrar la sección actual
     document.getElementById(`sec-${slotId}`)?.classList.remove("abierta");
     const arrow = document.getElementById(`arrow-${slotId}`);
     if (arrow) arrow.textContent = "▼";
+
+    // Abrir la siguiente sección que aún no tiene receta elegida
+    const idxActual = SLOTS.findIndex(s => s.id === slotId);
+    const siguiente = SLOTS.slice(idxActual + 1).find(s => !selecciones[s.id]);
+    if (siguiente) {
+      setTimeout(() => toggleSeccion(siguiente.id), 250);
+    }
   }
 }
 
