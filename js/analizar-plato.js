@@ -7,7 +7,7 @@ const GEMINI_MODEL = "gemini-1.5-flash";
 // API key restringida al dominio de la app en Google AI Studio
 // IMPORTANTE: antes de subir a producción final, restringir en:
 // aistudio.google.com → tu key → "Edit" → añadir nury2015.github.io
-const _GK = "AIzaSyA7adPzS4rpxBLyTQ0TpqO3dxoYvOtDebs";
+const _GK = "AIzaSyBqlHh_328DD4y5P8EIZctueRXJ6szYOog";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${_GK}`;
 
 let imagenBase64    = null;
