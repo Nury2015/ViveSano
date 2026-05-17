@@ -163,11 +163,15 @@ async function registrarEmail() {
     await _despuesDeAuth(r.user, { nombre, enfermedad, objetivo });
   } catch(e) {
     const msgs = {
-      "auth/email-already-in-use": "Ya existe una cuenta con ese correo",
-      "auth/invalid-email":        "Correo inválido",
-      "auth/weak-password":        "La contraseña es muy débil",
+      "auth/email-already-in-use":  "Ya existe una cuenta con ese correo",
+      "auth/invalid-email":         "Correo inválido",
+      "auth/weak-password":         "La contraseña es muy débil (mínimo 6 caracteres)",
+      "auth/network-request-failed":"Sin conexión. Verifica tu internet.",
+      "auth/too-many-requests":     "Demasiados intentos. Espera un momento.",
+      "auth/unauthorized-domain":   "Dominio no autorizado. Contacta al administrador.",
+      "auth/operation-not-allowed": "El registro por correo no está habilitado.",
     };
-    _mostrarError("registro", msgs[e.code] || "Error al registrarse");
+    _mostrarError("registro", msgs[e.code] || `Error: ${e.message}`);
   }
 }
 
@@ -182,7 +186,10 @@ async function loginGoogle() {
       : null
     );
   } catch(e) {
-    if (e.code !== "auth/popup-closed-by-user")
+    if (e.code === "auth/popup-closed-by-user") return;
+    if (e.code === "auth/unauthorized-domain")
+      _mostrarError("login", "Dominio no autorizado en Firebase. Agrega nury2015.github.io en Firebase Console → Authentication → Authorized domains.");
+    else
       _mostrarError("login", "Error con Google. Intenta con correo y contraseña.");
   }
 }

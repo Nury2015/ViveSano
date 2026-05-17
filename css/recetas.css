@@ -818,7 +818,39 @@ body {
 .adaptacion-msg {
   background: #e3f2fd; border-left: 3px solid #1976d2;
   color: #0d47a1; font-size: 11px;
-  padding: 4px 7px; border-radius: 4px; margin: 0;
+  padding: 6px 8px; border-radius: 4px; margin: 0;
+  line-height: 1.5;
+}
+
+.adapt-razon {
+  display: block;
+  font-size: 10px;
+  color: #1565c0;
+  margin-top: 3px;
+  opacity: 0.85;
+  font-style: italic;
+}
+
+/* Aviso de recetas ocultas por condición médica */
+.aviso-ocultas {
+  grid-column: 1 / -1;
+  background: #fff3e0;
+  border-left: 3px solid #f57c00;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #bf360c;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.aviso-ocultas-razon {
+  font-weight: 400;
+  color: #795548;
+  font-style: italic;
+  font-size: 10px;
 }
 
 .nota-aviso {
@@ -1322,6 +1354,9 @@ body {
   .barra-sticky { top: 64px; }
   .navbar { box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
 
+  /* Margen superior para que la barra sticky no tape la sección */
+  .meal-section { scroll-margin-top: 210px; }
+
   /* ── Controles: franja de chips con scroll horizontal ── */
   .controles-globales {
     flex-wrap: nowrap;
@@ -1333,8 +1368,9 @@ body {
     padding: 8px 14px;
     margin: 6px 0;
     border-radius: 0;
-    box-shadow: none;
     background: transparent;
+    /* Sombra interna derecha → indica que hay más chips al deslizar */
+    box-shadow: inset -24px 0 12px -12px rgba(0,0,0,0.09);
   }
   .controles-globales::-webkit-scrollbar { display: none; }
 

@@ -1118,11 +1118,35 @@ function macrosSeleccionados() {
 }
 
 function macrosObjetivo() {
-  const meta = caloriasObjetivo();
+  const meta     = caloriasObjetivo();
+  const usuario  = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  const peso     = parseFloat(usuario.peso) || 70;
+  const objetivo = usuario.objetivo  || "mantener";
+  const condicion= usuario.condicion || "";
+
+  // Proteína según objetivo (ISSN Position Stand 2017) — misma fórmula que calculadora.js
+  const protRangos = {
+    masa:      [1.8, 2.2],
+    tonificar: [2.0, 2.4],
+    bajar:     [1.8, 2.2],
+    mantener:  [1.6, 2.0],
+  };
+  const [pMin, pMax] = protRangos[objetivo] || protRangos.mantener;
+  let gramProt = ((pMin + pMax) / 2) * peso;
+  // El embarazo aumenta la necesidad proteica en ~10%
+  if (condicion === "embarazo") gramProt *= 1.10;
+
+  // Grasas: 25–30 % de las calorías (Dietary Guidelines 2020)
+  const porcGrasa = objetivo === "mantener" ? 0.30 : 0.25;
+  const gramGrasa = (meta * porcGrasa) / 9;
+
+  // Carbohidratos: calorías restantes
+  const gramCarbs = Math.max(0, meta - gramProt * 4 - gramGrasa * 9) / 4;
+
   return {
-    prot:   Math.round(meta * 0.20 / 4),
-    carbs:  Math.round(meta * 0.50 / 4),
-    grasas: Math.round(meta * 0.30 / 9),
+    prot:   Math.round(gramProt),
+    carbs:  Math.round(gramCarbs),
+    grasas: Math.round(gramGrasa),
   };
 }
 
@@ -1200,7 +1224,7 @@ function toggleSeccion(slotId) {
     seccion.classList.add("abierta");
     const arrow = document.getElementById(`arrow-${slotId}`);
     if (arrow) arrow.textContent = "▲";
-    setTimeout(() => seccion.scrollIntoView({ behavior: "smooth", block: "nearest" }), 60);
+    setTimeout(() => seccion.scrollIntoView({ behavior: "smooth", block: "start" }), 60);
   }
 }
 
@@ -1247,10 +1271,15 @@ function renderSeccion(slot) {
 
   let recetas = RECETAS_MEZCLADAS[slot.tipo] || RECETAS[slot.tipo] || [];
   if (modoVegano) recetas = recetas.filter(r => r.vegano);
+
+  // Contar cuántas se ocultan por condición médica (antes de filtrar)
+  let nOcultas = 0;
   if (enfermedad && enfermedad !== "ninguna") {
+    nOcultas += recetas.filter(r => r.contraindicada?.includes(enfermedad)).length;
     recetas = recetas.filter(r => !r.contraindicada?.includes(enfermedad));
   }
   if (condicion === "embarazo") {
+    nOcultas += recetas.filter(r => r.contraindicada?.includes("embarazo")).length;
     recetas = recetas.filter(r => !r.contraindicada?.includes("embarazo"));
   }
   if (objetivo === "masa") {
@@ -1281,6 +1310,20 @@ function renderSeccion(slot) {
     });
   }
 
+  // Razones educativas por condición médica
+  const RAZON_ENF = {
+    diabetes:     "La diabetes requiere controlar el índice glucémico para evitar picos de azúcar en sangre.",
+    hipertension: "La hipertensión exige limitar el sodio para mantener la presión arterial bajo control.",
+    colesterol:   "El colesterol alto requiere reducir grasas saturadas y trans para proteger el corazón.",
+    renal:        "La enfermedad renal necesita controlar proteína, potasio y fósforo para no sobrecargar los riñones.",
+    celiaquia:    "La celiaquía requiere eliminar el gluten (trigo, cebada, centeno) para proteger el intestino.",
+    gastritis:    "La gastritis exige evitar alimentos irritantes y ácidos para proteger la mucosa gástrica.",
+    tiroides:     "Los problemas de tiroides requieren equilibrar nutrientes clave como el yodo y el selenio.",
+    cardiaca:     "La enfermedad cardiovascular exige limitar sodio y grasas saturadas para cuidar el corazón.",
+    digestiva:    "Los problemas digestivos requieren priorizar alimentos de fácil digestión.",
+    obesidad:     "Para el sobrepeso se priorizan alimentos saciantes con menor densidad calórica.",
+  };
+
   const grid = seccion.querySelector(".recetas-opciones");
   grid.innerHTML = "";
 
@@ -1289,14 +1332,26 @@ function renderSeccion(slot) {
     return;
   }
 
+  // Aviso de recetas ocultas por condición
+  if (nOcultas > 0) {
+    const cond = enfermedad && enfermedad !== "ninguna" ? enfermedad : "embarazo";
+    const razon = RAZON_ENF[cond] || "";
+    grid.innerHTML = `<div class="aviso-ocultas">
+      🔒 ${nOcultas} receta${nOcultas > 1 ? "s" : ""} no recomendada${nOcultas > 1 ? "s" : ""} para tu condición están ocultas.
+      ${razon ? `<span class="aviso-ocultas-razon">${razon}</span>` : ""}
+    </div>`;
+  }
+
   const bgColor = SIN_FOTO_COLOR[slot.tipo] || "#2d6a4f";
 
   recetas.forEach(r => {
     const sel = selecciones[slot.id]?.id === r.id;
 
     const msgs = [];
-    if (enfermedad && enfermedad !== "ninguna" && r.adaptaciones?.[enfermedad])
-      msgs.push(`💊 ${r.adaptaciones[enfermedad]}`);
+    if (enfermedad && enfermedad !== "ninguna" && r.adaptaciones?.[enfermedad]) {
+      const razon = RAZON_ENF[enfermedad] ? `<span class="adapt-razon">${RAZON_ENF[enfermedad]}</span>` : "";
+      msgs.push(`💊 <strong>Adaptada para ti:</strong> ${r.adaptaciones[enfermedad]}${razon}`);
+    }
     if (condicion === "embarazo" && r.adaptaciones?.embarazo)
       msgs.push(`🤰 ${r.adaptaciones.embarazo}`);
     if (objetivo === "masa" && (r.proteinas || 0) >= 25)
@@ -1719,8 +1774,22 @@ function initPlaneador() {
   const banner = document.getElementById("banner-condicion");
   if (banner) {
     const lineas = [];
-    if (enfermedad && enfermedad !== "ninguna")
-      lineas.push(`🩺 Recetas adaptadas para: <strong>${etiquetas[enfermedad]||enfermedad}</strong>`);
+    const RAZON_BANNER = {
+      diabetes:     "controlando el índice glucémico para estabilizar tu azúcar en sangre",
+      hipertension: "limitando el sodio para cuidar tu presión arterial",
+      colesterol:   "reduciendo grasas saturadas para proteger tu corazón",
+      renal:        "controlando proteína y minerales para cuidar tus riñones",
+      celiaquia:    "eliminando gluten para proteger tu intestino",
+      gastritis:    "evitando irritantes para proteger tu mucosa gástrica",
+      tiroides:     "equilibrando nutrientes clave para tu metabolismo",
+      cardiaca:     "limitando sodio y grasas saturadas para tu corazón",
+      digestiva:    "priorizando alimentos de fácil digestión",
+      obesidad:     "priorizando saciedad con menor densidad calórica",
+    };
+    if (enfermedad && enfermedad !== "ninguna") {
+      const razon = RAZON_BANNER[enfermedad] ? ` — ${RAZON_BANNER[enfermedad]}` : "";
+      lineas.push(`🩺 Recetas adaptadas para: <strong>${etiquetas[enfermedad]||enfermedad}</strong>${razon}`);
+    }
     if (condicion === "embarazo") {
       const t   = usuario.trimestre || "1";
       const cfg = PRIORIDAD_TRIMESTRE[t];
