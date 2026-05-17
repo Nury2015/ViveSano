@@ -1,9 +1,18 @@
 // ============================================================
 // PROGRESO DE PESO — ViveSano
 // Registro, historial y gráfica de evolución de peso
+// Sincronización: localStorage (offline) + Firestore (nube)
 // ============================================================
 
 const LS_KEY = "pesosHistorial";
+let _uid = null; // UID del usuario logueado (null = solo local)
+
+// ─── Referencia a la colección Firestore ─────────────────────
+function _pesosRef() {
+  return typeof db !== "undefined" && _uid
+    ? db.collection("usuarios").doc(_uid).collection("pesos")
+    : null;
+}
 
 // ─── CRUD localStorage ───────────────────────────────────────
 function cargarPesos() {
@@ -62,13 +71,28 @@ function registrarPeso() {
   const caderaInp  = document.getElementById("inp-cadera-reg");
   if (cinturaInp) cinturaInp.value = "";
   if (caderaInp)  caderaInp.value  = "";
-  mostrarMsg(msg, "✓ Peso registrado", "ok");
+
+  // Sincronizar con Firestore (fire-and-forget)
+  const ref = _pesosRef();
+  if (ref) {
+    ref.doc(nuevoItem.id).set(nuevoItem)
+      .then(() => mostrarMsg(msg, "✓ Peso guardado y sincronizado ☁️", "ok"))
+      .catch(() => mostrarMsg(msg, "✓ Peso guardado localmente", "ok"));
+  } else {
+    mostrarMsg(msg, "✓ Peso registrado", "ok");
+  }
+
   renderTodo();
 }
 
 function borrarPeso(id) {
   const datos = cargarPesos().filter(d => d.id !== id);
   guardarPesos(datos);
+
+  // Borrar de Firestore (fire-and-forget)
+  const ref = _pesosRef();
+  if (ref) ref.doc(id).delete().catch(() => {});
+
   renderTodo();
 }
 
@@ -395,9 +419,68 @@ function renderComposicion(datos) {
     </div>`;
 }
 
+// ─── Banner de estado de sincronización ─────────────────────
+function renderBannerSync() {
+  const el = document.getElementById("prog-banner-sync");
+  if (!el) return;
+  if (_uid) {
+    el.innerHTML = `<div class="prog-sync-ok">☁️ Progreso sincronizado con tu cuenta — disponible en todos tus dispositivos</div>`;
+  } else {
+    el.innerHTML = `<div class="prog-sync-warn">
+      🔒 <strong>Tus datos solo están en este dispositivo.</strong>
+      <a href="recetas.html">Inicia sesión</a> para guardarlos en la nube y no perderlos si cambias de dispositivo.
+    </div>`;
+  }
+}
+
+// ─── Sincronizar Firestore ↔ localStorage al iniciar sesión ──
+async function sincronizarConFirestore(uid) {
+  _uid = uid;
+  renderBannerSync();
+
+  const ref = _pesosRef();
+  if (!ref) return;
+
+  try {
+    // 1. Obtener entradas de Firestore
+    const snap = await ref.get();
+    const firestoreEntries = snap.docs.map(d => d.data());
+
+    // 2. Obtener entradas locales
+    const localEntries = cargarPesos();
+
+    // 3. Merge: Firestore gana en conflictos por fechaISO
+    const merged = new Map();
+    localEntries.forEach(e => merged.set(e.fechaISO, e));
+    firestoreEntries.forEach(e => merged.set(e.fechaISO, e));
+    const mergedArray = [...merged.values()].sort((a, b) => a.fechaISO.localeCompare(b.fechaISO));
+
+    // 4. Guardar merge en localStorage
+    guardarPesos(mergedArray);
+
+    // 5. Migrar entradas locales que no están en Firestore (nuevos dispositivos)
+    const firestoreDates = new Set(firestoreEntries.map(e => e.fechaISO));
+    const soloLocales = localEntries.filter(e => !firestoreDates.has(e.fechaISO));
+
+    if (soloLocales.length > 0) {
+      const batch = db.batch();
+      soloLocales.forEach(e => {
+        batch.set(ref.doc(e.id), e);
+      });
+      await batch.commit();
+    }
+
+    renderTodo();
+  } catch(e) {
+    console.error("Error sincronizando progreso:", e);
+    renderTodo(); // render con datos locales aunque falle Firestore
+  }
+}
+
 // ─── Render completo ─────────────────────────────────────────
 function renderTodo() {
   const datos = cargarPesos();
+  renderBannerSync();
   renderStats(datos);
   renderChart(datos);
   renderComposicion(datos);

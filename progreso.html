@@ -27,6 +27,9 @@
     <p>Registra tu peso, visualiza tu evolución y comprueba si vas cumpliendo tu objetivo</p>
   </div>
 
+  <!-- Banner de sincronización -->
+  <div id="prog-banner-sync"></div>
+
   <!-- Stats -->
   <div id="prog-stats" class="prog-stats"></div>
 
@@ -104,19 +107,28 @@ fetch("components/menu.html")
 <script src="js/auth.js"></script>
 <script>
 auth.onAuthStateChanged(async (user) => {
-  if (!user) return;
-  // Sincronizar datos físicos del perfil → localStorage para el IMC
+  if (!user) {
+    // Sin sesión: solo datos locales, mostrar banner
+    if (typeof renderBannerSync === "function") renderBannerSync();
+    return;
+  }
+
+  if (typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+
+  // Sincronizar datos del perfil (estatura → IMC)
   try {
     const doc = await db.collection("usuarios").doc(user.uid).get();
     if (doc.exists) {
       const datos = doc.data();
       const local = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
       localStorage.setItem("datosUsuario", JSON.stringify({ ...local, ...datos }));
-      // Re-render stats con datos actualizados (estatura para IMC)
-      renderTodo();
     }
   } catch(e) {}
-  if (typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+
+  // Sincronizar historial de pesos con Firestore
+  if (typeof sincronizarConFirestore === "function") {
+    await sincronizarConFirestore(user.uid);
+  }
 });
 </script>
 

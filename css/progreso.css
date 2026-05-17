@@ -36,6 +36,35 @@ body {
   color: rgba(255,255,255,0.78);
 }
 
+/* ── Banner de sincronización ───────────── */
+.prog-sync-ok {
+  background: #e8f5e9;
+  border: 1.5px solid #a5d6a7;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #2e7d32;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.prog-sync-warn {
+  background: #fff8e1;
+  border: 1.5px solid #ffe082;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #5d4037;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.prog-sync-warn a {
+  color: #2e7d32;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 /* ── Stats ──────────────────────────────── */
 .prog-stats {
   display: grid;
