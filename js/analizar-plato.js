@@ -1,62 +1,20 @@
 // ============================================================
 // ANALIZAR PLATO — ViveSano
-// Llama a Firebase Function que verifica pago y usa Gemini
+// Versión actual: Gemini directo (sin servidor)
+// Versión futura: Firebase Functions + Stripe (ver functions/index.js)
 // ============================================================
+
+const _GK          = "AIzaSyBqlHh_328DD4y5P8EIZctueRXJ6szYOog";
+const GEMINI_MODEL = "gemini-1.5-flash";
+const GEMINI_URL   = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${_GK}`;
 
 let imagenBase64    = null;
 let mediaTypeImagen = "image/jpeg";
 
-// ─── Inicializar ─────────────────────────────────────────────
-document.addEventListener("DOMContentLoaded", async () => {
-  await cargarEstadoSuscripcion();
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("ap-estado-uso").innerHTML = "";
+  document.getElementById("ap-capture-card").style.display = "block";
 });
-
-async function cargarEstadoSuscripcion() {
-  // Si no está logueado, mostrar mensaje de login
-  if (!auth.currentUser) {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) await cargarEstadoSuscripcion();
-      else mostrarBannerLogin();
-    });
-    return;
-  }
-
-  try {
-    const fn   = firebase.functions().httpsCallable("consultarSuscripcion");
-    const res  = await fn();
-    const data = res.data;
-    renderEstado(data);
-  } catch {
-    renderEstado({ plan: "gratis", restantes: 3, usadosHoy: 0 });
-  }
-}
-
-function renderEstado(data) {
-  const el = document.getElementById("ap-estado-uso");
-  if (!el) return;
-
-  if (data.plan === "premium") {
-    el.innerHTML = `<div class="ap-badge-premium">⭐ Premium — análisis ilimitados</div>`;
-  } else {
-    const r = data.restantes ?? (3 - (data.usadosHoy || 0));
-    const color = r > 1 ? "#2e7d32" : r === 1 ? "#f57c00" : "#e53935";
-    el.innerHTML = `
-      <div class="ap-uso-bar">
-        <span style="color:${color};font-weight:700">${r} análisis gratuito${r !== 1 ? "s" : ""} restante${r !== 1 ? "s" : ""} hoy</span>
-        <div class="ap-uso-puntos">
-          ${[0,1,2].map(i => `<span class="ap-punto ${i < (3 - r) ? "usado" : ""}"></span>`).join("")}
-        </div>
-        ${r === 0 ? `<a href="suscripcion.html" class="ap-link-premium">✨ Hazte Premium para análisis ilimitados</a>` : ""}
-      </div>`;
-  }
-}
-
-function mostrarBannerLogin() {
-  const el = document.getElementById("ap-estado-uso");
-  if (el) el.innerHTML = `<div class="ap-badge-login">
-    <a href="recetas.html" style="color:#2e7d32;font-weight:700">Inicia sesión</a> para analizar tu plato
-  </div>`;
-}
 
 // ─── Selección de imagen ─────────────────────────────────────
 function abrirCamara()  { document.getElementById("ap-input-camara").click(); }
@@ -95,17 +53,12 @@ function comprimirImagen(archivo, cb) {
   reader.readAsDataURL(archivo);
 }
 
-// ─── Analizar (llama Firebase Function) ──────────────────────
+// ─── Analizar ─────────────────────────────────────────────────
 async function analizarPlato() {
   if (!imagenBase64) return;
 
-  if (!auth.currentUser) {
-    mostrarError('Debes <a href="recetas.html" style="color:#2e7d32;font-weight:700">iniciar sesión</a> para analizar tu plato.');
-    return;
-  }
-
-  const btn = document.getElementById("ap-btn-analizar");
-  btn.disabled = true;
+  const btn     = document.getElementById("ap-btn-analizar");
+  btn.disabled  = true;
   const wrap    = document.getElementById("ap-preview-wrap");
   const overlay = document.createElement("div");
   overlay.className = "ap-loading-overlay";
@@ -114,126 +67,111 @@ async function analizarPlato() {
   ocultarResultado();
 
   const usuario = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
-  const perfilUsuario = {
-    enfermedad:       usuario.enfermedad,
-    objetivo:         usuario.objetivo,
-    condicion:        usuario.condicion,
-    trimestre:        usuario.trimestre,
-    caloriasObjetivo: parseInt(localStorage.getItem("caloriasObjetivo")) || null,
-  };
 
   try {
-    const fn  = firebase.functions().httpsCallable("analizarPlatoIA");
-    const res = await fn({ imagenBase64, mediaType: mediaTypeImagen, perfilUsuario });
+    const res = await fetch(GEMINI_URL, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [
+          { inlineData: { mimeType: mediaTypeImagen, data: imagenBase64 } },
+          { text: construirPrompt(usuario) },
+        ]}],
+        generationConfig: { temperature: 0.4, maxOutputTokens: 1024 },
+      }),
+    });
 
     overlay.remove();
     btn.disabled = false;
 
-    if (res.data?.ok) {
-      mostrarResultado(res.data.analisis, res.data.restantes);
-      await cargarEstadoSuscripcion(); // actualizar contador
+    if (!res.ok) {
+      const err = await res.json();
+      mostrarError(`Error ${res.status}: ${err?.error?.message || "Intenta de nuevo."}`);
+      return;
     }
-  } catch (err) {
+
+    const data    = await res.json();
+    const texto   = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    mostrarResultado(parsearRespuesta(texto));
+
+  } catch (e) {
     overlay.remove();
     btn.disabled = false;
-
-    // Límite gratuito alcanzado
-    try {
-      const detalle = JSON.parse(err.message);
-      if (detalle.tipo === "limite_alcanzado") {
-        mostrarLimiteMensaje();
-        return;
-      }
-    } catch {}
-
-    mostrarError(err.message || "Error al analizar. Intenta de nuevo.");
+    mostrarError("Sin conexión. Verifica tu internet.");
   }
 }
 
+// ─── Prompt ──────────────────────────────────────────────────
+function construirPrompt(u) {
+  const ENF = { diabetes:"Diabetes", hipertension:"Hipertensión", colesterol:"Colesterol alto",
+    obesidad:"Obesidad", celiaquia:"Celiaquía", gastritis:"Gastritis",
+    renal:"Enfermedad renal", cardiaca:"Cardiovascular", digestiva:"Digestivo" };
+  const OBJ = { bajar:"bajar grasa", masa:"ganar masa muscular",
+    tonificar:"tonificar", mantener:"mantener el peso" };
+  const l = [];
+  if (u.enfermedad && u.enfermedad !== "ninguna") l.push(`- Condición: ${ENF[u.enfermedad] || u.enfermedad}`);
+  if (u.objetivo) l.push(`- Objetivo: ${OBJ[u.objetivo] || u.objetivo}`);
+  if (u.condicion === "embarazo") l.push(`- Embarazada (T${u.trimestre || 1})`);
+  const kcal = parseInt(localStorage.getItem("caloriasObjetivo"));
+  if (kcal) l.push(`- Meta: ${kcal} kcal/día`);
+  const perfil = l.length ? `\nPerfil:\n${l.join("\n")}\n` : "";
+  return `Eres nutricionista colombiano. Analiza esta foto del plato.${perfil}
+Responde SOLO JSON válido:
+{"alimentos":["item1"],"caloriasEstimadas":450,"puntuacion":7,"bienHecho":["punto1"],"mejoras":["mejora1"],"consejo":"Consejo corto."}
+- puntuacion 1-10 según perfil · SOLO JSON`;
+}
+
+function parsearRespuesta(texto) {
+  try { return JSON.parse(texto.replace(/```json\n?/g,"").replace(/```\n?/g,"").trim()); }
+  catch { return { texto }; }
+}
+
 // ─── Mostrar resultado ────────────────────────────────────────
-function mostrarResultado(analisis, restantes) {
+function mostrarResultado(a) {
   const cont = document.getElementById("ap-resultado");
   if (!cont) return;
-
-  if (analisis.texto) {
-    cont.innerHTML = `<div class="ap-section"><p style="font-size:14px;line-height:1.6">${analisis.texto}</p></div>`;
+  if (a.texto) {
+    cont.innerHTML = `<div class="ap-section"><p style="font-size:14px;line-height:1.6">${a.texto}</p></div>`;
     cont.style.display = "block";
     cont.scrollIntoView({ behavior:"smooth", block:"start" });
     return;
   }
-
-  const { alimentos=[], caloriasEstimadas=0, puntuacion=5,
-          bienHecho=[], mejoras=[], consejo="" } = analisis;
-  const scoreClass = puntuacion >= 8 ? "alto" : puntuacion >= 5 ? "medio" : "bajo";
-
+  const { alimentos=[], caloriasEstimadas=0, puntuacion=5, bienHecho=[], mejoras=[], consejo="" } = a;
+  const sc = puntuacion >= 8 ? "alto" : puntuacion >= 5 ? "medio" : "bajo";
   cont.innerHTML = `
     <div class="ap-resultado-header">
       <h3>🔬 Análisis de tu plato</h3>
-      <div class="ap-score ${scoreClass}">
+      <div class="ap-score ${sc}">
         <span class="ap-score-num">${puntuacion}/10</span>
         <span class="ap-score-lbl">Nutrición</span>
       </div>
     </div>
     <div class="ap-section">
       <p class="ap-section-title">🍽️ Alimentos detectados</p>
-      <div class="ap-alimentos">
-        ${alimentos.map(a=>`<span class="ap-alimento-chip">${a}</span>`).join("")}
-      </div>
+      <div class="ap-alimentos">${alimentos.map(x=>`<span class="ap-alimento-chip">${x}</span>`).join("")}</div>
     </div>
     <div class="ap-section">
       <p class="ap-section-title">🔥 Calorías estimadas</p>
       <p class="ap-calorias">${caloriasEstimadas}<span> kcal en este plato</span></p>
     </div>
-    ${bienHecho.length ? `
-    <div class="ap-section">
-      <p class="ap-section-title">Lo que está bien ✅</p>
-      <ul class="ap-lista bien">${bienHecho.map(b=>`<li>${b}</li>`).join("")}</ul>
-    </div>` : ""}
-    ${mejoras.length ? `
-    <div class="ap-section">
-      <p class="ap-section-title">Lo que puedes mejorar ⚠️</p>
-      <ul class="ap-lista cambiar">${mejoras.map(m=>`<li>${m}</li>`).join("")}</ul>
-    </div>` : ""}
-    ${consejo ? `
-    <div class="ap-section">
-      <p class="ap-section-title">💡 Consejo personalizado</p>
-      <p class="ap-consejo">${consejo}</p>
-    </div>` : ""}
-    ${restantes !== null && restantes === 0 ? `
-    <div class="ap-section" style="text-align:center">
-      <p style="font-size:13px;color:#888;margin:0 0 8px">Usaste todos tus análisis gratuitos de hoy.</p>
-      <a href="suscripcion.html" class="ap-btn-premium-inline">✨ Hazte Premium — análisis ilimitados</a>
-    </div>` : ""}`;
-
+    ${bienHecho.length?`<div class="ap-section"><p class="ap-section-title">Lo que está bien ✅</p>
+      <ul class="ap-lista bien">${bienHecho.map(b=>`<li>${b}</li>`).join("")}</ul></div>`:""}
+    ${mejoras.length?`<div class="ap-section"><p class="ap-section-title">Lo que puedes mejorar ⚠️</p>
+      <ul class="ap-lista cambiar">${mejoras.map(m=>`<li>${m}</li>`).join("")}</ul></div>`:""}
+    ${consejo?`<div class="ap-section"><p class="ap-section-title">💡 Consejo personalizado</p>
+      <p class="ap-consejo">${consejo}</p></div>`:""}`;
   cont.style.display = "block";
   setTimeout(() => cont.scrollIntoView({ behavior:"smooth", block:"start" }), 100);
 }
 
-function mostrarLimiteMensaje() {
-  const cont = document.getElementById("ap-resultado");
-  if (!cont) return;
-  cont.innerHTML = `
-    <div class="ap-section" style="text-align:center;padding:24px">
-      <div style="font-size:36px;margin-bottom:10px">🔒</div>
-      <h3 style="margin:0 0 6px;color:#1b5233">Límite diario alcanzado</h3>
-      <p style="font-size:13px;color:#666;margin:0 0 16px;line-height:1.6">
-        Usaste tus 3 análisis gratuitos de hoy.<br>
-        Vuelve mañana o hazte Premium para análisis ilimitados.
-      </p>
-      <a href="suscripcion.html" class="ap-btn-premium-inline">✨ Ver planes Premium</a>
-    </div>`;
-  cont.style.display = "block";
-  cont.scrollIntoView({ behavior:"smooth", block:"start" });
-}
-
 function ocultarResultado() {
-  const cont = document.getElementById("ap-resultado");
-  if (cont) { cont.style.display = "none"; cont.innerHTML = ""; }
+  const c = document.getElementById("ap-resultado");
+  if (c) { c.style.display = "none"; c.innerHTML = ""; }
 }
 
 function mostrarError(msg) {
-  const cont = document.getElementById("ap-resultado");
-  if (!cont) return;
-  cont.innerHTML = `<div class="ap-section" style="color:#e53935;font-size:13px;line-height:1.6">⚠️ ${msg}</div>`;
-  cont.style.display = "block";
+  const c = document.getElementById("ap-resultado");
+  if (!c) return;
+  c.innerHTML = `<div class="ap-section" style="color:#e53935;font-size:13px">${msg}</div>`;
+  c.style.display = "block";
 }
