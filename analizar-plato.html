@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analizar mi plato — ViveSano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/analizar-plato.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-functions-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+</head>
+<body>
+
+<div id="menu"></div>
+
+<main class="ap-main">
+
+  <!-- Cabecera -->
+  <div class="ap-header">
+    <h1>📸 Analizar mi plato</h1>
+    <p>Toma una foto de tu comida y la IA te dirá qué tiene, cuántas calorías y cómo mejorarla según tu perfil de salud.</p>
+  </div>
+
+  <!-- Banner de configuración (se muestra si la Function no está deployada) -->
+  <div id="ap-setup-banner" class="ap-setup-banner" style="display:none">
+    <strong>⚙️ Función no activa todavía.</strong><br>
+    Para activar el análisis con IA necesitas desplegar la Firebase Function:<br>
+    1. Instala Firebase CLI: <code>npm install -g firebase-tools</code><br>
+    2. Login: <code>firebase login</code><br>
+    3. Guarda la API key: <code>firebase functions:secrets:set ANTHROPIC_API_KEY</code><br>
+    4. Despliega: <code>firebase deploy --only functions</code>
+  </div>
+
+  <!-- Inputs ocultos -->
+  <input type="file" id="ap-input-camara"  accept="image/*" capture="environment"
+         onchange="onImagenSeleccionada(event)">
+  <input type="file" id="ap-input-galeria" accept="image/*"
+         onchange="onImagenSeleccionada(event)">
+
+  <!-- Card de captura -->
+  <div class="ap-capture-card">
+    <!-- Preview de la imagen -->
+    <div id="ap-preview-wrap" class="ap-preview-wrap" onclick="abrirCamara()">
+      <div class="ap-preview-placeholder">
+        <span class="ap-cam-ico">📷</span>
+        <p>Toca aquí para tomar una foto<br><span style="font-size:12px;color:#bbb">o usa los botones de abajo</span></p>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="ap-btns">
+      <button class="ap-btn ap-btn-camara" onclick="abrirCamara()">
+        <i class="fa-solid fa-camera"></i> Cámara
+      </button>
+      <button class="ap-btn ap-btn-galeria" onclick="abrirGaleria()">
+        <i class="fa-solid fa-image"></i> Galería
+      </button>
+      <button id="ap-btn-analizar" class="ap-btn ap-btn-analizar"
+              onclick="analizarPlato()" disabled>
+        <i class="fa-solid fa-magnifying-glass"></i> Analizar
+      </button>
+    </div>
+  </div>
+
+  <!-- Resultado del análisis (se rellena con JS) -->
+  <div id="ap-resultado" class="ap-resultado" style="display:none"></div>
+
+</main>
+
+<script src="js/menu.js"></script>
+<script>
+fetch("components/menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+    setTimeout(() => iniciarMenu(), 0);
+  });
+</script>
+<script src="js/analizar-plato.js"></script>
+<script src="js/auth.js"></script>
+<script>
+auth.onAuthStateChanged(user => {
+  if (user && typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+});
+</script>
+
+</body>
+</html>
