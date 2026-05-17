@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planes — ViveSano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/suscripcion.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-functions-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+</head>
+<body>
+<div id="menu"></div>
+
+<main class="sus-main">
+
+  <div class="sus-header">
+    <h1>✨ Planes ViveSano</h1>
+    <p>Elige el plan que mejor se adapte a ti</p>
+  </div>
+
+  <!-- Banner éxito / cancelado -->
+  <div id="sus-banner" style="display:none"></div>
+
+  <!-- Estado actual -->
+  <div id="sus-estado" class="sus-estado">
+    <span class="sus-estado-ico">⏳</span>
+    <div class="sus-estado-info">
+      <h3>Cargando tu plan…</h3>
+      <p>Un momento por favor</p>
+    </div>
+  </div>
+
+  <!-- Planes -->
+  <div class="sus-planes">
+
+    <!-- Plan Gratis -->
+    <div class="sus-plan">
+      <div class="sus-plan-header">
+        <span class="sus-plan-nombre">🆓 Plan Gratuito</span>
+        <span class="sus-plan-precio">$0 <span>/siempre</span></span>
+      </div>
+      <ul class="sus-features">
+        <li>Recetas y plan diario completo</li>
+        <li>Historial y progreso de peso</li>
+        <li>Lista de compras automática</li>
+        <li>Plan semanal de comidas</li>
+        <li>3 análisis de plato con IA por día</li>
+        <li class="no">Análisis de plato ilimitados</li>
+        <li class="no">Soporte prioritario</li>
+      </ul>
+    </div>
+
+    <!-- Plan Premium -->
+    <div class="sus-plan destacado">
+      <div class="sus-plan-header">
+        <span class="sus-plan-nombre">⭐ Plan Premium</span>
+        <span class="sus-plan-precio" id="sus-precio">$4.99 <span>/mes</span></span>
+      </div>
+      <ul class="sus-features">
+        <li>Todo lo del plan gratuito</li>
+        <li><strong>Análisis de plato con IA ilimitados</strong></li>
+        <li>La IA recuerda tus preferencias</li>
+        <li>Análisis detallado de macros por foto</li>
+        <li>Soporte prioritario</li>
+      </ul>
+      <button id="btn-suscribir" class="btn-suscribir" onclick="suscribirse()">
+        ✨ Comenzar Premium
+      </button>
+      <p class="sus-nota">Cancela cuando quieras · Sin compromisos · Pago seguro con Stripe</p>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="js/menu.js"></script>
+<script>
+fetch("components/menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+    setTimeout(() => iniciarMenu(), 0);
+  });
+
+// ── Mostrar banner de éxito o cancelado ──
+const params = new URLSearchParams(location.search);
+const banner = document.getElementById("sus-banner");
+if (params.get("exito") === "1") {
+  banner.className = "sus-banner exito";
+  banner.innerHTML = "🎉 ¡Suscripción activada! Ya tienes análisis ilimitados.";
+  banner.style.display = "block";
+} else if (params.get("cancelado") === "1") {
+  banner.className = "sus-banner cancel";
+  banner.innerHTML = "Pago cancelado. Tu plan gratuito sigue activo.";
+  banner.style.display = "block";
+}
+
+// ── Cargar estado de suscripción ──
+auth.onAuthStateChanged(async (user) => {
+  const el = document.getElementById("sus-estado");
+  if (!user) {
+    el.innerHTML = `<span class="sus-estado-ico">🔒</span>
+      <div class="sus-estado-info">
+        <h3>No has iniciado sesión</h3>
+        <p><a href="recetas.html" style="color:#2e7d32;font-weight:700">Inicia sesión</a> para gestionar tu plan</p>
+      </div>`;
+    return;
+  }
+
+  if (typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+
+  try {
+    const fn  = firebase.functions().httpsCallable("consultarSuscripcion");
+    const res = await fn();
+    const d   = res.data;
+
+    if (d.plan === "premium") {
+      el.innerHTML = `
+        <span class="sus-estado-ico">⭐</span>
+        <div class="sus-estado-info">
+          <h3>Plan Premium activo</h3>
+          <p>Análisis ilimitados con IA</p>
+          <span class="sus-badge-premium">Premium</span>
+        </div>`;
+      document.getElementById("btn-suscribir").textContent = "✓ Ya eres Premium";
+      document.getElementById("btn-suscribir").disabled = true;
+      // Agregar botón de cancelar
+      const plan = document.querySelector(".sus-plan.destacado");
+      const btnCancel = document.createElement("button");
+      btnCancel.className = "btn-cancelar";
+      btnCancel.textContent = "Cancelar suscripción";
+      btnCancel.onclick = cancelarSuscripcion;
+      plan.appendChild(btnCancel);
+    } else {
+      el.innerHTML = `
+        <span class="sus-estado-ico">🆓</span>
+        <div class="sus-estado-info">
+          <h3>Plan Gratuito</h3>
+          <p>${d.restantes} análisis gratuitos restantes hoy</p>
+          <span class="sus-badge-gratis">Gratuito</span>
+        </div>`;
+    }
+  } catch(e) {
+    el.innerHTML = `<span class="sus-estado-ico">🆓</span>
+      <div class="sus-estado-info"><h3>Plan Gratuito</h3><p></p></div>`;
+  }
+});
+
+// ── Suscribirse ──
+// STRIPE_PRICE_ID: reemplaza con el ID de tu precio en Stripe (empieza con price_)
+const STRIPE_PRICE_ID = "price_REEMPLAZA_CON_TU_PRICE_ID";
+
+async function suscribirse() {
+  const btn = document.getElementById("btn-suscribir");
+  if (!auth.currentUser) { window.location.href = "recetas.html"; return; }
+  btn.disabled = true;
+  btn.textContent = "Redirigiendo a pago seguro…";
+  try {
+    const fn  = firebase.functions().httpsCallable("crearCheckout");
+    const res = await fn({ priceId: STRIPE_PRICE_ID });
+    window.location.href = res.data.url; // redirige a Stripe Checkout
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = "✨ Comenzar Premium";
+    alert("Error al iniciar el pago: " + e.message);
+  }
+}
+
+// ── Cancelar ──
+async function cancelarSuscripcion() {
+  if (!confirm("¿Cancelar tu suscripción? Seguirás teniendo Premium hasta el final del período.")) return;
+  try {
+    const fn = firebase.functions().httpsCallable("cancelarSuscripcion");
+    await fn();
+    alert("Suscripción cancelada. Seguirás con Premium hasta el final del período.");
+    location.reload();
+  } catch(e) {
+    alert("Error: " + e.message);
+  }
+}
+</script>
+<script src="js/auth.js"></script>
+</body>
+</html>

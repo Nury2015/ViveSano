@@ -1,23 +1,62 @@
 // ============================================================
 // ANALIZAR PLATO — ViveSano
-// Usa Google Gemini Vision (gratis, sin servidor)
+// Llama a Firebase Function que verifica pago y usa Gemini
 // ============================================================
-
-const GEMINI_MODEL = "gemini-1.5-flash";
-// API key restringida al dominio de la app en Google AI Studio
-// IMPORTANTE: antes de subir a producción final, restringir en:
-// aistudio.google.com → tu key → "Edit" → añadir nury2015.github.io
-const _GK = "AIzaSyBqlHh_328DD4y5P8EIZctueRXJ6szYOog";
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${_GK}`;
 
 let imagenBase64    = null;
 let mediaTypeImagen = "image/jpeg";
 
-// ─── Inicializar página ──────────────────────────────────────
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("ap-panel-apikey").style.display = "none";
-  document.getElementById("ap-capture-card").style.display = "block";
+// ─── Inicializar ─────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", async () => {
+  await cargarEstadoSuscripcion();
 });
+
+async function cargarEstadoSuscripcion() {
+  // Si no está logueado, mostrar mensaje de login
+  if (!auth.currentUser) {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) await cargarEstadoSuscripcion();
+      else mostrarBannerLogin();
+    });
+    return;
+  }
+
+  try {
+    const fn   = firebase.functions().httpsCallable("consultarSuscripcion");
+    const res  = await fn();
+    const data = res.data;
+    renderEstado(data);
+  } catch {
+    renderEstado({ plan: "gratis", restantes: 3, usadosHoy: 0 });
+  }
+}
+
+function renderEstado(data) {
+  const el = document.getElementById("ap-estado-uso");
+  if (!el) return;
+
+  if (data.plan === "premium") {
+    el.innerHTML = `<div class="ap-badge-premium">⭐ Premium — análisis ilimitados</div>`;
+  } else {
+    const r = data.restantes ?? (3 - (data.usadosHoy || 0));
+    const color = r > 1 ? "#2e7d32" : r === 1 ? "#f57c00" : "#e53935";
+    el.innerHTML = `
+      <div class="ap-uso-bar">
+        <span style="color:${color};font-weight:700">${r} análisis gratuito${r !== 1 ? "s" : ""} restante${r !== 1 ? "s" : ""} hoy</span>
+        <div class="ap-uso-puntos">
+          ${[0,1,2].map(i => `<span class="ap-punto ${i < (3 - r) ? "usado" : ""}"></span>`).join("")}
+        </div>
+        ${r === 0 ? `<a href="suscripcion.html" class="ap-link-premium">✨ Hazte Premium para análisis ilimitados</a>` : ""}
+      </div>`;
+  }
+}
+
+function mostrarBannerLogin() {
+  const el = document.getElementById("ap-estado-uso");
+  if (el) el.innerHTML = `<div class="ap-badge-login">
+    <a href="recetas.html" style="color:#2e7d32;font-weight:700">Inicia sesión</a> para analizar tu plato
+  </div>`;
+}
 
 // ─── Selección de imagen ─────────────────────────────────────
 function abrirCamara()  { document.getElementById("ap-input-camara").click(); }
@@ -56,13 +95,17 @@ function comprimirImagen(archivo, cb) {
   reader.readAsDataURL(archivo);
 }
 
-// ─── Llamar a Gemini Vision ───────────────────────────────────
+// ─── Analizar (llama Firebase Function) ──────────────────────
 async function analizarPlato() {
   if (!imagenBase64) return;
 
+  if (!auth.currentUser) {
+    mostrarError('Debes <a href="recetas.html" style="color:#2e7d32;font-weight:700">iniciar sesión</a> para analizar tu plato.');
+    return;
+  }
+
   const btn = document.getElementById("ap-btn-analizar");
   btn.disabled = true;
-
   const wrap    = document.getElementById("ap-preview-wrap");
   const overlay = document.createElement("div");
   overlay.className = "ap-loading-overlay";
@@ -71,107 +114,44 @@ async function analizarPlato() {
   ocultarResultado();
 
   const usuario = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
-  const prompt  = construirPrompt(usuario);
+  const perfilUsuario = {
+    enfermedad:       usuario.enfermedad,
+    objetivo:         usuario.objetivo,
+    condicion:        usuario.condicion,
+    trimestre:        usuario.trimestre,
+    caloriasObjetivo: parseInt(localStorage.getItem("caloriasObjetivo")) || null,
+  };
 
   try {
-    const res = await fetch(GEMINI_URL, {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            { inlineData: { mimeType: mediaTypeImagen, data: imagenBase64 } },
-            { text: prompt },
-          ],
-        }],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 1024 },
-      }),
-    });
+    const fn  = firebase.functions().httpsCallable("analizarPlatoIA");
+    const res = await fn({ imagenBase64, mediaType: mediaTypeImagen, perfilUsuario });
 
     overlay.remove();
     btn.disabled = false;
 
-    if (!res.ok) {
-      const err = await res.json();
-      if (res.status === 400 || res.status === 403) {
-        mostrarError("API key inválida o sin permisos. <a href='#' onclick='cambiarApiKey()'>Actualiza tu key</a>");
-      } else {
-        mostrarError(`Error ${res.status}: ${err?.error?.message || "Intenta de nuevo."}`);
-      }
-      return;
+    if (res.data?.ok) {
+      mostrarResultado(res.data.analisis, res.data.restantes);
+      await cargarEstadoSuscripcion(); // actualizar contador
     }
-
-    const data    = await res.json();
-    const texto   = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    const analisis = parsearRespuesta(texto);
-    mostrarResultado(analisis);
-
-  } catch (e) {
+  } catch (err) {
     overlay.remove();
     btn.disabled = false;
-    mostrarError("Sin conexión o error de red. Revisa tu internet.");
+
+    // Límite gratuito alcanzado
+    try {
+      const detalle = JSON.parse(err.message);
+      if (detalle.tipo === "limite_alcanzado") {
+        mostrarLimiteMensaje();
+        return;
+      }
+    } catch {}
+
+    mostrarError(err.message || "Error al analizar. Intenta de nuevo.");
   }
 }
 
-// ─── Construir prompt con perfil del usuario ─────────────────
-function construirPrompt(usuario) {
-  const ETIQ_ENF = {
-    diabetes:"Diabetes", hipertension:"Hipertensión", colesterol:"Colesterol alto",
-    obesidad:"Obesidad", celiaquia:"Celiaquía", tiroides:"Tiroides",
-    renal:"Enfermedad renal", cardiaca:"Cardiovascular", digestiva:"Digestivo",
-    gastritis:"Gastritis",
-  };
-  const ETIQ_OBJ = {
-    bajar:"bajar grasa", masa:"ganar masa muscular",
-    tonificar:"tonificar", mantener:"mantener el peso",
-  };
-
-  const lineas = [];
-  if (usuario.enfermedad && usuario.enfermedad !== "ninguna")
-    lineas.push(`- Condición médica: ${ETIQ_ENF[usuario.enfermedad] || usuario.enfermedad}`);
-  if (usuario.objetivo)
-    lineas.push(`- Objetivo: ${ETIQ_OBJ[usuario.objetivo] || usuario.objetivo}`);
-  if (usuario.condicion === "embarazo")
-    lineas.push(`- Embarazada (trimestre ${usuario.trimestre || 1})`);
-  const kcal = parseInt(localStorage.getItem("caloriasObjetivo"));
-  if (kcal) lineas.push(`- Meta calórica diaria: ${kcal} kcal`);
-
-  const perfil = lineas.length
-    ? `\n\nPerfil del usuario:\n${lineas.join("\n")}\n`
-    : "";
-
-  return `Eres un nutricionista colombiano experto en comida latina.
-Analiza esta foto del plato de comida y responde SOLO con un JSON válido, sin texto adicional.${perfil}
-
-Formato exacto del JSON:
-{
-  "alimentos": ["alimento1", "alimento2"],
-  "caloriasEstimadas": 450,
-  "puntuacion": 7,
-  "bienHecho": ["punto positivo 1", "punto positivo 2"],
-  "mejoras": ["qué reducir o quitar", "qué agregar"],
-  "consejo": "Consejo corto y motivador personalizado para este usuario (máx 2 oraciones)."
-}
-
-Reglas:
-- puntuacion del 1 al 10 considerando el perfil del usuario
-- mejoras: máximo 3, concretos y accionables
-- Si no hay comida visible escribe alimentos: ["No se detectó comida"]
-- SOLO JSON, nada más`;
-}
-
-// ─── Parsear respuesta de Gemini ─────────────────────────────
-function parsearRespuesta(texto) {
-  try {
-    const limpio = texto.replace(/```json\n?/g,"").replace(/```\n?/g,"").trim();
-    return JSON.parse(limpio);
-  } catch {
-    return { texto }; // fallback texto plano
-  }
-}
-
-// ─── Mostrar resultado ───────────────────────────────────────
-function mostrarResultado(analisis) {
+// ─── Mostrar resultado ────────────────────────────────────────
+function mostrarResultado(analisis, restantes) {
   const cont = document.getElementById("ap-resultado");
   if (!cont) return;
 
@@ -219,13 +199,31 @@ function mostrarResultado(analisis) {
       <p class="ap-section-title">💡 Consejo personalizado</p>
       <p class="ap-consejo">${consejo}</p>
     </div>` : ""}
-    <div class="ap-section" style="text-align:right">
-      <button onclick="cambiarApiKey()" style="background:none;border:none;
-        font-size:11px;color:#bbb;cursor:pointer;font-family:inherit">⚙️ Cambiar API key</button>
-    </div>`;
+    ${restantes !== null && restantes === 0 ? `
+    <div class="ap-section" style="text-align:center">
+      <p style="font-size:13px;color:#888;margin:0 0 8px">Usaste todos tus análisis gratuitos de hoy.</p>
+      <a href="suscripcion.html" class="ap-btn-premium-inline">✨ Hazte Premium — análisis ilimitados</a>
+    </div>` : ""}`;
 
   cont.style.display = "block";
   setTimeout(() => cont.scrollIntoView({ behavior:"smooth", block:"start" }), 100);
+}
+
+function mostrarLimiteMensaje() {
+  const cont = document.getElementById("ap-resultado");
+  if (!cont) return;
+  cont.innerHTML = `
+    <div class="ap-section" style="text-align:center;padding:24px">
+      <div style="font-size:36px;margin-bottom:10px">🔒</div>
+      <h3 style="margin:0 0 6px;color:#1b5233">Límite diario alcanzado</h3>
+      <p style="font-size:13px;color:#666;margin:0 0 16px;line-height:1.6">
+        Usaste tus 3 análisis gratuitos de hoy.<br>
+        Vuelve mañana o hazte Premium para análisis ilimitados.
+      </p>
+      <a href="suscripcion.html" class="ap-btn-premium-inline">✨ Ver planes Premium</a>
+    </div>`;
+  cont.style.display = "block";
+  cont.scrollIntoView({ behavior:"smooth", block:"start" });
 }
 
 function ocultarResultado() {

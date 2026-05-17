@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="css/analizar-plato.css">
   <link rel="stylesheet" href="css/menu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Firebase solo para auth/nav -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-functions-compat.js"></script>
   <script src="js/firebase-config.js"></script>
 </head>
 <body>
@@ -27,8 +27,8 @@
     <p>Toma una foto de tu comida y la IA identifica los alimentos, estima calorías y te dice cómo mejorar el plato según tu perfil.</p>
   </div>
 
-  <!-- Panel reservado (no visible en producción) -->
-  <div id="ap-panel-apikey" style="display:none"></div>
+  <!-- Estado de uso (gratis / premium) -->
+  <div id="ap-estado-uso"></div>
 
   <!-- Inputs ocultos para imagen -->
   <input type="file" id="ap-input-camara"  accept="image/*" capture="environment"
