@@ -4,50 +4,20 @@
 // ============================================================
 
 const GEMINI_MODEL = "gemini-1.5-flash";
-const GEMINI_URL   = key =>
-  `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
+// API key restringida al dominio de la app en Google AI Studio
+// IMPORTANTE: antes de subir a producción final, restringir en:
+// aistudio.google.com → tu key → "Edit" → añadir nury2015.github.io
+const _GK = "AIzaSyA7adPzS4rpxBLyTQ0TpqO3dxoYvOtDebs";
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${_GK}`;
 
-let imagenBase64     = null;
-let mediaTypeImagen  = "image/jpeg";
-
-// ─── API Key ─────────────────────────────────────────────────
-function getApiKey()      { return localStorage.getItem("geminiApiKey") || ""; }
-function guardarApiKey(k) { localStorage.setItem("geminiApiKey", k.trim()); }
+let imagenBase64    = null;
+let mediaTypeImagen = "image/jpeg";
 
 // ─── Inicializar página ──────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
-  if (!getApiKey()) mostrarPanelApiKey();
-  else              ocultarPanelApiKey();
-});
-
-function mostrarPanelApiKey() {
-  document.getElementById("ap-panel-apikey").style.display = "block";
-  document.getElementById("ap-capture-card").style.display = "none";
-}
-
-function ocultarPanelApiKey() {
   document.getElementById("ap-panel-apikey").style.display = "none";
   document.getElementById("ap-capture-card").style.display = "block";
-}
-
-function confirmarApiKey() {
-  const inp = document.getElementById("ap-apikey-input");
-  const key = inp.value.trim();
-  if (!key.startsWith("AIza")) {
-    inp.style.borderColor = "#e53935";
-    document.getElementById("ap-apikey-msg").textContent = "La API key de Google comienza con 'AIza'.";
-    return;
-  }
-  guardarApiKey(key);
-  ocultarPanelApiKey();
-  document.getElementById("ap-apikey-msg").textContent = "";
-}
-
-function cambiarApiKey() {
-  localStorage.removeItem("geminiApiKey");
-  document.getElementById("ap-apikey-input").value = "";
-  mostrarPanelApiKey();
-}
+});
 
 // ─── Selección de imagen ─────────────────────────────────────
 function abrirCamara()  { document.getElementById("ap-input-camara").click(); }
@@ -89,8 +59,6 @@ function comprimirImagen(archivo, cb) {
 // ─── Llamar a Gemini Vision ───────────────────────────────────
 async function analizarPlato() {
   if (!imagenBase64) return;
-  const apiKey = getApiKey();
-  if (!apiKey) { mostrarPanelApiKey(); return; }
 
   const btn = document.getElementById("ap-btn-analizar");
   btn.disabled = true;
@@ -106,7 +74,7 @@ async function analizarPlato() {
   const prompt  = construirPrompt(usuario);
 
   try {
-    const res = await fetch(GEMINI_URL(apiKey), {
+    const res = await fetch(GEMINI_URL, {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -27,26 +27,8 @@
     <p>Toma una foto de tu comida y la IA identifica los alimentos, estima calorías y te dice cómo mejorar el plato según tu perfil.</p>
   </div>
 
-  <!-- Panel de configuración de API key (primera vez) -->
-  <div id="ap-panel-apikey" class="ap-apikey-panel" style="display:none">
-    <div class="ap-apikey-ico">🔑</div>
-    <h3>Configura tu API key gratuita</h3>
-    <p>Esta función usa <strong>Google Gemini</strong> — completamente gratis hasta 1 millón de tokens al día, sin tarjeta de crédito.</p>
-    <ol class="ap-steps">
-      <li>Ve a <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></li>
-      <li>Inicia sesión con tu cuenta Google</li>
-      <li>Clic en <strong>"Create API key"</strong></li>
-      <li>Copia la key y pégala aquí:</li>
-    </ol>
-    <input id="ap-apikey-input" type="text" placeholder="AIzaSy..." autocomplete="off">
-    <p id="ap-apikey-msg" style="color:#e53935;font-size:12px;min-height:14px;margin:4px 0 0"></p>
-    <button class="ap-btn-guardar-key" onclick="confirmarApiKey()">
-      ✅ Guardar y continuar
-    </button>
-    <p style="font-size:11px;color:#aaa;margin-top:10px">
-      La key se guarda solo en tu dispositivo, nunca en ningún servidor.
-    </p>
-  </div>
+  <!-- Panel reservado (no visible en producción) -->
+  <div id="ap-panel-apikey" style="display:none"></div>
 
   <!-- Inputs ocultos para imagen -->
   <input type="file" id="ap-input-camara"  accept="image/*" capture="environment"
