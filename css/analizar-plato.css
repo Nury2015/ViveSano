@@ -27,6 +27,75 @@ body {
 .ap-header h1 { margin: 0 0 4px; font-size: 22px; font-weight: 800; }
 .ap-header p  { margin: 0; font-size: 13px; color: rgba(255,255,255,0.78); line-height: 1.5; }
 
+/* ── Panel de API key (primera vez) ─────── */
+.ap-apikey-panel {
+  background: white;
+  border-radius: 18px;
+  padding: 24px 22px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.ap-apikey-ico { font-size: 40px; margin-bottom: 10px; }
+
+.ap-apikey-panel h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #1b5233;
+}
+
+.ap-apikey-panel p {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.ap-apikey-panel a { color: #2e7d32; font-weight: 700; }
+
+.ap-steps {
+  text-align: left;
+  margin: 0 0 14px;
+  padding-left: 20px;
+  font-size: 13px;
+  color: #444;
+  line-height: 2;
+}
+
+.ap-apikey-panel input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #dde8dd;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f8fbf8;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.ap-apikey-panel input:focus { border-color: #2e7d32; background: white; }
+
+.ap-btn-guardar-key {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.ap-btn-guardar-key:hover { background: #1b5233; }
+
 /* ── Zona de captura ────────────────────── */
 .ap-capture-card {
   background: white;
