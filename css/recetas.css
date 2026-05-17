@@ -1410,10 +1410,10 @@ body {
     margin: 6px 0;
     border-radius: 0;
     background: transparent;
-    /* Sombra interna derecha → indica que hay más chips al deslizar */
     box-shadow: inset -24px 0 12px -12px rgba(0,0,0,0.09);
   }
   .controles-globales::-webkit-scrollbar { display: none; }
+
 
   .ctrl-izq {
     flex-wrap: nowrap;

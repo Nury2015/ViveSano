@@ -1017,6 +1017,27 @@ const SLOTS = [
   { id: "cena",        label: "🌙 Cena",            tipo: "cena"     },
 ];
 
+// ─── DISTRIBUCIÓN CALÓRICA POR SLOT ─────────────────────────
+// Porcentaje del total diario asignado a cada comida
+const DISTRIBUCION_KCAL = {
+  desayuno:    0.25,   // 25 %
+  once_manana: 0.10,   // 10 %
+  almuerzo:    0.35,   // 35 %
+  once_tarde:  0.10,   // 10 %
+  cena:        0.20,   // 20 %
+};
+
+function targetKcalSlot(slotTipo) {
+  return Math.round(caloriasObjetivo() * (DISTRIBUCION_KCAL[slotTipo] || 0.20));
+}
+
+function textoEstadoInicial(slotId) {
+  const slot = SLOTS.find(s => s.id === slotId);
+  if (!slot) return "Toca para elegir";
+  const t = targetKcalSlot(slot.tipo);
+  return `Toca para elegir · ~${t} kcal`;
+}
+
 // ─── NUTRICIÓN EMBARAZO ───────────────────────────────────────
 const NUTRIENTES_EMBARAZO = {
   acidoFolico: ["lentejas", "frijoles", "espinaca", "brócoli", "habas", "aguacate", "naranja", "fresas", "lechuga"],
@@ -1236,6 +1257,7 @@ function actualizarEstadoSeccion(slotId) {
     el.textContent = `✓ ${r.nombre.replace(/🌱 /g, "")} · ${r.calorias} kcal`;
     el.classList.add("elegida");
   } else {
+    el.textContent = textoEstadoInicial(slotId);
     el.classList.remove("elegida");
   }
 }
@@ -1282,15 +1304,12 @@ function renderSeccion(slot) {
     nOcultas += recetas.filter(r => r.contraindicada?.includes("embarazo")).length;
     recetas = recetas.filter(r => !r.contraindicada?.includes("embarazo"));
   }
-  if (objetivo === "masa") {
-    recetas = [...recetas].sort((a, b) => (b.proteinas || 0) - (a.proteinas || 0));
-  }
-
-  // ── Scoring combinado: embarazo (10×) + favoritos (1×) ───
-  const trimestre  = usuario.trimestre || "1";
-  const _favIngrs  = JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]");
-  const _scoreMap  = new Map();   // favoritos
-  const _embMap    = new Map();   // embarazo
+  // ── Scoring combinado: salud (10×) + favoritos (5×) + calorías apropiadas (3×) ──
+  const trimestre   = usuario.trimestre || "1";
+  const _targetKcal = targetKcalSlot(slot.tipo);
+  const _favIngrs   = JSON.parse(localStorage.getItem("ingredientesFavoritos") || "[]");
+  const _scoreMap   = new Map();
+  const _embMap     = new Map();
 
   recetas.forEach(r => {
     const favScore = _favIngrs.length > 0
@@ -1300,15 +1319,20 @@ function renderSeccion(slot) {
     if (condicion === "embarazo") _embMap.set(r.id, _scoreEmbarazo(r, trimestre));
   });
 
-  if (_favIngrs.length > 0 || condicion === "embarazo") {
-    recetas = [...recetas].sort((a, b) => {
-      const sA = (_embMap.get(a.id) || 0) * 10 + (_scoreMap.get(a.id) || 0);
-      const sB = (_embMap.get(b.id) || 0) * 10 + (_scoreMap.get(b.id) || 0);
-      const diff = sB - sA;
-      if (diff !== 0) return diff;
-      return objetivo === "masa" ? (b.proteinas || 0) - (a.proteinas || 0) : 0;
-    });
-  }
+  // Siempre ordenar: salud > favoritos > calorías adecuadas al slot > proteína (masa)
+  recetas = [...recetas].sort((a, b) => {
+    const kcalDiffA = Math.abs((a.calorias || 0) - _targetKcal);
+    const kcalDiffB = Math.abs((b.calorias || 0) - _targetKcal);
+    const kcalA = Math.max(0, 5 - Math.floor(kcalDiffA / 50)); // 0–5 pts por proximidad
+    const kcalB = Math.max(0, 5 - Math.floor(kcalDiffB / 50));
+
+    const sA = (_embMap.get(a.id)||0)*10 + (_scoreMap.get(a.id)||0)*5 + kcalA*3;
+    const sB = (_embMap.get(b.id)||0)*10 + (_scoreMap.get(b.id)||0)*5 + kcalB*3;
+    const diff = sB - sA;
+    if (diff !== 0) return diff;
+    if (objetivo === "masa") return (b.proteinas || 0) - (a.proteinas || 0);
+    return kcalDiffA - kcalDiffB; // tiebreaker final: más cercano al objetivo calórico
+  });
 
   // Razones educativas por condición médica
   const RAZON_ENF = {
@@ -1858,11 +1882,51 @@ function initPlaneador() {
 
   shufflearRecetas();
   document.getElementById("meta-header").textContent = caloriasObjetivo();
+
+  // Mostrar objetivo calórico personalizado por slot
+  SLOTS.forEach(s => {
+    const el = document.getElementById(`estado-${s.id}`);
+    if (el && !selecciones[s.id]) el.textContent = textoEstadoInicial(s.id);
+  });
+
   SLOTS.forEach(s => renderSeccion(s));
   actualizarProgreso();
 
   // Abrir desayuno por defecto
   toggleSeccion("desayuno");
+
+  // Hint de scroll en los chips: desliza lento y vuelve, se cancela al tocar
+  setTimeout(_hintChipScroll, 900);
+}
+
+function _hintChipScroll() {
+  const el = document.querySelector(".controles-globales");
+  if (!el || el.scrollWidth <= el.clientWidth) return;
+
+  const maxDesplaz = Math.min(48, el.scrollWidth - el.clientWidth);
+  const duracion   = 1400; // ms total (ida + vuelta)
+  let animId;
+  let cancelado = false;
+
+  const cancelar = () => { cancelado = true; cancelAnimationFrame(animId); el.scrollLeft = 0; };
+  el.addEventListener("touchstart", cancelar, { once: true, passive: true });
+  el.addEventListener("mousedown",  cancelar, { once: true });
+
+  const inicio = performance.now();
+  function step(ahora) {
+    if (cancelado) return;
+    const t = (ahora - inicio) / duracion;
+    if (t < 0.45) {
+      el.scrollLeft = maxDesplaz * (t / 0.45);       // va a la derecha
+    } else if (t < 1) {
+      el.scrollLeft = maxDesplaz * (1 - (t - 0.45) / 0.55); // regresa
+    } else {
+      el.scrollLeft = 0;
+      return;
+    }
+    animId = requestAnimationFrame(step);
+  }
+  animId = requestAnimationFrame(step);
 }
 
 document.addEventListener("DOMContentLoaded", initPlaneador);
