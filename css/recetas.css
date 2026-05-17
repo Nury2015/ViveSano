@@ -407,20 +407,59 @@ body {
                 white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .alerta-kcal  { font-size: 11px; color: #e65100; font-weight: 600; }
 
-.alerta-btn-cambiar {
-  flex-shrink: 0;
-  background: #e65100;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 7px 12px;
-  font-size: 12px;
+/* Etiqueta "Cambia por" */
+.alerta-alts-label {
+  font-size: 11px;
   font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s;
+  color: #bf360c;
+  margin: 8px 0 4px;
 }
 
-.alerta-btn-cambiar:hover { background: #bf360c; }
+/* Contenedor de alternativas */
+.alerta-alts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Botón de alternativa directa */
+.btn-alt-swap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: white;
+  border: 1.5px solid #a5d6a7;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+  width: 100%;
+}
+
+.btn-alt-swap:hover {
+  background: #e8f5e9;
+  border-color: #2e7d32;
+}
+
+.alt-nombre {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a2e1a;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alt-kcal {
+  font-size: 11px;
+  color: #555;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
 
 /* ── BANNER CONDICIÓN ───────────────────────────── */
 .banner-salud {

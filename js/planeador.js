@@ -1452,6 +1452,24 @@ function seleccionarReceta(slotId, recetaId) {
   }
 }
 
+// ─── SWAP DIRECTO SIN ABRIR SECCIÓN ─────────────────────────
+function swapReceta(slotId, nuevaRecetaId) {
+  const slot   = SLOTS.find(s => s.id === slotId);
+  const receta = (RECETAS[slot.tipo] || []).find(r => r.id === nuevaRecetaId);
+  if (!receta) return;
+
+  selecciones[slotId] = { ...receta, tipo: slot.tipo };
+  const check = document.getElementById(`check-${slotId}`);
+  if (check) check.textContent = "✅";
+
+  actualizarEstadoSeccion(slotId);
+  renderSeccion(slot);
+  actualizarProgreso();
+  actualizarResumen();
+  actualizarPlanDelDia();
+  if (typeof actualizarListaCompras === "function") actualizarListaCompras();
+}
+
 // ─── VER RECETA DESDE TARJETA ────────────────────────────────
 function verRecetaDetalle(slotId, recetaId) {
   const slot   = SLOTS.find(s => s.id === slotId);
@@ -1620,25 +1638,50 @@ function actualizarProgreso() {
     const exceso = sel - meta;
     document.getElementById("alerta-exceso").textContent = exceso;
 
-    // Ordenar comidas seleccionadas de mayor a menor caloría
+    const usuario    = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+    const enfermedad = usuario.enfermedad;
+    const condicion  = usuario.condicion || "";
+
+    // Top 2 comidas más calóricas
     const pesadas = SLOTS
       .map(s => ({ slot: s, receta: selecciones[s.id] }))
       .filter(x => x.receta)
       .sort((a, b) => (b.receta.calorias || 0) - (a.receta.calorias || 0))
       .slice(0, 2);
 
-    document.getElementById("alerta-opciones").innerHTML = pesadas.map(({ slot, receta }) => `
-      <div class="alerta-opcion">
-        <div class="alerta-opcion-info">
-          <span class="alerta-slot">${slot.label}</span>
-          <span class="alerta-nombre">${receta.nombre.replace(/🌱 /g, "")}</span>
-          <span class="alerta-kcal">${receta.calorias} kcal</span>
-        </div>
-        <button class="alerta-btn-cambiar"
-          onclick="seleccionarReceta('${slot.id}','${receta.id}');toggleSeccion('${slot.id}')">
-          ↩ Cambiar
-        </button>
-      </div>`).join("");
+    document.getElementById("alerta-opciones").innerHTML = pesadas.map(({ slot, receta }) => {
+      // Buscar alternativas más livianas del mismo tipo
+      const alts = (RECETAS[slot.tipo] || [])
+        .filter(r => {
+          if (r.id === receta.id) return false;
+          if (r.calorias >= receta.calorias) return false;
+          if (enfermedad && enfermedad !== "ninguna" && r.contraindicada?.includes(enfermedad)) return false;
+          if (condicion === "embarazo" && r.contraindicada?.includes("embarazo")) return false;
+          return true;
+        })
+        .sort((a, b) => b.calorias - a.calorias) // más cercanas en calorías primero
+        .slice(0, 3);
+
+      const altsHTML = alts.length
+        ? `<div class="alerta-alts-label">Cambia por:</div>
+           <div class="alerta-alts">${alts.map(alt => `
+             <button class="btn-alt-swap" onclick="swapReceta('${slot.id}','${alt.id}')">
+               <span class="alt-nombre">${alt.nombre.replace(/🌱 /g,"")}</span>
+               <span class="alt-kcal">${alt.calorias} kcal · <strong style="color:#2e7d32">-${receta.calorias - alt.calorias}</strong></span>
+             </button>`).join("")}
+           </div>`
+        : `<p style="font-size:11px;color:#aaa;margin:4px 0 0">No hay alternativas más livianas disponibles.</p>`;
+
+      return `
+        <div class="alerta-opcion">
+          <div class="alerta-opcion-info">
+            <span class="alerta-slot">${slot.label}</span>
+            <span class="alerta-nombre">${receta.nombre.replace(/🌱 /g, "")}</span>
+            <span class="alerta-kcal">${receta.calorias} kcal</span>
+          </div>
+          ${altsHTML}
+        </div>`;
+    }).join("");
 
     alertaEl.style.display = "block";
   } else {
@@ -1666,9 +1709,12 @@ function actualizarResumen() {
     document.getElementById("resumen-contenido").innerHTML =
       `<ul class="resumen-lista">${SLOTS.map(s => {
         const r = selecciones[s.id];
-        return r ? `<li><span>${s.label}</span> <strong>${r.nombre}</strong> — ${r.calorias} kcal</li>` : "";
+        return r ? `<li><span>${s.label}</span> <strong>${r.nombre.replace(/🌱 /g,"")}</strong> — ${r.calorias} kcal</li>` : "";
       }).join("")}</ul>
       <p class="resumen-total">Total: <strong>${caloriasSeleccionadas()} kcal</strong> / ${caloriasObjetivo()} kcal objetivo</p>`;
+
+    // Plan completo → volver al tope para ver el resumen de macros
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 350);
   } else {
     resumen.style.display = "none";
   }
