@@ -1308,9 +1308,6 @@ body {
 }
 @media (max-width: 600px) {
   .features-section { grid-template-columns: 1fr; }
-  .controles-globales { flex-wrap: wrap; gap: 6px; }
-  .ctrl-izq { flex-wrap: wrap; }
-  .ctrl-search-wrap { order: 3; width: 100%; }
 }
 
 /* ══ TABLET (sin nav top) ═══════════════════════ */
@@ -1324,6 +1321,35 @@ body {
   body { padding-top: 64px; }
   .barra-sticky { top: 64px; }
   .navbar { box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+
+  /* ── Controles: franja de chips con scroll horizontal ── */
+  .controles-globales {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    padding: 8px 14px;
+    margin: 6px 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .controles-globales::-webkit-scrollbar { display: none; }
+
+  .ctrl-izq {
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: 8px;
+  }
+
+  .ctrl-search-wrap {
+    flex: 0 0 180px;
+    min-width: 160px;
+  }
+
+  .ctrl-filtros { flex-shrink: 0; }
 
   /* Dashboard: 2 filas, sin scroll horizontal */
   .dash-card {
