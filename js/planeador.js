@@ -1612,6 +1612,12 @@ function actualizarResumen() {
 }
 
 // ─── PANEL "MI PLAN DEL DÍA" (ver recetas seleccionadas) ────
+function togglePlanDia() {
+  const panel = document.getElementById("panel-plan-dia");
+  if (!panel) return;
+  panel.classList.toggle("expandido");
+}
+
 function actualizarPlanDelDia() {
   const panel = document.getElementById("panel-plan-dia");
   if (!panel) return;
@@ -1619,10 +1625,19 @@ function actualizarPlanDelDia() {
   const selArr = SLOTS.map(s => ({ slot: s, receta: selecciones[s.id] })).filter(x => x.receta);
   if (!selArr.length) {
     panel.style.display = "none";
+    panel.classList.remove("expandido");
     return;
   }
 
   panel.style.display = "block";
+
+  // Actualizar label con conteo y flecha
+  const label = panel.querySelector(".plan-dia-label");
+  if (label) {
+    label.innerHTML = `<span>📋 Mi plan · ${selArr.length} de ${SLOTS.length} comidas</span><span class="plan-dia-arrow">▼</span>`;
+    label.onclick = togglePlanDia;
+  }
+
   const grid = panel.querySelector(".plan-dia-grid");
   grid.innerHTML = selArr.map(({ slot, receta }) => {
     const fotoUrl = urlFoto(receta);

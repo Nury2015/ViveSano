@@ -276,24 +276,48 @@ body {
 .panel-plan-dia {
   background: #1b5233;
   border-top: 1px solid rgba(255,255,255,0.15);
-  padding: 8px 16px;
+  padding: 0 16px;
 }
 
 .plan-dia-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  padding: 10px 0;
+  cursor: pointer;
+  user-select: none;
 }
 
+.plan-dia-arrow {
+  font-size: 10px;
+  opacity: 0.7;
+  transition: transform 0.3s;
+}
+
+.panel-plan-dia.expandido .plan-dia-arrow {
+  transform: rotate(180deg);
+}
+
+/* Grid colapsable */
 .plan-dia-grid {
   display: flex;
   gap: 8px;
+  max-height: 0;
   overflow-x: auto;
-  padding-bottom: 2px;
+  overflow-y: hidden;
   scrollbar-width: none;
+  transition: max-height 0.35s ease, padding-bottom 0.35s ease;
 }
 
 .plan-dia-grid::-webkit-scrollbar { display: none; }
+
+.panel-plan-dia.expandido .plan-dia-grid {
+  max-height: 160px;
+  padding-bottom: 12px;
+}
 
 .plan-card {
   flex-shrink: 0;
