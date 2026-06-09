@@ -1422,13 +1422,9 @@ function renderSeccion(slot) {
           ${embBadgesHTML}
           <p class="opcion-desc">${r.descripcion}</p>
           <div class="opcion-macros">
-            <span class="macro-kcal">  <span class="macro-ico">🔥</span>${r.calorias} kcal</span>
-            <span class="macro-prot">  <span class="macro-ico">🌿</span>${r.proteinas}g prot.</span>
-            <span class="macro-carbs"> <span class="macro-ico">🌾</span>${r.carbohidratos}g carbs</span>
-            <span class="macro-grasas"><span class="macro-ico">💧</span>${r.grasas}g grasas</span>
+            <span class="macro-kcal"><span class="macro-ico">🔥</span>${r.calorias} kcal</span>
+            <span class="macro-prot"><span class="macro-ico">🌿</span>${r.proteinas}g prot.</span>
           </div>
-          ${adaptacion}
-          ${r.nota ? `<p class="nota-aviso">${r.nota}</p>` : ""}
           <div class="opcion-botones">
             <button class="btn-seleccionar" onclick="seleccionarReceta('${slot.id}','${r.id}')">
               ${sel ? "✓ Seleccionada" : "Seleccionar"}

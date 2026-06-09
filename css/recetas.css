@@ -896,31 +896,28 @@ body {
   width: fit-content;
 }
 
-/* Macros chips con color por categoría */
+/* Macros chips — solo kcal y proteína */
 .opcion-macros {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 5px;
+  gap: 8px;
   margin: 0;
 }
 
 .opcion-macros span {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 5px 8px;
+  gap: 5px;
+  padding: 7px 14px;
   border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   white-space: nowrap;
   flex: 1;
   justify-content: center;
 }
 
-.macro-kcal   { background: #E8F5E9; color: #2E7D32; }
-.macro-prot   { background: #FFEBEE; color: #C62828; }
-.macro-carbs  { background: #FFF8E1; color: #F9A825; }
-.macro-grasas { background: #E8F5E9; color: #2E7D32; }
+.macro-kcal { background: #fff3e0; color: #e65100; }
+.macro-prot { background: #e8f5e9; color: #1b5233; }
 
 .macro-ico { font-size: 14px; line-height: 1; }
 
@@ -1566,7 +1563,7 @@ body {
   .opcion-desc { display: none; }
   .opcion-info { padding: 10px 12px; gap: 6px; }
   .opcion-info h4 { font-size: 14px; }
-  .opcion-macros span { font-size: 10px; padding: 4px 6px; }
+  .opcion-macros span { font-size: 12px; padding: 6px 10px; }
   .btn-ver-receta { display: none; }
   .btn-seleccionar { font-size: 14px; height: 40px; }
 
