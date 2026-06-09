@@ -46,6 +46,7 @@ function comprimirImagen(archivo, cb) {
       canvas.width = w; canvas.height = h;
       canvas.getContext("2d").drawImage(img, 0, 0, w, h);
       const dataUrl = canvas.toDataURL("image/jpeg", 0.80);
+      mediaTypeImagen = "image/jpeg"; // siempre JPEG tras comprimir
       cb(dataUrl.split(",")[1], dataUrl);
     };
     img.src = e.target.result;
@@ -85,8 +86,13 @@ async function analizarPlato() {
     btn.disabled = false;
 
     if (!res.ok) {
-      const err = await res.json();
-      mostrarError(`Error ${res.status}: ${err?.error?.message || "Intenta de nuevo."}`);
+      const err = await res.json().catch(() => ({}));
+      const msg = res.status === 403
+        ? "API key sin permisos. Revisá la configuración en Google Cloud."
+        : res.status === 429
+        ? "Demasiadas solicitudes. Esperá un momento e intentá de nuevo."
+        : `Error ${res.status}: ${err?.error?.message || "Intenta de nuevo."}`;
+      mostrarError(msg);
       return;
     }
 

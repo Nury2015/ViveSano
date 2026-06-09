@@ -7,6 +7,12 @@ function iniciarMenu() {
 
   if (!boton || !menu) return;
 
+  // Estado activo: sidebar y bottom nav (se ejecuta aquí porque el menú se inyecta vía fetch)
+  const paginaActual = window.location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".menu a, .bottom-nav-item").forEach(link => {
+    if (link.getAttribute("href") === paginaActual) link.classList.add("active");
+  });
+
   // abrir / cerrar con botón
   boton.addEventListener("click", (e) => {
 

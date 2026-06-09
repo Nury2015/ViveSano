@@ -1,3 +1,48 @@
+// ── Wizard ───────────────────────────────
+function irPaso(n) {
+  if (n === 2) {
+    const edad     = document.getElementById("edad").value;
+    const peso     = document.getElementById("peso").value;
+    const estatura = document.getElementById("estatura").value;
+    const sexo     = document.getElementById("sexo").value;
+    if (!edad || !peso || !estatura || !sexo) {
+      mostrarMensaje("Campos incompletos", "Completá edad, peso, estatura y sexo para continuar.");
+      return;
+    }
+  }
+  if (n === 3) {
+    if (!document.getElementById("actividad").value) {
+      mostrarMensaje("Falta un dato", "Seleccioná tu nivel de actividad física.");
+      return;
+    }
+  }
+
+  [1, 2, 3].forEach(i => {
+    const panel = document.getElementById(`panel-${i}`);
+    if (panel) panel.classList.toggle("oculto", i !== n);
+  });
+
+  [1, 2, 3].forEach(i => {
+    const stepEl = document.getElementById(`step-${i}`);
+    const circle = stepEl?.querySelector(".step-circle");
+    if (!stepEl || !circle) return;
+    stepEl.classList.remove("active", "done");
+    if (i < n) {
+      stepEl.classList.add("done");
+      circle.textContent = "✓";
+    } else {
+      if (i === n) stepEl.classList.add("active");
+      circle.textContent = i;
+    }
+  });
+
+  document.getElementById("line-1-2")?.classList.toggle("done", n > 1);
+  document.getElementById("line-2-3")?.classList.toggle("done", n > 2);
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+window.irPaso = irPaso;
+
 document.addEventListener("DOMContentLoaded", function () {
   const datosGuardados = JSON.parse(localStorage.getItem("datosUsuario"));
   if (datosGuardados) {
@@ -181,6 +226,7 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
 document.getElementById("btn-recalcular").addEventListener("click", () => {
   document.getElementById("formulario").classList.remove("oculto");
   document.getElementById("resultado").classList.add("oculto");
+  irPaso(1);
 });
 
 // ==============================
