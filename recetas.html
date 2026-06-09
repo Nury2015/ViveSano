@@ -109,6 +109,16 @@
 
 </div>
 
+<!-- ══ BANNER OBJETIVO PERSONALIZADO ════════════ -->
+<div id="banner-objetivo" class="banner-objetivo" style="display:none">
+  <div class="bobj-icon" id="bobj-icon"></div>
+  <div class="bobj-texto">
+    <span class="bobj-label">Tu plan de hoy</span>
+    <strong class="bobj-titulo" id="bobj-titulo"></strong>
+    <span class="bobj-condicion" id="bobj-condicion" style="display:none"></span>
+  </div>
+</div>
+
 <!-- aviso almuerzo pesado -->
 <div id="aviso-heavy" class="aviso-heavy" style="display:none"></div>
 
@@ -340,6 +350,42 @@ fetch("components/menu.html")
   });
 </script>
 <script src="js/planeador.js"></script>
+<script>
+// Banner objetivo personalizado
+document.addEventListener("DOMContentLoaded", function () {
+  const d = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  if (!d.objetivo) return;
+
+  const OBJS = {
+    bajar:     { icon: "🔥", titulo: "Bajando grasa",         clase: "bobj-bajar" },
+    masa:      { icon: "💪", titulo: "Ganando masa muscular", clase: "bobj-masa" },
+    tonificar: { icon: "⚡", titulo: "Tonificando y definiendo", clase: "bobj-tonificar" },
+    mantener:  { icon: "🎯", titulo: "Manteniendo el peso",   clase: "bobj-mantener" },
+  };
+  const ENFS = {
+    diabetes: "Diabetes", hipertension: "Hipertensión", colesterol: "Colesterol alto",
+    obesidad: "Obesidad", celiaquia: "Celiaquía", tiroides: "Tiroides",
+    renal: "Enfermedad renal", cardiaca: "Cardiovascular",
+    digestiva: "Problemas digestivos", gastritis: "Gastritis",
+  };
+
+  const obj = OBJS[d.objetivo];
+  if (!obj) return;
+
+  const banner = document.getElementById("banner-objetivo");
+  document.getElementById("bobj-icon").textContent = obj.icon;
+  document.getElementById("bobj-titulo").textContent = obj.titulo;
+  banner.classList.add(obj.clase);
+
+  if (d.enfermedad && d.enfermedad !== "ninguna" && ENFS[d.enfermedad]) {
+    const cond = document.getElementById("bobj-condicion");
+    cond.textContent = "Recetas adaptadas para " + ENFS[d.enfermedad];
+    cond.style.display = "block";
+  }
+
+  banner.style.display = "flex";
+});
+</script>
 <script src="js/lista-compras.js"></script>
 
 <script>
