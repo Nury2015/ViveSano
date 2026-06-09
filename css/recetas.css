@@ -1483,6 +1483,7 @@ body {
 
 /* ══ MÓVIL PEQUEÑO ══════════════════════════════ */
 @media (max-width: 560px) {
+  body { padding-bottom: 82px; }
   .barra-sticky { top: 64px; }
   .meta-titulo  { font-size: 12px; }
   .meta-detalle { font-size: 15px; }
@@ -1490,6 +1491,20 @@ body {
   .fav-grid { grid-template-columns: repeat(2, 1fr); }
   .controles-globales { gap: 6px; }
   .ctrl-btn { font-size: 11px; padding: 6px 10px; }
-  .sin-foto { height: 130px; }
-  .img-receta-clickable { height: 130px; }
+
+  /* Tarjetas más compactas */
+  .sin-foto { height: 110px; }
+  .img-receta-clickable { height: 110px; }
+  .opcion-desc { display: none; }
+  .opcion-info { padding: 10px 12px; gap: 6px; }
+  .opcion-info h4 { font-size: 14px; }
+  .opcion-macros span { font-size: 10px; padding: 4px 6px; }
+  .btn-ver-receta { display: none; }
+  .btn-seleccionar { font-size: 14px; height: 40px; }
+
+  /* Headers de sección más compactos */
+  .section-header { padding: 14px 16px 12px; gap: 10px; }
+  .section-icono { width: 38px; height: 38px; font-size: 18px; }
+  .section-text h2 { font-size: 16px; }
+  .section-estado { font-size: 11px; }
 }
