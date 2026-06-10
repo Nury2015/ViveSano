@@ -134,22 +134,24 @@
 <!-- condición médica -->
 <div id="banner-condicion"></div>
 
-<!-- ── CONTROLES GLOBALES ──────────────────────────── -->
-<div class="controles-globales">
-  <div class="ctrl-izq">
-    <button id="btn-vegano" class="ctrl-btn" onclick="toggleVegano()">🌱 Modo Vegano</button>
-    <button id="btn-mis-favoritos" class="ctrl-btn" onclick="toggleFavoritos()">❤️ Mis favoritos</button>
-    <button id="btn-mis-ingredientes" class="ctrl-btn" onclick="toggleSelector()">🥕 Ingredientes</button>
-    <button id="btn-lista-compras"   class="ctrl-btn" onclick="toggleListaCompras()">🛒 Lista</button>
-  </div>
-  <div class="ctrl-search-wrap">
-    <span class="search-ico">🔍</span>
-    <input id="search-recetas" type="search" class="ctrl-search"
-           placeholder="Buscar recetas, ingredientes..."
+<!-- ── BARRA DE BÚSQUEDA ──────────────────────────── -->
+<div class="barra-busqueda">
+  <div class="bs-search-wrap">
+    <i class="fa-solid fa-magnifying-glass bs-ico-buscar"></i>
+    <input id="search-recetas" type="search" class="bs-input"
+           placeholder="Buscar recetas o ingredientes…"
            oninput="buscarRecetas(this.value)">
   </div>
-  <button class="ctrl-btn ctrl-filtros" onclick="toggleFiltros()">⚙️ Filtros</button>
+  <button class="bs-filtros-btn ctrl-filtros" onclick="abrirBottomSheet()">
+    <i class="fa-solid fa-sliders"></i> Filtros
+  </button>
 </div>
+
+<!-- Botones legacy ocultos (referenciados por planeador.js) -->
+<button id="btn-vegano"           class="ctrl-btn" style="display:none">🌱 Modo Vegano</button>
+<button id="btn-mis-favoritos"    class="ctrl-btn" style="display:none">❤️ Mis favoritos</button>
+<button id="btn-mis-ingredientes" class="ctrl-btn" style="display:none">🥕 Ingredientes</button>
+<button id="btn-lista-compras"    class="ctrl-btn" style="display:none">🛒 Lista</button>
 
 <!-- ══ PANEL INGREDIENTES FAVORITOS ════════════════════ -->
 <div id="selector-ingredientes" class="panel-ingredientes" style="display:none">
@@ -173,13 +175,67 @@
   </div>
 </div>
 
-<!-- Panel de filtros -->
-<div id="panel-filtros" class="panel-filtros" style="display:none">
-  <span class="filtro-label">Calorías:</span>
-  <button class="filtro-chip activo" onclick="aplicarFiltroKcal('todas',this)">Todas</button>
-  <button class="filtro-chip"        onclick="aplicarFiltroKcal('low',this)">≤ 400 kcal</button>
-  <button class="filtro-chip"        onclick="aplicarFiltroKcal('mid',this)">400–600 kcal</button>
-  <button class="filtro-chip"        onclick="aplicarFiltroKcal('high',this)">≥ 600 kcal</button>
+<div id="panel-filtros" style="display:none"></div>
+
+<!-- ── OVERLAY + BOTTOM SHEET FILTROS ────────────── -->
+<div id="bsheet-overlay" class="bsheet-overlay" onclick="cerrarBottomSheet()" style="display:none"></div>
+<div id="bsheet-panel" class="bsheet-panel">
+  <div class="bsheet-handle"></div>
+  <div class="bsheet-header">
+    <h3 class="bsheet-title">Filtros</h3>
+    <button class="bsheet-close" onclick="cerrarBottomSheet()">✕</button>
+  </div>
+
+  <!-- Vegano toggle -->
+  <div class="bsheet-row" onclick="toggleVeganoSheet()">
+    <div class="bsheet-row-left">
+      <span class="bsheet-row-ico">🌱</span>
+      <span class="bsheet-row-label">Modo Vegano</span>
+    </div>
+    <div class="bsheet-toggle" id="toggle-vegano"><div class="bsheet-toggle-knob"></div></div>
+  </div>
+
+  <div class="bsheet-divider"></div>
+
+  <!-- Mis guardados -->
+  <div class="bsheet-row" onclick="toggleFavoritos(); cerrarBottomSheet()">
+    <div class="bsheet-row-left">
+      <span class="bsheet-row-ico">❤️</span>
+      <span class="bsheet-row-label">Mis guardados</span>
+    </div>
+    <i class="fa-solid fa-chevron-right bsheet-row-arrow"></i>
+  </div>
+
+  <!-- Mis ingredientes -->
+  <div class="bsheet-row" onclick="toggleSelector(); cerrarBottomSheet()">
+    <div class="bsheet-row-left">
+      <span class="bsheet-row-ico">🥕</span>
+      <span class="bsheet-row-label">Mis ingredientes</span>
+    </div>
+    <i class="fa-solid fa-chevron-right bsheet-row-arrow"></i>
+  </div>
+
+  <!-- Lista de compras -->
+  <div class="bsheet-row" onclick="toggleListaCompras(); cerrarBottomSheet()">
+    <div class="bsheet-row-left">
+      <span class="bsheet-row-ico">🛒</span>
+      <span class="bsheet-row-label">Lista de compras</span>
+    </div>
+    <i class="fa-solid fa-chevron-right bsheet-row-arrow"></i>
+  </div>
+
+  <div class="bsheet-divider"></div>
+
+  <!-- Calorías -->
+  <div class="bsheet-seccion">
+    <span class="bsheet-seccion-label">Calorías</span>
+    <div class="bsheet-chips">
+      <button class="filtro-chip activo" onclick="aplicarFiltroKcal('todas',this)">Todas</button>
+      <button class="filtro-chip"        onclick="aplicarFiltroKcal('low',this)">≤ 400 kcal</button>
+      <button class="filtro-chip"        onclick="aplicarFiltroKcal('mid',this)">400–600 kcal</button>
+      <button class="filtro-chip"        onclick="aplicarFiltroKcal('high',this)">≥ 600 kcal</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══ PANEL LISTA DE COMPRAS ══════════════════════════ -->
@@ -351,6 +407,25 @@ fetch("components/menu.html")
 </script>
 <script src="js/planeador.js"></script>
 <script>
+// ── Bottom Sheet ────────────────────────────────────
+function abrirBottomSheet() {
+  document.getElementById("bsheet-overlay").style.display = "block";
+  document.getElementById("bsheet-panel").classList.add("bsheet-open");
+  const vegBtn = document.getElementById("btn-vegano");
+  const isVegano = vegBtn && vegBtn.classList.contains("activo");
+  document.getElementById("toggle-vegano").classList.toggle("on", isVegano);
+}
+function cerrarBottomSheet() {
+  document.getElementById("bsheet-overlay").style.display = "none";
+  document.getElementById("bsheet-panel").classList.remove("bsheet-open");
+}
+function toggleVeganoSheet() {
+  toggleVegano();
+  const vegBtn = document.getElementById("btn-vegano");
+  const isVegano = vegBtn && vegBtn.classList.contains("activo");
+  document.getElementById("toggle-vegano").classList.toggle("on", isVegano);
+}
+
 // Banner objetivo personalizado
 document.addEventListener("DOMContentLoaded", function () {
   const d = JSON.parse(localStorage.getItem("datosUsuario") || "{}");

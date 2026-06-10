@@ -1556,6 +1556,7 @@ function buscarRecetas(q) {
 let filtroKcal = "todas";
 
 function toggleFiltros() {
+  if (typeof abrirBottomSheet === "function") { abrirBottomSheet(); return; }
   const panel = document.getElementById("panel-filtros");
   const btn   = document.querySelector(".ctrl-filtros");
   if (!panel) return;
@@ -1870,8 +1871,7 @@ function initPlaneador() {
     }
     if (condicion === "lactancia")
       lineas.push(`🍼 Recetas adaptadas para: <strong>Lactancia</strong> — mayor aporte calórico recomendado`);
-    if (objetivo === "masa")
-      lineas.push(`💪 Recetas ordenadas por <strong>mayor proteína</strong> — ideal para ganar músculo`);
+
     if (lineas.length)
       banner.innerHTML = `<div class="banner-salud"><span>ℹ️</span><div>${lineas.join("<br>")}</div></div>`;
   }
