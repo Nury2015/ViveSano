@@ -68,7 +68,7 @@
   <!-- Banner motivacional -->
   <div class="det-banner">
     <span class="det-banner-ico">🌿</span>
-    <p><strong>Recuerda:</strong> una alimentación saludable no significa dejar de comer, sino aprender las cantidades adecuadas para que cada ingrediente trabaje a favor de tu energía y tu meta.</p>
+    <p><strong>Recuerda:</strong> una alimentación saludable no significa dejar de comer, sino encontrar el equilibrio que tu cuerpo necesita.</p>
   </div>
 
   <!-- Grid: ingredientes + preparación -->
@@ -308,9 +308,30 @@ function guardarReceta() {
 // ── COMPARTIR ─────────────────────────────────────
 function compartirReceta() {
   if (!receta) return;
-  const texto = `🍽️ ${receta.nombre}\n🔥 ${receta.calorias} kcal\n\nReceta de ViveSano`;
-  if (navigator.share) navigator.share({ title: receta.nombre, text: texto });
-  else navigator.clipboard?.writeText(texto).then(() => alert("Copiado al portapapeles"));
+
+  const ings = (receta.ingredientes || [])
+    .map(i => `  • ${i.nombre} — ${i.cantidad}`)
+    .join("\n");
+
+  const pasos = (receta.preparacion || [])
+    .map((p, i) => `  ${i + 1}. ${p}`)
+    .join("\n");
+
+  const texto = [
+    `🍽️ ${receta.nombre}`,
+    ``,
+    `📊 ${receta.calorias} kcal  🌿 ${receta.proteinas}g prot.  🌾 ${receta.carbohidratos}g carbs  💧 ${receta.grasas}g grasas`,
+    ings   ? `\n🥘 Ingredientes:\n${ings}`   : "",
+    pasos  ? `\n👨‍🍳 Preparación:\n${pasos}` : "",
+    `\n🌿 Receta de ViveSano`,
+  ].filter(Boolean).join("\n");
+
+  if (navigator.share) {
+    navigator.share({ title: receta.nombre, text: texto });
+  } else {
+    navigator.clipboard?.writeText(texto)
+      .then(() => alert("Receta copiada al portapapeles ✓"));
+  }
 }
 </script>
 
