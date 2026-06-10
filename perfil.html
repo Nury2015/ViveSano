@@ -29,10 +29,43 @@
 
   <!-- Estado: no logueado -->
   <div id="estado-no-auth" class="perfil-no-auth" style="display:none">
-    <i class="fa-solid fa-circle-user"></i>
-    <h3>Inicia sesión para ver tu perfil</h3>
-    <p>Necesitas una cuenta para editar tu información.</p>
-    <a href="recetas.html" class="btn-ir-login">Ir a recetas</a>
+    <div class="pna-card">
+      <div class="pna-logo">🥗</div>
+      <h3>ViveSano</h3>
+      <p>Inicia sesión o crea una cuenta</p>
+
+      <!-- Tabs -->
+      <div class="pna-tabs">
+        <button id="pna-tab-login"    class="pna-tab activo" onclick="pnaCambiarTab('login')">Iniciar sesión</button>
+        <button id="pna-tab-registro" class="pna-tab"        onclick="pnaCambiarTab('registro')">Registrarse</button>
+      </div>
+
+      <!-- Form login -->
+      <div id="pna-form-login" class="pna-form">
+        <input id="pna-login-email" type="email"    placeholder="Correo electrónico" class="pna-input">
+        <input id="pna-login-pass"  type="password" placeholder="Contraseña"         class="pna-input">
+        <div id="pna-error-login" class="pna-error"></div>
+        <button class="pna-btn-primary" onclick="pnaLoginEmail()">Iniciar sesión</button>
+        <div class="pna-divider"><span>o</span></div>
+        <button class="pna-btn-google" onclick="loginGoogle()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Continuar con Google
+        </button>
+      </div>
+
+      <!-- Form registro -->
+      <div id="pna-form-registro" class="pna-form" style="display:none">
+        <input id="pna-reg-nombre"  type="text"     placeholder="Tu nombre"                    class="pna-input">
+        <input id="pna-reg-email"   type="email"    placeholder="Correo electrónico"           class="pna-input">
+        <input id="pna-reg-pass"    type="password" placeholder="Contraseña (mín. 6 caracteres)" class="pna-input">
+        <input id="pna-reg-pass2"   type="password" placeholder="Confirmar contraseña"         class="pna-input">
+        <div id="pna-error-registro" class="pna-error"></div>
+        <button class="pna-btn-primary" onclick="pnaRegistrarEmail()">Crear cuenta</button>
+        <div class="pna-divider"><span>o</span></div>
+        <button class="pna-btn-google" onclick="loginGoogle()">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18"> Continuar con Google
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Estado: logueado -->
@@ -196,6 +229,7 @@
 </main>
 
 <script src="js/menu.js"></script>
+<script src="js/auth.js"></script>
 
 <script>
 fetch("components/menu.html")
@@ -204,6 +238,51 @@ fetch("components/menu.html")
     document.getElementById("menu").innerHTML = data;
     setTimeout(() => iniciarMenu(), 0);
   });
+</script>
+
+<script>
+// ── Form login inline (estado-no-auth) ───────────────────────
+function pnaCambiarTab(tab) {
+  ["login","registro"].forEach(t => {
+    document.getElementById("pna-tab-" + t).classList.toggle("activo", t === tab);
+    document.getElementById("pna-form-" + t).style.display = t === tab ? "flex" : "none";
+  });
+  document.getElementById("pna-error-login").textContent = "";
+  document.getElementById("pna-error-registro").textContent = "";
+}
+
+async function pnaLoginEmail() {
+  const email = document.getElementById("pna-login-email").value.trim();
+  const pass  = document.getElementById("pna-login-pass").value;
+  if (!email || !pass) { document.getElementById("pna-error-login").textContent = "Completa todos los campos"; return; }
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+  } catch(e) {
+    const msgs = { "auth/user-not-found":"No existe una cuenta con ese correo",
+      "auth/wrong-password":"Contraseña incorrecta", "auth/invalid-credential":"Correo o contraseña incorrectos",
+      "auth/too-many-requests":"Demasiados intentos. Espera un momento." };
+    document.getElementById("pna-error-login").textContent = msgs[e.code] || "Error al iniciar sesión";
+  }
+}
+
+async function pnaRegistrarEmail() {
+  const nombre = document.getElementById("pna-reg-nombre").value.trim();
+  const email  = document.getElementById("pna-reg-email").value.trim();
+  const pass   = document.getElementById("pna-reg-pass").value;
+  const pass2  = document.getElementById("pna-reg-pass2").value;
+  const err    = document.getElementById("pna-error-registro");
+  if (!nombre || !email || !pass) { err.textContent = "Completa todos los campos"; return; }
+  if (pass.length < 6)            { err.textContent = "La contraseña debe tener al menos 6 caracteres"; return; }
+  if (pass !== pass2)             { err.textContent = "Las contraseñas no coinciden"; return; }
+  try {
+    const r = await auth.createUserWithEmailAndPassword(email, pass);
+    await r.user.updateProfile({ displayName: nombre });
+  } catch(e) {
+    const msgs = { "auth/email-already-in-use":"Ya existe una cuenta con ese correo",
+      "auth/weak-password":"Contraseña muy débil", "auth/invalid-email":"Correo inválido" };
+    err.textContent = msgs[e.code] || "Error al registrarse";
+  }
+}
 </script>
 
 <script>
@@ -226,6 +305,7 @@ auth.onAuthStateChanged(async (user) => {
   const proveedores = user.providerData.map(p => p.providerId);
   _esGoogleAuth = proveedores.includes("google.com");
 
+  document.getElementById("estado-no-auth").style.display = "none";
   document.getElementById("estado-auth").style.display = "block";
 
   // Avatar con foto de Google o inicial

@@ -206,38 +206,121 @@ body {
 
 /* ── Estado no logueado ──────────────── */
 .perfil-no-auth {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 80px;
+}
+
+.pna-card {
+  background: white;
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
   text-align: center;
-  padding: 60px 20px;
-  color: #555;
 }
 
-.perfil-no-auth i {
-  font-size: 48px;
-  color: #ccc;
-  display: block;
-  margin-bottom: 16px;
-}
+.pna-logo { font-size: 36px; margin-bottom: 6px; }
 
-.perfil-no-auth h3 {
-  margin: 0 0 8px;
-  font-size: 18px;
+.pna-card h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
   color: #1a3a2a;
 }
 
-.perfil-no-auth p {
+.pna-card > p {
   margin: 0 0 20px;
-  font-size: 14px;
+  font-size: 13px;
+  color: #888;
 }
 
-.btn-ir-login {
-  display: inline-block;
-  padding: 12px 28px;
+.pna-tabs {
+  display: flex;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 18px;
+}
+
+.pna-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-family: inherit;
+}
+.pna-tab.activo { color: #2e7d32; border-bottom-color: #2e7d32; }
+
+.pna-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.pna-input {
+  padding: 11px 13px;
+  border: 1.5px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.pna-input:focus { border-color: #2e7d32; }
+
+.pna-error {
+  color: #e53935;
+  font-size: 12px;
+  min-height: 16px;
+}
+
+.pna-btn-primary {
+  padding: 13px;
   background: #2e7d32;
   color: white;
+  border: none;
   border-radius: 12px;
-  text-decoration: none;
-  font-weight: 700;
   font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pna-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #bbb;
+  font-size: 12px;
+}
+.pna-divider::before,
+.pna-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.pna-btn-google {
+  padding: 11px;
+  background: white;
+  border: 1.5px solid #ddd;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
 }
 
 /* ── Skeleton loader ─────────────────── */
