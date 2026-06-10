@@ -480,6 +480,14 @@ body {
   color: #888;
 }
 
+.dpi-ej {
+  display: block;
+  font-size: 10.5px;
+  color: #aaa;
+  font-style: italic;
+  margin-top: 1px;
+}
+
 /* ── RESPONSIVE ─────────────────────────── */
 @media (max-width: 700px) {
   .det-grid         { grid-template-columns: 1fr; }
