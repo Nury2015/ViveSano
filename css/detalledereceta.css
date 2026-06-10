@@ -414,6 +414,72 @@ body {
 }
 .btn-share:hover { background: #E8F5E9; }
 
+/* ── PLATO SALUDABLE ────────────────────── */
+.det-plato-card {
+  background: #f8fdf9;
+  border: 1.5px solid #d5e9dc;
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+
+.det-plato-title {
+  margin: 0 0 3px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1b5233;
+}
+
+.det-plato-sub {
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: #888;
+}
+
+.det-plato-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.det-plato-svg {
+  flex-shrink: 0;
+  border-radius: 50%;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.13);
+}
+
+.det-plato-leyenda {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.det-plato-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.dpi-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.det-plato-item strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e2e1e;
+  line-height: 1.3;
+}
+
+.det-plato-item small {
+  font-size: 11px;
+  color: #888;
+}
+
 /* ── RESPONSIVE ─────────────────────────── */
 @media (max-width: 700px) {
   .det-grid         { grid-template-columns: 1fr; }
