@@ -49,6 +49,7 @@ const RECETAS = {
         renal: "Reduce a 1 huevo. Omite el queso si lo usas.",
         celiaquia: "La arepa de maíz es sin gluten. ✓",
         gastritis: "Reduce el tomate al mínimo en el sofrito. Elige papaya o banano como fruta. Evita el café de acompañamiento.",
+        digestiva: "Reduce el tomate en el sofrito. Reemplaza el chocolate con leche por una aromática de manzanilla. Elige papaya como fruta.",
         embarazo: "Los huevos son esenciales en embarazo ✓. Cocínalos bien revueltos (no queden líquidos). Elige papaya como fruta.",
       },
       ingredientes: [
@@ -76,7 +77,7 @@ const RECETAS = {
       adaptaciones: {
         diabetes: "Fresas = IG bajo ✓. Usa leche descremada para reducir grasas.",
         hipertension: "Sin sal en la changua. La leche tiene sodio natural bajo.",
-        digestiva: "Reemplaza la leche por caldo de pollo suave + crema de coco.",
+        digestiva: "La leche entera puede empeorar los síntomas digestivos. Prefiere omitir esta receta o reemplazar la leche por caldo de pollo suave.",
         celiaquia: "Omite la almojábana, reemplaza por arepa de maíz.",
         gastritis: "La leche fría puede aliviar el ardor. Usa arepa en lugar de almojábana. Evita el tinto de acompañamiento.",
       },
@@ -168,6 +169,7 @@ const RECETAS = {
         celiaquia: "La arepa de maíz es sin gluten ✓. Verifica que el chocolate sea puro cacao.",
         embarazo: "Excelente fuente de calcio (leche + queso) ✓. Modera el chocolate — tiene cafeína.",
         gastritis: "La leche caliente puede aliviar el ardor ✓. Modera la cantidad de chocolate.",
+        digestiva: "El chocolate y la leche entera pueden irritar el sistema digestivo. Prefiere una aromática de manzanilla con arepa y queso blanco, o usa leche sin lactosa en poca cantidad.",
       },
       ingredientes: [
         { nombre: "Chocolate de mesa (pastilla de cacao)", cantidad: "1 pastilla (30 g)", calorias: 120 },
@@ -308,7 +310,7 @@ const RECETAS = {
       descripcion: "Mix tropical de mango, papaya y piña con sal, limón y ají",
       calorias: 130, proteinas: 2, carbohidratos: 31, grasas: 1,
       foto: "1519996529931-28324d5a630e",
-      contraindicada: ["gastritis"],
+      contraindicada: ["gastritis", "digestiva"],
       ingredientes: [
         { nombre: "Mango Tommy",                  cantidad: "½ unidad (120 g)",  calorias: 60  },
         { nombre: "Papaya o piña",                cantidad: "1 taza picada (150 g)",calorias: 55},
@@ -359,7 +361,7 @@ const RECETAS = {
       descripcion: "Clásico colombiano: obleas crocantes con arequipe y bocadillo",
       calorias: 220, proteinas: 4, carbohidratos: 38, grasas: 6,
       foto: null,
-      contraindicada: ["diabetes", "colesterol", "obesidad", "gastritis"],
+      contraindicada: ["diabetes", "colesterol", "obesidad", "gastritis", "digestiva"],
       ingredientes: [
         { nombre: "Obleas",                    cantidad: "2 unidades (30 g)",  calorias: 80  },
         { nombre: "Arequipe (dulce de leche)", cantidad: "2 cdas. (40 g)",    calorias: 120 },
@@ -377,7 +379,7 @@ const RECETAS = {
       descripcion: "Bocadillo de guayaba de Vélez con queso campesino — el clásico dulce-salado colombiano",
       calorias: 200, proteinas: 6, carbohidratos: 30, grasas: 7,
       foto: null,
-      contraindicada: ["diabetes", "obesidad", "gastritis"],
+      contraindicada: ["diabetes", "obesidad", "gastritis", "digestiva"],
       adaptaciones: {
         colesterol: "Reduce a 1 tajada de bocadillo. El queso blanco es moderado en grasa.",
         celiaquia: "Sin gluten ✓.",
@@ -591,7 +593,7 @@ const RECETAS = {
       descripcion: "El plato emblema antioqueño: arroz, frijoles, carne, plátano, huevo y hogao",
       calorias: 730, proteinas: 42, carbohidratos: 84, grasas: 22,
       foto: "1504674900247-0877df9cc836",
-      contraindicada: ["cardiaca", "colesterol", "diabetes", "obesidad", "gastritis"],
+      contraindicada: ["cardiaca", "colesterol", "diabetes", "obesidad", "gastritis", "digestiva"],
       nota: "⚠️ Almuerzo muy completo — elige onces y cena livianos este día",
       adaptaciones: {
         diabetes: "Reduce arroz a ½ taza. Omite el chicharrón o el plátano.",
@@ -1372,9 +1374,14 @@ function renderSeccion(slot) {
     const sel = selecciones[slot.id]?.id === r.id;
 
     const msgs = [];
-    if (enfermedad && enfermedad !== "ninguna" && r.adaptaciones?.[enfermedad]) {
-      const razon = RAZON_ENF[enfermedad] ? `<span class="adapt-razon">${RAZON_ENF[enfermedad]}</span>` : "";
-      msgs.push(`💊 <strong>Adaptada para ti:</strong> ${r.adaptaciones[enfermedad]}${razon}`);
+    if (enfermedad && enfermedad !== "ninguna") {
+      // Si el usuario tiene "digestiva" y no hay adaptación específica, usar gastritis como fallback
+      const adaptTxt = r.adaptaciones?.[enfermedad]
+        ?? (enfermedad === "digestiva" ? r.adaptaciones?.gastritis : null);
+      if (adaptTxt) {
+        const razon = RAZON_ENF[enfermedad] ? `<span class="adapt-razon">${RAZON_ENF[enfermedad]}</span>` : "";
+        msgs.push(`💊 <strong>Adaptada para ti:</strong> ${adaptTxt}${razon}`);
+      }
     }
     if (condicion === "embarazo" && r.adaptaciones?.embarazo)
       msgs.push(`🤰 ${r.adaptaciones.embarazo}`);
