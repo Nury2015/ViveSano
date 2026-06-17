@@ -367,7 +367,7 @@ const RECETAS = {
       nombre: "Pandebono vallecaucano",
       descripcion: "Pan de yuca y queso del Valle del Cauca — esponjoso y recién horneado",
       calorias: 210, proteinas: 6, carbohidratos: 30, grasas: 8,
-      foto: "1559141680-d0bd7bc5af84",
+      foto: "mOedSrS6qS0",
       contraindicada: ["diabetes"],
       adaptaciones: {
         diabetes: "La yuca tiene almidón de IG alto. Si lo comes, limita a 1 unidad y acompáñala con proteína adicional.",
@@ -546,7 +546,7 @@ const RECETAS = {
       nombre: "Arroz con pollo colombiano",
       descripcion: "Arroz amarillo con pollo guisado, arveja y patacones",
       calorias: 560, proteinas: 36, carbohidratos: 68, grasas: 11,
-      foto: "1664992960082-0ea299a9c53e",
+      foto: "premium_photo-1664647788970-cdcb5e87f630",
       adaptaciones: {
         diabetes: "Reduce el arroz a ½ taza. Añade más verduras al arroz.",
         hipertension: "Cocina sin sal; usa comino, ajo y cúrcuma para sazón.",
@@ -831,7 +831,7 @@ const RECETAS = {
       nombre: "🌱 Crema de papa criolla",
       descripcion: "Papa criolla licuada con hogao y caldo vegetal — cremosa, sabrosa y 100% colombiana",
       calorias: 300, proteinas: 6, carbohidratos: 54, grasas: 8,
-      foto: null,
+      foto: "inJF419mrPE",
       adaptaciones: {
         diabetes: "La papa criolla tiene IG alto. Reduce la porción a ½ plato y añade más caldo.",
         hipertension: "Sin sal. El hogao y las hierbas dan sabor suficiente. ✓",
@@ -1355,6 +1355,9 @@ const SIN_FOTO_COLOR = { desayuno: "#e07a5f", once: "#52b788", almuerzo: "#2d6a4
 
 function urlFoto(receta) {
   if (!receta.foto) return null;
+  if (receta.foto.startsWith('http')) return receta.foto;
+  if (receta.foto.startsWith('premium_photo-'))
+    return `https://plus.unsplash.com/${receta.foto}?w=400&h=150&fit=crop&auto=format&q=80`;
   return `https://images.unsplash.com/photo-${receta.foto}?w=400&h=150&fit=crop&auto=format&q=80`;
 }
 

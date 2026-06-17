@@ -502,3 +502,29 @@ body {
   .det-macros    { grid-template-columns: repeat(2, 1fr); }
   .det-info-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── TIP HORARIO CENA ───────────────────── */
+.det-timing-tip {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  background: #e8f5e9;
+  border-radius: 12px;
+  border-left: 4px solid #2e7d32;
+  margin: 10px 0;
+}
+.det-timing-ico { font-size: 26px; flex-shrink: 0; }
+.det-timing-tip strong { font-size: 14px; color: #1b4332; display: block; margin-bottom: 4px; }
+.det-timing-tip p { font-size: 13px; color: #4a6741; margin: 0; line-height: 1.5; }
+.det-timing-alerta {
+  display: block;
+  font-size: 12px;
+  color: #bf360c;
+  font-weight: 600;
+  margin-top: 6px;
+  padding: 5px 8px;
+  background: #fff3e0;
+  border-radius: 6px;
+}
+

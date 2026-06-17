@@ -265,8 +265,13 @@ if (!receta) {
 
   // Imagen
   const img = document.getElementById("imagenReceta");
-  if (receta.foto)   img.src = `https://images.unsplash.com/photo-${receta.foto}?w=800&h=340&fit=crop&auto=format&q=80`;
-  else if (receta.imagen) img.src = receta.imagen;
+  if (receta.foto) {
+    if (receta.foto.startsWith('http')) img.src = receta.foto;
+    else if (receta.foto.startsWith('premium_photo-'))
+      img.src = `https://plus.unsplash.com/${receta.foto}?w=800&h=340&fit=crop&auto=format&q=80`;
+    else
+      img.src = `https://images.unsplash.com/photo-${receta.foto}?w=800&h=340&fit=crop&auto=format&q=80`;
+  } else if (receta.imagen) img.src = receta.imagen;
 
   // Badge tipo
   const tipoLabels = { desayuno:"🌅 Desayuno", once:"🍎 Onces", once_manana:"🍎 Onces",
@@ -329,6 +334,67 @@ if (!receta) {
     btnFav.lastChild.textContent = activo ? " En favoritos" : " Agregar a favoritos";
   }
   syncFavBtn();
+
+  // ── PLATO SALUDABLE: versión sopa ─────────────
+  const nombreNorm = (receta.nombre || "").toLowerCase();
+  const idNorm     = (receta.id     || "").toLowerCase();
+  const esSopa = nombreNorm.includes("sopa") || nombreNorm.includes("sancocho") ||
+                 nombreNorm.includes("ajiaco") || nombreNorm.includes("crema") ||
+                 nombreNorm.includes("caldo") || idNorm.includes("sancocho") ||
+                 idNorm.startsWith("sopa_") || idNorm.includes("ajiaco") || idNorm.includes("crema");
+
+  if (esSopa) {
+    const card = document.querySelector(".det-plato-card");
+    if (card) card.innerHTML = `
+      <h3 class="det-plato-title">🥣 ¿Cómo se distribuye esta sopa?</h3>
+      <p class="det-plato-sub">En sopas y sancochos los nutrientes están integrados en el caldo</p>
+      <div class="det-plato-wrap">
+        <svg viewBox="0 0 200 200" width="140" height="140" class="det-plato-svg">
+          <ellipse cx="100" cy="105" rx="85" ry="72" fill="#43a047"/>
+          <ellipse cx="100" cy="105" rx="85" ry="48" fill="#e53935"/>
+          <ellipse cx="100" cy="105" rx="85" ry="24" fill="#fb8c00"/>
+          <ellipse cx="100" cy="105" rx="85" ry="72" fill="none" stroke="white" stroke-width="2.5"/>
+          <ellipse cx="100" cy="105" rx="85" ry="48" fill="none" stroke="white" stroke-width="2"/>
+          <ellipse cx="100" cy="105" rx="85" ry="24" fill="none" stroke="white" stroke-width="2"/>
+          <text x="27"  y="100" text-anchor="middle" fill="white" font-weight="700" font-size="10" font-family="Inter,sans-serif">Caldo</text>
+          <text x="27"  y="112" text-anchor="middle" fill="white" font-weight="700" font-size="10" font-family="Inter,sans-serif">½</text>
+          <text x="100" y="108" text-anchor="middle" fill="white" font-weight="700" font-size="11" font-family="Inter,sans-serif">Proteína ¼</text>
+          <text x="100" y="132" text-anchor="middle" fill="white" font-weight="700" font-size="10" font-family="Inter,sans-serif">Carbos ¼</text>
+        </svg>
+        <div class="det-plato-leyenda">
+          <div class="det-plato-item">
+            <span class="dpi-dot" style="background:#43a047"></span>
+            <div><strong>½ — Caldo y verduras</strong><small>La base nutritiva e hidratante</small><span class="dpi-ej">ej. cilantro, guascas, ahuyama, hogao</span></div>
+          </div>
+          <div class="det-plato-item">
+            <span class="dpi-dot" style="background:#e53935"></span>
+            <div><strong>¼ — Proteína</strong><small>Integrada en el caldo</small><span class="dpi-ej">ej. pollo, carne, frijoles, lentejas</span></div>
+          </div>
+          <div class="det-plato-item">
+            <span class="dpi-dot" style="background:#fb8c00"></span>
+            <div><strong>¼ — Carbohidratos</strong><small>Fondo de la sopa</small><span class="dpi-ej">ej. papa, yuca, plátano, pasta, arroz</span></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#555;margin-top:8px;padding:10px 12px;background:#f0f9f4;border-radius:8px;line-height:1.5">💡 <strong>Tip:</strong> Complementa con una pequeña ensalada para completar tu ½ de verduras del plato saludable.</p>`;
+  }
+
+  // ── TIP DE HORARIO PARA CENA ───────────────────
+  const tipoComida = receta.tipo || receta.tipoMeal;
+  if (tipoComida === "cena") {
+    const banner = document.querySelector(".det-banner");
+    if (banner) {
+      const div = document.createElement("div");
+      div.className = "det-timing-tip";
+      div.innerHTML = `<span class="det-timing-ico">🕗</span>
+        <div>
+          <strong>Horario ideal para cenar</strong>
+          <p>Cena entre las <strong>6:00 – 7:30 pm</strong> y al menos 2 horas antes de dormir. Cenar muy tarde dificulta la digestión y el descanso.</p>
+          ${receta.pesado ? '<span class="det-timing-alerta">⚠️ Esta cena es contundente. Si tu objetivo es bajar de peso, elige una opción más liviana por la noche.</span>' : ''}
+        </div>`;
+      banner.after(div);
+    }
+  }
 }
 
 // ── FAVORITO ──────────────────────────────────────

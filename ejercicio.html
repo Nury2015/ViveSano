@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicio & Bienestar — ViveSano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/ejercicio.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+</head>
+<body>
+
+<div id="menu"></div>
+
+<main class="ej-main">
+
+  <!-- HEADER -->
+  <div class="ej-header">
+    <h1>💪 Ejercicio & Bienestar</h1>
+    <p id="ej-subtitulo">Plan personalizado según tu objetivo</p>
+  </div>
+
+  <!-- RESUMEN DEL DÍA -->
+  <div id="ej-resumen-dia" class="ej-resumen-dia"></div>
+
+  <!-- SEMANA -->
+  <div class="ej-semana-header">
+    <span class="ej-semana-label">Semana <span id="ej-semana-num"></span></span>
+    <span class="ej-equipo-btn" onclick="abrirEquipo()">⚙️ Mi equipo</span>
+  </div>
+  <div id="ej-dias" class="ej-dias-strip"></div>
+
+  <!-- SESIÓN DE HOY -->
+  <div id="ej-hoy-card" class="ej-hoy-card">
+    <div id="ej-hoy-inner"></div>
+  </div>
+
+  <!-- DETALLE DE SESIÓN (se llena al tocar un día) -->
+  <div id="ej-detalle" class="ej-detalle" style="display:none"></div>
+
+  <!-- HÁBITOS SALUDABLES -->
+  <div class="ej-tips-section">
+    <h2 class="ej-seccion-titulo">🌿 Hábitos para tu bienestar</h2>
+    <div class="ej-tips-grid">
+      <div class="ej-tip-card">
+        <span class="ej-tip-ico">🕗</span>
+        <h3>Horarios de comida</h3>
+        <p>Desayuno 7–8am · Almuerzo 12–1pm · Cena antes de las 7:30pm. Deja 2–3 hrs entre la cena y dormir.</p>
+      </div>
+      <div class="ej-tip-card">
+        <span class="ej-tip-ico">🌙</span>
+        <h3>Cena y peso</h3>
+        <p>En la noche el metabolismo es más lento. Cenas ligeras (sopa, ensalada, huevo) favorecen la pérdida de grasa.</p>
+      </div>
+      <div class="ej-tip-card">
+        <span class="ej-tip-ico">💧</span>
+        <h3>Hidratación</h3>
+        <p>Toma 2–2.5 L de agua al día. Un vaso antes de cada comida ayuda a controlar el apetito.</p>
+      </div>
+      <div class="ej-tip-card">
+        <span class="ej-tip-ico">😴</span>
+        <h3>Sueño reparador</h3>
+        <p>7–8 horas de sueño son esenciales. Dormir poco eleva el cortisol y dificulta bajar de peso.</p>
+      </div>
+      <div class="ej-tip-card">
+        <span class="ej-tip-ico">🧘</span>
+        <h3>Gestión del estrés</h3>
+        <p>El estrés crónico aumenta el cortisol y genera antojos de azúcar. La meditación diaria lo contrarresta.</p>
+      </div>
+      <div class="ej-tip-card">
+        <span class="ej-tip-ico">🚶</span>
+        <h3>Movimiento diario</h3>
+        <p>Además del entrenamiento, camina 30 min al día. Subir escaleras y caminar al trabajo suman.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARA LA MEDITACIÓN -->
+  <div class="ej-meditacion-info">
+    <h2 class="ej-seccion-titulo">🧘 ¿Qué necesitas para meditar?</h2>
+    <div class="ej-meditacion-lista">
+      <div class="ej-med-item">✅ Un lugar tranquilo: habitación, balcón o jardín</div>
+      <div class="ej-med-item">✅ Ropa cómoda y holgada</div>
+      <div class="ej-med-item">✅ 10–20 minutos libres</div>
+      <div class="ej-med-item">✅ Posición cómoda: sentado o acostado</div>
+      <div class="ej-med-item">🎧 Audífonos (opcional — mejora la concentración)</div>
+      <div class="ej-med-item">🛏️ Colchoneta o cama para posturas acostadas</div>
+      <div class="ej-med-item">🕯️ Luz tenue o vela (opcional — ayuda a relajarse)</div>
+    </div>
+    <p class="ej-med-nota">La meditación regular reduce el cortisol, mejora la calidad del sueño y ayuda a tomar mejores decisiones en la alimentación.</p>
+  </div>
+
+</main>
+
+<!-- OVERLAY: SESIÓN ACTIVA (ejercicio / yoga) -->
+<div id="ej-overlay-sesion" class="ej-overlay" style="display:none">
+  <div class="ej-overlay-header">
+    <button class="ej-overlay-close" onclick="cerrarSesion()">✕</button>
+    <div class="ej-overlay-progreso-bar">
+      <div id="ej-barra-progreso" class="ej-barra-fill"></div>
+    </div>
+    <span id="ej-paso-label" class="ej-overlay-paso-label"></span>
+  </div>
+  <div class="ej-overlay-body">
+    <div class="ej-paso-img-wrap">
+      <img id="ej-paso-img" class="ej-paso-img" src="" alt=""
+           onerror="this.style.display='none'; document.getElementById('ej-paso-emoji-fb').style.display='flex'">
+      <div id="ej-paso-emoji-fb" class="ej-paso-emoji-fb" style="display:none">
+        <span id="ej-paso-emoji"></span>
+      </div>
+    </div>
+    <div class="ej-paso-tipo-badge" id="ej-paso-tipo-badge"></div>
+    <h2 id="ej-paso-nombre" class="ej-paso-nombre"></h2>
+    <p id="ej-paso-instruccion" class="ej-paso-instruccion"></p>
+    <div id="ej-paso-detalle" class="ej-paso-detalle"></div>
+    <div id="ej-timer-display" class="ej-timer-display" style="display:none"></div>
+  </div>
+  <div class="ej-overlay-footer">
+    <button id="ej-btn-anterior" class="ej-nav-btn" onclick="irPaso(-1)">← Anterior</button>
+    <button id="ej-btn-timer" class="ej-timer-btn" onclick="toggleTimer()">▶ Iniciar</button>
+    <button id="ej-btn-siguiente" class="ej-nav-btn" onclick="irPaso(1)">Siguiente →</button>
+  </div>
+</div>
+
+<!-- OVERLAY: MEDITACIÓN GUIADA -->
+<div id="ej-overlay-meditacion" class="ej-overlay ej-overlay-dark" style="display:none">
+  <div class="ej-med-overlay-header">
+    <button onclick="cerrarMeditacion()">✕</button>
+    <div class="ej-overlay-progreso-bar">
+      <div id="ej-med-barra" class="ej-barra-fill" style="background:#4caf50"></div>
+    </div>
+    <span id="ej-med-paso-label" class="ej-overlay-paso-label" style="color:rgba(255,255,255,0.5)"></span>
+  </div>
+  <div class="ej-med-overlay-body">
+    <div id="ej-respiracion-burbuja" class="ej-respiracion-burbuja" style="display:none"></div>
+    <h3 id="ej-med-titulo" class="ej-med-titulo"></h3>
+    <p id="ej-med-texto" class="ej-med-texto"></p>
+    <div id="ej-med-timer" class="ej-med-timer"></div>
+  </div>
+  <div class="ej-med-overlay-footer">
+    <button onclick="saltarPasoMed()">Saltar →</button>
+    <button id="ej-med-pausar" onclick="pausarMeditacion()">⏸ Pausar</button>
+  </div>
+</div>
+
+<!-- OVERLAY: EQUIPO -->
+<div id="ej-overlay-equipo" class="ej-overlay-equipo" style="display:none" onclick="this.style.display='none'">
+  <div class="ej-equipo-modal" onclick="event.stopPropagation()">
+    <h3>⚙️ ¿Qué tienes en casa?</h3>
+    <p>Selecciona el equipo disponible para personalizar tus rutinas</p>
+    <div class="ej-equipo-opciones">
+      <label class="ej-equipo-opt"><input type="checkbox" value="colchoneta"> 🧘 Colchoneta / tapete</label>
+      <label class="ej-equipo-opt"><input type="checkbox" value="mancuernas"> 🏋️ Mancuernas</label>
+      <label class="ej-equipo-opt"><input type="checkbox" value="bandas"> 🎗️ Bandas elásticas</label>
+      <label class="ej-equipo-opt"><input type="checkbox" value="silla"> 🪑 Silla resistente</label>
+      <label class="ej-equipo-opt"><input type="checkbox" value="escalera"> 🏠 Escaleras en casa</label>
+    </div>
+    <button class="ej-equipo-guardar" onclick="guardarEquipo()">Guardar equipo</button>
+  </div>
+</div>
+
+<script src="js/menu.js"></script>
+<script>
+fetch("components/menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+    setTimeout(() => iniciarMenu(), 0);
+  });
+</script>
+<script src="js/ejercicio.js"></script>
+<script src="js/auth.js"></script>
+<script>
+auth.onAuthStateChanged(user => {
+  if (user && typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+});
+</script>
+
+</body>
+</html>

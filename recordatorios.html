@@ -3,12 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recordatorios — ViveSano</title>
+  <title>Mi Día — ViveSano</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/recordatorios.css">
   <link rel="stylesheet" href="css/menu.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
 </head>
 <body>
 
@@ -16,43 +19,95 @@
 
 <main class="rec-main">
 
-  <!-- Cabecera -->
+  <!-- HEADER -->
   <div class="rec-header">
-    <h1>🔔 Recordatorios de comida</h1>
-    <p>Activa las alertas y elige el horario de cada comida. Recibirás una notificación cuando sea la hora, siempre que el navegador esté abierto.</p>
+    <div class="rec-header-top">
+      <div>
+        <h1>🌅 Mi Día</h1>
+        <p id="rec-subtitulo">Tu acompañante de salud desde que te levantas</p>
+      </div>
+      <div id="rec-dia-badge" class="rec-dia-badge"></div>
+    </div>
   </div>
 
-  <!-- Estado del permiso de notificaciones -->
+  <!-- PERMISO NOTIFICACIONES -->
   <div id="rec-permiso" class="rec-permiso-card pendiente"></div>
 
-  <!-- Preview: próximos recordatorios -->
-  <div class="rec-proximos">
-    <h3>⏰ Horario del día</h3>
-    <div id="rec-proximos-lista"></div>
+  <!-- FRASE DEL DÍA (Duolingo style) -->
+  <div class="rec-frase-card" id="rec-frase-card">
+    <div class="rec-frase-owl">🌿</div>
+    <div class="rec-frase-txt" id="rec-frase-txt">Cargando tu dosis diaria de motivación...</div>
   </div>
 
-  <!-- Lista de recordatorios personalizables -->
-  <div id="rec-lista" class="rec-lista"></div>
+  <!-- TIMELINE DEL DÍA -->
+  <div class="rec-seccion">
+    <h3 class="rec-seccion-titulo">📅 Tu día de hoy</h3>
+    <div id="rec-timeline" class="rec-timeline"></div>
+  </div>
 
-  <!-- Botón guardar -->
+  <!-- CONFIGURAR: BIENESTAR MATUTINO -->
+  <div class="rec-grupo">
+    <div class="rec-grupo-titulo">
+      <span class="rec-grupo-ico">🧘</span>
+      <div>
+        <strong>Bienestar matutino</strong>
+        <span>Empieza el día con la mente clara</span>
+      </div>
+    </div>
+    <div id="rec-lista-bienestar" class="rec-lista"></div>
+  </div>
+
+  <!-- CONFIGURAR: COMIDAS -->
+  <div class="rec-grupo">
+    <div class="rec-grupo-titulo">
+      <span class="rec-grupo-ico">🍽️</span>
+      <div>
+        <strong>Comidas del día</strong>
+        <span>Horarios para alimentarte bien</span>
+      </div>
+    </div>
+    <div id="rec-lista-comidas" class="rec-lista"></div>
+  </div>
+
+  <!-- CONFIGURAR: EJERCICIO -->
+  <div class="rec-grupo">
+    <div class="rec-grupo-titulo">
+      <span class="rec-grupo-ico">💪</span>
+      <div>
+        <strong>Ejercicio</strong>
+        <span id="rec-ej-subtitulo">Entrenamiento según tu objetivo</span>
+      </div>
+    </div>
+    <div id="rec-lista-ejercicio" class="rec-lista"></div>
+  </div>
+
+  <!-- CONFIGURAR: SEMANAL -->
+  <div class="rec-grupo">
+    <div class="rec-grupo-titulo">
+      <span class="rec-grupo-ico">🛒</span>
+      <div>
+        <strong>Recordatorios semanales</strong>
+        <span>Para planear y preparar con anticipación</span>
+      </div>
+    </div>
+    <div id="rec-lista-semanal" class="rec-lista"></div>
+  </div>
+
+  <!-- BOTONES -->
   <button id="btn-guardar-rec" class="btn-guardar-rec" onclick="guardarRecordatorios()">
-    💾 Guardar recordatorios
+    💾 Guardar mis horarios
+  </button>
+  <button class="btn-test-rec" onclick="notificacionPrueba()">
+    🔔 Probar una notificación ahora
   </button>
 
-  <!-- Botón de prueba -->
-  <button class="btn-guardar-rec"
-          style="background:white;color:#2e7d32;border:1.5px solid #a5d6a7;margin-bottom:14px"
-          onclick="notificacionPrueba()">
-    🔔 Enviar notificación de prueba
-  </button>
-
-  <!-- Nota informativa -->
+  <!-- NOTA -->
   <div class="rec-nota">
     <strong>¿Cómo funcionan los recordatorios?</strong><br>
     · Las alertas se activan mientras el navegador esté abierto (en cualquier pestaña).<br>
-    · Cada recordatorio se muestra una sola vez por hora, aunque tengas varias pestañas abiertas.<br>
-    · Tus horarios se guardan en el dispositivo — no necesitas iniciar sesión.<br>
-    · Para recibir notificaciones cuando el navegador está cerrado, agréganos a la pantalla de inicio de tu teléfono.
+    · Para recibir notificaciones cuando el navegador está cerrado, agréganos a la pantalla de inicio de tu teléfono (Compartir → Añadir a inicio).<br>
+    · Cada recordatorio se envía una sola vez por día en su hora exacta.<br>
+    · Tus horarios se guardan en el dispositivo.
   </div>
 
 </main>
@@ -67,6 +122,12 @@ fetch("components/menu.html")
   });
 </script>
 <script src="js/recordatorios.js"></script>
+<script src="js/auth.js"></script>
+<script>
+auth.onAuthStateChanged(user => {
+  if (user && typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+});
+</script>
 
 </body>
 </html>
