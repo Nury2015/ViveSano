@@ -36,6 +36,119 @@ body {
   color: rgba(255,255,255,0.78);
 }
 
+/* ── Actividad física semanal ───────────── */
+.prog-act-semana {
+  display: flex;
+  gap: 6px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.prog-act-dia {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 4px;
+  border-radius: 10px;
+  background: #f7f9f7;
+  transition: background 0.15s;
+}
+
+.prog-act-dia.hecho {
+  background: #e8f5e9;
+}
+
+.prog-act-dia.futuro {
+  opacity: 0.45;
+}
+
+.prog-act-dia-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+}
+
+.prog-act-ico-ej,
+.prog-act-ico-med {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.prog-act-racha {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 10px;
+}
+
+.prog-act-racha-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #2e7d32;
+}
+
+.prog-act-racha-inner strong { font-weight: 700; }
+
+.prog-act-inicio {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* ── Banner recordatorio medidas ────────── */
+.prog-medidas-banner {
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.prog-medidas-banner.nuevo {
+  background: #e3f2fd;
+  border: 1.5px solid #90caf9;
+}
+
+.prog-medidas-banner.alerta {
+  background: #fff8e1;
+  border: 1.5px solid #ffe082;
+}
+
+.prog-med-ico { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+
+.prog-medidas-banner strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2e1a;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.prog-medidas-banner p {
+  font-size: 12px;
+  color: #555;
+  margin: 0 0 8px;
+  line-height: 1.5;
+}
+
+.prog-med-btn {
+  display: inline-block;
+  background: #2e7d32;
+  color: white;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.prog-med-btn:hover { background: #1b5233; }
+
 /* ── Banner de sincronización ───────────── */
 .prog-sync-ok {
   background: #e8f5e9;

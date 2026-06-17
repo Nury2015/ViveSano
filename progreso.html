@@ -47,6 +47,19 @@
   <!-- Composición corporal -->
   <div id="prog-composicion-wrap"></div>
 
+  <!-- ACTIVIDAD FÍSICA SEMANAL -->
+  <div class="prog-card">
+    <div class="prog-card-header">
+      <h3>💪 Actividad física</h3>
+      <span id="prog-act-resumen" style="font-size:12px;color:#888"></span>
+    </div>
+    <div id="prog-actividad-semana" class="prog-act-semana"></div>
+    <div id="prog-racha" class="prog-act-racha"></div>
+  </div>
+
+  <!-- RECORDATORIO DE MEDIDAS CORPORALES -->
+  <div id="prog-medidas-banner"></div>
+
   <!-- Formulario de registro -->
   <div class="prog-card">
     <div class="prog-card-header">
@@ -104,6 +117,115 @@ fetch("components/menu.html")
   });
 </script>
 <script src="js/progreso.js"></script>
+<script>
+/* ── Actividad física semanal + recordatorio medidas ── */
+(function() {
+  const DIAS = ["L","M","X","J","V","S","D"];
+
+  function renderActividadSemana() {
+    const contSem  = document.getElementById("prog-actividad-semana");
+    const contRes  = document.getElementById("prog-act-resumen");
+    const contRach = document.getElementById("prog-racha");
+    if (!contSem) return;
+
+    const hoy     = new Date();
+    const hoyIdx  = (hoy.getDay() + 6) % 7; // 0=Lunes
+    let sesiones  = 0, meditaciones = 0;
+
+    // Últimas 2 semanas para calcular racha
+    let rachaEj = 0, rachaMed = 0, rachaTotal = 0;
+    let contandoEj = true, contandoMed = true;
+
+    // Construir grid de esta semana (Lunes a Domingo)
+    const celdas = DIAS.map((d, i) => {
+      const diff = i - hoyIdx;
+      const fecha = new Date(hoy);
+      fecha.setDate(hoy.getDate() + diff);
+      const llave  = fecha.toDateString();
+      const hizEj  = localStorage.getItem(`vsHecho_${llave}_ejercicio`)  === "1";
+      const hizMed = localStorage.getItem(`vsHecho_${llave}_meditacion`) === "1";
+      if (hizEj)  sesiones++;
+      if (hizMed) meditaciones++;
+      const esFuturo = diff > 0;
+      return { d, hizEj, hizMed, esFuturo };
+    });
+
+    // Calcular racha (días consecutivos hacia atrás con ejercicio)
+    for (let k = 0; k <= 13; k++) {
+      const f = new Date(hoy);
+      f.setDate(hoy.getDate() - k);
+      const l = f.toDateString();
+      if (localStorage.getItem(`vsHecho_${l}_ejercicio`) === "1" && contandoEj) rachaEj++;
+      else contandoEj = false;
+      if (localStorage.getItem(`vsHecho_${l}_meditacion`) === "1" && contandoMed) rachaMed++;
+      else contandoMed = false;
+    }
+
+    if (contRes) contRes.textContent = `${sesiones}/7 entrenamientos · ${meditaciones}/7 meditaciones`;
+
+    contSem.innerHTML = celdas.map(c => `
+      <div class="prog-act-dia ${c.hizEj || c.hizMed ? 'hecho' : ''} ${c.esFuturo ? 'futuro' : ''}">
+        <span class="prog-act-dia-lbl">${c.d}</span>
+        <span class="prog-act-ico-ej" title="Entrenamiento">${c.hizEj ? "✅" : (c.esFuturo ? "○" : "⭕")}</span>
+        <span class="prog-act-ico-med" title="Meditación">${c.hizMed ? "🧘" : (c.esFuturo ? "○" : "○")}</span>
+      </div>`).join("");
+
+    if (contRach) {
+      const mejor = Math.max(rachaEj, rachaMed);
+      if (mejor >= 2) {
+        contRach.innerHTML = `
+          <div class="prog-act-racha-inner">
+            ${rachaEj >= 2 ? `<span>🔥 Racha de entrenamiento: <strong>${rachaEj} días</strong></span>` : ""}
+            ${rachaMed >= 2 ? `<span>🧘 Racha de meditación: <strong>${rachaMed} días</strong></span>` : ""}
+          </div>`;
+      } else {
+        contRach.innerHTML = `<p class="prog-act-inicio">Completa tu primera sesión hoy para iniciar tu racha. 💪</p>`;
+      }
+    }
+  }
+
+  function renderBannerMedidas() {
+    const banner = document.getElementById("prog-medidas-banner");
+    if (!banner) return;
+    const pesos = JSON.parse(localStorage.getItem("pesosHistorial") || "[]");
+    // Buscar el registro con medidas más reciente
+    const conMedidas = pesos.filter(p => p.cintura || p.cadera);
+    if (!conMedidas.length) {
+      banner.innerHTML = `
+        <div class="prog-medidas-banner nuevo">
+          <span class="prog-med-ico">📏</span>
+          <div>
+            <strong>Registra tus medidas corporales</strong>
+            <p>Agrega cintura y cadera en tu próximo pesaje. Son clave para saber si perdiste grasa o ganaste músculo.</p>
+          </div>
+        </div>`;
+      return;
+    }
+    const ultimo = conMedidas[conMedidas.length - 1];
+    const fechaUlt = new Date(ultimo.fechaISO);
+    const diasPasados = Math.floor((new Date() - fechaUlt) / 86400000);
+    if (diasPasados >= 28) {
+      banner.innerHTML = `
+        <div class="prog-medidas-banner alerta">
+          <span class="prog-med-ico">📏</span>
+          <div>
+            <strong>Ya pasó 1 mes desde tus últimas medidas</strong>
+            <p>Hace ${diasPasados} días midiste: cintura ${ultimo.cintura || "—"} cm · cadera ${ultimo.cadera || "—"} cm.<br>
+               Registra las de hoy para ver si hay cambios reales en tu composición corporal.</p>
+            <a href="#inp-cintura-reg" class="prog-med-btn" onclick="document.getElementById('inp-cintura-reg').focus()">📝 Registrar ahora</a>
+          </div>
+        </div>`;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderActividadSemana();
+    renderBannerMedidas();
+  });
+  // Re-renderizar si progreso.js termina de cargar los datos
+  setTimeout(() => renderBannerMedidas(), 800);
+})();
+</script>
 <script src="js/auth.js"></script>
 <script>
 auth.onAuthStateChanged(async (user) => {

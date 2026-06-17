@@ -18,6 +18,8 @@ const REC_DEFAULT = [
   { id:"ejercicio",     grupo:"ejercicio", emoji:"💪", label:"Mi entrenamiento",        hora:"17:00", activo:true  },
   // Semanal
   { id:"mercado",       grupo:"semanal",   emoji:"🛒", label:"Mercado del sábado",      hora:"09:00", activo:true,  diasSemana:[6] },
+  // Mensual — solo el día 1 de cada mes
+  { id:"medidas",       grupo:"semanal",   emoji:"📏", label:"Registro de medidas corporales", hora:"09:00", activo:true, diaDelMes:1 },
 ];
 
 // ─── FRASES MOTIVADORAS ESTILO DUOLINGO ──────────────────────
@@ -98,6 +100,11 @@ const MENSAJES = {
     "¿Recuerdas esa semana que comiste bien todos los días? Empezó con un mercado el sábado. Esta puede ser igual. 🛒",
     "El mercado dura 45 minutos. Vale 7 días de salud. La matemática está clara.",
     "Tu plan de la próxima semana ya está listo en ViveSano. Solo le faltan los ingredientes. Ve hoy. 🥦🍗",
+  ],
+  medidas: [
+    "📏 Primer día del mes — momento perfecto para registrar tus medidas. Cintura y cadera en ViveSano → Mi Progreso.",
+    "Hoy empieza el mes. ¿Cuánto midió tu cintura el mes pasado? Compara. El número puede sorprenderte — para bien. 📏",
+    "El peso miente a veces. La cintura no. Mídete hoy, primer día del mes, y lleva registro real de tu progreso. 📏",
   ],
 };
 
@@ -184,7 +191,9 @@ function renderTimeline() {
   const hmAhora = ahora.getHours() * 60 + ahora.getMinutes();
 
   const activos = _config
-    .filter(r => r.activo && (!r.diasSemana || r.diasSemana.includes(ahora.getDay())))
+    .filter(r => r.activo
+      && (!r.diasSemana || r.diasSemana.includes(ahora.getDay()))
+      && (!r.diaDelMes  || ahora.getDate() === r.diaDelMes))
     .sort((a, b) => hmStr(a.hora) - hmStr(b.hora));
 
   if (!activos.length) {
@@ -238,6 +247,7 @@ function renderCard(r) {
         <input type="time" class="rec-time" id="hora-${r.id}" value="${r.hora}"
                onchange="actualizarHora('${r.id}', this.value)">
         ${r.diasSemana ? `<span class="rec-dias-badge">solo sábados</span>` : ""}
+        ${r.diaDelMes  ? `<span class="rec-dias-badge">día 1 de cada mes</span>` : ""}
       </div>
     </div>
     <div class="rec-toggle-wrap">
@@ -399,11 +409,17 @@ function checkNotificaciones() {
 
   _config.forEach(r => {
     if (!r.activo) return;
-    if (r.hora !== hhmm)  return;
+    if (r.hora !== hhmm) return;
+    // Filtro día de semana (ej: mercado solo sábados)
     if (r.diasSemana && !r.diasSemana.includes(hoy)) return;
+    // Filtro día del mes (ej: medidas el día 1)
+    if (r.diaDelMes && ahora.getDate() !== r.diaDelMes) return;
 
-    const llave = `vsRec_${r.id}_${ahora.toDateString()}`;
-    if (localStorage.getItem(llave)) return; // ya enviado hoy
+    // Deduplicación: para medidas usar clave mensual, para el resto diaria
+    const llave = r.diaDelMes
+      ? `vsRec_${r.id}_${ahora.getFullYear()}-${ahora.getMonth()}`
+      : `vsRec_${r.id}_${ahora.toDateString()}`;
+    if (localStorage.getItem(llave)) return;
 
     const msg = buildMensaje(r.id, u);
     new Notification("ViveSano 🌿", { body: msg, icon: _iconoUrl() });
