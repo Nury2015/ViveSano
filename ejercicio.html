@@ -100,7 +100,7 @@
 <!-- OVERLAY: SESIÓN ACTIVA (ejercicio / yoga) -->
 <div id="ej-overlay-sesion" class="ej-overlay" style="display:none">
   <div class="ej-overlay-header">
-    <button class="ej-overlay-close" onclick="cerrarSesion()">✕</button>
+    <button id="ej-btn-cerrar-sesion" class="ej-overlay-close" aria-label="Cerrar">✕</button>
     <div class="ej-overlay-progreso-bar">
       <div id="ej-barra-progreso" class="ej-barra-fill"></div>
     </div>
@@ -130,7 +130,7 @@
 <!-- OVERLAY: MEDITACIÓN GUIADA -->
 <div id="ej-overlay-meditacion" class="ej-overlay ej-overlay-dark" style="display:none">
   <div class="ej-med-overlay-header">
-    <button onclick="cerrarMeditacion()">✕</button>
+    <button id="ej-btn-cerrar-med" aria-label="Cerrar">✕</button>
     <div class="ej-overlay-progreso-bar">
       <div id="ej-med-barra" class="ej-barra-fill" style="background:#4caf50"></div>
     </div>

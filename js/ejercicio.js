@@ -375,85 +375,102 @@ const PLANES = {
   ],
 };
 
-// ─── FOTOS POR TIPO Y NOMBRE (Unsplash, sin API key) ──
-const FOTOS_EJ = {
-  calentamiento: "VHXFbNTbdFo",
-  enfriamiento:  "VHXFbNTbdFo",
-  fuerza:        "Lx_GDv7VA9M",
-  cardio:        "0v0LVwRVfYg",
-  core:          "hGSfJsBEWwc",
-  glúteos:       "LJ36url5Y8c",
-  espalda:       "pFG4MGQRQXI",
-  pantorrillas:  "LJ36url5Y8c",
-  postura:       "WFYkgMJ0JIA",
-  flujo:         "WFYkgMJ0JIA",
-  relajacion:    "IHtVbLRjTZU",
-  respiracion:   "IHtVbLRjTZU",
-  observacion:   "IHtVbLRjTZU",
-  intencion:     "IHtVbLRjTZU",
-  gratitud:      "IHtVbLRjTZU",
-  libre:         "IHtVbLRjTZU",
-  instruccion:   "IHtVbLRjTZU",
-  cierre:        "IHtVbLRjTZU",
-  escaneo:       "IHtVbLRjTZU",
-  visualizacion: "IHtVbLRjTZU",
-  descanso:      "oo4AoizEDcc",
-  meditacion:    "IHtVbLRjTZU",
+// ─── IMÁGENES POR NOMBRE Y TIPO (Pexels CDN, acceso directo) ──
+const PEXELS = {
+  // Piernas / inferior
+  squat:       "4162528", lunge:        "4162603", cadera:      "3289711",
+  // Pecho / brazos / superior
+  pushup:      "4498294", tricep:       "3838389", shoulder:    "3838389",
+  // Core
+  plank:       "4662440", crunch:       "4162462", core:        "6551425",
+  // Cardio
+  cardio:      "3621512", jump:         "6629806", run:         "1638033",
+  // Yoga / flexibilidad
+  yoga:        "3822906", stretch:      "4056727", downdog:     "4056723",
+  warrior:     "4056735", child:        "4056728", twist:       "4056734",
+  cobra:       "6698038", pigeon:       "4056736", savasana:    "3822703",
+  // Meditación / respiración / descanso
+  meditation:  "3822703", breathe:      "3822639", rest:        "1028741",
+  walking:     "1619652", back:         "4662338",
 };
 
-const FOTOS_NOMBRE = {
-  "Sentadillas":               "LJ36url5Y8c",
-  "Sentadilla profunda":       "LJ36url5Y8c",
-  "Sentadilla sumo":           "LJ36url5Y8c",
-  "Sentadilla pistol asistida":"LJ36url5Y8c",
-  "Sentadilla con salto":      "LJ36url5Y8c",
-  "Zancadas alternadas":       "DT3bb-KDAus",
-  "Zancada estática D/I":      "DT3bb-KDAus",
-  "Flexiones de brazos":       "yLMCHViLZDA",
-  "Flexiones estándar":        "yLMCHViLZDA",
-  "Flexiones diamante":        "yLMCHViLZDA",
-  "Pike push-ups":             "yLMCHViLZDA",
-  "Plancha frontal":           "hGSfJsBEWwc",
-  "Plancha lateral derecha":   "hGSfJsBEWwc",
-  "Plancha lateral izquierda": "hGSfJsBEWwc",
-  "Bird dog":                  "hGSfJsBEWwc",
-  "Bicicleta abdominal":       "hGSfJsBEWwc",
-  "Abdominales crunches":      "hGSfJsBEWwc",
-  "Mountain climbers":         "hGSfJsBEWwc",
-  "Burpees":                   "0v0LVwRVfYg",
-  "Saltos de tijera":          "0v0LVwRVfYg",
-  "High knees":                "0v0LVwRVfYg",
-  "Puente de glúteos":         "LJ36url5Y8c",
-  "Hip thrust en el suelo":    "LJ36url5Y8c",
-  "Elevaciones de talón":      "LJ36url5Y8c",
-  "Dips en silla":             "Lx_GDv7VA9M",
-  "Remo bajo mesa":            "pFG4MGQRQXI",
-  "Superman":                  "pFG4MGQRQXI",
-  "Saludo al sol × 2":         "WFYkgMJ0JIA",
-  "Guerrero I (D + I)":        "WFYkgMJ0JIA",
-  "Guerrero II (D + I)":       "WFYkgMJ0JIA",
-  "Perro boca abajo":          "WFYkgMJ0JIA",
-  "Cobra (Bhujangasana)":      "WFYkgMJ0JIA",
-  "Postura del niño (Balasana)":"WFYkgMJ0JIA",
-  "Gato-Vaca (Cat-Cow)":       "WFYkgMJ0JIA",
-  "Paloma (D + I)":            "WFYkgMJ0JIA",
-  "Torsión sentada (D + I)":   "WFYkgMJ0JIA",
-  "Torsión supina (D + I)":    "WFYkgMJ0JIA",
-  "Piernas en pared":          "IHtVbLRjTZU",
-  "Savasana":                  "IHtVbLRjTZU",
-  "Savasana extendido":        "IHtVbLRjTZU",
-  "Mariposa reclinada":        "WFYkgMJ0JIA",
-  "Mariposa sentada":          "WFYkgMJ0JIA",
-  "Caminata consciente":       "oo4AoizEDcc",
+const FOTO_NOMBRE = {
+  "Sentadillas":               PEXELS.squat,
+  "Sentadilla profunda":       PEXELS.squat,
+  "Sentadilla sumo":           PEXELS.squat,
+  "Sentadilla pistol asistida":PEXELS.squat,
+  "Sentadilla con salto":      PEXELS.jump,
+  "Zancadas alternadas":       PEXELS.lunge,
+  "Zancada estática D/I":      PEXELS.lunge,
+  "Flexiones de brazos":       PEXELS.pushup,
+  "Flexiones estándar":        PEXELS.pushup,
+  "Flexiones diamante":        PEXELS.pushup,
+  "Pike push-ups":             PEXELS.shoulder,
+  "Plancha frontal":           PEXELS.plank,
+  "Plancha lateral derecha":   PEXELS.plank,
+  "Plancha lateral izquierda": PEXELS.plank,
+  "Bird dog":                  PEXELS.core,
+  "Bicicleta abdominal":       PEXELS.crunch,
+  "Abdominales crunches":      PEXELS.crunch,
+  "Mountain climbers":         PEXELS.cardio,
+  "Burpees":                   PEXELS.cardio,
+  "Saltos de tijera":          PEXELS.jump,
+  "High knees":                PEXELS.run,
+  "Puente de glúteos":         PEXELS.cadera,
+  "Hip thrust en el suelo":    PEXELS.cadera,
+  "Elevaciones de talón":      PEXELS.core,
+  "Dips en silla":             PEXELS.tricep,
+  "Remo bajo mesa":            PEXELS.back,
+  "Superman":                  PEXELS.back,
+  "Saludo al sol × 2":         PEXELS.yoga,
+  "Guerrero I (D + I)":        PEXELS.warrior,
+  "Guerrero II (D + I)":       PEXELS.warrior,
+  "Perro boca abajo":          PEXELS.downdog,
+  "Cobra (Bhujangasana)":      PEXELS.cobra,
+  "Postura del niño (Balasana)":PEXELS.child,
+  "Gato-Vaca (Cat-Cow)":       PEXELS.yoga,
+  "Paloma (D + I)":            PEXELS.pigeon,
+  "Torsión sentada (D + I)":   PEXELS.twist,
+  "Torsión supina (D + I)":    PEXELS.twist,
+  "Piernas en pared":          PEXELS.savasana,
+  "Savasana":                  PEXELS.savasana,
+  "Savasana extendido":        PEXELS.rest,
+  "Mariposa reclinada":        PEXELS.stretch,
+  "Mariposa sentada":          PEXELS.stretch,
+  "Caminata consciente":       PEXELS.walking,
+  "Estiramientos generales":   PEXELS.stretch,
+};
+
+const FOTO_TIPO = {
+  calentamiento: PEXELS.stretch,
+  enfriamiento:  PEXELS.stretch,
+  fuerza:        PEXELS.pushup,
+  cardio:        PEXELS.cardio,
+  core:          PEXELS.core,
+  glúteos:       PEXELS.cadera,
+  espalda:       PEXELS.back,
+  pantorrillas:  PEXELS.squat,
+  postura:       PEXELS.yoga,
+  flujo:         PEXELS.yoga,
+  relajacion:    PEXELS.savasana,
+  respiracion:   PEXELS.breathe,
+  observacion:   PEXELS.meditation,
+  intencion:     PEXELS.meditation,
+  gratitud:      PEXELS.meditation,
+  libre:         PEXELS.meditation,
+  instruccion:   PEXELS.yoga,
+  cierre:        PEXELS.rest,
+  escaneo:       PEXELS.meditation,
+  visualizacion: PEXELS.meditation,
+  descanso:      PEXELS.rest,
+  meditacion:    PEXELS.meditation,
 };
 
 function fotoEjercicio(paso) {
   const nombre = paso.n || paso.titulo || paso.nombre || "";
   const tipo   = paso.tipo || "";
-  const rawId  = FOTOS_NOMBRE[nombre] || FOTOS_EJ[tipo] || "IHtVbLRjTZU";
-  // IDs con guiones son formato timestamp → photo-xxxx; sin guiones → directo
-  const path   = rawId.includes("-") ? `photo-${rawId}` : rawId;
-  return `https://images.unsplash.com/${path}?w=600&h=340&fit=crop&auto=format&q=75`;
+  const id     = FOTO_NOMBRE[nombre] || FOTO_TIPO[tipo] || PEXELS.yoga;
+  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=640&h=360&dpr=1`;
 }
 
 // ─── ESTADO ────────────────────────────────────────────
@@ -475,6 +492,27 @@ let medPausado       = false;
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
+  // Botones de cierre — usando event listener para mayor compatibilidad móvil
+  const btnCerrarSesion = document.getElementById("ej-btn-cerrar-sesion");
+  if (btnCerrarSesion) {
+    btnCerrarSesion.addEventListener("click", function() {
+      document.getElementById("ej-overlay-sesion").style.display = "none";
+      clearInterval(timerInterval);
+      timerCorriendo = false;
+      sesionActiva   = null;
+      marcarHecho("ejercicio");
+    });
+  }
+  const btnCerrarMed = document.getElementById("ej-btn-cerrar-med");
+  if (btnCerrarMed) {
+    btnCerrarMed.addEventListener("click", function() {
+      clearInterval(medTimerInterval);
+      medData = null;
+      document.getElementById("ej-overlay-meditacion").style.display = "none";
+      marcarHecho("meditacion");
+    });
+  }
+
   const u = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
 
   const subtitulos = {
