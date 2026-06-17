@@ -10,6 +10,7 @@ const GEMINI_URL   = `https://generativelanguage.googleapis.com/v1beta/models/${
 
 let imagenBase64    = null;
 let mediaTypeImagen = "image/jpeg";
+let _cooldownHasta  = 0; // timestamp unix: cuando se puede volver a analizar
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("ap-estado-uso").innerHTML = "";
@@ -58,6 +59,13 @@ function comprimirImagen(archivo, cb) {
 async function analizarPlato() {
   if (!imagenBase64) return;
 
+  // Verificar cooldown por rate limiting
+  if (Date.now() < _cooldownHasta) {
+    const segs = Math.ceil((_cooldownHasta - Date.now()) / 1000);
+    mostrarError(`⏳ Muchas solicitudes seguidas. Espera ${segs} segundo${segs !== 1 ? "s" : ""} e intenta de nuevo.`);
+    return;
+  }
+
   const btn     = document.getElementById("ap-btn-analizar");
   btn.disabled  = true;
   const wrap    = document.getElementById("ap-preview-wrap");
@@ -87,12 +95,16 @@ async function analizarPlato() {
 
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      const msg = res.status === 403
-        ? "API key sin permisos. Revisá la configuración en Google Cloud."
-        : res.status === 429
-        ? "Demasiadas solicitudes. Esperá un momento e intentá de nuevo."
-        : `Error ${res.status}: ${err?.error?.message || "Intenta de nuevo."}`;
-      mostrarError(msg);
+      if (res.status === 429) {
+        // Rate limit: aplicar cooldown de 40 segundos y mostrar cuenta regresiva
+        _cooldownHasta = Date.now() + 40000;
+        mostrarErrorConCuentaRegresiva(40);
+      } else {
+        const msg = res.status === 403
+          ? "🔑 API key sin permisos. Revisa la configuración en Google Cloud."
+          : `❌ Error ${res.status}: ${err?.error?.message || "Intenta de nuevo."}`;
+        mostrarError(msg);
+      }
       return;
     }
 
@@ -178,6 +190,49 @@ function ocultarResultado() {
 function mostrarError(msg) {
   const c = document.getElementById("ap-resultado");
   if (!c) return;
-  c.innerHTML = `<div class="ap-section" style="color:#e53935;font-size:13px">${msg}</div>`;
+  c.innerHTML = `
+    <div class="ap-section" style="padding:16px;text-align:center">
+      <p style="color:#e53935;font-size:14px;line-height:1.6;margin:0 0 12px">${msg}</p>
+      <button onclick="ocultarResultado()" style="background:#f5f5f5;border:none;padding:8px 18px;border-radius:10px;font-size:13px;cursor:pointer">Cerrar</button>
+    </div>`;
   c.style.display = "block";
+}
+
+let _countdownInterval = null;
+function mostrarErrorConCuentaRegresiva(segs) {
+  clearInterval(_countdownInterval);
+  const c = document.getElementById("ap-resultado");
+  if (!c) return;
+  let restante = segs;
+
+  function render() {
+    c.innerHTML = `
+      <div class="ap-section" style="padding:20px;text-align:center">
+        <p style="font-size:28px;margin:0 0 8px">⏳</p>
+        <p style="font-weight:700;font-size:15px;color:#1a2e1a;margin:0 0 6px">Demasiadas solicitudes</p>
+        <p style="color:#666;font-size:13px;line-height:1.6;margin:0 0 16px">
+          La API de IA tiene un límite de peticiones.<br>
+          Puedes volver a intentarlo en <strong id="ap-countdown">${restante}</strong> segundo${restante !== 1 ? "s" : ""}.
+        </p>
+        <div style="height:6px;background:#eee;border-radius:3px;overflow:hidden">
+          <div id="ap-countdown-bar" style="height:100%;background:#2e7d32;border-radius:3px;transition:width 1s linear;width:${(restante/segs)*100}%"></div>
+        </div>
+      </div>`;
+    c.style.display = "block";
+  }
+
+  render();
+  _countdownInterval = setInterval(() => {
+    restante--;
+    const numEl = document.getElementById("ap-countdown");
+    const barEl = document.getElementById("ap-countdown-bar");
+    if (numEl) numEl.textContent = restante;
+    if (barEl) barEl.style.width = `${(restante / segs) * 100}%`;
+    if (restante <= 0) {
+      clearInterval(_countdownInterval);
+      ocultarResultado();
+      const btn = document.getElementById("ap-btn-analizar");
+      if (btn) { btn.disabled = false; btn.textContent = "🔍 Analizar plato"; }
+    }
+  }, 1000);
 }

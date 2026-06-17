@@ -537,6 +537,14 @@ function init() {
   renderHoy();
   renderResumenDia();
   cargarEquipo();
+
+  // Si llega desde bottom nav "Meditar", desplazar a sección de meditación
+  if (new URLSearchParams(window.location.search).get("tab") === "meditacion") {
+    setTimeout(() => {
+      document.querySelector(".ej-meditacion-info")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 300);
+  }
 }
 
 function getWeekNumber() {

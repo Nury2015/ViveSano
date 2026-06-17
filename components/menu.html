@@ -1,39 +1,48 @@
 
 <nav class="navbar">
 
-  <!-- Hamburguesa (solo mobile) -->
-  <button class="hamburguesa" id="btn-menu">
-    <i class="fa-solid fa-bars"></i>
-  </button>
+  <!-- Izquierda (mobile): hamburguesa + inicio -->
+  <div class="nav-left">
+    <button class="hamburguesa" id="btn-menu" aria-label="Abrir menú">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <a class="nav-icon-btn" href="index.html" aria-label="Inicio">
+      <i class="fa-solid fa-house"></i>
+    </a>
+  </div>
 
-  <!-- Botón de usuario (solo mobile) -->
-  <a class="nav-user-btn" id="nav-user-btn-mobile" href="perfil.html">
-    <i class="fa-solid fa-user"></i>
-  </a>
-
-  <!-- Logo -->
+  <!-- Logo (desktop: tope del sidebar; mobile: centrado) -->
   <a href="index.html" class="nav-logo">
     <img src="assets/img/logofondoblanco.png" alt="ViveSano" class="nav-logo-img">
   </a>
 
-  <!-- Navegación principal -->
+  <!-- Derecha (mobile): buscar + perfil -->
+  <div class="nav-right">
+    <button class="nav-icon-btn" id="btn-search" aria-label="Buscar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <a class="nav-icon-btn" id="nav-user-btn-mobile" href="perfil.html" aria-label="Mi perfil">
+      <i class="fa-solid fa-circle-user"></i>
+    </a>
+  </div>
+
+  <!-- Navegación principal (sidebar en desktop, dropdown en mobile) -->
   <ul class="menu">
     <li><a href="index.html">       <i class="fa-solid fa-calculator"></i>        Calculadora</a></li>
     <li><a href="recetas.html">     <i class="fa-solid fa-utensils"></i>           Mis recetas</a></li>
     <li><a href="historial.html">   <i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
     <li><a href="plan-semanal.html"><i class="fa-solid fa-calendar-week"></i>      Plan semanal</a></li>
     <li><a href="progreso.html">    <i class="fa-solid fa-chart-line"></i>         Mi Progreso</a></li>
-    <li><a href="recordatorios.html"><i class="fa-solid fa-bell"></i>              Recordatorios</a></li>
+    <li><a href="recordatorios.html"><i class="fa-solid fa-bell"></i>              Mi Día</a></li>
     <li><a href="analizar-plato.html"><i class="fa-solid fa-camera"></i>           Analizar plato</a></li>
-    <li><a href="ejercicio.html">    <i class="fa-solid fa-dumbbell"></i>          Ejercicio & Bienestar</a></li>
+    <li><a href="ejercicio.html">    <i class="fa-solid fa-dumbbell"></i>          Ejercicio</a></li>
+    <li><a href="ejercicio.html?tab=meditacion"><i class="fa-solid fa-spa"></i>    Meditación</a></li>
     <li><a href="suscripcion.html">  <i class="fa-solid fa-star"></i>               Premium</a></li>
     <li><a href="perfil.html">       <i class="fa-solid fa-circle-user"></i>        Mi Perfil</a></li>
   </ul>
 
-  <!-- Footer del sidebar -->
+  <!-- Footer del sidebar (solo desktop) -->
   <div class="nav-footer">
-
-    <!-- Tarjeta de usuario (visible cuando está logueado) -->
     <div class="nav-user-card" id="nav-user-card" style="display:none">
       <div class="nav-user-avatar"><i class="fa-solid fa-user"></i></div>
       <div class="nav-user-info">
@@ -41,8 +50,6 @@
         <span class="nav-user-badge" id="nav-user-badge" style="display:none">🌱 Modo Vegano</span>
       </div>
     </div>
-
-    <!-- Auth -->
     <div id="nav-logout" class="nav-auth-item" style="display:none" onclick="cerrarSesion()">
       <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
     </div>
@@ -50,22 +57,34 @@
          onclick="mostrarModalAuth ? mostrarModalAuth() : (window.location.href='recetas.html')">
       <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
     </div>
-
-    <!-- Quote -->
     <div class="nav-quote">"Pequeños hábitos hacen grandes cambios" 🌿</div>
-
   </div>
 </nav>
 
+<!-- Overlay de búsqueda (mobile) -->
+<div id="search-overlay" class="search-overlay" style="display:none">
+  <div class="search-bar-wrap">
+    <button class="search-back-btn" id="btn-search-close" aria-label="Cerrar">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <input type="search" id="search-input" class="search-input"
+           placeholder="Buscar recetas, ejercicios…"
+           autocomplete="off" autocorrect="off" spellcheck="false">
+  </div>
+  <div id="search-results" class="search-results">
+    <p class="search-hint">Escribe para buscar en toda la app</p>
+  </div>
+</div>
+
 <!-- Bottom nav (solo mobile) -->
 <nav class="bottom-nav">
-  <a href="index.html" class="bottom-nav-item">
-    <i class="fa-solid fa-house"></i>
-    <span>Inicio</span>
+  <a href="progreso.html" class="bottom-nav-item">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Progreso</span>
   </a>
-  <a href="recetas.html" class="bottom-nav-item">
-    <i class="fa-solid fa-utensils"></i>
-    <span>Recetas</span>
+  <a href="ejercicio.html" class="bottom-nav-item">
+    <i class="fa-solid fa-dumbbell"></i>
+    <span>Ejercicio</span>
   </a>
   <a href="analizar-plato.html" class="bottom-nav-item bottom-nav-center">
     <div class="bottom-nav-bubble">
@@ -73,12 +92,12 @@
     </div>
     <span>Analizar</span>
   </a>
-  <a href="progreso.html" class="bottom-nav-item">
-    <i class="fa-solid fa-chart-line"></i>
-    <span>Progreso</span>
+  <a href="ejercicio.html?tab=meditacion" class="bottom-nav-item">
+    <i class="fa-solid fa-spa"></i>
+    <span>Meditar</span>
   </a>
-  <a href="perfil.html" class="bottom-nav-item">
-    <i class="fa-solid fa-circle-user"></i>
-    <span>Perfil</span>
+  <a href="recetas.html" class="bottom-nav-item">
+    <i class="fa-solid fa-utensils"></i>
+    <span>Recetas</span>
   </a>
 </nav>
