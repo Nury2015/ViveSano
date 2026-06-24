@@ -13,6 +13,7 @@ const RECETAS = {
       descripcion: "Arroz con frijoles y huevo frito, arepa y fruta fresca — el desayuno más colombiano",
       calorias: 645, proteinas: 28, carbohidratos: 84, grasas: 16,
       foto: "1723693407562-bb4fcae76797",
+      contraindicada: ["digestiva"],
       adaptaciones: {
         diabetes: "Elige naranja o fresas (IG bajo). Reduce el arroz a ½ taza.",
         hipertension: "Prepara el hogao sin sal. Omite el chicharrón si lo hay.",
@@ -32,13 +33,41 @@ const RECETAS = {
         { nombre: "Arepa de maíz",                       cantidad: "1 mediana (90 g)",       calorias: 150 },
         { nombre: "Naranja o papaya (fruta del día)",    cantidad: "1 unidad mediana (150 g)",calorias: 65 },
         { nombre: "Hogao (sofrito de tomate y cebolla)", cantidad: "2 cdas. (30 g)",         calorias: 35  },
+        { nombre: "Aromática de hierbas o proteína en polvo con agua", cantidad: "1 taza (240 ml)", calorias: 35 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 420, proteinas: 22, carbohidratos: 56, grasas: 8,
+          ingredientes: {
+            0: { cantidad: "½ taza cocinada", calorias: 95 },
+            1: { cantidad: "¼ taza cocinada", calorias: 55 },
+            2: { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+            3: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+          },
+          preparacion: { 1: "Cocina el huevo en agua hirviendo por 10 min y sírvelo partido" },
+        },
+        masa: {
+          calorias: 855, proteinas: 46, carbohidratos: 98, grasas: 24,
+          ingredientes: {
+            2: { cantidad: "2 unidades (110 g)", calorias: 180 },
+            6: { nombre: "Proteína en polvo con agua", cantidad: "1 scoop (30 g)", calorias: 120 },
+          },
+        },
+        tonificar: {
+          calorias: 540, proteinas: 26, carbohidratos: 68, grasas: 12,
+          ingredientes: {
+            0: { cantidad: "¾ taza cocinada", calorias: 145 },
+            2: { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+          },
+          preparacion: { 1: "Cocina el huevo en agua hirviendo por 10 min y sírvelo partido" },
+        },
+      },
       preparacion: [
         "Calienta en sartén el arroz y los frijoles sobrantes con un poco de aceite",
         "Fríe el huevo en sartén aparte con sal al gusto",
         "Calienta la arepa en comal hasta dorar por ambos lados",
         "Sirve el calentado con el huevo encima y la arepa al lado",
-        "Acompaña con hogao fresco y la fruta picada o entera",
+        "Acompaña con hogao fresco, la fruta y una aromática caliente (o proteína en polvo si entrenas)",
       ],
     },
     {
@@ -47,6 +76,7 @@ const RECETAS = {
       descripcion: "Huevos revueltos con tomate y cebolla, arepa tostada y papaya de temporada",
       calorias: 500, proteinas: 23, carbohidratos: 56, grasas: 18,
       foto: "1525184782196-8e2ded604bf7",
+      contraindicada: ["digestiva"],
       adaptaciones: {
         diabetes: "Elige papaya verde o fresas. Usa 1 solo huevo si el colesterol es alto.",
         hipertension: "Sin sal adicional en los huevos. Más cilantro para el sabor.",
@@ -65,6 +95,33 @@ const RECETAS = {
         { nombre: "Papaya o mango (fruta)",           cantidad: "1 taza picada (150 g)",calorias: 60},
         { nombre: "Chocolate caliente con leche",     cantidad: "1 taza (240 ml)",    calorias: 120 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 340, proteinas: 20, carbohidratos: 38, grasas: 10,
+          ingredientes: {
+            2: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+            4: { nombre: "Aromática de hierbas", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+          preparacion: { 1: "Saltea en sartén antiadherente SIN aceite hasta ablandar" },
+        },
+        masa: {
+          calorias: 740, proteinas: 42, carbohidratos: 66, grasas: 26,
+          ingredientes: {
+            0: { cantidad: "3 unidades (165 g)", calorias: 210 },
+            2: { cantidad: "1 grande (120 g)", calorias: 200 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína en polvo con agua", cantidad: "1 scoop (30 g)", calorias: 120 },
+          ],
+        },
+        tonificar: {
+          calorias: 400, proteinas: 22, carbohidratos: 44, grasas: 12,
+          ingredientes: {
+            4: { nombre: "Aromática de hierbas", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+          preparacion: { 1: "Saltea en sartén antiadherente con mínimo aceite" },
+        },
+      },
       preparacion: [
         "Pica el tomate y la cebolla en cuadros pequeños",
         "Saltea en aceite a fuego medio hasta ablandar (2-3 min)",
@@ -75,13 +132,13 @@ const RECETAS = {
     },
     {
       id: "changua_fruta", vegano: false, pesado: false,
-      nombre: "Changua bogotana con fresas",
-      descripcion: "Sopa de leche con huevo pochado y almojábana — con fresas frescas de temporada",
+      nombre: "Changua bogotana acompañada de fruta",
+      descripcion: "Sopa de leche con huevo pochado y almojábana — acompañada de fruta fresca de temporada",
       calorias: 430, proteinas: 20, carbohidratos: 46, grasas: 15,
       foto: "1616501268826-ee9731c915d4",
-      contraindicada: ["celiaquia"],
+      contraindicada: ["celiaquia", "digestiva"],
       adaptaciones: {
-        diabetes: "Fresas = IG bajo ✓. Usa leche descremada para reducir grasas.",
+        diabetes: "La fruta de acompañamiento tiene IG bajo ✓. Usa leche descremada para reducir grasas.",
         hipertension: "Sin sal en la changua. Usa leche descremada.",
         colesterol: "Usa leche descremada. Solo 1 huevo.",
         cardiaca: "Usa leche descremada. Solo 1 huevo. Omite la almojábana.",
@@ -95,15 +152,39 @@ const RECETAS = {
         { nombre: "Leche entera",              cantidad: "1½ tazas (360 ml)",  calorias: 225 },
         { nombre: "Huevo fresco",              cantidad: "1 unidad (55 g)",    calorias: 70  },
         { nombre: "Almojábana o pan",          cantidad: "1 unidad (60 g)",    calorias: 85  },
-        { nombre: "Fresas frescas (fruta)",    cantidad: "1 taza (150 g)",     calorias: 50  },
+        { nombre: "Fruta fresca de temporada",  cantidad: "1 taza (150 g)",     calorias: 50  },
         { nombre: "Cebolla larga y cilantro",  cantidad: "al gusto",           calorias: 0   },
       ],
+      variantes: {
+        bajar: {
+          calorias: 310, proteinas: 18, carbohidratos: 32, grasas: 8,
+          ingredientes: {
+            0: { nombre: "Leche descremada", cantidad: "1 taza (240 ml)", calorias: 120 },
+            2: { nombre: "Arepa pequeña de maíz", cantidad: "1 pequeña (60 g)", calorias: 65 },
+          },
+        },
+        masa: {
+          calorias: 570, proteinas: 34, carbohidratos: 52, grasas: 20,
+          ingredientes: {
+            1: { cantidad: "2 unidades (110 g)", calorias: 140 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína en polvo con agua", cantidad: "1 scoop (30 g)", calorias: 120 },
+          ],
+        },
+        tonificar: {
+          calorias: 370, proteinas: 20, carbohidratos: 40, grasas: 10,
+          ingredientes: {
+            0: { nombre: "Leche descremada", cantidad: "1 taza (240 ml)", calorias: 120 },
+          },
+        },
+      },
       preparacion: [
         "Hierve la leche con cebolla larga picada y sal",
         "Rompe el huevo directamente en la leche hirviendo",
         "Tapa y cocina 2-3 min hasta que el huevo esté pochado",
         "Sirve con la almojábana o pan troceado adentro",
-        "Acompaña con las fresas frescas lavadas al lado",
+        "Acompaña con fruta fresca lavada al lado",
       ],
     },
     {
@@ -128,6 +209,33 @@ const RECETAS = {
         { nombre: "Banano maduro (fruta)", cantidad: "1 unidad mediana (120 g)",calorias: 105},
         { nombre: "Canela y panela raspada",cantidad: "al gusto",             calorias: 30  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 310, proteinas: 16, carbohidratos: 48, grasas: 4,
+          ingredientes: {
+            1: { nombre: "Agua", cantidad: "1½ tazas (360 ml)", calorias: 0 },
+            3: { cantidad: "½ unidad (60 g)", calorias: 50 },
+            4: { nombre: "Stevia", cantidad: "al gusto", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 600, proteinas: 34, carbohidratos: 72, grasas: 14,
+          ingredientes: {
+            2: { cantidad: "2 unidades (110 g)", calorias: 140 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína en polvo", cantidad: "1 scoop (30 g)", calorias: 120 },
+            { nombre: "Mantequilla de maní", cantidad: "1 cda. (15 g)", calorias: 90 },
+          ],
+        },
+        tonificar: {
+          calorias: 370, proteinas: 18, carbohidratos: 56, grasas: 6,
+          ingredientes: {
+            1: { nombre: "Leche descremada o agua", cantidad: "1½ tazas (360 ml)", calorias: 40 },
+            4: { nombre: "Stevia o poca panela", cantidad: "al gusto", calorias: 10 },
+          },
+        },
+      },
       preparacion: [
         "Hierve la leche con un palito de canela; agrega la avena y revuelve 5 min",
         "Endulza con panela raspada al gusto",
@@ -142,7 +250,7 @@ const RECETAS = {
       descripcion: "Arepa dulce de maíz tierno con huevo frito y mango fresco — sabor del Valle del Cauca",
       calorias: 510, proteinas: 16, carbohidratos: 70, grasas: 16,
       foto: "1644753787071-8933b5daed2d",
-      contraindicada: ["diabetes", "obesidad"],
+      contraindicada: ["diabetes", "obesidad", "digestiva"],
       adaptaciones: {
         diabetes: "Elige naranja o fresas en lugar de mango (IG más bajo).",
         hipertension: "El queso campesino tiene sodio — reduce la porción. Evita agregar sal y prefiere el café tinto (sin leche).",
@@ -161,6 +269,39 @@ const RECETAS = {
         { nombre: "Mango o naranja (fruta)",   cantidad: "1 unidad mediana (150 g)",calorias: 65},
         { nombre: "Café con leche o tinto",    cantidad: "1 taza (240 ml)",      calorias: 30  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 340, proteinas: 16, carbohidratos: 48, grasas: 8,
+          ingredientes: {
+            0: { cantidad: "1 mediana (120 g)", calorias: 150 },
+            1: { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+            4: { nombre: "Tinto sin azúcar", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+          preparacion: {
+            2: "Cocina el huevo en agua hirviendo por 10 min; pélalo y sírvelo partido",
+          },
+        },
+        masa: {
+          calorias: 700, proteinas: 32, carbohidratos: 86, grasas: 22,
+          ingredientes: {
+            1: { cantidad: "2 unidades (110 g)", calorias: 180 },
+            2: { cantidad: "2 tajadas (40 g)", calorias: 140 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína en polvo con agua", cantidad: "1 scoop (30 g)", calorias: 120 },
+          ],
+        },
+        tonificar: {
+          calorias: 420, proteinas: 18, carbohidratos: 58, grasas: 10,
+          ingredientes: {
+            1: { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+            4: { nombre: "Tinto sin azúcar", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+          preparacion: {
+            2: "Cocina el huevo en agua hirviendo por 10 min; pélalo y sírvelo partido",
+          },
+        },
+      },
       preparacion: [
         "Calienta la arepa de choclo en comal a fuego medio hasta dorar",
         "Coloca el queso encima y tapa para que se derrita",
@@ -174,8 +315,8 @@ const RECETAS = {
       nombre: "Chocolate santafereño con queso y arepa",
       descripcion: "Chocolate de mesa en leche, queso blanco campesino y arepa de maíz — desayuno de las abuelas bogotanas",
       calorias: 430, proteinas: 14, carbohidratos: 52, grasas: 18,
-      foto: null,
-      contraindicada: ["diabetes", "cardiaca"],
+      foto: "1703771402820-e8b0df615aab",
+      contraindicada: ["diabetes", "cardiaca", "digestiva"],
       adaptaciones: {
         hipertension: "El queso campesino tiene sodio moderado — limita a 1 tajada. Sin sal adicional.",
         colesterol: "Usa chocolate amargo (>70% cacao) y reduce el queso a 1 tajada delgada. Usa leche descremada.",
@@ -192,6 +333,32 @@ const RECETAS = {
         { nombre: "Arepa de maíz",                         cantidad: "1 mediana (90 g)",  calorias: 90  },
         { nombre: "Queso blanco campesino",                cantidad: "1 tajada (35 g)",   calorias: 70  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 300, proteinas: 14, carbohidratos: 38, grasas: 8,
+          ingredientes: {
+            0: { cantidad: "½ pastilla (15 g)", calorias: 60 },
+            1: { nombre: "Leche descremada", cantidad: "1 taza (240 ml)", calorias: 90 },
+            3: { cantidad: "½ tajada (18 g)", calorias: 35 },
+          },
+        },
+        masa: {
+          calorias: 610, proteinas: 30, carbohidratos: 62, grasas: 24,
+          ingredientes: {
+            3: { cantidad: "2 tajadas (70 g)", calorias: 140 },
+          },
+          ingredientesExtra: [
+            { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+          ],
+        },
+        tonificar: {
+          calorias: 370, proteinas: 16, carbohidratos: 44, grasas: 12,
+          ingredientes: {
+            1: { nombre: "Leche descremada", cantidad: "1 taza (240 ml)", calorias: 90 },
+            3: { cantidad: "½ tajada (18 g)", calorias: 35 },
+          },
+        },
+      },
       preparacion: [
         "Ralla o pica la pastilla de chocolate en una olla pequeña",
         "Agrega la leche y calienta a fuego medio revolviendo constantemente",
@@ -205,7 +372,7 @@ const RECETAS = {
       nombre: "Revuelto de choclo con huevo y arepa",
       descripcion: "Maíz tierno desgranado revuelto con huevo, tomate y cebolla — sabor del campo colombiano",
       calorias: 480, proteinas: 22, carbohidratos: 58, grasas: 16,
-      foto: null,
+      foto: "1563690449029-d6e1b8d6003d",
       adaptaciones: {
         diabetes: "El choclo tiene IG moderado. Reduce a ½ mazorca. Evita el mango de fruta.",
         hipertension: "Sin sal adicional. El choclo es naturalmente dulce.",
@@ -224,13 +391,39 @@ const RECETAS = {
         { nombre: "Tomate chonto y cebolla cabezona", cantidad: "½ taza (80 g)",        calorias: 30  },
         { nombre: "Arepa de maíz",                    cantidad: "1 mediana (90 g)",     calorias: 150 },
         { nombre: "Aceite, sal y cilantro",           cantidad: "al gusto",             calorias: 30  },
+        { nombre: "Aromática de hierbas o proteína en polvo con agua", cantidad: "1 taza (240 ml)", calorias: 35 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 340, proteinas: 20, carbohidratos: 44, grasas: 8,
+          ingredientes: {
+            3: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+            4: { nombre: "Sal y cilantro (sin aceite)", cantidad: "al gusto", calorias: 5 },
+            5: { nombre: "Aromática de hierbas", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+          preparacion: { 0: "Saltea la cebolla y el tomate en sartén antiadherente SIN aceite" },
+        },
+        masa: {
+          calorias: 660, proteinas: 38, carbohidratos: 68, grasas: 22,
+          ingredientes: {
+            1: { cantidad: "3 unidades (165 g)", calorias: 210 },
+            5: { nombre: "Proteína en polvo con agua", cantidad: "1 scoop (30 g)", calorias: 120 },
+          },
+        },
+        tonificar: {
+          calorias: 410, proteinas: 22, carbohidratos: 50, grasas: 12,
+          ingredientes: {
+            3: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+            4: { nombre: "Aceite mínimo, sal y cilantro", cantidad: "al gusto", calorias: 15 },
+          },
+        },
+      },
       preparacion: [
         "Saltea la cebolla y el tomate picado en aceite a fuego medio 2-3 min",
         "Agrega el maíz desgranado y cocina 3-4 minutos revolviendo",
         "Bate los huevos y vierte sobre el maíz; revuelve con espátula hasta cuajar",
         "Sazona con sal, pimienta y cilantro picado",
-        "Calienta la arepa en comal y sirve al lado del revuelto",
+        "Calienta la arepa en comal y sirve con una aromática caliente (o proteína en polvo si entrenas)",
       ],
     },
     // ── VEGANOS ────────────────────────────────────────────
@@ -239,7 +432,7 @@ const RECETAS = {
       nombre: "🌱 Avena vegana con fruta y semillas",
       descripcion: "Avena en leche de avena o coco, con fruta fresca y semillas de chía — desayuno 100% vegetal",
       calorias: 390, proteinas: 12, carbohidratos: 60, grasas: 12,
-      foto: "1581559178851-b99664da71ba",
+      foto: "1497888329096-51c27beff665",
       contraindicada: ["celiaquia"],
       adaptaciones: {
         diabetes: "Usa fresas o arándanos (IG bajo). Endulza con stevia.",
@@ -251,6 +444,27 @@ const RECETAS = {
         { nombre: "Banano o fresas (fruta)",    cantidad: "1 unidad mediana (120 g)",calorias: 100 },
         { nombre: "Semillas de chía o linaza",  cantidad: "1 cda. (10 g)",         calorias: 50  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 280, proteinas: 10, carbohidratos: 44, grasas: 8,
+          ingredientes: {
+            1: { nombre: "Agua", cantidad: "1½ tazas (360 ml)", calorias: 0 },
+            2: { nombre: "Fresas (fruta)", cantidad: "½ taza (80 g)", calorias: 40 },
+          },
+        },
+        masa: {
+          calorias: 530, proteinas: 22, carbohidratos: 72, grasas: 18,
+          ingredientes: { 0: { cantidad: "¾ taza (65 g)", calorias: 220 } },
+          ingredientesExtra: [
+            { nombre: "Proteína vegetal en polvo", cantidad: "1 scoop (30 g)", calorias: 110 },
+            { nombre: "Mantequilla de maní", cantidad: "1 cda. (15 g)", calorias: 90 },
+          ],
+        },
+        tonificar: {
+          calorias: 340, proteinas: 12, carbohidratos: 52, grasas: 10,
+          ingredientes: { 2: { nombre: "Fresas (fruta)", cantidad: "½ taza (80 g)", calorias: 40 } },
+        },
+      },
       preparacion: [
         "Hierve la leche vegetal con una pizca de canela",
         "Agrega la avena y cocina revolviendo 5 min a fuego medio",
@@ -259,10 +473,10 @@ const RECETAS = {
       ],
     },
     {
-      id: "arepa_aguacate_vegana", vegano: true, pesado: false,
-      nombre: "🌱 Arepa con aguacate, tomate y fruta",
-      descripcion: "Arepa de maíz con aguacate cremoso, tomate fresco y fruta de temporada — vegetariano y saciante",
-      calorias: 410, proteinas: 9, carbohidratos: 52, grasas: 18,
+      id: "arepa_aguacate_vegana", vegano: false, pesado: false,
+      nombre: "Arepa con aguacate, huevo y fruta",
+      descripcion: "Arepa de maíz con aguacate cremoso, huevos cocidos, tomate fresco y fruta de temporada",
+      calorias: 550, proteinas: 21, carbohidratos: 52, grasas: 24,
       foto: "1587603366933-aa6947174c65",
       adaptaciones: {
         diabetes: "El aguacate tiene IG = 0. Fruta: fresas o guanábana.",
@@ -273,16 +487,161 @@ const RECETAS = {
       ingredientes: [
         { nombre: "Arepa de maíz",             cantidad: "1 mediana (90 g)",      calorias: 150 },
         { nombre: "Aguacate hass maduro",       cantidad: "½ aguacate (80 g)",     calorias: 130 },
+        { nombre: "Huevos cocidos",            cantidad: "2 unidades (110 g)",    calorias: 140 },
         { nombre: "Tomate chonto",             cantidad: "1 unidad (100 g)",      calorias: 20  },
         { nombre: "Fruta del día (fresas, mango o naranja)", cantidad: "1 porción (150 g)", calorias: 60 },
         { nombre: "Sal, limón y cilantro",     cantidad: "al gusto",              calorias: 0   },
+        { nombre: "Bebida: chocolate, café o aromática", cantidad: "1 taza (240 ml)", calorias: 50 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 380, proteinas: 19, carbohidratos: 38, grasas: 14,
+          ingredientes: {
+            0: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+            1: { cantidad: "¼ aguacate (40 g)", calorias: 65 },
+            2: { cantidad: "1 unidad (55 g)", calorias: 70 },
+            6: { nombre: "Aromática de hierbas o té", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+        },
+        masa: {
+          calorias: 750, proteinas: 38, carbohidratos: 66, grasas: 32,
+          ingredientes: {
+            0: { cantidad: "1 grande (120 g)", calorias: 200 },
+            1: { cantidad: "¾ aguacate (120 g)", calorias: 195 },
+            2: { cantidad: "3 unidades (165 g)", calorias: 210 },
+            6: { nombre: "Chocolate caliente con leche", cantidad: "1 taza (240 ml)", calorias: 120 },
+          },
+        },
+        tonificar: {
+          calorias: 460, proteinas: 20, carbohidratos: 44, grasas: 18,
+          ingredientes: {
+            1: { cantidad: "⅓ aguacate (55 g)", calorias: 90 },
+            6: { nombre: "Café negro o aromática", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+        },
+      },
       preparacion: [
         "Calienta la arepa en comal hasta dorar por ambos lados",
         "Machuca el aguacate con sal y limón para hacer el guacamole",
         "Unta el guacamole sobre la arepa caliente",
-        "Coloca rodajas de tomate encima con sal y cilantro",
-        "Acompaña con la fruta fresca picada al lado",
+        "Cocina los huevos en agua hirviendo por 10 min; pélalos y córtalos en mitades",
+        "Coloca los huevos y rodajas de tomate sobre la arepa con cilantro",
+        "Acompaña con la fruta fresca y la bebida de tu preferencia",
+      ],
+    },
+    {
+      id: "arepa_huevo_aromatica", vegano: false, pesado: false,
+      nombre: "Arepa con huevo cocido y aromática",
+      descripcion: "Arepa de maíz tostada con huevo cocido partido, aguacate y aromática — suave y sin lácteos",
+      calorias: 380, proteinas: 18, carbohidratos: 38, grasas: 16,
+      foto: null,
+      adaptaciones: {
+        diabetes: "El aguacate tiene IG = 0 ✓. Excelente opción baja en azúcar.",
+        hipertension: "Sin sal adicional. El aguacate es rico en potasio ✓.",
+        colesterol: "El aguacate tiene grasas monoinsaturadas beneficiosas ✓. Solo 1 huevo.",
+        cardiaca: "Sin grasa saturada ✓. Excelente opción cardíaca.",
+        renal: "Reduce a 1 huevo. El aguacate tiene potasio — limita a ¼.",
+        celiaquia: "Sin gluten ✓.",
+        gastritis: "Suave y sin irritantes ✓. Muy recomendado.",
+        digestiva: "Sin lácteos, sin frijoles, sin frituras ✓. Una de las mejores opciones digestivas.",
+        embarazo: "El huevo aporta proteína y colina ✓. El aguacate tiene ácido fólico.",
+        obesidad: "Moderada en calorías ✓. Reduce el aguacate a ¼ para bajar más.",
+      },
+      ingredientes: [
+        { nombre: "Arepa de maíz",      cantidad: "1 mediana (90 g)",   calorias: 150 },
+        { nombre: "Huevos cocidos",     cantidad: "2 unidades (110 g)", calorias: 140 },
+        { nombre: "Aguacate hass",      cantidad: "¼ aguacate (40 g)",  calorias: 65  },
+        { nombre: "Sal y cilantro",     cantidad: "al gusto",           calorias: 0   },
+        { nombre: "Aromática de hierbas", cantidad: "1 taza (240 ml)",  calorias: 5   },
+      ],
+      variantes: {
+        bajar: {
+          calorias: 290, proteinas: 14, carbohidratos: 28, grasas: 10,
+          ingredientes: {
+            0: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+            1: { cantidad: "1 unidad (55 g)", calorias: 70 },
+          },
+        },
+        masa: {
+          calorias: 540, proteinas: 32, carbohidratos: 44, grasas: 22,
+          ingredientes: {
+            1: { cantidad: "3 unidades (165 g)", calorias: 210 },
+            2: { cantidad: "½ aguacate (80 g)", calorias: 130 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína en polvo con agua", cantidad: "1 scoop (30 g)", calorias: 120 },
+          ],
+        },
+        tonificar: {
+          calorias: 330, proteinas: 16, carbohidratos: 32, grasas: 12,
+          ingredientes: {
+            0: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+          },
+        },
+      },
+      preparacion: [
+        "Calienta la arepa en comal hasta dorar por ambos lados",
+        "Cocina los huevos en agua hirviendo por 10 min; pélalos y córtalos en mitades",
+        "Unta un poco de aguacate sobre la arepa",
+        "Coloca los huevos encima con sal y cilantro",
+        "Acompaña con aromática de hierbas caliente",
+      ],
+    },
+    {
+      id: "caldo_huevo_papa", vegano: false, pesado: false,
+      nombre: "Caldo de huevo con papa y cilantro",
+      descripcion: "Caldo casero con huevo pochado, papa criolla y cilantro — reconfortante y suave para el estómago",
+      calorias: 250, proteinas: 14, carbohidratos: 30, grasas: 6,
+      foto: null,
+      adaptaciones: {
+        diabetes: "Bajo en azúcar ✓. La papa criolla tiene IG moderado — limita a 1 pequeña.",
+        hipertension: "Sin sal o con muy poca. Usa cilantro y cebolla para sazón ✓.",
+        colesterol: "Solo 1 huevo. El caldo claro es muy bajo en grasa ✓.",
+        cardiaca: "Sin grasa saturada ✓. Excelente opción cardíaca.",
+        renal: "La papa tiene potasio. Reduce a ½ papa. Solo 1 huevo.",
+        celiaquia: "Sin gluten ✓.",
+        gastritis: "Excelente para gastritis ✓. El caldo caliente es alcalino y reconfortante.",
+        digestiva: "Una de las mejores opciones para problemas digestivos ✓. Suave, sin irritantes, fácil de digerir.",
+        embarazo: "El huevo aporta proteína ✓. Agrega espinaca para más hierro y ácido fólico.",
+        obesidad: "Muy bajo en calorías ✓. Excelente opción ligera.",
+      },
+      ingredientes: [
+        { nombre: "Huevos frescos",            cantidad: "2 unidades (110 g)", calorias: 140 },
+        { nombre: "Papa criolla",              cantidad: "2 pequeñas (120 g)", calorias: 80  },
+        { nombre: "Cebolla larga y cilantro",  cantidad: "al gusto",           calorias: 10  },
+        { nombre: "Sal",                       cantidad: "al gusto",           calorias: 0   },
+        { nombre: "Aromática de hierbas",      cantidad: "1 taza (240 ml)",    calorias: 5   },
+      ],
+      variantes: {
+        bajar: {
+          calorias: 190, proteinas: 10, carbohidratos: 22, grasas: 4,
+          ingredientes: {
+            0: { cantidad: "1 unidad (55 g)", calorias: 70 },
+            1: { cantidad: "1 pequeña (60 g)", calorias: 40 },
+          },
+        },
+        masa: {
+          calorias: 380, proteinas: 26, carbohidratos: 36, grasas: 10,
+          ingredientes: {
+            0: { cantidad: "3 unidades (165 g)", calorias: 210 },
+          },
+          ingredientesExtra: [
+            { nombre: "Arepa de maíz", cantidad: "1 mediana (90 g)", calorias: 150 },
+          ],
+        },
+        tonificar: {
+          calorias: 220, proteinas: 14, carbohidratos: 26, grasas: 5,
+          ingredientes: {
+            1: { cantidad: "1 pequeña (60 g)", calorias: 40 },
+          },
+        },
+      },
+      preparacion: [
+        "Hierve agua con cebolla larga picada y sal",
+        "Agrega las papas criollas peladas y cocina 15 min",
+        "Rompe los huevos directamente en el caldo hirviendo",
+        "Cocina 3 min hasta que los huevos estén pochados",
+        "Sirve caliente con abundante cilantro fresco y aromática al lado",
       ],
     },
   ],
@@ -294,7 +653,7 @@ const RECETAS = {
       nombre: "Chontaduro con sal y limón",
       descripcion: "Fruto energético del Pacífico — rico en betacaroteno y grasas saludables",
       calorias: 150, proteinas: 3, carbohidratos: 24, grasas: 5,
-      foto: null,
+      foto: "1611080626919-7cf5a9dbab5b",
       adaptaciones: {
         diabetes: "El chontaduro tiene carbohidratos moderados. Limita a 3-4 unidades y omite la sal.",
         hipertension: "Omite la sal — el chontaduro con sal puede ser alto en sodio. Usa limón solo para el sabor.",
@@ -310,6 +669,20 @@ const RECETAS = {
         { nombre: "Chontaduro cocido",  cantidad: "4 unidades (160 g)", calorias: 150 },
         { nombre: "Sal y limón",        cantidad: "al gusto",           calorias: 0   },
       ],
+      variantes: {
+        bajar: {
+          calorias: 100, proteinas: 2, carbohidratos: 16, grasas: 3,
+          ingredientes: { 0: { cantidad: "3 unidades (120 g)", calorias: 100 } },
+        },
+        masa: {
+          calorias: 200, proteinas: 4, carbohidratos: 32, grasas: 7,
+          ingredientes: { 0: { cantidad: "6 unidades (240 g)", calorias: 200 } },
+        },
+        tonificar: {
+          calorias: 130, proteinas: 3, carbohidratos: 20, grasas: 4,
+          ingredientes: { 0: { cantidad: "3-4 unidades (140 g)", calorias: 130 } },
+        },
+      },
       preparacion: [
         "Selecciona chontaduros de color anaranjado maduro",
         "Si están crudos cocina en agua con sal por 45 min",
@@ -321,8 +694,8 @@ const RECETAS = {
       nombre: "Arepa con quesito y agua de panela",
       descripcion: "Mini arepa paisa con queso campesino y agua de panela caliente",
       calorias: 270, proteinas: 9, carbohidratos: 40, grasas: 9,
-      foto: null,
-      contraindicada: ["diabetes"],
+      foto: "1605613160690-4606345d5d39",
+      contraindicada: ["diabetes", "digestiva"],
       adaptaciones: {
         hipertension: "El queso campesino tiene sodio. Reduce a ½ tajada. El agua de panela es naturalmente libre de sodio ✓.",
         colesterol: "El queso tiene grasa saturada. Reduce a ½ tajada o usa quesito bajo en grasa.",
@@ -338,6 +711,29 @@ const RECETAS = {
         { nombre: "Queso campesino",       cantidad: "1 tajada (25 g)",  calorias: 80  },
         { nombre: "Agua de panela",        cantidad: "½ taza (120 ml)",  calorias: 30  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 190, proteinas: 7, carbohidratos: 28, grasas: 6,
+          ingredientes: {
+            0: { cantidad: "½ unidad (35 g)", calorias: 80 },
+            1: { cantidad: "½ tajada (12 g)", calorias: 40 },
+            2: { nombre: "Aromática sin azúcar", cantidad: "1 taza (240 ml)", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 380, proteinas: 16, carbohidratos: 52, grasas: 14,
+          ingredientes: {
+            0: { cantidad: "1 unidad grande (100 g)", calorias: 230 },
+            1: { cantidad: "2 tajadas (50 g)", calorias: 160 },
+          },
+        },
+        tonificar: {
+          calorias: 230, proteinas: 8, carbohidratos: 34, grasas: 7,
+          ingredientes: {
+            2: { nombre: "Aromática sin azúcar", cantidad: "1 taza (240 ml)", calorias: 0 },
+          },
+        },
+      },
       preparacion: [
         "Calienta la arepa en comal por ambos lados hasta dorar",
         "Coloca el queso campesino encima",
@@ -356,6 +752,28 @@ const RECETAS = {
         { nombre: "Papaya o piña",                cantidad: "1 taza picada (150 g)",calorias: 55},
         { nombre: "Sal, limón, ají (opcional)",   cantidad: "al gusto",          calorias: 15  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 90, proteinas: 1, carbohidratos: 22, grasas: 0,
+          ingredientes: {
+            0: { cantidad: "⅓ unidad (80 g)", calorias: 40 },
+            1: { cantidad: "½ taza (100 g)", calorias: 35 },
+          },
+        },
+        masa: {
+          calorias: 180, proteinas: 3, carbohidratos: 42, grasas: 1,
+          ingredientes: {
+            0: { cantidad: "¾ unidad (180 g)", calorias: 90 },
+            1: { cantidad: "1½ tazas (220 g)", calorias: 80 },
+          },
+        },
+        tonificar: {
+          calorias: 110, proteinas: 2, carbohidratos: 26, grasas: 1,
+          ingredientes: {
+            0: { cantidad: "½ unidad (100 g)", calorias: 50 },
+          },
+        },
+      },
       preparacion: [
         "Pela y pica la fruta en trozos medianos",
         "Espolvorea sal al gusto y exprime limón fresco",
@@ -367,8 +785,8 @@ const RECETAS = {
       nombre: "Pandebono vallecaucano",
       descripcion: "Pan de yuca y queso del Valle del Cauca — esponjoso y recién horneado",
       calorias: 210, proteinas: 6, carbohidratos: 30, grasas: 8,
-      foto: "mOedSrS6qS0",
-      contraindicada: ["diabetes"],
+      foto: "1559141680-d0bd7bc5af84",
+      contraindicada: ["diabetes", "digestiva"],
       adaptaciones: {
         diabetes: "La yuca tiene almidón de IG alto. Si lo comes, limita a 1 unidad y acompáñala con proteína adicional.",
         hipertension: "El queso del pandebono tiene sodio. Come con moderación (máx. 2 unidades).",
@@ -384,6 +802,20 @@ const RECETAS = {
         { nombre: "Pandebono",         cantidad: "2 unidades (80 g)", calorias: 210 },
         { nombre: "Aromática o tinto", cantidad: "1 taza (240 ml)",   calorias: 0   },
       ],
+      variantes: {
+        bajar: {
+          calorias: 110, proteinas: 3, carbohidratos: 15, grasas: 4,
+          ingredientes: { 0: { cantidad: "1 unidad (40 g)", calorias: 110 } },
+        },
+        masa: {
+          calorias: 320, proteinas: 9, carbohidratos: 45, grasas: 12,
+          ingredientes: { 0: { cantidad: "3 unidades (120 g)", calorias: 320 } },
+        },
+        tonificar: {
+          calorias: 160, proteinas: 5, carbohidratos: 22, grasas: 6,
+          ingredientes: { 0: { cantidad: "1½ unidades (60 g)", calorias: 160 } },
+        },
+      },
       preparacion: [
         "Calienta en horno a 150°C por 5 min si está frío",
         "Sirve recién tibio con aromática de hierbas",
@@ -395,7 +827,7 @@ const RECETAS = {
       descripcion: "Yogur natural con granola crujiente y fruta fresca de temporada",
       calorias: 280, proteinas: 11, carbohidratos: 42, grasas: 7,
       foto: "1488477181946-6428a0291777",
-      contraindicada: ["celiaquia"],
+      contraindicada: ["celiaquia", "digestiva"],
       adaptaciones: {
         diabetes: "Elige yogur griego natural sin azúcar. Usa granola sin azúcar o reemplaza por semillas de chía. Fresas en lugar de banano (IG más bajo).",
         hipertension: "El yogur natural no tiene sodio significativo ✓. Excelente once.",
@@ -412,6 +844,29 @@ const RECETAS = {
         { nombre: "Granola",                  cantidad: "3 cdas. (30 g)", calorias: 90  },
         { nombre: "Fresas o banano",          cantidad: "½ porción (80 g)",calorias: 40 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 180, proteinas: 10, carbohidratos: 26, grasas: 3,
+          ingredientes: {
+            0: { nombre: "Yogur griego descremado", cantidad: "¾ taza (150 g)", calorias: 100 },
+            1: { cantidad: "1 cda. (10 g)", calorias: 40 },
+          },
+        },
+        masa: {
+          calorias: 400, proteinas: 20, carbohidratos: 52, grasas: 12,
+          ingredientes: {
+            0: { nombre: "Yogur griego entero", cantidad: "1½ tazas (300 g)", calorias: 250 },
+            1: { cantidad: "4 cdas. (40 g)", calorias: 120 },
+          },
+        },
+        tonificar: {
+          calorias: 240, proteinas: 14, carbohidratos: 34, grasas: 4,
+          ingredientes: {
+            0: { nombre: "Yogur griego descremado", cantidad: "1 taza (200 g)", calorias: 130 },
+            1: { cantidad: "2 cdas. (20 g)", calorias: 60 },
+          },
+        },
+      },
       preparacion: [
         "Sirve el yogur frío en un recipiente",
         "Añade la granola justo antes para que quede crujiente",
@@ -423,13 +878,36 @@ const RECETAS = {
       nombre: "Obleas con arequipe",
       descripcion: "Clásico colombiano: obleas crocantes con arequipe y bocadillo",
       calorias: 220, proteinas: 4, carbohidratos: 38, grasas: 6,
-      foto: null,
+      foto: "1611835116500-03c9eb3c7200",
       contraindicada: ["diabetes", "colesterol", "obesidad", "gastritis", "digestiva"],
       ingredientes: [
         { nombre: "Obleas",                    cantidad: "2 unidades (30 g)",  calorias: 80  },
         { nombre: "Arequipe (dulce de leche)", cantidad: "2 cdas. (40 g)",    calorias: 120 },
         { nombre: "Queso rallado o bocadillo", cantidad: "1 cda. (15 g)",     calorias: 20  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 140, proteinas: 3, carbohidratos: 24, grasas: 3,
+          ingredientes: {
+            0: { cantidad: "1 unidad (15 g)", calorias: 40 },
+            1: { cantidad: "1 cda. (20 g)", calorias: 60 },
+            2: { cantidad: "½ cda. (8 g)", calorias: 10 },
+          },
+        },
+        masa: {
+          calorias: 320, proteinas: 6, carbohidratos: 54, grasas: 9,
+          ingredientes: {
+            0: { cantidad: "3 unidades (45 g)", calorias: 120 },
+            1: { cantidad: "3 cdas. (60 g)", calorias: 180 },
+          },
+        },
+        tonificar: {
+          calorias: 180, proteinas: 4, carbohidratos: 30, grasas: 5,
+          ingredientes: {
+            1: { cantidad: "1½ cdas. (30 g)", calorias: 90 },
+          },
+        },
+      },
       preparacion: [
         "Extiende arequipe sobre una oblea",
         "Añade queso rallado o bocadillo de guayaba",
@@ -441,7 +919,7 @@ const RECETAS = {
       nombre: "Bocadillo veleño con queso blanco",
       descripcion: "Bocadillo de guayaba de Vélez con queso campesino — el clásico dulce-salado colombiano",
       calorias: 200, proteinas: 6, carbohidratos: 30, grasas: 7,
-      foto: null,
+      foto: "1671731476488-776233e000e0",
       contraindicada: ["diabetes", "obesidad", "gastritis", "digestiva"],
       adaptaciones: {
         colesterol: "Reduce a 1 tajada de bocadillo. El queso blanco es moderado en grasa.",
@@ -453,6 +931,28 @@ const RECETAS = {
         { nombre: "Bocadillo de guayaba (Vélez)", cantidad: "2 tajadas (60 g)", calorias: 130 },
         { nombre: "Queso blanco campesino",       cantidad: "1 tajada (30 g)", calorias: 70  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 130, proteinas: 4, carbohidratos: 20, grasas: 4,
+          ingredientes: {
+            0: { cantidad: "1 tajada (30 g)", calorias: 65 },
+            1: { cantidad: "½ tajada (15 g)", calorias: 35 },
+          },
+        },
+        masa: {
+          calorias: 280, proteinas: 10, carbohidratos: 40, grasas: 10,
+          ingredientes: {
+            0: { cantidad: "3 tajadas (90 g)", calorias: 195 },
+            1: { cantidad: "1½ tajadas (45 g)", calorias: 105 },
+          },
+        },
+        tonificar: {
+          calorias: 170, proteinas: 5, carbohidratos: 26, grasas: 5,
+          ingredientes: {
+            0: { cantidad: "1½ tajadas (45 g)", calorias: 100 },
+          },
+        },
+      },
       preparacion: [
         "Corta el bocadillo en tajadas medianas",
         "Acompaña con el queso campesino fresco",
@@ -465,7 +965,7 @@ const RECETAS = {
       nombre: "🌱 Empanada de pipián vallecaucana",
       descripcion: "Empanada de masa de maíz rellena de papa criolla con salsa de maní — tradicional del Valle del Cauca",
       calorias: 250, proteinas: 7, carbohidratos: 34, grasas: 10,
-      foto: null,
+      foto: "1666613710176-2596ff0c844b",
       adaptaciones: {
         diabetes: "El maíz tiene IG moderado. Limita a 1 empanada y acompaña con agua.",
         hipertension: "Sin sal extra en el relleno. Prefiere la versión horneada.",
@@ -480,6 +980,24 @@ const RECETAS = {
         { nombre: "Papa criolla cocinada y machacada", cantidad: "100 g",         calorias: 70  },
         { nombre: "Maní tostado molido",              cantidad: "1 cda. (15 g)", calorias: 40  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 180, proteinas: 5, carbohidratos: 24, grasas: 6,
+          ingredientes: { 0: { cantidad: "60 g", calorias: 105 } },
+          preparacion: { 4: "Hornea a 200°C por 20 min en lugar de freír" },
+        },
+        masa: {
+          calorias: 350, proteinas: 10, carbohidratos: 46, grasas: 14,
+          ingredientes: {
+            1: { cantidad: "150 g", calorias: 105 },
+            2: { cantidad: "2 cdas. (30 g)", calorias: 80 },
+          },
+        },
+        tonificar: {
+          calorias: 210, proteinas: 6, carbohidratos: 28, grasas: 8,
+          preparacion: { 4: "Hornea a 200°C por 20 min en lugar de freír" },
+        },
+      },
       preparacion: [
         "Mezcla la masarepa con agua tibia y sal hasta obtener masa suave",
         "Cocina la papa criolla, máchacala con sal y sofrito de hogao",
@@ -493,15 +1011,195 @@ const RECETAS = {
       nombre: "🌱 Frutas con semillas y maní",
       descripcion: "Mix de frutas frescas con maní tostado y semillas — proteína vegetal y energía",
       calorias: 200, proteinas: 7, carbohidratos: 26, grasas: 9,
-      foto: "1519996529931-28324d5a630e",
+      foto: "1646340925478-844ca7a38e9c",
       ingredientes: [
         { nombre: "Fruta mixta (mango, banano, fresas)", cantidad: "1 taza (150 g)",   calorias: 120 },
         { nombre: "Maní tostado sin sal",                cantidad: "1 puñado (25 g)",  calorias: 80  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 140, proteinas: 4, carbohidratos: 20, grasas: 5,
+          ingredientes: {
+            0: { cantidad: "¾ taza (110 g)", calorias: 90 },
+            1: { cantidad: "½ puñado (12 g)", calorias: 50 },
+          },
+        },
+        masa: {
+          calorias: 300, proteinas: 12, carbohidratos: 34, grasas: 16,
+          ingredientes: {
+            0: { cantidad: "1½ tazas (220 g)", calorias: 180 },
+            1: { cantidad: "2 puñados (50 g)", calorias: 160 },
+          },
+        },
+        tonificar: {
+          calorias: 170, proteinas: 6, carbohidratos: 22, grasas: 7,
+          ingredientes: {
+            0: { cantidad: "¾ taza (110 g)", calorias: 90 },
+          },
+        },
+      },
       preparacion: [
         "Pica las frutas y mézclalas en un recipiente",
         "Agrega el maní tostado encima",
         "Opcional: semillas de chía o linaza",
+      ],
+    },
+    {
+      id: "galletas_arroz_mani", vegano: true, pesado: false,
+      nombre: "🌱 Galletas de arroz con mantequilla de maní",
+      descripcion: "Galletas de arroz inflado con mantequilla de maní y banano — sin lácteos, sin gluten, fácil de digerir",
+      calorias: 220, proteinas: 7, carbohidratos: 28, grasas: 10,
+      foto: null,
+      adaptaciones: {
+        diabetes: "La mantequilla de maní tiene IG bajo ✓. Usa ½ banano para reducir azúcar.",
+        hipertension: "Elige mantequilla de maní sin sal ✓.",
+        colesterol: "La grasa del maní es monoinsaturada ✓. Beneficiosa para el colesterol.",
+        cardiaca: "Grasas saludables del maní ✓. Sin sodio si se elige sin sal.",
+        renal: "El maní tiene fósforo. Reduce a ½ cda.",
+        celiaquia: "Sin gluten ✓. Verifica que las galletas sean de arroz puro.",
+        gastritis: "Suave para el estómago ✓. El banano es alcalino y protector.",
+        digestiva: "Excelente para problemas digestivos ✓. Sin lácteos, sin gluten, sin irritantes. Fácil de digerir.",
+        embarazo: "La mantequilla de maní aporta ácido fólico y proteína vegetal ✓.",
+        obesidad: "Porción controlada. Limita a 1 cda. de mantequilla de maní.",
+      },
+      ingredientes: [
+        { nombre: "Galletas de arroz inflado", cantidad: "3 unidades (30 g)", calorias: 105 },
+        { nombre: "Mantequilla de maní",       cantidad: "1 cda. (15 g)",     calorias: 90  },
+        { nombre: "Banano en rodajas",         cantidad: "½ unidad (60 g)",   calorias: 50  },
+      ],
+      variantes: {
+        bajar: {
+          calorias: 160, proteinas: 5, carbohidratos: 22, grasas: 6,
+          ingredientes: {
+            0: { cantidad: "2 unidades (20 g)", calorias: 70 },
+            1: { cantidad: "½ cda. (8 g)", calorias: 45 },
+            2: { cantidad: "¼ unidad (30 g)", calorias: 25 },
+          },
+        },
+        masa: {
+          calorias: 340, proteinas: 12, carbohidratos: 36, grasas: 16,
+          ingredientes: {
+            0: { cantidad: "4 unidades (40 g)", calorias: 140 },
+            1: { cantidad: "2 cdas. (30 g)", calorias: 180 },
+          },
+        },
+        tonificar: {
+          calorias: 190, proteinas: 6, carbohidratos: 24, grasas: 8,
+          ingredientes: {
+            2: { cantidad: "¼ unidad (30 g)", calorias: 25 },
+          },
+        },
+      },
+      preparacion: [
+        "Unta la mantequilla de maní sobre las galletas de arroz",
+        "Coloca rodajas de banano encima",
+        "Come de inmediato para que queden crujientes",
+      ],
+    },
+    {
+      id: "compota_natural", vegano: true, pesado: false,
+      nombre: "🌱 Compota natural de manzana y pera",
+      descripcion: "Fruta cocida suave con canela — ideal para estómagos sensibles, sin azúcar añadida",
+      calorias: 130, proteinas: 1, carbohidratos: 32, grasas: 0,
+      foto: null,
+      adaptaciones: {
+        diabetes: "Sin azúcar añadida ✓. La fibra de la fruta cocida ralentiza la absorción. Porción moderada.",
+        hipertension: "Sin sodio ✓. Las frutas cocidas son excelentes.",
+        colesterol: "Sin grasa ✓. La pectina de la manzana ayuda a reducir colesterol.",
+        cardiaca: "Sin grasa, sin sodio ✓. Excelente once cardíaca.",
+        renal: "La manzana es baja en potasio ✓. Prefiere manzana sobre la pera.",
+        celiaquia: "Sin gluten ✓.",
+        gastritis: "Excelente para gastritis ✓. La manzana cocida es alcalina y protectora de la mucosa.",
+        digestiva: "Una de las mejores opciones digestivas ✓. La fruta cocida es suavísima, sin irritantes, sin fibra cruda.",
+        embarazo: "Suave y rica en fibra ✓. La pera ayuda con el estreñimiento del embarazo.",
+        obesidad: "Muy baja en calorías ✓. Sin grasa. Saciante por la fibra.",
+      },
+      ingredientes: [
+        { nombre: "Manzana roja pelada",  cantidad: "1 unidad (150 g)", calorias: 70  },
+        { nombre: "Pera pelada",          cantidad: "1 unidad (150 g)", calorias: 55  },
+        { nombre: "Canela en rama",       cantidad: "1 rama",           calorias: 5   },
+      ],
+      variantes: {
+        bajar: {
+          calorias: 100, proteinas: 1, carbohidratos: 24, grasas: 0,
+          ingredientes: {
+            0: { cantidad: "½ unidad (75 g)", calorias: 35 },
+            1: { cantidad: "½ unidad (75 g)", calorias: 28 },
+          },
+        },
+        masa: {
+          calorias: 230, proteinas: 4, carbohidratos: 40, grasas: 6,
+          ingredientesExtra: [
+            { nombre: "Granola sin azúcar", cantidad: "3 cdas. (30 g)", calorias: 90 },
+          ],
+        },
+        tonificar: {
+          calorias: 120, proteinas: 1, carbohidratos: 28, grasas: 0,
+          ingredientes: {
+            0: { cantidad: "¾ unidad (110 g)", calorias: 50 },
+          },
+        },
+      },
+      preparacion: [
+        "Pela y corta la manzana y la pera en cubos pequeños",
+        "Cocina en olla con ½ taza de agua y la canela a fuego bajo por 15 min",
+        "Machaca suavemente con tenedor (no licuar — dejar textura)",
+        "Sirve tibia o a temperatura ambiente",
+      ],
+    },
+    {
+      id: "arepa_aguacate_once", vegano: true, pesado: false,
+      nombre: "🌱 Arepa con aguacate",
+      descripcion: "Mini arepa de maíz con aguacate untado — sin queso, sin lácteos, suave para el estómago",
+      calorias: 230, proteinas: 4, carbohidratos: 28, grasas: 10,
+      foto: null,
+      adaptaciones: {
+        diabetes: "El aguacate tiene IG = 0 ✓. La arepa de maíz tiene IG moderado.",
+        hipertension: "Sin sal adicional. El aguacate aporta potasio ✓.",
+        colesterol: "El aguacate tiene grasas monoinsaturadas que bajan el LDL ✓.",
+        cardiaca: "Sin grasa saturada ✓. El aguacate es cardioprotector.",
+        renal: "El aguacate tiene potasio. Limita a ¼ aguacate.",
+        celiaquia: "Sin gluten ✓.",
+        gastritis: "Suave y sin irritantes ✓. El aguacate es neutro para el estómago.",
+        digestiva: "Sin lácteos, sin queso, sin irritantes ✓. Fácil de digerir. Excelente opción.",
+        embarazo: "El aguacate aporta ácido fólico y grasas saludables ✓.",
+        obesidad: "El aguacate es calórico. Limita a ¼ aguacate para reducir calorías.",
+      },
+      ingredientes: [
+        { nombre: "Arepa de maíz pequeña", cantidad: "1 unidad (70 g)",  calorias: 120 },
+        { nombre: "Aguacate hass",         cantidad: "¼ aguacate (40 g)", calorias: 65 },
+        { nombre: "Sal, limón y cilantro", cantidad: "al gusto",          calorias: 0  },
+        { nombre: "Aromática de hierbas",  cantidad: "1 taza (240 ml)",   calorias: 5  },
+      ],
+      variantes: {
+        bajar: {
+          calorias: 170, proteinas: 3, carbohidratos: 22, grasas: 7,
+          ingredientes: {
+            0: { cantidad: "½ unidad (35 g)", calorias: 60 },
+          },
+        },
+        masa: {
+          calorias: 350, proteinas: 10, carbohidratos: 38, grasas: 18,
+          ingredientes: {
+            0: { cantidad: "1 mediana (90 g)", calorias: 150 },
+            1: { cantidad: "½ aguacate (80 g)", calorias: 130 },
+          },
+          ingredientesExtra: [
+            { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+          ],
+        },
+        tonificar: {
+          calorias: 200, proteinas: 4, carbohidratos: 24, grasas: 8,
+          ingredientes: {
+            0: { cantidad: "1 pequeña (60 g)", calorias: 100 },
+          },
+        },
+      },
+      preparacion: [
+        "Calienta la arepa en comal hasta dorar",
+        "Machuca el aguacate con sal, limón y cilantro",
+        "Unta el guacamole sobre la arepa caliente",
+        "Acompaña con aromática de hierbas",
       ],
     },
   ],
@@ -532,6 +1230,32 @@ const RECETAS = {
         { nombre: "Mazorca (choclo)",            cantidad: "½ mazorca (80 g)",calorias: 70 },
         { nombre: "Hogao, cilantro, comino",     cantidad: "al gusto",       calorias: 25  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 350, proteinas: 32, carbohidratos: 36, grasas: 6,
+          ingredientes: {
+            0: { nombre: "Pechuga de pollo sin piel", cantidad: "120 g", calorias: 140 },
+            1: { cantidad: "1 c/u (150 g)", calorias: 100 },
+            2: { cantidad: "30 g", calorias: 40 },
+          },
+        },
+        masa: {
+          calorias: 650, proteinas: 48, carbohidratos: 62, grasas: 18,
+          ingredientes: {
+            0: { cantidad: "200 g", calorias: 270 },
+            1: { cantidad: "1 c/u (250 g)", calorias: 160 },
+          },
+          ingredientesExtra: [
+            { nombre: "Arroz blanco", cantidad: "½ taza cocinada", calorias: 95 },
+          ],
+        },
+        tonificar: {
+          calorias: 420, proteinas: 36, carbohidratos: 44, grasas: 8,
+          ingredientes: {
+            0: { nombre: "Pechuga de pollo sin piel", cantidad: "140 g", calorias: 165 },
+          },
+        },
+      },
       preparacion: [
         "Sofríe cebolla y tomate para el hogao base",
         "Agrega el pollo troceado y sella por todos lados",
@@ -546,7 +1270,7 @@ const RECETAS = {
       nombre: "Arroz con pollo colombiano",
       descripcion: "Arroz amarillo con pollo guisado, arveja y patacones",
       calorias: 560, proteinas: 36, carbohidratos: 68, grasas: 11,
-      foto: "premium_photo-1664647788970-cdcb5e87f630",
+      foto: "1714383611437-485d97141913",
       adaptaciones: {
         diabetes: "Reduce el arroz a ½ taza. Añade más verduras al arroz.",
         hipertension: "Cocina sin sal; usa comino, ajo y cúrcuma para sazón.",
@@ -564,6 +1288,29 @@ const RECETAS = {
         { nombre: "Arveja y zanahoria",          cantidad: "½ taza (80 g)",  calorias: 60  },
         { nombre: "Patacones (plátano verde)",   cantidad: "2 und. (80 g)",  calorias: 100 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 380, proteinas: 32, carbohidratos: 46, grasas: 5,
+          ingredientes: {
+            1: { cantidad: "½ taza (95 g)", calorias: 100 },
+            3: { nombre: "Ensalada verde", cantidad: "1 taza (80 g)", calorias: 20 },
+          },
+        },
+        masa: {
+          calorias: 720, proteinas: 50, carbohidratos: 82, grasas: 16,
+          ingredientes: {
+            0: { cantidad: "180 g", calorias: 300 },
+            1: { cantidad: "1¼ tazas (230 g)", calorias: 250 },
+          },
+        },
+        tonificar: {
+          calorias: 470, proteinas: 36, carbohidratos: 56, grasas: 8,
+          ingredientes: {
+            1: { cantidad: "¾ taza (140 g)", calorias: 150 },
+            3: { nombre: "Ensalada verde", cantidad: "1 taza (80 g)", calorias: 20 },
+          },
+        },
+      },
       preparacion: [
         "Cocina el pollo en caldo con sal, comino y color (achiote)",
         "Desmecha y reserva el caldo para el arroz",
@@ -597,6 +1344,33 @@ const RECETAS = {
         { nombre: "Mazorca",                 cantidad: "½ mazorca (80 g)",  calorias: 70  },
         { nombre: "Guascas y crema (1 cda.)",cantidad: "al gusto",          calorias: 15  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 340, proteinas: 28, carbohidratos: 42, grasas: 4,
+          ingredientes: {
+            0: { cantidad: "½ mediana (65 g)", calorias: 40 },
+            2: { cantidad: "50 g", calorias: 40 },
+            3: { nombre: "Pechuga sin piel", cantidad: "100 g", calorias: 130 },
+            5: { nombre: "Guascas (sin crema)", cantidad: "al gusto", calorias: 5 },
+          },
+        },
+        masa: {
+          calorias: 620, proteinas: 44, carbohidratos: 68, grasas: 14,
+          ingredientes: {
+            3: { cantidad: "150 g", calorias: 250 },
+          },
+          ingredientesExtra: [
+            { nombre: "Arroz blanco", cantidad: "½ taza cocinada", calorias: 95 },
+          ],
+        },
+        tonificar: {
+          calorias: 400, proteinas: 32, carbohidratos: 48, grasas: 6,
+          ingredientes: {
+            2: { cantidad: "60 g", calorias: 50 },
+            5: { nombre: "Guascas (sin crema)", cantidad: "al gusto", calorias: 5 },
+          },
+        },
+      },
       preparacion: [
         "Cocina el pollo en agua con sal hasta que esté tierno; desmecha",
         "En el mismo caldo agrega las tres papas y la mazorca",
@@ -629,6 +1403,30 @@ const RECETAS = {
         { nombre: "Hogao, comino, sal",      cantidad: "al gusto",        calorias: 25  },
         { nombre: "Arroz blanco (acomp.)",   cantidad: "½ taza (90 g)",   calorias: 100 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 360, proteinas: 32, carbohidratos: 30, grasas: 8,
+          ingredientes: {
+            0: { nombre: "Lomo de res magro", cantidad: "120 g", calorias: 180 },
+            1: { cantidad: "1 mediana (150 g)", calorias: 80 },
+            4: { nombre: "Ensalada verde", cantidad: "1 taza", calorias: 20 },
+          },
+        },
+        masa: {
+          calorias: 700, proteinas: 52, carbohidratos: 56, grasas: 22,
+          ingredientes: {
+            0: { cantidad: "200 g", calorias: 330 },
+            4: { cantidad: "1 taza (185 g)", calorias: 200 },
+          },
+        },
+        tonificar: {
+          calorias: 440, proteinas: 38, carbohidratos: 36, grasas: 10,
+          ingredientes: {
+            0: { nombre: "Lomo de res magro", cantidad: "140 g", calorias: 210 },
+            4: { cantidad: "⅓ taza (60 g)", calorias: 65 },
+          },
+        },
+      },
       preparacion: [
         "Adoba la carne con sal, comino, ajo y color 15 min",
         "Sella la carne en olla con aceite caliente",
@@ -648,6 +1446,7 @@ const RECETAS = {
         hipertension: "Sin sal. Las lentejas tienen potasio que ayuda. ✓",
         renal: "Las lentejas son ricas en potasio; reduce a ¼ taza.",
         gastritis: "Excelente opción ✓. Cocina bien las lentejas. Evita el aguacate si hay acidez activa. Come despacio.",
+        digestiva: "Las lentejas BIEN COCIDAS son más suaves que los frijoles ✓. Cocínalas hasta que estén muy blandas (mínimo 40 min). Omite el aguacate y come despacio en porción moderada.",
         embarazo: "Las lentejas son la fuente más rica en ácido fólico ✓. Esenciales en el 1er trimestre. Muy recomendadas.",
       },
       ingredientes: [
@@ -658,6 +1457,33 @@ const RECETAS = {
         { nombre: "Hogao, comino, sal",  cantidad: "al gusto",           calorias: 25  },
         { nombre: "Aguacate (acomp.)",   cantidad: "¼ unidad (40 g)",    calorias: 60  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 290, proteinas: 18, carbohidratos: 50, grasas: 2,
+          ingredientes: {
+            1: { cantidad: "½ mediana (65 g)", calorias: 45 },
+            3: { cantidad: "⅓ unidad (50 g)", calorias: 40 },
+            5: { nombre: "Limón", cantidad: "al gusto", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 550, proteinas: 30, carbohidratos: 88, grasas: 10,
+          ingredientes: {
+            0: { cantidad: "¾ taza seca (135 g)", calorias: 240 },
+            5: { cantidad: "½ unidad (80 g)", calorias: 120 },
+          },
+          ingredientesExtra: [
+            { nombre: "Arroz blanco", cantidad: "½ taza cocinada", calorias: 95 },
+          ],
+        },
+        tonificar: {
+          calorias: 340, proteinas: 20, carbohidratos: 58, grasas: 3,
+          ingredientes: {
+            1: { cantidad: "½ mediana (65 g)", calorias: 45 },
+            5: { cantidad: "⅛ unidad (20 g)", calorias: 30 },
+          },
+        },
+      },
       preparacion: [
         "Remoja las lentejas 30 min y escúrrelas",
         "Prepara hogao base con tomate, cebolla y ajo",
@@ -687,6 +1513,33 @@ const RECETAS = {
         { nombre: "Huevo frito",                cantidad: "1 unidad (55 g)", calorias: 90  },
         { nombre: "Hogao y aguacate ¼",         cantidad: "al gusto",        calorias: 40  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 480, proteinas: 34, carbohidratos: 56, grasas: 10,
+          ingredientes: {
+            0: { cantidad: "½ taza (95 g)", calorias: 100 },
+            2: { nombre: "Carne molida magra", cantidad: "60 g", calorias: 120 },
+            3: { nombre: "Plátano verde asado", cantidad: "½ unidad (80 g)", calorias: 70 },
+            4: { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+          },
+          preparacion: { 4: "Cocina el huevo en agua hirviendo por 10 min" },
+        },
+        masa: {
+          calorias: 950, proteinas: 58, carbohidratos: 100, grasas: 30,
+          ingredientes: {
+            2: { cantidad: "120 g", calorias: 270 },
+            4: { cantidad: "2 unidades (110 g)", calorias: 180 },
+          },
+        },
+        tonificar: {
+          calorias: 600, proteinas: 42, carbohidratos: 68, grasas: 14,
+          ingredientes: {
+            0: { cantidad: "¾ taza (140 g)", calorias: 150 },
+            4: { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+          },
+          preparacion: { 4: "Cocina el huevo en agua hirviendo por 10 min" },
+        },
+      },
       preparacion: [
         "Cocina los frijoles rojos con tocino y hogao hasta suavizar",
         "Prepara arroz blanco suelto con sal",
@@ -701,7 +1554,7 @@ const RECETAS = {
       nombre: "Cocido boyacense",
       descripcion: "Sopa andina con papas nativas, cubios, chuguas, habas, mazorca y costilla — herencia de Boyacá",
       calorias: 420, proteinas: 22, carbohidratos: 58, grasas: 10,
-      foto: null,
+      foto: "1775229910950-0b7a99bf8674",
       contraindicada: ["renal"],
       adaptaciones: {
         diabetes: "Sopa de IG moderado. Reduce la porción de papa a la mitad.",
@@ -722,6 +1575,32 @@ const RECETAS = {
         { nombre: "Mazorca",                       cantidad: "½ mazorca (80 g)",calorias: 70  },
         { nombre: "Hogao, cilantro, comino",       cantidad: "al gusto",        calorias: 20  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 320, proteinas: 20, carbohidratos: 40, grasas: 6,
+          ingredientes: {
+            0: { nombre: "Pechuga de pollo sin piel", cantidad: "80 g", calorias: 100 },
+            1: { cantidad: "1 c/u (130 g)", calorias: 85 },
+            2: { cantidad: "50 g c/u", calorias: 40 },
+          },
+        },
+        masa: {
+          calorias: 560, proteinas: 34, carbohidratos: 66, grasas: 14,
+          ingredientes: {
+            0: { cantidad: "150 g", calorias: 240 },
+            3: { cantidad: "¾ taza (90 g)", calorias: 75 },
+          },
+          ingredientesExtra: [
+            { nombre: "Arroz blanco", cantidad: "½ taza cocinada", calorias: 95 },
+          ],
+        },
+        tonificar: {
+          calorias: 380, proteinas: 24, carbohidratos: 48, grasas: 8,
+          ingredientes: {
+            0: { nombre: "Pechuga de pollo sin piel", cantidad: "100 g", calorias: 130 },
+          },
+        },
+      },
       preparacion: [
         "Cocina la costilla en agua con sal hasta ablandar (45 min en olla a presión)",
         "Agrega los tubérculos (papa, cubios, chuguas) pelados y troceados",
@@ -735,7 +1614,7 @@ const RECETAS = {
       nombre: "Arroz atollado con pollo",
       descripcion: "Arroz caldoso y cremoso con pollo desmechado, papa y zanahoria — especialidad del Valle del Cauca",
       calorias: 510, proteinas: 30, carbohidratos: 66, grasas: 12,
-      foto: null,
+      foto: "1584946763546-5db5e2468fbf",
       adaptaciones: {
         diabetes: "El arroz atollado tiene más caldo que el seco — mejor tolerado. Reduce la porción de arroz.",
         hipertension: "Sin sal adicional. Usa achiote y comino para el color y sabor.",
@@ -755,6 +1634,28 @@ const RECETAS = {
         { nombre: "Zanahoria y arveja",           cantidad: "½ taza c/u (80 g)",calorias: 50},
         { nombre: "Hogao, achiote, comino",       cantidad: "al gusto",        calorias: 25  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 360, proteinas: 28, carbohidratos: 46, grasas: 6,
+          ingredientes: {
+            1: { cantidad: "½ taza (95 g)", calorias: 125 },
+            2: { cantidad: "½ mediana (65 g)", calorias: 40 },
+          },
+        },
+        masa: {
+          calorias: 680, proteinas: 46, carbohidratos: 78, grasas: 18,
+          ingredientes: {
+            0: { cantidad: "180 g", calorias: 300 },
+            1: { cantidad: "1 taza (185 g)", calorias: 245 },
+          },
+        },
+        tonificar: {
+          calorias: 440, proteinas: 32, carbohidratos: 56, grasas: 8,
+          ingredientes: {
+            1: { cantidad: "½ taza (95 g)", calorias: 125 },
+          },
+        },
+      },
       preparacion: [
         "Cocina el pollo en caldo con sal y comino hasta tierno; desméchalo y reserva el caldo",
         "Sofríe el hogao en la olla, agrega el arroz y revuelve 2 min",
@@ -768,7 +1669,7 @@ const RECETAS = {
       nombre: "Mondongo antioqueño",
       descripcion: "Sopa de menudo con papa, yuca, zanahoria y hogao — plato emblema de Antioquia",
       calorias: 380, proteinas: 28, carbohidratos: 42, grasas: 10,
-      foto: null,
+      foto: "1730112696140-19e61bb43d36",
       contraindicada: ["colesterol", "cardiaca", "digestiva"],
       adaptaciones: {
         diabetes: "IG moderado. Reduce la papa a ½ porción y omite la yuca.",
@@ -785,6 +1686,31 @@ const RECETAS = {
         { nombre: "Zanahoria y maíz",             cantidad: "½ taza c/u (80 g)",calorias: 60 },
         { nombre: "Hogao, comino, cilantro",      cantidad: "al gusto",         calorias: 25  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 270, proteinas: 24, carbohidratos: 30, grasas: 5,
+          ingredientes: {
+            0: { cantidad: "120 g", calorias: 130 },
+            1: { cantidad: "½ mediana (65 g)", calorias: 40 },
+            2: { cantidad: "30 g", calorias: 40 },
+          },
+        },
+        masa: {
+          calorias: 520, proteinas: 40, carbohidratos: 52, grasas: 14,
+          ingredientes: {
+            0: { cantidad: "200 g", calorias: 210 },
+          },
+          ingredientesExtra: [
+            { nombre: "Arroz blanco", cantidad: "½ taza cocinada", calorias: 95 },
+          ],
+        },
+        tonificar: {
+          calorias: 330, proteinas: 28, carbohidratos: 36, grasas: 8,
+          ingredientes: {
+            1: { cantidad: "½ mediana (65 g)", calorias: 40 },
+          },
+        },
+      },
       preparacion: [
         "Limpia y corta el menudo en trozos pequeños; cocina en olla a presión 45 min con sal",
         "En una olla grande prepara hogao con tomate, cebolla, ajo y comino",
@@ -799,7 +1725,8 @@ const RECETAS = {
       nombre: "🌱 Arroz con frijoles, aguacate y plátano",
       descripcion: "Combo vegano completo: proteína vegetal + carbos + grasa saludable — típico colombiano",
       calorias: 520, proteinas: 18, carbohidratos: 84, grasas: 12,
-      foto: "1698917467449-08bcd1d9014b",
+      foto: "1636777408340-e053c0b5ba2a",
+      contraindicada: ["digestiva"],
       adaptaciones: {
         diabetes: "El arroz blanco tiene IG alto. Reduce a ½ taza y aumenta los frijoles. Los frijoles tienen IG bajo y mucha fibra ✓.",
         hipertension: "Cocina todo sin sal adicional. Hogao sin sal. El aguacate y los frijoles son cardioprotectores ✓.",
@@ -819,6 +1746,31 @@ const RECETAS = {
         { nombre: "Plátano maduro asado",      cantidad: "½ unidad (90 g)", calorias: 90  },
         { nombre: "Hogao y ensalada verde",    cantidad: "al gusto",        calorias: 20  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 360, proteinas: 16, carbohidratos: 58, grasas: 6,
+          ingredientes: {
+            0: { cantidad: "½ taza (95 g)", calorias: 100 },
+            3: { nombre: "Plátano verde asado", cantidad: "½ unidad (80 g)", calorias: 70 },
+          },
+        },
+        masa: {
+          calorias: 700, proteinas: 28, carbohidratos: 104, grasas: 20,
+          ingredientes: {
+            1: { cantidad: "¾ taza (150 g)", calorias: 195 },
+            2: { cantidad: "½ aguacate (80 g)", calorias: 130 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína vegetal en polvo", cantidad: "1 scoop (30 g)", calorias: 110 },
+          ],
+        },
+        tonificar: {
+          calorias: 440, proteinas: 18, carbohidratos: 70, grasas: 8,
+          ingredientes: {
+            0: { cantidad: "¾ taza (140 g)", calorias: 150 },
+          },
+        },
+      },
       preparacion: [
         "Cocina el arroz y los frijoles por separado con hogao y sal",
         "Asa el plátano maduro en sartén con poco aceite",
@@ -831,7 +1783,7 @@ const RECETAS = {
       nombre: "🌱 Crema de papa criolla",
       descripcion: "Papa criolla licuada con hogao y caldo vegetal — cremosa, sabrosa y 100% colombiana",
       calorias: 300, proteinas: 6, carbohidratos: 54, grasas: 8,
-      foto: "inJF419mrPE",
+      foto: "1519202270721-a737823482cc",
       adaptaciones: {
         diabetes: "La papa criolla tiene IG alto. Reduce la porción a ½ plato y añade más caldo.",
         hipertension: "Sin sal. El hogao y las hierbas dan sabor suficiente. ✓",
@@ -848,6 +1800,30 @@ const RECETAS = {
         { nombre: "Caldo vegetal",            cantidad: "2 tazas (480 ml)",    calorias: 15  },
         { nombre: "Aceite de oliva",          cantidad: "1 cda. (14 g)",       calorias: 50  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 210, proteinas: 4, carbohidratos: 40, grasas: 3,
+          ingredientes: {
+            0: { cantidad: "4 unidades (200 g)", calorias: 120 },
+            4: { cantidad: "½ cda. (7 g)", calorias: 25 },
+          },
+        },
+        masa: {
+          calorias: 420, proteinas: 12, carbohidratos: 68, grasas: 12,
+          ingredientes: {
+            0: { cantidad: "8 unidades (400 g)", calorias: 240 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína vegetal en polvo", cantidad: "1 scoop (30 g)", calorias: 110 },
+          ],
+        },
+        tonificar: {
+          calorias: 260, proteinas: 6, carbohidratos: 46, grasas: 5,
+          ingredientes: {
+            0: { cantidad: "5 unidades (250 g)", calorias: 150 },
+          },
+        },
+      },
       preparacion: [
         "Cocina la papa criolla con cebolla larga y ajo hasta ablandar (15-20 min)",
         "Reserva un poco del caldo de cocción",
@@ -882,6 +1858,31 @@ const RECETAS = {
         { nombre: "Plátano verde",             cantidad: "½ und. (80 g)", calorias: 60  },
         { nombre: "Hogao, cilantro, ajo",      cantidad: "al gusto",      calorias: 15  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 240, proteinas: 6, carbohidratos: 50, grasas: 2,
+          ingredientes: {
+            0: { cantidad: "1 c/u (150 g)", calorias: 100 },
+            1: { cantidad: "40 g", calorias: 50 },
+          },
+        },
+        masa: {
+          calorias: 480, proteinas: 16, carbohidratos: 92, grasas: 6,
+          ingredientes: {
+            0: { cantidad: "1 c/u (250 g)", calorias: 165 },
+          },
+          ingredientesExtra: [
+            { nombre: "Frijoles cocinados", cantidad: "½ taza (100 g)", calorias: 130 },
+          ],
+        },
+        tonificar: {
+          calorias: 290, proteinas: 8, carbohidratos: 60, grasas: 2,
+          ingredientes: {
+            0: { cantidad: "1 c/u (170 g)", calorias: 110 },
+            1: { cantidad: "45 g", calorias: 55 },
+          },
+        },
+      },
       preparacion: [
         "Prepara hogao base con tomate, cebolla, ajo y cilantro",
         "Agrega agua y lleva a hervor",
@@ -919,6 +1920,26 @@ const RECETAS = {
         { nombre: "Papa pequeña",            cantidad: "1 unidad (90 g)", calorias: 60  },
         { nombre: "Caldo de pollo, cilantro",cantidad: "al gusto",        calorias: 15  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 210, proteinas: 8, carbohidratos: 36, grasas: 3,
+          ingredientes: {
+            0: { cantidad: "30 g", calorias: 105 },
+            2: { cantidad: "½ unidad (45 g)", calorias: 30 },
+          },
+        },
+        masa: {
+          calorias: 420, proteinas: 22, carbohidratos: 60, grasas: 8,
+          ingredientes: { 0: { cantidad: "70 g", calorias: 245 } },
+          ingredientesExtra: [
+            { nombre: "Pollo desmechado extra", cantidad: "50 g", calorias: 85 },
+          ],
+        },
+        tonificar: {
+          calorias: 260, proteinas: 12, carbohidratos: 42, grasas: 4,
+          ingredientes: { 0: { cantidad: "40 g", calorias: 140 } },
+        },
+      },
       preparacion: [
         "Prepara hogao con cebolla, tomate y ajo",
         "Agrega caldo y lleva a hervor",
@@ -951,6 +1972,30 @@ const RECETAS = {
         { nombre: "Cebolla, ajo, sal",         cantidad: "al gusto",       calorias: 15  },
         { nombre: "Pan tostado o arepa",       cantidad: "1 porción (60 g)",calorias: 70 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 180, proteinas: 6, carbohidratos: 28, grasas: 3,
+          ingredientes: {
+            1: { nombre: "Leche descremada", cantidad: "¼ taza (60 ml)", calorias: 25 },
+            3: { nombre: "Sin acompañamiento", cantidad: "—", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 370, proteinas: 16, carbohidratos: 48, grasas: 12,
+          ingredientes: {
+            3: { cantidad: "1 porción grande (90 g)", calorias: 105 },
+          },
+          ingredientesExtra: [
+            { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+          ],
+        },
+        tonificar: {
+          calorias: 220, proteinas: 8, carbohidratos: 32, grasas: 5,
+          ingredientes: {
+            1: { nombre: "Leche descremada", cantidad: "½ taza (120 ml)", calorias: 45 },
+          },
+        },
+      },
       preparacion: [
         "Trocea la ahuyama y cocina con cebolla y ajo hasta ablandar",
         "Licúa hasta obtener consistencia suave",
@@ -964,7 +2009,7 @@ const RECETAS = {
       nombre: "Arroz con huevo y ensalada verde",
       descripcion: "Cena sencilla: arroz blanco, huevos y ensalada fresca con limón",
       calorias: 390, proteinas: 20, carbohidratos: 52, grasas: 12,
-      foto: null,
+      foto: "1647093953000-9065ed6f85ef",
       adaptaciones: {
         diabetes: "El arroz blanco tiene IG alto. Reduce a ½ taza o usa arroz integral. Usa 1 solo huevo.",
         hipertension: "Sin sal en el arroz. El limón de la ensalada realza el sabor sin sodio ✓.",
@@ -983,6 +2028,33 @@ const RECETAS = {
         { nombre: "Lechuga, tomate, pepino",    cantidad: "1 taza mix (120 g)",calorias: 30 },
         { nombre: "Limón, aceite de oliva, sal",cantidad: "aderezo",           calorias: 20  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 260, proteinas: 16, carbohidratos: 34, grasas: 6,
+          ingredientes: {
+            0: { cantidad: "½ taza (95 g)", calorias: 100 },
+            1: { nombre: "Huevos cocidos", cantidad: "2 unidades (110 g)", calorias: 140 },
+          },
+          preparacion: { 1: "Cocina los huevos en agua hirviendo por 10 min; pela y parte" },
+        },
+        masa: {
+          calorias: 550, proteinas: 34, carbohidratos: 62, grasas: 18,
+          ingredientes: {
+            1: { cantidad: "3 unidades (165 g)", calorias: 210 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína en polvo con agua", cantidad: "1 scoop (30 g)", calorias: 120 },
+          ],
+        },
+        tonificar: {
+          calorias: 320, proteinas: 20, carbohidratos: 42, grasas: 8,
+          ingredientes: {
+            0: { cantidad: "¾ taza (140 g)", calorias: 150 },
+            1: { nombre: "Huevos cocidos", cantidad: "2 unidades (110 g)", calorias: 140 },
+          },
+          preparacion: { 1: "Cocina los huevos en agua hirviendo por 10 min; pela y parte" },
+        },
+      },
       preparacion: [
         "Cocina el arroz con sal y un toque de aceite",
         "Prepara los huevos al gusto (cocidos, fritos o revueltos)",
@@ -994,9 +2066,9 @@ const RECETAS = {
     {
       id: "caldo_costilla", vegano: false, pesado: false,
       nombre: "Caldo de costilla bogotano",
-      descripcion: "Caldo reconfortante de costilla con papa criolla y cilantro",
-      calorias: 290, proteinas: 22, carbohidratos: 28, grasas: 10,
-      foto: null,
+      descripcion: "Caldo reconfortante de costilla con papa criolla, cilantro y bebida caliente",
+      calorias: 340, proteinas: 22, carbohidratos: 32, grasas: 12,
+      foto: "1652088079703-38f4a8d6b981",
       adaptaciones: {
         diabetes: "El caldo de costilla no tiene carbohidratos significativos ✓. Excelente opción. Acompaña con arepa pequeña.",
         hipertension: "Cocina sin sal. Retira toda la grasa superficial del caldo. Sin sal al servir.",
@@ -1005,7 +2077,7 @@ const RECETAS = {
         renal: "Reduce la carne a 60g. El caldo solo (sin la carne) es bajo en proteína y mejor para el riñón.",
         celiaquia: "Sin gluten ✓. Acompaña con arepa en lugar de pan.",
         gastritis: "El caldo claro es excelente para gastritis ✓. Cocina bien la costilla y retira la grasa superficial. Sin sal excesiva.",
-        digestiva: "El caldo claro de costilla es excelente para el sistema digestivo ✓. Retira la grasa y sirve caliente.",
+        digestiva: "El caldo claro de costilla es excelente para el sistema digestivo ✓. Retira la grasa y sirve caliente. Bebida: aromática o té (la leche y el chocolate NO se recomiendan para problemas digestivos).",
         embarazo: "El caldo aporta colágeno y minerales ✓. Cocina bien cocida la costilla. Retira la grasa de la superficie.",
         obesidad: "El caldo claro tiene pocas calorías ✓. Limita la carne a 60g. Sin arepa si se busca reducir calorías.",
       },
@@ -1014,7 +2086,33 @@ const RECETAS = {
         { nombre: "Papa criolla o pastusa",        cantidad: "1 pequeña (90 g)", calorias: 80  },
         { nombre: "Cilantro, cebolla larga, sal",  cantidad: "al gusto",         calorias: 15  },
         { nombre: "Arepa pequeña (opcional)",      cantidad: "½ unidad (45 g)",  calorias: 75  },
+        { nombre: "Bebida: chocolate, café o aromática", cantidad: "1 taza (240 ml)", calorias: 50 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 225, proteinas: 18, carbohidratos: 20, grasas: 5,
+          ingredientes: {
+            0: { cantidad: "70 g (1 trozo)", calorias: 125 },
+            3: { nombre: "Sin arepa", cantidad: "—", calorias: 0 },
+            4: { nombre: "Aromática de hierbas o té", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+        },
+        masa: {
+          calorias: 530, proteinas: 36, carbohidratos: 42, grasas: 18,
+          ingredientes: {
+            0: { cantidad: "150 g (3 trozos)", calorias: 270 },
+            3: { cantidad: "1 unidad (90 g)", calorias: 150 },
+            4: { nombre: "Chocolate caliente con leche", cantidad: "1 taza (240 ml)", calorias: 120 },
+          },
+        },
+        tonificar: {
+          calorias: 270, proteinas: 22, carbohidratos: 24, grasas: 7,
+          ingredientes: {
+            0: { cantidad: "80 g (2 trozos pequeños)", calorias: 145 },
+            4: { nombre: "Café negro o aromática", cantidad: "1 taza (240 ml)", calorias: 5 },
+          },
+        },
+      },
       preparacion: [
         "Lava bien las costillas con agua fría",
         "Coloca en olla con agua fría, cebolla y ajo",
@@ -1028,7 +2126,7 @@ const RECETAS = {
       nombre: "Sopa de fideo con pollo",
       descripcion: "Sopa ligera de fideos con pollo desmechado — liviana y digestiva para la noche",
       calorias: 270, proteinas: 18, carbohidratos: 36, grasas: 5,
-      foto: null,
+      foto: "1555126634-323283e090fa",
       contraindicada: ["celiaquia"],
       ingredientes: [
         { nombre: "Fideos delgados",          cantidad: "60 g",           calorias: 210 },
@@ -1036,6 +2134,26 @@ const RECETAS = {
         { nombre: "Caldo de pollo, cilantro", cantidad: "al gusto",       calorias: 15  },
         { nombre: "Papa (opcional)",          cantidad: "½ unidad (45 g)",calorias: 45  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 190, proteinas: 14, carbohidratos: 26, grasas: 3,
+          ingredientes: {
+            0: { cantidad: "40 g", calorias: 140 },
+            3: { nombre: "Sin papa", cantidad: "—", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 380, proteinas: 28, carbohidratos: 44, grasas: 8,
+          ingredientes: {
+            0: { cantidad: "80 g", calorias: 280 },
+            1: { cantidad: "80 g", calorias: 135 },
+          },
+        },
+        tonificar: {
+          calorias: 230, proteinas: 16, carbohidratos: 30, grasas: 4,
+          ingredientes: { 0: { cantidad: "50 g", calorias: 175 } },
+        },
+      },
       preparacion: [
         "Calienta caldo de pollo en olla",
         "Agrega fideos y papa al hervir; cocina 8 min",
@@ -1048,7 +2166,7 @@ const RECETAS = {
       nombre: "Sopa de guineo con pollo",
       descripcion: "Plátano verde en cubos con pollo desmechado, papa criolla y hogao — cena liviana y reconfortante",
       calorias: 260, proteinas: 16, carbohidratos: 40, grasas: 5,
-      foto: null,
+      foto: "1665594051407-7385d281ad76",
       adaptaciones: {
         diabetes: "El guineo verde tiene almidón resistente de IG bajo ✓. Excelente opción.",
         hipertension: "Sin sal adicional. El plátano verde es naturalmente bajo en sodio.",
@@ -1065,6 +2183,30 @@ const RECETAS = {
         { nombre: "Papa criolla",               cantidad: "1 pequeña (80 g)",         calorias: 55  },
         { nombre: "Hogao, cilantro, caldo",     cantidad: "al gusto",                 calorias: 20  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 190, proteinas: 14, carbohidratos: 30, grasas: 2,
+          ingredientes: {
+            0: { cantidad: "½ unidad (100 g)", calorias: 60 },
+            2: { cantidad: "½ pequeña (40 g)", calorias: 30 },
+          },
+        },
+        masa: {
+          calorias: 380, proteinas: 28, carbohidratos: 48, grasas: 8,
+          ingredientes: {
+            1: { cantidad: "100 g", calorias: 170 },
+          },
+          ingredientesExtra: [
+            { nombre: "Huevo cocido", cantidad: "1 unidad (55 g)", calorias: 70 },
+          ],
+        },
+        tonificar: {
+          calorias: 220, proteinas: 16, carbohidratos: 34, grasas: 3,
+          ingredientes: {
+            0: { cantidad: "¾ unidad (150 g)", calorias: 90 },
+          },
+        },
+      },
       preparacion: [
         "Pela y corta el plátano verde en cubos medianos",
         "Hierve con caldo de pollo, hogao y sal a fuego medio 15 min",
@@ -1078,8 +2220,8 @@ const RECETAS = {
       nombre: "Arroz con leche santafereño",
       descripcion: "Arroz cremoso cocinado en leche con canela y panela — cena dulce y reconfortante de las abuelas",
       calorias: 310, proteinas: 8, carbohidratos: 56, grasas: 6,
-      foto: null,
-      contraindicada: ["diabetes"],
+      foto: "1665529545347-8eac2abf7f41",
+      contraindicada: ["diabetes", "digestiva"],
       adaptaciones: {
         hipertension: "Sin sal adicional. La leche tiene sodio natural moderado.",
         colesterol: "Usa leche descremada para reducir la grasa.",
@@ -1097,6 +2239,32 @@ const RECETAS = {
         { nombre: "Canela en rama",     cantidad: "1 rama",               calorias: 5   },
         { nombre: "Panela raspada",     cantidad: "1 cda. (15 g)",        calorias: 45  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 210, proteinas: 6, carbohidratos: 40, grasas: 2,
+          ingredientes: {
+            0: { cantidad: "⅓ taza seca (60 g)", calorias: 100 },
+            1: { nombre: "Leche descremada", cantidad: "1 taza (240 ml)", calorias: 60 },
+            3: { nombre: "Stevia", cantidad: "al gusto", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 430, proteinas: 14, carbohidratos: 72, grasas: 10,
+          ingredientes: {
+            0: { cantidad: "¾ taza seca (135 g)", calorias: 225 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína en polvo", cantidad: "1 scoop (30 g)", calorias: 120 },
+          ],
+        },
+        tonificar: {
+          calorias: 260, proteinas: 8, carbohidratos: 48, grasas: 4,
+          ingredientes: {
+            1: { nombre: "Leche descremada", cantidad: "1 taza (240 ml)", calorias: 60 },
+            3: { nombre: "Stevia o poca panela", cantidad: "al gusto", calorias: 10 },
+          },
+        },
+      },
       preparacion: [
         "Cocina el arroz con 1 taza de agua y la canela a fuego medio hasta absorber (15 min)",
         "Agrega la leche caliente poco a poco revolviendo constantemente",
@@ -1122,6 +2290,30 @@ const RECETAS = {
         { nombre: "Cebolla, ajo, jengibre",cantidad: "al gusto",        calorias: 15  },
         { nombre: "Arepa de maíz",         cantidad: "1 pequeña (70 g)",calorias: 110 },
       ],
+      variantes: {
+        bajar: {
+          calorias: 170, proteinas: 3, carbohidratos: 24, grasas: 6,
+          ingredientes: {
+            1: { cantidad: "¼ taza (60 ml)", calorias: 45 },
+            3: { nombre: "Sin arepa", cantidad: "—", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 360, proteinas: 12, carbohidratos: 42, grasas: 16,
+          ingredientes: {
+            3: { cantidad: "1 mediana (90 g)", calorias: 150 },
+          },
+          ingredientesExtra: [
+            { nombre: "Proteína vegetal en polvo", cantidad: "1 scoop (30 g)", calorias: 110 },
+          ],
+        },
+        tonificar: {
+          calorias: 200, proteinas: 4, carbohidratos: 28, grasas: 8,
+          ingredientes: {
+            1: { cantidad: "⅓ taza (80 ml)", calorias: 60 },
+          },
+        },
+      },
       preparacion: [
         "Cocina la ahuyama con cebolla y ajo hasta ablandar",
         "Licúa con la leche de coco hasta obtener crema suave",
@@ -1146,6 +2338,31 @@ const RECETAS = {
         { nombre: "Plátano verde",         cantidad: "¼ unidad (40 g)",   calorias: 30  },
         { nombre: "Cebolla, ajo, cilantro",cantidad: "al gusto",          calorias: 15  },
       ],
+      variantes: {
+        bajar: {
+          calorias: 160, proteinas: 5, carbohidratos: 32, grasas: 1,
+          ingredientes: {
+            0: { cantidad: "½ mediana (65 g)", calorias: 45 },
+            3: { nombre: "Sin plátano", cantidad: "—", calorias: 0 },
+          },
+        },
+        masa: {
+          calorias: 340, proteinas: 14, carbohidratos: 58, grasas: 4,
+          ingredientes: {
+            0: { cantidad: "1½ medianas (200 g)", calorias: 135 },
+            3: { cantidad: "½ unidad (80 g)", calorias: 60 },
+          },
+          ingredientesExtra: [
+            { nombre: "Frijoles cocinados", cantidad: "¼ taza (50 g)", calorias: 65 },
+          ],
+        },
+        tonificar: {
+          calorias: 190, proteinas: 7, carbohidratos: 38, grasas: 2,
+          ingredientes: {
+            0: { cantidad: "¾ mediana (100 g)", calorias: 70 },
+          },
+        },
+      },
       preparacion: [
         "Prepara hogao vegetal con cebolla, tomate y ajo",
         "Agrega agua y lleva a hervor",
@@ -1157,6 +2374,26 @@ const RECETAS = {
   ],
 };
 
+// ─── APLICAR VARIANTE POR OBJETIVO ──────────────────────────
+function aplicarVariante(receta, objetivo) {
+  if (!objetivo || objetivo === "mantener" || !receta.variantes?.[objetivo]) return receta;
+  const v = receta.variantes[objetivo];
+  const m = { ...receta };
+  if (v.calorias !== undefined)      m.calorias      = v.calorias;
+  if (v.proteinas !== undefined)     m.proteinas     = v.proteinas;
+  if (v.carbohidratos !== undefined) m.carbohidratos = v.carbohidratos;
+  if (v.grasas !== undefined)        m.grasas        = v.grasas;
+  m.ingredientes = receta.ingredientes.map((ing, i) =>
+    v.ingredientes?.[i] ? { ...ing, ...v.ingredientes[i] } : { ...ing }
+  );
+  if (v.ingredientesExtra?.length) m.ingredientes = [...m.ingredientes, ...v.ingredientesExtra];
+  if (v.preparacion) {
+    m.preparacion = receta.preparacion.map((paso, i) =>
+      v.preparacion[i] !== undefined ? v.preparacion[i] : paso
+    );
+  }
+  return m;
+}
 
 // ============================================================
 // PLANEADOR DEL DÍA
@@ -1353,7 +2590,55 @@ function getEmoji(receta) {
 // Colores de fondo para tarjetas sin foto (por tipo de comida)
 const SIN_FOTO_COLOR = { desayuno: "#e07a5f", once: "#52b788", almuerzo: "#2d6a4f", cena: "#264653" };
 
+const FOTOS_LOCAL = {
+  calentado_fruta:       "Desayunos/calentado bandeja paisa.png",
+  huevos_pericos_fruta:  "Desayunos/huevos pericos con arepa.jpeg",
+  changua_fruta:         "Desayunos/changua acompañada de fruta.png",
+  avena_huevo_fruta:     "Desayunos/avena con banano y huevo.png",
+  arepa_huevo_fruta:     "Desayunos/Arepa de choclo con huevo y fruta.png",
+  chocolate_queso_arepa: "Desayunos/chocolate santafereño con huevo y arepa.png",
+  revuelto_choclo_arepa: "Desayunos/Revuelto de choclo con huevo y arepa.png",
+  avena_vegana_fruta:    "Desayunos/Avema vegana con fruta y semillas.png",
+  arepa_aguacate_vegana: "Desayunos/arepa con aguacate y tomate.png",
+  chontaduro:            "onces/Chontaduro con sal y limon.png",
+  arepa_quesito:         "onces/Arepa con agua de panela.png",
+  frutas_limon:          "onces/fruta con sal y limon.png",
+  pandebono:             "onces/Pandebono vallecaucano.png",
+  yogur_granola:         "onces/Yogur con granola y fruta.png",
+  obleas_arequipe:       "onces/Obleas con arequipe.png",
+  bocadillo_queso:       "onces/Bocadillo veleño con queso blanco.png",
+  empanada_pipian:       "onces/Empanada de pipián vallecaucana.png",
+  once_vegana_semillas:  "onces/Frutas con semillas y maní.png",
+  sancocho_pollo:        "Almuerzo/Sancocho de pollo.png",
+  arroz_pollo:           "Almuerzo/Arroz con pollo colombiano.png",
+  ajiaco:                "Almuerzo/Ajiaco bogotano.png",
+  sudado_res:            "Almuerzo/sudado de carne.jpeg",
+  sopa_lentejas:         "Almuerzo/Sopa de lentejas con plátano.png",
+  bandeja_paisa:         "Almuerzo/Bandeja paisa.png",
+  cocido_boyacense:      "Almuerzo/Cocido boyacense.png",
+  arroz_atollado:        "Almuerzo/Arroz atollado con pollo.jpg",
+  "mondongo_antioqueño": "Almuerzo/Mondongo antioqueño.jpeg",
+  arroz_frijoles_vegano: "Almuerzo/Arroz con frijoles, aguacate y plátano.jpeg",
+  crema_papa_criolla:    "Almuerzo/crema de papa criolla.jpg",
+  sancocho_verduras:     "Almuerzo/sopa de verduras.jpg",
+  sopa_pasta:            "Cena/Sopa de pasta con verduras.png",
+  crema_ahuyama:         "Cena/Crema de ahuyama.png",
+  arroz_huevo:           "Cena/Arroz con huevo y ensalada verde.png",
+  caldo_costilla:        "Cena/Caldo de costilla bogotano.png",
+  sopa_fideo:            "Cena/Sopa de fideo con pollo.jpg",
+  sopa_guineo:           "Cena/Sopa de guineo con pollo.png",
+  arroz_leche:           "Cena/Arroz con leche santafereño.webp",
+  crema_ahuyama_vegana:  "Cena/Crema de ahuyama con leche de coco.png",
+  sopa_verduras_vegana:  "Cena/Sopa de verduras colombiana.jpg",
+  caldo_huevo_papa:      "caldo de huevo papa y cilantro.png",
+  arepa_huevo_aromatica: "arepa con huevo cocido y aromatica.png",
+  galletas_arroz_mani:   "galletas de arroz con mantequilla de mani.png",
+  arepa_aguacate_once:   "Arepa con aguacate.png",
+  compota_natural:       "compota de manzana o pera.png",
+};
+
 function urlFoto(receta) {
+  if (FOTOS_LOCAL[receta.id]) return `img/recetas/${FOTOS_LOCAL[receta.id]}`;
   if (!receta.foto) return null;
   if (receta.foto.startsWith('http')) return receta.foto;
   if (receta.foto.startsWith('premium_photo-'))
@@ -1473,6 +2758,9 @@ function renderSeccion(slot) {
     _scoreMap.set(r.id, favScore);
     if (condicion === "embarazo") _embMap.set(r.id, _scoreEmbarazo(r, trimestre));
   });
+
+  // Aplicar variante por objetivo antes de ordenar y mostrar
+  recetas = recetas.map(r => aplicarVariante(r, objetivo));
 
   // Siempre ordenar: salud > favoritos > calorías adecuadas al slot > proteína (masa)
   recetas = [...recetas].sort((a, b) => {
@@ -1603,7 +2891,9 @@ function seleccionarReceta(slotId, recetaId) {
   const fueDeseleccion = selecciones[slotId]?.id === recetaId;
 
   // Agrega tipo del slot para que los filtros de historial funcionen
-  selecciones[slotId] = fueDeseleccion ? null : { ...receta, tipo: slot.tipo };
+  const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
+  const rv = aplicarVariante(receta, _obj);
+  selecciones[slotId] = fueDeseleccion ? null : { ...rv, tipo: slot.tipo };
 
   if (receta?.pesado && !fueDeseleccion) mostrarAvisoHeavy(receta.nota);
 
@@ -1638,7 +2928,9 @@ function swapReceta(slotId, nuevaRecetaId) {
   const receta = (RECETAS[slot.tipo] || []).find(r => r.id === nuevaRecetaId);
   if (!receta) return;
 
-  selecciones[slotId] = { ...receta, tipo: slot.tipo };
+  const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
+  const rv = aplicarVariante(receta, _obj);
+  selecciones[slotId] = { ...rv, tipo: slot.tipo };
   const check = document.getElementById(`check-${slotId}`);
   if (check) check.textContent = "✅";
 
@@ -1655,7 +2947,10 @@ function verRecetaDetalle(slotId, recetaId) {
   const slot   = SLOTS.find(s => s.id === slotId);
   const receta = RECETAS[slot.tipo].find(r => r.id === recetaId);
   if (receta) {
-    localStorage.setItem("recetaActual", JSON.stringify(receta));
+    const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
+    const rv = aplicarVariante(receta, _obj);
+    if (FOTOS_LOCAL[receta.id]) rv._fotoLocal = `img/recetas/${FOTOS_LOCAL[receta.id]}`;
+    localStorage.setItem("recetaActual", JSON.stringify(rv));
     window.location.href = "detalle.html";
   }
 }
@@ -1950,7 +3245,10 @@ function actualizarPlanDelDia() {
 function abrirPlanReceta(tipo, id) {
   const receta = RECETAS[tipo]?.find(r => r.id === id);
   if (receta) {
-    localStorage.setItem("recetaActual", JSON.stringify(receta));
+    const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
+    const rv = aplicarVariante(receta, _obj);
+    if (FOTOS_LOCAL[receta.id]) rv._fotoLocal = `img/recetas/${FOTOS_LOCAL[receta.id]}`;
+    localStorage.setItem("recetaActual", JSON.stringify(rv));
     window.location.href = "detalle.html";
   }
 }

@@ -40,95 +40,116 @@ const FRASES_DIA = [
   { ico:"🎯", txt:"Tu plan de alimentación no es una dieta. Es una inversión. Las dietas terminan. Las inversiones crecen." },
   { ico:"😴", txt:"Duolingo amenaza con que el búho aparece de noche si no estudias. Nosotros somos más sutiles. Por ahora. 🌿" },
   { ico:"⚡", txt:"5 años de malos hábitos no se borran en 2 semanas. Pero 2 semanas de buenos hábitos SÍ cambian cómo te sientes. Comprobado. Empieza." },
+  { ico:"💧", txt:"El 60% de tu cuerpo es agua. En este momento ese porcentaje va bajando. ¿Ya tomaste 2 vasos de agua hoy? No café. Agua." },
+  { ico:"🤔", txt:"Si a las 3pm te sientes cansado/a sin razón, no es el trabajo — es que no tomaste agua, saltaste el almuerzo o los dos. Siempre son los dos." },
+  { ico:"📅", txt:"Llevas días seguidos abriendo esta app. Eso no es casualidad. Es un hábito formándose. Aliméntalo." },
+  { ico:"🧬", txt:"Tu microbioma intestinal cambia en 72 horas con buena alimentación. 3 días. No 3 meses. El cambio empieza casi de inmediato." },
+  { ico:"🌅", txt:"Los que dicen 'no tengo tiempo para comer bien' tienen tiempo para Netflix, Instagram y buscar qué están haciendo mal. El tiempo existe. Las prioridades, no tanto." },
 ];
 
 // ─── MENSAJES DE NOTIFICACIÓN PERSONALIZADOS ─────────────────
 const MENSAJES = {
   meditacion: [
-    "Antes de revisar el teléfono, respira. 10 minutos de meditación y el día empieza diferente. 🧘",
-    "Tu cerebro lleva toda la noche en modo reposo. Dale un arranque suave antes del caos. Abre ViveSano → Ejercicio → Meditación.",
-    "Buenos días. Instagram puede esperar 10 minutos. Tu mente, no tanto. 🌿",
-    "Sientes que el día ya empezó abrumador? Perfecto momento para respirar. 4 segundos inhala, 6 exhala. Repite.",
-    "El 78% de las decisiones malas del día se toman sin haber respirado profundo ni una vez. Medita primero. 🧠",
+    "Antes de revisar el teléfono, respira. 10 minutos y el día empieza diferente. Prometido. 🧘",
+    "Buenos días. Instagram puede esperar exactamente 10 minutos. Tu mente, no tanto. 🌿",
+    "¿Sientes que el día ya empezó abrumador? Perfecto momento para respirar. Abre ViveSano → Meditación.",
+    "El 78% de las malas decisiones del día se toman sin haber respirado profundo ni una vez. Medita primero. 🧠",
+    "Tu cerebro lleva toda la noche en reposo. Dale un arranque suave antes del caos del día. 10 minutos.",
+    "La meditación no requiere silencio perfecto, posición de loto ni incienso. Solo tú, la respiración, y 10 minutos. Eso es todo.",
   ],
   desayuno: [
-    "Tu estómago lleva 8 horas sin comer y tú ahí con el café solo 🌅 Dale. Desayuna.",
-    "Saltarse el desayuno para 'comer menos' es como no poner gasolina para ahorrar plata. Spoiler: terminas varado a las 11am.",
-    "¿Desayuno o esperas al almuerzo con tanta hambre que comes el doble? Matemáticamente el desayuno gana. 🥣",
-    "Tu metabolismo despertó contigo. Está esperando. No lo hagas esperar más.",
-    "Tienes desayuno en tu plan. Alguien lo calculó para tu objetivo. Ya está hecho. Solo falta comértelo. ☀️",
+    "Tu estómago lleva 8 horas sin comer y tú ahí con el café solo. Dale. El metabolismo no espera. 🌅",
+    "Saltarse el desayuno para 'comer menos' es como no poner gasolina para ahorrar plata. Terminas varado a las 11am.",
+    "¿Desayuno ahora o esperas al almuerzo con tanta hambre que comes el doble? Matemáticamente el desayuno gana. 🥣",
+    "Tu metabolismo despertó contigo hace un rato. Sigue esperando. Con mucha, mucha paciencia.",
+    "Tu plan de hoy ya incluye desayuno, calculado para tu objetivo. Solo falta que te lo comas. ☀️",
+    "El 'no tengo hambre en la mañana' lo inventó alguien que come de noche. Si ese eres tú, hola.",
   ],
   once_manana: [
     "Esa vocecita que dice 'espera al almuerzo' es la misma que te hace comer el doble a las 12pm. Onces primero. 🍎",
     "Tu glucosa lleva 3 horas bajando. Un snack ahora evita el modo zombie antes del almuerzo.",
-    "Las onces no son un lujo. Son ingeniería metabólica. Metabolismo activo = mejor quema de grasa.",
-    "Si tu objetivo es músculo: tu cuerpo necesita proteína cada 3-4 horas. Esta es la señal. 💪",
-    "No esperes a tener 'mucha hambre'. Para entonces ya tomaste malas decisiones.",
+    "Las onces no son un lujo. Son ingeniería metabólica. Metabolismo activo = mejor quema durante el día.",
+    "Tu cuerpo necesita combustible cada 3–4 horas para funcionar bien. Esta es la señal. 💪",
+    "No esperes a tener 'mucha hambre'. Para entonces ya tomaste tres malas decisiones sin darte cuenta.",
   ],
   almuerzo: [
     "¿Llevas 5 horas con un tinto y las buenas intenciones? Eso explica el cansancio. Almuerza ya. ☀️",
     "El 'no tengo tiempo de almorzar' lo inventó alguien que luego se comió todo en la cena. 20 minutos. Inviértelos.",
-    "Tienes comida en tu plan. Calculada para ti. El delivery también existe, pero tus objetivos, no tanto después de eso.",
-    "Hora del almuerzo. Si lo tienes listo: eres una persona que se respeta. Si no: hoy aprendiste por qué existe el mercado del sábado. 🍽️",
-    "Tu cerebro funciona con glucosa. Sin almuerzo = mal humor, mala concentración y malas decisiones. Come.",
+    "Tu cerebro funciona con glucosa. Sin almuerzo = mal humor + mala concentración + malas decisiones. Come.",
+    "El almuerzo de hoy es una inversión: energía, concentración y no estar de mal genio toda la tarde.",
+    "Si saltaste el desayuno y ahora tienes más hambre de lo normal... sí, lo sabíamos. Almuerza.",
+    "Hora del almuerzo. Si lo tienes listo: eres una persona que se respeta. Si no: hoy aprendiste para qué es el mercado del sábado. 🍽️",
   ],
   once_tarde: [
     "Faltan 3 horas para la cena. Sin onces llegas con un hambre que justifica cualquier cosa. No le des esa excusa a tu cerebro. 🧁",
     "Las onces de la tarde son el puente entre el almuerzo y la cena. Sin puente, te caes al río del antojo.",
-    "Sí, puedes. No arruina la cena. Tu metabolismo te lo agradece.",
-    "Pequeñas comidas frecuentes = metabolismo activo todo el día. Esta es la pequeña comida frecuente de las 4pm.",
+    "Un snack ahora no arruina la cena. Pero no comer nada sí arruina las decisiones de las próximas 2 horas.",
+    "¿Hambre de las 4pm? Normal. La solución no es ignorarla — es comer algo pequeño y nutritivo ahora mismo.",
     "Si no comes nada ahora, en 2 horas comerás lo primero que encuentres. Que probablemente no es lo que quieres. 🤔",
   ],
   cena: [
-    "Cena antes de las 7:30pm. No es capricho — necesitas 2-3 horas entre cenar y dormir para descansar bien. 🌙",
-    "Tu hígado hace detox mientras duermes. Si lo mandas lleno de comida pesada, trabaja horas extra sin pago. Sé justo/a con él.",
-    "Cena ligera = duermes mejor = te levantas mejor = día mejor. Todo empieza esta noche. 🌙",
-    "Tu yo de mañana a las 6am depende de lo que cenes esta noche. Dale un favor.",
-    "La cena ideal: proteína + verduras. Ni muy poco ni mucho. Tu metabolismo de noche va más lento. Ayúdalo.",
+    "Cena antes de las 7:30pm. Tu hígado hace detox mientras duermes — no lo mandes lleno de comida pesada. 🌙",
+    "Cena ligera = duermes mejor = te levantas mejor = mañana empieza bien. Todo depende de esta noche.",
+    "Tu hígado trabaja horas extra cuando cenas tarde y pesado. Sé considerado/a con él, no te cobra nada.",
+    "Tu yo de mañana a las 6am depende de lo que cenes esta noche. Con cariño, elige bien.",
+    "Proteína + verduras en la cena. Ni muy poco ni mucho. El metabolismo nocturno va más lento. Ayúdalo.",
+    "Cenar a las 9pm no es 'vida moderna'. Es tu sistema digestivo trabajando cuando debería descansar. 🌙",
   ],
   ejercicio: [
-    "¡Hora de entrenar! Tu plan de hoy está listo en la sección Ejercicio & Bienestar. 💪 Abre ViveSano.",
-    "El sofá recuerda perfectamente tu silueta. Vamos a cambiar eso. 30 minutos. Tú puedes.",
-    "¿Cansado/a? El ejercicio genera más energía de la que consume. El cansancio de ANTES de entrenar es mentira que dice el cerebro.",
-    "30 minutos de entrenamiento = un capítulo de serie. Pero uno que sí cambia algo.",
-    "La pereza miente muy bien. Dice que mañana. Mañana también va a decir mañana. HOY. 🔥",
-    "Tu yo del año pasado desearía haber empezado. Tu yo del año que viene te agradece que lo hagas ahora.",
+    "Tu sesión de hoy lleva un rato esperando. Y tú también. Abre ViveSano → Ejercicio. 💪",
+    "El sofá recuerda perfectamente tu silueta. ¿Vamos a cambiar eso hoy, o esperamos otro día más?",
+    "¿Cansado/a? El ejercicio genera más energía de la que consume. El cansancio previo es mentira del cerebro. Comprobado.",
+    "30 minutos de entrenamiento = un capítulo de serie. Pero uno que sí cambia algo real.",
+    "La pereza miente muy bien. Dice 'mañana' todos los días. HOY es el mañana de ayer. 🔥",
+    "Cada entrenamiento que haces es un voto por la persona que quieres ser. ¿Cuántos votos llevas hoy?",
+    "Tu yo del año que viene te agradece cada vez que lo haces hoy aunque no tengas ganas.",
   ],
   mercado: [
     "🛒 Es sábado. Si no haces el mercado HOY, el lunes comerás lo que encuentres. Ya sabes cómo termina eso.",
-    "Un mercado bien hecho el sábado = una semana de buenas decisiones. Un sábado sin mercado = 5 días de 'pido algo'.",
-    "¿Recuerdas esa semana que comiste bien todos los días? Empezó con un mercado el sábado. Esta puede ser igual. 🛒",
-    "El mercado dura 45 minutos. Vale 7 días de salud. La matemática está clara.",
-    "Tu plan de la próxima semana ya está listo en ViveSano. Solo le faltan los ingredientes. Ve hoy. 🥦🍗",
+    "Un mercado bien hecho el sábado = una semana de buenas decisiones. Sin mercado = 5 días de 'pido algo'.",
+    "¿Recuerdas esa semana que comiste bien todos los días? Empezó con un mercado el sábado. Esta puede ser igual.",
+    "El mercado dura 45 minutos. Vale 7 días de salud. La matemática está clarísima. 🥦",
+    "Tu plan de la próxima semana ya está listo en ViveSano. Solo le faltan los ingredientes. Ve hoy. 🍗",
   ],
   medidas: [
-    "📏 Primer día del mes — momento perfecto para registrar tus medidas. Cintura y cadera en ViveSano → Mi Progreso.",
-    "Hoy empieza el mes. ¿Cuánto midió tu cintura el mes pasado? Compara. El número puede sorprenderte — para bien. 📏",
-    "El peso miente a veces. La cintura no. Mídete hoy, primer día del mes, y lleva registro real de tu progreso. 📏",
+    "📏 Primer día del mes — momento perfecto para medir cintura y cadera. ViveSano → Mi Progreso.",
+    "Hoy empieza el mes. ¿Cuánto midió tu cintura el mes pasado? El número puede sorprenderte — para bien.",
+    "El peso fluctúa. La cintura no miente. Mídete hoy y lleva el registro real de tu progreso. 📏",
   ],
 };
 
 // ─── MENSAJES PERSONALIZADOS POR CONDICIÓN ───────────────────
 const MSG_CONDICION = {
   diabetes: {
-    once_manana: "Con diabetes es ESENCIAL no saltarte las onces. Mantén la glucosa estable. 🍎",
-    almuerzo:    "Almuerzo a tiempo = glucosa estable. Saltarlo puede causar hipoglucemia. Cuídate. ☀️",
-    cena:        "Cena controlada en carbohidratos esta noche. Tu glucosa de mañana depende de esto. 🌙",
+    once_manana: "⚠️ Con diabetes no saltarse las onces es ESENCIAL. Glucosa estable = menos riesgos. Come algo ahora. 🍎",
+    almuerzo:    "⚠️ Almuerzo a tiempo = glucosa estable. Saltarlo puede causar hipoglucemia. Cuídate, come. ☀️",
+    cena:        "⚠️ Cena controlada en carbohidratos esta noche. Tu glucosa de mañana en ayunas depende de esto. 🌙",
+    desayuno:    "⚠️ Con diabetes el desayuno equilibrado regula tu glucosa todo el día. No lo saltes. 🌅",
+    ejercicio:   "Con diabetes el ejercicio ayuda a la sensibilidad a la insulina. Tu plan de hoy es moderado y seguro. 💪",
   },
   cardiaca: {
-    ejercicio:   "Tu plan de hoy es seguro para tu corazón: sin HIIT, sin saltos. Intensidad moderada. ❤️ ¡Vamos con calma!",
-    meditacion:  "La meditación reduce la presión arterial y el estrés cardiovascular. Hoy la necesitas doble. 🧘",
-    desayuno:    "Desayuno bajo en sodio y grasas saturadas. Tu corazón trabaja duro — dale buenos combustibles. ❤️",
+    ejercicio:   "❤️ Tu plan de hoy es seguro para tu corazón: sin HIIT, sin saltos, intensidad moderada. Vamos con calma.",
+    meditacion:  "❤️ La meditación reduce la presión arterial y el estrés cardiovascular. Hoy la necesitas doble. 🧘",
+    desayuno:    "❤️ Desayuno bajo en sodio y grasas saturadas. Tu corazón trabaja duro — dale buenos combustibles.",
+    cena:        "❤️ Cena ligera y baja en grasa saturada esta noche. Tu corazón lo agradece mientras duermes.",
   },
   hipertension: {
-    ejercicio:   "Ejercicio moderado de hoy. Nada de HIIT. Hidratación constante y si sientes algo raro, para. ❤️",
-    meditacion:  "La meditación baja la presión arterial. 10 minutos hoy pueden hacer diferencia.",
-    cena:        "Cena ligera y baja en sal esta noche. La hipertensión agradece las cenas suaves. 🌙",
+    ejercicio:   "❤️ Ejercicio moderado hoy. Nada de HIIT. Hidratación constante y si sientes algo raro, para.",
+    meditacion:  "❤️ La meditación baja la presión arterial. 10 minutos hoy pueden hacer diferencia real. 🧘",
+    cena:        "❤️ Cena ligera y baja en sal esta noche. La hipertensión agradece las cenas suaves. 🌙",
+    almuerzo:    "❤️ Almuerzo sin sal extra hoy. Condimenta con limón, ajo o especias. Tu presión te lo agradece.",
+  },
+  renal: {
+    almuerzo:    "⚠️ Recuerda: control de potasio y fósforo en el almuerzo. Tu plan está adaptado para ti. ☀️",
+    cena:        "⚠️ Cena ligera y baja en sal. Tus riñones trabajan mejor con menos carga de noche. 🌙",
+    once_manana: "⚠️ Snack bajo en potasio hoy. Evita banano, aguacate y naranja si tu médico lo indicó. 🍎",
   },
   embarazo: {
-    ejercicio:    "Tu sesión prenatal de hoy es suave y segura para ti y tu bebé. 🤱 Con calma.",
-    once_manana:  "El bebé también necesita nutrientes cada pocas horas. Onces importantes. 🍎",
-    cena:         "Cena nutritiva esta noche. Tu cuerpo está trabajando el doble. Cuídalo bien. 🌙",
+    ejercicio:    "🤱 Tu sesión prenatal de hoy es suave y segura para ti y tu bebé. Escucha a tu cuerpo, sin forzar.",
+    once_manana:  "🤱 El bebé también necesita nutrientes cada pocas horas. Las onces son más importantes que antes. 🍎",
+    cena:         "🤱 Cena nutritiva esta noche. Folato, calcio, hierro. Tu cuerpo está trabajando el doble — cuídalo.",
+    desayuno:     "🤱 Desayuno rico en hierro y proteína esta mañana. Tu bebé y tú lo necesitan para empezar bien.",
+    meditacion:   "🤱 10 minutos de meditación hoy conectan a mamá y bebé. El estrés bajo = mejor desarrollo fetal. 🧘",
   },
 };
 
@@ -143,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHeader(u);
   renderPermiso();
   renderFraseDia();
+  renderSetupHorario(u);
   renderTimeline();
   renderGrupo("bienestar",  "rec-lista-bienestar");
   renderGrupo("comidas",    "rec-lista-comidas");
@@ -181,6 +203,54 @@ function renderFraseDia() {
   const txt   = document.getElementById("rec-frase-txt");
   if (ico) ico.querySelector(".rec-frase-owl").textContent = frase.ico;
   if (txt) txt.textContent = frase.txt;
+}
+
+// ─── SETUP HORARIO ENTRENAMIENTO ─────────────────────────────
+// Si el usuario nunca configuró su hora de entrenamiento, lo preguntamos aquí.
+function renderSetupHorario(u) {
+  const cont = document.getElementById("rec-setup-card");
+  if (!cont) return;
+  const yaSet = localStorage.getItem("vsHorarioEntrenamientoSet");
+  if (yaSet) { cont.innerHTML = ""; return; }
+
+  const OBJ = { bajar:"bajar de peso 🔥", masa:"ganar músculo 💪", tonificar:"tonificar ⚡", mantener:"mantenerte 🌿" };
+  const meta = u?.objetivo ? OBJ[u.objetivo] : "tu objetivo";
+  const metaEj = _config.find(r => r.id === "ejercicio");
+  const horaActual = metaEj?.hora || "17:00";
+
+  cont.innerHTML = `
+    <div class="rec-setup-card-box">
+      <button class="rec-setup-x" onclick="cerrarSetupHorario()" aria-label="Cerrar">×</button>
+      <div class="rec-setup-ico">💪</div>
+      <div class="rec-setup-body">
+        <h3>¿A qué hora entrenas?</h3>
+        <p>Para ${meta} necesitas constancia. Dinos tu horario habitual y te mandamos el recordatorio en el momento exacto.</p>
+        <div class="rec-setup-row">
+          <input type="time" id="rec-setup-hora-ej" value="${horaActual}" class="rec-setup-time">
+          <button class="rec-setup-guardar" onclick="guardarHorarioEntrenamiento()">Guardar 💾</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function guardarHorarioEntrenamiento() {
+  const inp = document.getElementById("rec-setup-hora-ej");
+  if (!inp) return;
+  const hora = inp.value;
+  const item = _config.find(r => r.id === "ejercicio");
+  if (item) { item.hora = hora; guardarConfig(_config); renderTimeline(); renderGrupo("ejercicio","rec-lista-ejercicio"); }
+  localStorage.setItem("vsHorarioEntrenamientoSet", "1");
+  const cont = document.getElementById("rec-setup-card");
+  if (cont) {
+    cont.innerHTML = `<div class="rec-setup-ok">✅ Perfecto. Te recordamos entrenar a las <strong>${hora}</strong>. Puedes cambiarlo abajo si lo necesitas.</div>`;
+    setTimeout(() => { if (cont) cont.innerHTML = ""; }, 5000);
+  }
+}
+
+function cerrarSetupHorario() {
+  localStorage.setItem("vsHorarioEntrenamientoSet", "skip");
+  const cont = document.getElementById("rec-setup-card");
+  if (cont) cont.innerHTML = "";
 }
 
 // ─── TIMELINE DEL DÍA ─────────────────────────────────────────
@@ -452,8 +522,12 @@ function buildMensaje(id, u) {
       const P = { cardio:[["circ_cardio","yoga_basico","cali_inferior","med_respiracion","circ_fuerza","yoga_restaurativo","descanso"],["cali_inferior","circ_cardio","med_corporal","circ_fuerza","yoga_espalda","circ_core","descanso"],["circ_fuerza","med_visualizacion","circ_cardio","yoga_basico","cali_inferior","med_mindfulness","descanso"],["yoga_basico","circ_cardio","cali_inferior","circ_core","med_respiracion","circ_fuerza","descanso"]], fuerza:[["cali_superior","cali_inferior","circ_core","med_respiracion","cali_superior","yoga_espalda","descanso"],["cali_inferior","circ_fuerza","cali_superior","med_corporal","cali_inferior","yoga_restaurativo","descanso"],["circ_fuerza","cali_superior","med_visualizacion","cali_inferior","circ_core","yoga_basico","descanso"],["cali_superior","med_mindfulness","cali_inferior","circ_fuerza","cali_superior","yoga_espalda","descanso"]], balanceado:[["circ_fuerza","yoga_basico","cali_superior","med_respiracion","cali_inferior","yoga_restaurativo","descanso"],["yoga_espalda","circ_cardio","med_corporal","cali_superior","circ_core","yoga_basico","descanso"],["cali_inferior","med_visualizacion","circ_fuerza","yoga_restaurativo","cali_superior","med_mindfulness","descanso"],["circ_core","yoga_basico","circ_cardio","med_respiracion","cali_inferior","yoga_espalda","descanso"]], prenatal:[["yoga_prenatal","descanso","med_respiracion","yoga_prenatal","descanso","med_visualizacion","descanso"],["med_corporal","yoga_prenatal","descanso","med_mindfulness","yoga_prenatal","descanso","med_respiracion"],["yoga_prenatal","med_respiracion","descanso","yoga_prenatal","med_corporal","descanso","med_visualizacion"],["descanso","yoga_prenatal","med_mindfulness","descanso","yoga_prenatal","med_respiracion","descanso"]] };
       const N = { circ_fuerza:"Circuito de Fuerza", circ_cardio:"Cardio HIIT", circ_core:"Core & Estabilidad", cali_superior:"Calistenia Tren Superior", cali_inferior:"Calistenia Tren Inferior", yoga_basico:"Yoga Básico", yoga_espalda:"Yoga para la Espalda", yoga_restaurativo:"Yoga Restaurativo", yoga_prenatal:"Yoga Prenatal", med_respiracion:"Meditación Respiración", med_corporal:"Escaneo Corporal", med_visualizacion:"Visualización Guiada", med_mindfulness:"Mindfulness", descanso:"Descanso Activo" };
       const sesId = P[tipo]?.[wk]?.[hoyIdx];
-      if (sesId && sesId !== "descanso") return `💪 Hoy toca: ${N[sesId]}. Abre ViveSano → Ejercicio & Bienestar → Iniciar sesión. Sin excusas.`;
-      if (sesId === "descanso") return `🚶 Hoy es día de descanso activo. Una caminata de 20 min y estiramientos suaves. El cuerpo también necesita recuperarse.`;
+      if (sesId && sesId !== "descanso") {
+        const OBJ_MSG = { bajar:"para quemar grasa", masa:"para construir músculo", tonificar:"para tonificar", mantener:"para mantenerte" };
+        const meta = OBJ_MSG[u.objetivo] || "según tu plan";
+        return `💪 Hoy toca: ${N[sesId]} ${meta}. Abre ViveSano → Ejercicio. El sofá puede esperar. Tú también puedes, pero eso no te ayuda.`;
+      }
+      if (sesId === "descanso") return `🚶 Hoy es día de descanso activo. El descanso ES parte del entrenamiento — 20 min de caminata y estiramientos. No es día libre, es recuperación.`;
     } catch(e) { /* fallback */ }
   }
 

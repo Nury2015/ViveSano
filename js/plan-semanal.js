@@ -37,6 +37,8 @@ function _filtrarRecetas(tipo) {
   if (enfermedad !== "ninguna") r = r.filter(x => !x.contraindicada?.includes(enfermedad));
   if (condicion === "embarazo") r = r.filter(x => !x.contraindicada?.includes("embarazo"));
 
+  if (typeof aplicarVariante === "function") r = r.map(x => aplicarVariante(x, objetivo));
+
   // Ordenar por prioridad según objetivo
   if (condicion === "embarazo" && typeof _scoreEmbarazo === "function") {
     r.sort((a, b) => _scoreEmbarazo(b, trimestre) - _scoreEmbarazo(a, trimestre));

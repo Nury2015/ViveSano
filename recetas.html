@@ -607,6 +607,8 @@ function generarConMisIngredientes() {
 }
 
 function abrirReceta(receta) {
+  if (typeof FOTOS_LOCAL !== "undefined" && receta.id && FOTOS_LOCAL[receta.id])
+    receta._fotoLocal = `img/recetas/${FOTOS_LOCAL[receta.id]}`;
   localStorage.setItem("recetaActual", JSON.stringify(receta));
   window.location.href = "detalle.html";
 }

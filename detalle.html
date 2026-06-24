@@ -263,9 +263,11 @@ if (!receta) {
     + "No hay receta guardada. <a href='recetas.html' style='color:#2e7d32'>Volver</a></p>";
 } else {
 
-  // Imagen
+  // Imagen — usa foto local si existe, sino Unsplash
   const img = document.getElementById("imagenReceta");
-  if (receta.foto) {
+  if (receta._fotoLocal) {
+    img.src = receta._fotoLocal;
+  } else if (receta.foto) {
     if (receta.foto.startsWith('http')) img.src = receta.foto;
     else if (receta.foto.startsWith('premium_photo-'))
       img.src = `https://plus.unsplash.com/${receta.foto}?w=800&h=340&fit=crop&auto=format&q=80`;

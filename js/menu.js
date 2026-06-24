@@ -2,7 +2,7 @@
 const SEARCH_ITEMS = [
   { ico:"📊", cat:"Sección", nombre:"Mi Progreso",          url:"progreso.html" },
   { ico:"💪", cat:"Sección", nombre:"Ejercicio & Bienestar", url:"ejercicio.html" },
-  { ico:"🧘", cat:"Sección", nombre:"Meditación guiada",    url:"ejercicio.html?tab=meditacion" },
+  { ico:"🧘", cat:"Sección", nombre:"Meditación & Bienestar",url:"meditacion.html" },
   { ico:"🔔", cat:"Sección", nombre:"Mi Día / Recordatorios",url:"recordatorios.html" },
   { ico:"📷", cat:"Sección", nombre:"Analizar Plato",       url:"analizar-plato.html" },
   { ico:"🥗", cat:"Sección", nombre:"Mis Recetas",          url:"recetas.html" },
@@ -22,13 +22,13 @@ const SEARCH_ITEMS = [
   { ico:"🏃", cat:"Ejercicio", nombre:"Saltos de tijera",     url:"ejercicio.html" },
   { ico:"🏃", cat:"Ejercicio", nombre:"High knees",           url:"ejercicio.html" },
   { ico:"🏃", cat:"Ejercicio", nombre:"Circuito HIIT",        url:"ejercicio.html" },
-  { ico:"🧘", cat:"Meditación", nombre:"Yoga Básico",          url:"ejercicio.html?tab=meditacion" },
-  { ico:"🧘", cat:"Meditación", nombre:"Yoga para la Espalda", url:"ejercicio.html?tab=meditacion" },
-  { ico:"🧘", cat:"Meditación", nombre:"Yoga Restaurativo",    url:"ejercicio.html?tab=meditacion" },
-  { ico:"🧘", cat:"Meditación", nombre:"Respiración 4-7-8",   url:"ejercicio.html?tab=meditacion" },
-  { ico:"🧘", cat:"Meditación", nombre:"Escaneo Corporal",     url:"ejercicio.html?tab=meditacion" },
-  { ico:"🧘", cat:"Meditación", nombre:"Visualización Guiada", url:"ejercicio.html?tab=meditacion" },
-  { ico:"🧘", cat:"Meditación", nombre:"Mindfulness",          url:"ejercicio.html?tab=meditacion" },
+  { ico:"🧘", cat:"Meditación", nombre:"Yoga Básico",          url:"meditacion.html" },
+  { ico:"🧘", cat:"Meditación", nombre:"Yoga para la Espalda", url:"meditacion.html" },
+  { ico:"🧘", cat:"Meditación", nombre:"Yoga Restaurativo",    url:"meditacion.html" },
+  { ico:"🧘", cat:"Meditación", nombre:"Respiración 4-7-8",   url:"meditacion.html" },
+  { ico:"🧘", cat:"Meditación", nombre:"Escaneo Corporal",     url:"meditacion.html" },
+  { ico:"🧘", cat:"Meditación", nombre:"Visualización Guiada", url:"meditacion.html" },
+  { ico:"🧘", cat:"Meditación", nombre:"Mindfulness",          url:"meditacion.html" },
 ];
 
 function _normalizar(s) {
@@ -178,14 +178,19 @@ window.iniciarMenu = iniciarMenu;
       if (r.diaDelMes && ahora.getDate() !== r.diaDelMes) return;
       if (yaVistos.includes(r.id)) return;
 
+      const u    = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+      const obj  = { bajar:"bajar de peso", masa:"ganar músculo", tonificar:"tonificar", mantener:"mantenerte" };
+      const meta = obj[u?.objetivo] || "tu objetivo";
       const MENS = {
-        desayuno:    "¡Hora del desayuno! Empieza el día con energía 💪",
-        once_manana: "¡Hora de tus onces! Un snack saludable te espera 🍎",
-        almuerzo:    "¡Hora del almuerzo! Recarga energías para la tarde ☀️",
-        once_tarde:  "¡Merienda! Mantén tu metabolismo activo 🧁",
-        cena:        "¡Hora de cenar! Una cena liviana es lo ideal 🌙",
-        ejercicio:   "¡Hora de entrenar! Tu cuerpo te lo va a agradecer 💪",
-        meditacion:  "Momento de meditar. Respira profundo. 🧘",
+        desayuno:    `Tu metabolismo lleva horas esperando. Desayuna ahora — sin desayuno, a las 11am comes el doble. 🌅`,
+        once_manana: `Onces. No es lujo, es biología: glucosa estable = mejor humor + concentración. Come algo. 🍎`,
+        almuerzo:    `Almuerzo. Sin esto, tu cerebro tomará malas decisiones toda la tarde. Tiene datos. ☀️`,
+        once_tarde:  `Sin merienda llegas a la cena con un hambre que justifica cualquier cosa. No le des esa excusa a tu cerebro. 🧁`,
+        cena:        `Cena antes de las 7:30pm. Tu hígado hace detox de noche — no lo mandes lleno. 🌙`,
+        ejercicio:   `Tu sesión de hoy para ${meta} lleva un rato esperando. El sofá también. Tú decides. 💪`,
+        meditacion:  `10 min de meditación = mejor humor, menos cortisol, mejores decisiones. Netflix puede esperar. 🧘`,
+        mercado:     `Sábado de mercado. Si no compras hoy, el lunes comerás lo que encuentres. Ya sabes cómo termina eso. 🛒`,
+        medidas:     `Primer día del mes — momento de registrar medidas. El número puede sorprenderte, para bien. 📏`,
       };
 
       new Notification("ViveSano 🥗", {

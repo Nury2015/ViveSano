@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meditación & Bienestar — ViveSano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/ejercicio.css">
+  <link rel="stylesheet" href="css/meditacion.css">
+  <link rel="stylesheet" href="css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+</head>
+<body>
+
+<div id="menu"></div>
+
+<main class="med-main">
+
+  <!-- HEADER -->
+  <div class="med-header">
+    <div class="med-header-orbs">
+      <div class="med-orb med-orb-1"></div>
+      <div class="med-orb med-orb-2"></div>
+      <div class="med-orb med-orb-3"></div>
+    </div>
+    <div class="med-header-content">
+      <h1>🧘 Meditación &amp; Bienestar</h1>
+      <p id="med-subtitulo">Conecta con tu mente · sesiones guiadas de meditación y yoga</p>
+    </div>
+  </div>
+
+  <!-- ESTADO HOY -->
+  <div id="med-estado-hoy" class="med-estado-hoy"></div>
+
+  <!-- SESIÓN DE HOY (según plan semanal) -->
+  <div id="med-sesion-hoy"></div>
+
+  <!-- ── MEDITACIONES GUIADAS ── -->
+  <div class="med-seccion">
+    <h2 class="med-seccion-titulo"><span class="med-sec-ico">🌬️</span> Meditaciones guiadas</h2>
+    <p class="med-seccion-sub">10–15 min · Siéntate o acuéstate cómodamente</p>
+    <div class="med-grid" id="med-grid-meditacion"></div>
+  </div>
+
+  <!-- ── YOGA ── -->
+  <div class="med-seccion">
+    <h2 class="med-seccion-titulo"><span class="med-sec-ico">🌿</span> Yoga &amp; Flexibilidad</h2>
+    <p class="med-seccion-sub">30–40 min · Con colchoneta o en el piso</p>
+    <div class="med-grid" id="med-grid-yoga"></div>
+  </div>
+
+  <!-- ── DESCANSO ── -->
+  <div class="med-seccion">
+    <h2 class="med-seccion-titulo"><span class="med-sec-ico">🚶</span> Descanso activo</h2>
+    <p class="med-seccion-sub">20 min · Caminata suave + estiramientos generales</p>
+    <div class="med-grid" id="med-grid-descanso"></div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="med-tips-card">
+    <h3>🌿 ¿Qué necesitas para meditar?</h3>
+    <ul class="med-tips-lista">
+      <li>✅ Un lugar tranquilo: habitación, balcón o jardín</li>
+      <li>✅ 10–20 minutos sin interrupciones</li>
+      <li>✅ Ropa cómoda · posición sentada o acostada</li>
+      <li>🎧 Audífonos (opcionales — mejoran la concentración)</li>
+      <li>🕯️ Luz tenue (opcional — favorece la relajación)</li>
+    </ul>
+    <p class="med-tips-nota">La meditación regular reduce el cortisol, mejora la calidad del sueño y ayuda a tomar mejores decisiones en la alimentación.</p>
+  </div>
+
+</main>
+
+<!-- ════ OVERLAY: SESIÓN GUIADA (meditación + yoga) ════ -->
+<div id="med-overlay" class="ej-overlay ej-overlay-dark" style="display:none">
+  <div class="ej-med-overlay-header">
+    <button id="med-btn-cerrar" aria-label="Cerrar" style="min-width:44px;min-height:44px;background:rgba(255,255,255,0.15);border:none;color:white;font-size:20px;border-radius:50%;cursor:pointer;touch-action:manipulation">✕</button>
+    <div class="ej-overlay-progreso-bar">
+      <div id="med-barra" class="ej-barra-fill" style="background:#4caf50"></div>
+    </div>
+    <span id="med-paso-label" class="ej-overlay-paso-label" style="color:rgba(255,255,255,0.5)"></span>
+  </div>
+  <div class="ej-med-overlay-body">
+    <div id="med-burbuja" class="ej-respiracion-burbuja" style="display:none"></div>
+    <div id="med-tipo-badge" class="med-overlay-badge"></div>
+    <h3 id="med-titulo" class="ej-med-titulo"></h3>
+    <p id="med-texto" class="ej-med-texto"></p>
+    <div id="med-timer" class="ej-med-timer"></div>
+  </div>
+  <div class="ej-med-overlay-footer">
+    <button onclick="medSaltar()">Saltar →</button>
+    <button id="med-pausar" onclick="medPausar()">⏸ Pausar</button>
+  </div>
+</div>
+
+<script src="js/menu.js"></script>
+<script>
+fetch("components/menu.html")
+  .then(r => r.text())
+  .then(data => {
+    document.getElementById("menu").innerHTML = data;
+    setTimeout(() => iniciarMenu(), 0);
+  });
+</script>
+<script src="js/meditacion.js"></script>
+<script src="js/auth.js"></script>
+<script>
+auth.onAuthStateChanged(user => {
+  if (user && typeof actualizarNavUsuario === "function") actualizarNavUsuario(user);
+});
+</script>
+
+</body>
+</html>

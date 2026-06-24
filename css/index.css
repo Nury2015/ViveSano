@@ -653,9 +653,10 @@ button[type="submit"] {
 .wizard-nav-split {
   display: flex;
   gap: 10px;
+  align-items: stretch;
 }
 
-.wizard-nav-split button { flex: 1; }
+.wizard-nav-split button { flex: 1; margin-top: 0 !important; }
 
 .btn-back {
   background: rgba(255,255,255,0.1) !important;
