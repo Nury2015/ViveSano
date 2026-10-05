@@ -1,0 +1,46 @@
+rules_version = '2';
+
+// Reglas de Firestore — ViveSano
+// Las Cloud Functions (Admin SDK) no pasan por estas reglas,
+// así que pueden escribir `suscripcion` y `uso` sin problema.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function esDueno(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // Campos que solo el servidor puede escribir
+    function camposProtegidos() {
+      return ['suscripcion'];
+    }
+
+    match /usuarios/{uid} {
+      allow read: if esDueno(uid);
+
+      allow create: if esDueno(uid)
+        && !request.resource.data.keys().hasAny(camposProtegidos());
+
+      allow update: if esDueno(uid)
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(camposProtegidos());
+
+      allow delete: if false;
+
+      // Historial de peso: el usuario lo gestiona libremente
+      match /pesos/{pesoId} {
+        allow read, write: if esDueno(uid);
+      }
+
+      // Contador de análisis gratuitos: solo lectura para el cliente
+      match /uso/{dia} {
+        allow read: if esDueno(uid);
+        allow write: if false;
+      }
+    }
+
+    // Todo lo demás, cerrado
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

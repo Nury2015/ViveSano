@@ -1,5 +1,5 @@
 const { onCall, onRequest, HttpsError } = require("firebase-functions/v2/https");
-const { defineSecret }  = require("firebase-functions/params");
+const { defineSecret, defineString } = require("firebase-functions/params");
 const admin             = require("firebase-admin");
 
 admin.initializeApp();
@@ -9,6 +9,9 @@ const db = admin.firestore();
 const geminiKey        = defineSecret("GEMINI_API_KEY");
 const stripeSecretKey  = defineSecret("STRIPE_SECRET_KEY");
 const stripeWebhookSec = defineSecret("STRIPE_WEBHOOK_SECRET");
+
+// ── Parámetros (se configuran en functions/.env) ──
+const stripePriceId    = defineString("STRIPE_PRICE_ID"); // único precio aceptado en el checkout
 
 // ── Constantes ───────────────────────────────────────────────
 const GEMINI_MODEL  = "gemini-1.5-flash";
@@ -81,6 +84,10 @@ exports.crearCheckout = onCall(
   async (request) => {
     if (!request.auth) throw new HttpsError("unauthenticated", "Debes iniciar sesión.");
 
+    // Solo se acepta el precio configurado en el servidor
+    if (request.data?.priceId !== stripePriceId.value())
+      throw new HttpsError("invalid-argument", "Plan no válido.");
+
     const Stripe = require("stripe");
     const stripe = Stripe(stripeSecretKey.value());
     const uid    = request.auth.uid;
@@ -103,7 +110,7 @@ exports.crearCheckout = onCall(
       customer:             customerId,
       payment_method_types: ["card"],
       line_items: [{
-        price:    request.data.priceId, // ID del precio en Stripe
+        price:    stripePriceId.value(), // ID del precio en Stripe
         quantity: 1,
       }],
       success_url: `${APP_URL}/suscripcion.html?exito=1&session_id={CHECKOUT_SESSION_ID}`,
