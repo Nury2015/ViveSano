@@ -7,6 +7,12 @@
 const LS_KEY = "pesosHistorial";
 let _uid = null; // UID del usuario logueado (null = solo local)
 
+// Escapa texto escrito por el usuario antes de insertarlo como HTML
+function _esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c =>
+    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+
 // ─── Referencia a la colección Firestore ─────────────────────
 function _pesosRef() {
   return typeof db !== "undefined" && _uid
@@ -247,7 +253,7 @@ function renderChart(datos) {
     const fill = i === n - 1 ? "#2e7d32" : "white";
     return `<circle cx="${cx}" cy="${cy}" r="${big ? 5 : 3.5}"
                     fill="${fill}" stroke="#2e7d32" stroke-width="2">
-              <title>${d.fecha}: ${d.peso} kg${d.nota ? " · " + d.nota : ""}</title>
+              <title>${d.fecha}: ${d.peso} kg${d.nota ? " · " + _esc(d.nota) : ""}</title>
             </circle>`;
   }).join("");
 
@@ -318,7 +324,7 @@ function renderHistorial(datos) {
         <div class="prog-hist-centro">
           <span class="prog-hist-peso">${d.peso}<span> kg</span></span>
           ${medidas ? `<span class="prog-hist-medidas">${medidas}</span>` : ""}
-          ${d.nota  ? `<span class="prog-hist-nota">${d.nota}</span>` : ""}
+          ${d.nota  ? `<span class="prog-hist-nota">${_esc(d.nota)}</span>` : ""}
         </div>
         ${deltaHTML}
         <button class="btn-del-peso" onclick="borrarPeso('${d.id}')" title="Borrar registro">🗑️</button>

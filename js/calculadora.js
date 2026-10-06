@@ -12,7 +12,7 @@ function irPaso(n) {
   }
   if (n === 3) {
     if (!document.getElementById("actividad").value) {
-      mostrarMensaje("Falta un dato", "Seleccioná tu nivel de actividad física.");
+      mostrarMensaje("Falta un dato", "Selecciona tu nivel de actividad física.");
       return;
     }
   }

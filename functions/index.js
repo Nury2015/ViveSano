@@ -11,28 +11,35 @@ const stripeSecretKey  = defineSecret("STRIPE_SECRET_KEY");
 const stripeWebhookSec = defineSecret("STRIPE_WEBHOOK_SECRET");
 
 // ── Parámetros (se configuran en functions/.env) ──
-const stripePriceId    = defineString("STRIPE_PRICE_ID"); // único precio aceptado en el checkout
+const stripePriceId    = defineString("STRIPE_PRICE_ID", { default: "" }); // único precio aceptado en el checkout
+// "gemini-flash-latest" siempre apunta al Flash vigente, así no se rompe cuando Google retira un modelo
+const geminiModel      = defineString("GEMINI_MODEL", { default: "gemini-flash-latest" });
 
 // ── Constantes ───────────────────────────────────────────────
-const GEMINI_MODEL  = "gemini-1.5-flash";
-const GEMINI_URL    = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 const LIMITE_GRATIS = 3;  // análisis gratis por día
 const APP_URL       = "https://nury2015.github.io/ViveSano";
+const MAX_IMAGEN_B64 = 4 * 1024 * 1024; // ~3 MB de imagen
+const TIPOS_IMAGEN  = ["image/jpeg", "image/png", "image/webp"];
 
 // ════════════════════════════════════════════════════════════
 // 1. ANALIZAR PLATO (verifica acceso + llama Gemini)
 // ════════════════════════════════════════════════════════════
 exports.analizarPlatoIA = onCall(
-  { secrets: [geminiKey], region: "us-central1" },
+  { secrets: [geminiKey], region: "us-central1", timeoutSeconds: 60 },
   async (request) => {
     if (!request.auth) throw new HttpsError("unauthenticated", "Debes iniciar sesión para usar esta función.");
 
     const uid = request.auth.uid;
-    const { imagenBase64, mediaType = "image/jpeg", perfilUsuario = {} } = request.data;
-    if (!imagenBase64) throw new HttpsError("invalid-argument", "Se requiere una imagen.");
+    const { imagenBase64, mediaType = "image/jpeg", perfilUsuario = {} } = request.data || {};
+    if (typeof imagenBase64 !== "string" || !imagenBase64)
+      throw new HttpsError("invalid-argument", "Se requiere una imagen.");
+    if (imagenBase64.length > MAX_IMAGEN_B64)
+      throw new HttpsError("invalid-argument", "La imagen es demasiado grande.");
+    if (!TIPOS_IMAGEN.includes(mediaType))
+      throw new HttpsError("invalid-argument", "Formato de imagen no soportado.");
 
-    // ── Verificar acceso (premium o cuota gratuita) ─────────
-    const acceso = await verificarAcceso(uid);
+    // ── Reservar un análisis (premium o cuota gratuita) ─────
+    const acceso = await reservarUso(uid);
     if (!acceso.permitido) {
       throw new HttpsError("resource-exhausted", JSON.stringify({
         tipo: "limite_alcanzado",
@@ -42,36 +49,46 @@ exports.analizarPlatoIA = onCall(
     }
 
     // ── Llamar a Gemini ────────────────────────────────────
-    const prompt = construirPrompt(perfilUsuario);
-    const res = await fetch(`${GEMINI_URL}?key=${geminiKey.value()}`, {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [
-          { inlineData: { mimeType: mediaType, data: imagenBase64 } },
-          { text: prompt },
-        ]}],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 1024 },
-      }),
-    });
+    let analisis;
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel.value()}:generateContent`;
+      const res = await fetch(url, {
+        method:  "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": geminiKey.value() },
+        body: JSON.stringify({
+          contents: [{ parts: [
+            { inlineData: { mimeType: mediaType, data: imagenBase64 } },
+            { text: construirPrompt(perfilUsuario) },
+          ]}],
+          // Margen amplio: los modelos con "thinking" gastan tokens antes de responder
+          generationConfig: { temperature: 0.4, maxOutputTokens: 4096, responseMimeType: "application/json" },
+        }),
+      });
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new HttpsError("internal", `Error Gemini: ${err?.error?.message}`);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        console.error("Gemini", res.status, err?.error?.message);
+        throw new HttpsError(res.status === 429 ? "unavailable" : "internal",
+          res.status === 429 ? "La IA está ocupada. Intenta en un minuto." : "No se pudo analizar la imagen.");
+      }
+
+      const data  = await res.json();
+      const texto = (data?.candidates?.[0]?.content?.parts || [])
+        .filter(p => p.text && !p.thought).map(p => p.text).join("");
+      analisis = parsearRespuesta(texto);
+    } catch (e) {
+      // Si la IA falla, devolver el análisis reservado
+      if (acceso.tipo === "gratis") await liberarUso(uid);
+      if (e instanceof HttpsError) throw e;
+      console.error("Error analizando plato:", e);
+      throw new HttpsError("internal", "No se pudo analizar la imagen.");
     }
-
-    const data  = await res.json();
-    const texto = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    const analisis = parsearRespuesta(texto);
-
-    // ── Registrar uso ──────────────────────────────────────
-    await registrarUso(uid);
 
     return {
       ok:       true,
       analisis,
       acceso:   acceso.tipo,
-      restantes: acceso.tipo === "gratis" ? acceso.restantes - 1 : null,
+      restantes: acceso.tipo === "gratis" ? acceso.restantes : null,
     };
   }
 );
@@ -85,7 +102,7 @@ exports.crearCheckout = onCall(
     if (!request.auth) throw new HttpsError("unauthenticated", "Debes iniciar sesión.");
 
     // Solo se acepta el precio configurado en el servidor
-    if (request.data?.priceId !== stripePriceId.value())
+    if (!stripePriceId.value() || request.data?.priceId !== stripePriceId.value())
       throw new HttpsError("invalid-argument", "Plan no válido.");
 
     const Stripe = require("stripe");
@@ -161,16 +178,17 @@ exports.webhookStripe = onRequest(
         const customerId = event.data.object.customer;
         const snap = await db.collection("usuarios")
           .where("suscripcion.stripeCustomerId", "==", customerId).get();
-        snap.forEach(doc => doc.ref.update({ "suscripcion.estado": "inactivo" }));
+        await Promise.all(snap.docs.map(doc => doc.ref.update({ "suscripcion.estado": "inactivo" })));
         break;
       }
       case "customer.subscription.updated": {
         const sub = event.data.object;
         const customerId = sub.customer;
-        const estado = sub.status === "active" ? "activo" : "inactivo";
+        // trialing = prueba gratis; past_due = Stripe sigue reintentando el cobro
+        const estado = ["active", "trialing", "past_due"].includes(sub.status) ? "activo" : "inactivo";
         const snap = await db.collection("usuarios")
           .where("suscripcion.stripeCustomerId", "==", customerId).get();
-        snap.forEach(doc => doc.ref.update({ "suscripcion.estado": estado }));
+        await Promise.all(snap.docs.map(doc => doc.ref.update({ "suscripcion.estado": estado })));
         break;
       }
     }
@@ -189,7 +207,7 @@ exports.consultarSuscripcion = onCall({ region: "us-central1" }, async (request)
   const userDoc = await db.collection("usuarios").doc(uid).get();
   const datos   = userDoc.data() || {};
   const sus     = datos.suscripcion || {};
-  const hoy     = new Date().toISOString().slice(0, 10);
+  const hoy     = hoyColombia();
   const usoDoc  = await db.collection("usuarios").doc(uid).collection("uso").doc(hoy).get();
   const usados  = usoDoc.exists ? usoDoc.data().analisis : 0;
 
@@ -229,26 +247,32 @@ exports.cancelarSuscripcion = onCall(
 );
 
 // ── Helpers ──────────────────────────────────────────────────
-async function verificarAcceso(uid) {
-  const userDoc = await db.collection("usuarios").doc(uid).get();
-  const sus = userDoc.data()?.suscripcion || {};
-
-  if (sus.estado === "activo") return { permitido: true, tipo: "premium" };
-
-  const hoy    = new Date().toISOString().slice(0, 10);
-  const usoDoc = await db.collection("usuarios").doc(uid).collection("uso").doc(hoy).get();
-  const usados = usoDoc.exists ? usoDoc.data().analisis : 0;
-
-  if (usados < LIMITE_GRATIS) {
-    return { permitido: true, tipo: "gratis", restantes: LIMITE_GRATIS - usados };
-  }
-  return { permitido: false, tipo: "limite" };
+// Fecha del día en Colombia (el límite diario se reinicia a medianoche local, no UTC)
+function hoyColombia() {
+  return new Date().toLocaleDateString("en-CA", { timeZone: "America/Bogota" });
 }
 
-async function registrarUso(uid) {
-  const hoy = new Date().toISOString().slice(0, 10);
-  await db.collection("usuarios").doc(uid).collection("uso").doc(hoy).set(
-    { analisis: admin.firestore.FieldValue.increment(1) }, { merge: true }
+// Verifica acceso y descuenta un análisis en una sola transacción
+// (evita que varias peticiones simultáneas superen el límite)
+async function reservarUso(uid) {
+  const userRef = db.collection("usuarios").doc(uid);
+  const usoRef  = userRef.collection("uso").doc(hoyColombia());
+
+  return db.runTransaction(async (tx) => {
+    const [userDoc, usoDoc] = await Promise.all([tx.get(userRef), tx.get(usoRef)]);
+    if (userDoc.data()?.suscripcion?.estado === "activo") return { permitido: true, tipo: "premium" };
+
+    const usados = usoDoc.exists ? usoDoc.data().analisis || 0 : 0;
+    if (usados >= LIMITE_GRATIS) return { permitido: false, tipo: "limite" };
+
+    tx.set(usoRef, { analisis: usados + 1 }, { merge: true });
+    return { permitido: true, tipo: "gratis", restantes: LIMITE_GRATIS - usados - 1 };
+  });
+}
+
+async function liberarUso(uid) {
+  await db.collection("usuarios").doc(uid).collection("uso").doc(hoyColombia()).set(
+    { analisis: admin.firestore.FieldValue.increment(-1) }, { merge: true }
   );
 }
 
@@ -263,14 +287,18 @@ function construirPrompt(usuario) {
     tonificar:"tonificar", mantener:"mantener el peso",
   };
   const lineas = [];
-  if (usuario.enfermedad && usuario.enfermedad !== "ninguna")
-    lineas.push(`- Condición: ${ETIQ_ENF[usuario.enfermedad] || usuario.enfermedad}`);
-  if (usuario.objetivo)
-    lineas.push(`- Objetivo: ${ETIQ_OBJ[usuario.objetivo] || usuario.objetivo}`);
-  if (usuario.condicion === "embarazo")
-    lineas.push(`- Embarazada (trimestre ${usuario.trimestre || 1})`);
-  if (usuario.caloriasObjetivo)
-    lineas.push(`- Meta calórica: ${usuario.caloriasObjetivo} kcal/día`);
+  // Solo valores conocidos: el perfil viene del navegador y no debe colarse texto libre en el prompt
+  if (ETIQ_ENF[usuario.enfermedad])
+    lineas.push(`- Condición: ${ETIQ_ENF[usuario.enfermedad]}`);
+  if (ETIQ_OBJ[usuario.objetivo])
+    lineas.push(`- Objetivo: ${ETIQ_OBJ[usuario.objetivo]}`);
+  if (usuario.condicion === "embarazo") {
+    const trimestre = [1, 2, 3].includes(Number(usuario.trimestre)) ? Number(usuario.trimestre) : 1;
+    lineas.push(`- Embarazada (trimestre ${trimestre})`);
+  }
+  const kcal = Math.round(Number(usuario.caloriasObjetivo));
+  if (kcal >= 800 && kcal <= 6000)
+    lineas.push(`- Meta calórica: ${kcal} kcal/día`);
 
   const perfil = lineas.length ? `\nPerfil del usuario:\n${lineas.join("\n")}\n` : "";
 

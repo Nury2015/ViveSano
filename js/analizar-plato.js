@@ -1,21 +1,57 @@
 // ============================================================
 // ANALIZAR PLATO — ViveSano
-// Versión actual: Gemini directo (sin servidor)
-// Versión futura: Firebase Functions + Stripe (ver functions/index.js)
+// La foto se envía a la Cloud Function `analizarPlatoIA` (functions/index.js),
+// que guarda la clave de Gemini en el servidor y controla la cuota diaria.
 // ============================================================
-
-const _GK          = "AIzaSyBqlHh_328DD4y5P8EIZctueRXJ6szYOog";
-const GEMINI_MODEL = "gemini-2.0-flash";
-const GEMINI_URL   = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${_GK}`;
 
 let imagenBase64    = null;
 let mediaTypeImagen = "image/jpeg";
 let _cooldownHasta  = 0; // timestamp unix: cuando se puede volver a analizar
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("ap-estado-uso").innerHTML = "";
   document.getElementById("ap-capture-card").style.display = "block";
+  auth.onAuthStateChanged(user => user ? cargarEstadoUso() : mostrarEstadoSinSesion());
 });
+
+// ─── Utilidades ──────────────────────────────────────────────
+// El texto de la IA se escapa antes de insertarlo en la página
+function esc(v) {
+  return String(v ?? "").replace(/[&<>"']/g, c =>
+    ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+
+// ─── Estado de uso (gratis / premium / sin sesión) ───────────
+function mostrarEstadoSinSesion() {
+  document.getElementById("ap-estado-uso").innerHTML = `
+    <div class="ap-badge-login">
+      🔒 Inicia sesión para analizar tus platos (3 análisis gratis al día).
+      <a href="recetas.html" style="color:#2e7d32;font-weight:700">Iniciar sesión</a>
+    </div>`;
+}
+
+async function cargarEstadoUso() {
+  try {
+    const res = await firebase.functions().httpsCallable("consultarSuscripcion")();
+    pintarEstadoUso(res.data.plan === "premium" ? null : res.data.restantes);
+  } catch (e) {
+    document.getElementById("ap-estado-uso").innerHTML = "";
+  }
+}
+
+// restantes = null → premium
+function pintarEstadoUso(restantes) {
+  const el = document.getElementById("ap-estado-uso");
+  if (restantes === null) {
+    el.innerHTML = `<div class="ap-badge-premium">⭐ Premium · análisis ilimitados</div>`;
+    return;
+  }
+  const puntos = [0, 1, 2].map(i => `<span class="ap-punto${i < 3 - restantes ? " usado" : ""}"></span>`).join("");
+  el.innerHTML = `
+    <div class="ap-uso-bar">
+      <span>Te quedan <strong>${restantes}</strong> análisis gratis hoy</span>
+      <div class="ap-uso-puntos">${puntos}</div>
+    </div>`;
+}
 
 // ─── Selección de imagen ─────────────────────────────────────
 function abrirCamara()  { document.getElementById("ap-input-camara").click(); }
@@ -24,7 +60,6 @@ function abrirGaleria() { document.getElementById("ap-input-galeria").click(); }
 function onImagenSeleccionada(event) {
   const archivo = event.target.files[0];
   if (!archivo) return;
-  mediaTypeImagen = archivo.type || "image/jpeg";
   comprimirImagen(archivo, (b64, dataUrl) => {
     imagenBase64 = b64;
     document.getElementById("ap-preview-wrap").innerHTML =
@@ -50,6 +85,7 @@ function comprimirImagen(archivo, cb) {
       mediaTypeImagen = "image/jpeg"; // siempre JPEG tras comprimir
       cb(dataUrl.split(",")[1], dataUrl);
     };
+    img.onerror = () => mostrarError("No se pudo leer la imagen. Prueba con otra foto.");
     img.src = e.target.result;
   };
   reader.readAsDataURL(archivo);
@@ -58,6 +94,12 @@ function comprimirImagen(archivo, cb) {
 // ─── Analizar ─────────────────────────────────────────────────
 async function analizarPlato() {
   if (!imagenBase64) return;
+
+  if (!auth.currentUser) {
+    mostrarError(`🔒 Necesitas iniciar sesión para analizar tu plato.<br>
+      <a href="recetas.html" style="color:#2e7d32;font-weight:700">Iniciar sesión</a>`);
+    return;
+  }
 
   // Verificar cooldown por rate limiting
   if (Date.now() < _cooldownHasta) {
@@ -76,85 +118,63 @@ async function analizarPlato() {
   ocultarResultado();
 
   const usuario = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  const perfilUsuario = {
+    enfermedad:       usuario.enfermedad,
+    objetivo:         usuario.objetivo,
+    condicion:        usuario.condicion,
+    trimestre:        usuario.trimestre,
+    caloriasObjetivo: parseInt(localStorage.getItem("caloriasObjetivo")) || null,
+  };
 
   try {
-    const res = await fetch(GEMINI_URL, {
-      method:  "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [
-          { inlineData: { mimeType: mediaTypeImagen, data: imagenBase64 } },
-          { text: construirPrompt(usuario) },
-        ]}],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 1024 },
-      }),
-    });
-
-    overlay.remove();
-    btn.disabled = false;
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      if (res.status === 429) {
-        // Rate limit: aplicar cooldown de 40 segundos y mostrar cuenta regresiva
-        _cooldownHasta = Date.now() + 40000;
-        mostrarErrorConCuentaRegresiva(40);
-      } else {
-        const msg = res.status === 403
-          ? "🔑 API key sin permisos. Revisa la configuración en Google Cloud."
-          : `❌ Error ${res.status}: ${err?.error?.message || "Intenta de nuevo."}`;
-        mostrarError(msg);
-      }
-      return;
-    }
-
-    const data    = await res.json();
-    const texto   = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-    mostrarResultado(parsearRespuesta(texto));
-
+    const fn  = firebase.functions().httpsCallable("analizarPlatoIA", { timeout: 70000 });
+    const res = await fn({ imagenBase64, mediaType: mediaTypeImagen, perfilUsuario });
+    mostrarResultado(res.data.analisis);
+    pintarEstadoUso(res.data.acceso === "premium" ? null : res.data.restantes);
   } catch (e) {
+    manejarErrorAnalisis(e);
+  } finally {
     overlay.remove();
     btn.disabled = false;
-    mostrarError("Sin conexión. Verifica tu internet.");
   }
 }
 
-// ─── Prompt ──────────────────────────────────────────────────
-function construirPrompt(u) {
-  const ENF = { diabetes:"Diabetes", hipertension:"Hipertensión", colesterol:"Colesterol alto",
-    obesidad:"Obesidad", celiaquia:"Celiaquía", gastritis:"Gastritis",
-    renal:"Enfermedad renal", cardiaca:"Cardiovascular", digestiva:"Digestivo" };
-  const OBJ = { bajar:"bajar grasa", masa:"ganar masa muscular",
-    tonificar:"tonificar", mantener:"mantener el peso" };
-  const l = [];
-  if (u.enfermedad && u.enfermedad !== "ninguna") l.push(`- Condición: ${ENF[u.enfermedad] || u.enfermedad}`);
-  if (u.objetivo) l.push(`- Objetivo: ${OBJ[u.objetivo] || u.objetivo}`);
-  if (u.condicion === "embarazo") l.push(`- Embarazada (T${u.trimestre || 1})`);
-  const kcal = parseInt(localStorage.getItem("caloriasObjetivo"));
-  if (kcal) l.push(`- Meta: ${kcal} kcal/día`);
-  const perfil = l.length ? `\nPerfil:\n${l.join("\n")}\n` : "";
-  return `Eres nutricionista colombiano. Analiza esta foto del plato.${perfil}
-Responde SOLO JSON válido:
-{"alimentos":["item1"],"caloriasEstimadas":450,"puntuacion":7,"bienHecho":["punto1"],"mejoras":["mejora1"],"consejo":"Consejo corto."}
-- puntuacion 1-10 según perfil · SOLO JSON`;
-}
-
-function parsearRespuesta(texto) {
-  try { return JSON.parse(texto.replace(/```json\n?/g,"").replace(/```\n?/g,"").trim()); }
-  catch { return { texto }; }
+function manejarErrorAnalisis(e) {
+  const code = (e.code || "").replace("functions/", "");
+  if (code === "resource-exhausted") {
+    pintarEstadoUso(0);
+    mostrarError(`Ya usaste tus 3 análisis gratis de hoy. Vuelve mañana o pásate a Premium.<br><br>
+      <a href="suscripcion.html" class="ap-link-premium">⭐ Ver Premium</a>`);
+  } else if (code === "unavailable") {
+    _cooldownHasta = Date.now() + 40000;
+    mostrarErrorConCuentaRegresiva(40);
+  } else if (code === "unauthenticated") {
+    mostrarError(`🔒 Tu sesión expiró. <a href="recetas.html" style="color:#2e7d32;font-weight:700">Inicia sesión</a> de nuevo.`);
+  } else if (code === "invalid-argument") {
+    mostrarError(esc(e.message || "La imagen no es válida. Prueba con otra foto."));
+  } else {
+    console.error("analizarPlatoIA:", e);
+    mostrarError("❌ No se pudo analizar la imagen. Revisa tu conexión e intenta de nuevo.");
+  }
 }
 
 // ─── Mostrar resultado ────────────────────────────────────────
 function mostrarResultado(a) {
   const cont = document.getElementById("ap-resultado");
-  if (!cont) return;
+  if (!cont || !a) return;
   if (a.texto) {
-    cont.innerHTML = `<div class="ap-section"><p style="font-size:14px;line-height:1.6">${a.texto}</p></div>`;
+    cont.innerHTML = `<div class="ap-section"><p style="font-size:14px;line-height:1.6">${esc(a.texto)}</p></div>`;
     cont.style.display = "block";
     cont.scrollIntoView({ behavior:"smooth", block:"start" });
     return;
   }
-  const { alimentos=[], caloriasEstimadas=0, puntuacion=5, bienHecho=[], mejoras=[], consejo="" } = a;
+  const lista = v => Array.isArray(v) ? v : [];
+  const alimentos  = lista(a.alimentos);
+  const bienHecho  = lista(a.bienHecho);
+  const mejoras    = lista(a.mejoras);
+  const calorias   = Math.round(Number(a.caloriasEstimadas)) || 0;
+  const puntuacion = Math.min(10, Math.max(1, Math.round(Number(a.puntuacion)) || 5));
+  const consejo    = a.consejo || "";
   const sc = puntuacion >= 8 ? "alto" : puntuacion >= 5 ? "medio" : "bajo";
   cont.innerHTML = `
     <div class="ap-resultado-header">
@@ -166,18 +186,18 @@ function mostrarResultado(a) {
     </div>
     <div class="ap-section">
       <p class="ap-section-title">🍽️ Alimentos detectados</p>
-      <div class="ap-alimentos">${alimentos.map(x=>`<span class="ap-alimento-chip">${x}</span>`).join("")}</div>
+      <div class="ap-alimentos">${alimentos.map(x=>`<span class="ap-alimento-chip">${esc(x)}</span>`).join("")}</div>
     </div>
     <div class="ap-section">
       <p class="ap-section-title">🔥 Calorías estimadas</p>
-      <p class="ap-calorias">${caloriasEstimadas}<span> kcal en este plato</span></p>
+      <p class="ap-calorias">${calorias}<span> kcal en este plato</span></p>
     </div>
     ${bienHecho.length?`<div class="ap-section"><p class="ap-section-title">Lo que está bien ✅</p>
-      <ul class="ap-lista bien">${bienHecho.map(b=>`<li>${b}</li>`).join("")}</ul></div>`:""}
+      <ul class="ap-lista bien">${bienHecho.map(b=>`<li>${esc(b)}</li>`).join("")}</ul></div>`:""}
     ${mejoras.length?`<div class="ap-section"><p class="ap-section-title">Lo que puedes mejorar ⚠️</p>
-      <ul class="ap-lista cambiar">${mejoras.map(m=>`<li>${m}</li>`).join("")}</ul></div>`:""}
+      <ul class="ap-lista cambiar">${mejoras.map(m=>`<li>${esc(m)}</li>`).join("")}</ul></div>`:""}
     ${consejo?`<div class="ap-section"><p class="ap-section-title">💡 Consejo personalizado</p>
-      <p class="ap-consejo">${consejo}</p></div>`:""}`;
+      <p class="ap-consejo">${esc(consejo)}</p></div>`:""}`;
   cont.style.display = "block";
   setTimeout(() => cont.scrollIntoView({ behavior:"smooth", block:"start" }), 100);
 }
@@ -187,6 +207,7 @@ function ocultarResultado() {
   if (c) { c.style.display = "none"; c.innerHTML = ""; }
 }
 
+// msg puede contener HTML propio (enlaces); el texto externo se escapa antes de pasarlo
 function mostrarError(msg) {
   const c = document.getElementById("ap-resultado");
   if (!c) return;
@@ -205,23 +226,20 @@ function mostrarErrorConCuentaRegresiva(segs) {
   if (!c) return;
   let restante = segs;
 
-  function render() {
-    c.innerHTML = `
-      <div class="ap-section" style="padding:20px;text-align:center">
-        <p style="font-size:28px;margin:0 0 8px">⏳</p>
-        <p style="font-weight:700;font-size:15px;color:#1a2e1a;margin:0 0 6px">Demasiadas solicitudes</p>
-        <p style="color:#666;font-size:13px;line-height:1.6;margin:0 0 16px">
-          La API de IA tiene un límite de peticiones.<br>
-          Puedes volver a intentarlo en <strong id="ap-countdown">${restante}</strong> segundo${restante !== 1 ? "s" : ""}.
-        </p>
-        <div style="height:6px;background:#eee;border-radius:3px;overflow:hidden">
-          <div id="ap-countdown-bar" style="height:100%;background:#2e7d32;border-radius:3px;transition:width 1s linear;width:${(restante/segs)*100}%"></div>
-        </div>
-      </div>`;
-    c.style.display = "block";
-  }
+  c.innerHTML = `
+    <div class="ap-section" style="padding:20px;text-align:center">
+      <p style="font-size:28px;margin:0 0 8px">⏳</p>
+      <p style="font-weight:700;font-size:15px;color:#1a2e1a;margin:0 0 6px">La IA está ocupada</p>
+      <p style="color:#666;font-size:13px;line-height:1.6;margin:0 0 16px">
+        Hay muchas solicitudes en este momento.<br>
+        Puedes volver a intentarlo en <strong id="ap-countdown">${restante}</strong> segundos.
+      </p>
+      <div style="height:6px;background:#eee;border-radius:3px;overflow:hidden">
+        <div id="ap-countdown-bar" style="height:100%;background:#2e7d32;border-radius:3px;transition:width 1s linear;width:100%"></div>
+      </div>
+    </div>`;
+  c.style.display = "block";
 
-  render();
   _countdownInterval = setInterval(() => {
     restante--;
     const numEl = document.getElementById("ap-countdown");
@@ -231,8 +249,6 @@ function mostrarErrorConCuentaRegresiva(segs) {
     if (restante <= 0) {
       clearInterval(_countdownInterval);
       ocultarResultado();
-      const btn = document.getElementById("ap-btn-analizar");
-      if (btn) { btn.disabled = false; btn.textContent = "🔍 Analizar plato"; }
     }
   }, 1000);
 }
