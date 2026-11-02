@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  background: #f4f7f4;
+  background: #f0f6f0;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   color: #1a2e1a;
 }
@@ -409,17 +409,17 @@ body {
 
 .ap-link-premium, .ap-btn-premium-inline {
   display: inline-block;
-  background: linear-gradient(135deg, #f57f17, #ff9800);
+  background: #2e7d32;
   color: white;
   padding: 10px 20px;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
-  transition: opacity 0.15s;
+  transition: background 0.15s;
 }
 
-.ap-link-premium:hover, .ap-btn-premium-inline:hover { opacity: 0.85; }
+.ap-link-premium:hover, .ap-btn-premium-inline:hover { background: #1b5e20; }
 
 /* ══ RESPONSIVE ══════════════════════════ */
 @media (max-width: 768px) {

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/menu.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -32,8 +32,8 @@
       var s = document.getElementById('splash');
       if (!s) return;
       s.style.opacity = '0';
-      setTimeout(function () { s.remove(); }, 420);
-    }, 2400);
+      setTimeout(function () { s.remove(); }, 300);
+    }, 1200);
   </script>
 
   <div id="menu"></div>
@@ -82,17 +82,17 @@
       <div class="wizard-panel" id="panel-1">
         <p class="wizard-sub">¿Cuáles son tus medidas?</p>
 
-        <label for="edad">Edad</label>
+        <label for="edad"><i class="fa-solid fa-cake-candles"></i> Edad</label>
         <input type="number" id="edad" placeholder="Años" value="">
         <div id="aviso-envejecimiento"></div>
 
-        <label for="peso">Peso (kg)</label>
+        <label for="peso"><i class="fa-solid fa-weight-scale"></i> Peso (kg)</label>
         <input type="number" id="peso" placeholder="kg" value="">
 
-        <label for="estatura">Estatura (cm)</label>
+        <label for="estatura"><i class="fa-solid fa-ruler-vertical"></i> Estatura (cm)</label>
         <input type="number" id="estatura" placeholder="cm" value="">
 
-        <label for="sexo">Sexo asignado al nacer</label>
+        <label for="sexo"><i class="fa-solid fa-venus-mars"></i> Sexo asignado al nacer</label>
         <select id="sexo" name="sexo">
           <option value="">Seleccione</option>
           <option value="m">Masculino</option>
@@ -129,7 +129,7 @@
       <div class="wizard-panel oculto" id="panel-2">
         <p class="wizard-sub">¿Cómo es tu día a día?</p>
 
-        <label for="actividad">Nivel de actividad física</label>
+        <label for="actividad"><i class="fa-solid fa-person-running"></i> Nivel de actividad física</label>
         <select id="actividad" name="actividad">
           <option value="">Seleccione</option>
           <option value="sedentario">Sedentario — sin ejercicio</option>
@@ -139,7 +139,7 @@
           <option value="muy_activo">Muy activo — atleta o entrenamiento intenso</option>
         </select>
 
-        <label for="objetivo">¿Cuál es tu objetivo?</label>
+        <label for="objetivo"><i class="fa-solid fa-bullseye"></i> ¿Cuál es tu objetivo?</label>
         <select id="objetivo" name="objetivo">
           <option value="bajar">Bajar grasa</option>
           <option value="masa">Aumentar masa muscular</option>
@@ -159,10 +159,10 @@
 
       <!-- Paso 3: Salud -->
       <div class="wizard-panel oculto" id="panel-3">
-        <p class="wizard-sub">¿Tenés alguna condición de salud?</p>
-        <p class="wizard-hint">Si no tenés ninguna, presioná Calcular directamente.</p>
+        <p class="wizard-sub">¿Tienes alguna condición de salud?</p>
+        <p class="wizard-hint">Si no tienes ninguna, presiona Calcular directamente.</p>
 
-        <label for="enfermedad">Condición médica</label>
+        <label for="enfermedad"><i class="fa-solid fa-heart-pulse"></i> Condición médica</label>
         <select id="enfermedad" name="enfermedad">
           <option value="ninguna">Ninguna</option>
           <option value="diabetes">Diabetes</option>
@@ -224,9 +224,9 @@
 
   </div>
 
-  <p style="margin-top: 20px; font-size: 14px; text-align: center; color: white;">
+  <p style="margin-top: 20px; font-size: 12px; text-align: center; color: #666;">
     Al continuar, aceptas los <span id="ver-aviso"
-      style="color: rgb(237, 237, 246); text-decoration: underline; cursor: pointer;">términos de uso</span>.
+      style="color: #2e7d32; text-decoration: underline; cursor: pointer;">términos de uso</span>.
   </p>
 
   <div id="modal-mensaje" class="modal-personalizado">

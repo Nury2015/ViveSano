@@ -6,7 +6,7 @@ function irPaso(n) {
     const estatura = document.getElementById("estatura").value;
     const sexo     = document.getElementById("sexo").value;
     if (!edad || !peso || !estatura || !sexo) {
-      mostrarMensaje("Campos incompletos", "Completá edad, peso, estatura y sexo para continuar.");
+      mostrarMensaje("Campos incompletos", "Completa edad, peso, estatura y sexo para continuar.");
       return;
     }
   }

@@ -6,7 +6,7 @@
 
 body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
-  background: #F7F9F7;
+  background: #f0f6f0;
   margin: 0;
   color: #1E2E1E;
 }
@@ -345,7 +345,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #F7F9F7;
+  background: #f0f6f0;
   border-radius: 12px;
   padding: 12px;
 }
