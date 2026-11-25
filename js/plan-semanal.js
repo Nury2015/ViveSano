@@ -26,18 +26,16 @@ function _shuffle(arr) {
 // ─── Filtrar y priorizar recetas según perfil ─────────────────
 function _filtrarRecetas(tipo) {
   const usuario    = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
-  const enfermedad = usuario.enfermedad || "ninguna";
   const condicion  = usuario.condicion  || "";
-  const objetivo   = usuario.objetivo   || "mantener";
+  const objetivo   = Nutricion.objetivoSeguro(usuario);
   const trimestre  = usuario.trimestre  || "1";
 
   let r = [...(RECETAS[tipo] || [])];
 
   if (veganoActivo)          r = r.filter(x => x.vegano);
-  if (enfermedad !== "ninguna") r = r.filter(x => !x.contraindicada?.includes(enfermedad));
-  if (condicion === "embarazo") r = r.filter(x => !x.contraindicada?.includes("embarazo"));
+  r = r.filter(esAptaParaMi);
 
-  if (typeof aplicarVariante === "function") r = r.map(x => aplicarVariante(x, objetivo));
+  r = r.map(x => prepararReceta(x, tipo));
 
   // Ordenar por prioridad según objetivo
   if (condicion === "embarazo" && typeof _scoreEmbarazo === "function") {
@@ -52,6 +50,13 @@ function _filtrarRecetas(tipo) {
   const top  = r.slice(0, Math.ceil(r.length / 2));
   const rest = _shuffle(r.slice(Math.ceil(r.length / 2)));
   return [..._shuffle(top), ...rest];
+}
+
+// Si cambia el perfil o la meta, el plan guardado deja de ser válido
+function _firmaPerfil() {
+  const u = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  return JSON.stringify([2, u.enfermedad, u.condicion, u.trimestre, u.objetivo, u.peso, u.estatura, u.edad, u.sexo, u.actividad,
+    localStorage.getItem("caloriasObjetivo")]);
 }
 
 // ─── Generar plan de 7 días ──────────────────────────────────
@@ -72,13 +77,14 @@ function generarPlanSemanal() {
 
   // Guardar en localStorage
   localStorage.setItem("planSemanalGenerado", JSON.stringify(planActual));
+  localStorage.setItem("planSemanalFirma", _firmaPerfil());
   renderPlanSemanal();
 }
 
 // ─── Cargar plan guardado si existe ─────────────────────────
 function cargarPlanGuardado() {
   const guardado = localStorage.getItem("planSemanalGenerado");
-  if (guardado) {
+  if (guardado && localStorage.getItem("planSemanalFirma") === _firmaPerfil()) {
     planActual = JSON.parse(guardado);
     renderPlanSemanal();
   } else {
@@ -159,13 +165,11 @@ function diaActual() {
 // ─── Texto de adaptación para mostrar en card ────────────────
 function _adaptacionTexto(receta) {
   const usuario    = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
-  const enfermedad = usuario.enfermedad || "ninguna";
   const condicion  = usuario.condicion  || "";
-  const trimestre  = usuario.trimestre  || "1";
-  if (condicion === "embarazo" && receta.adaptaciones?.embarazo)
+  if (condicion === "embarazo" && receta.adaptaciones?.embarazo && !receta._razon)
     return `🤰 ${receta.adaptaciones.embarazo}`;
-  if (enfermedad !== "ninguna" && receta.adaptaciones?.[enfermedad])
-    return `💊 ${receta.adaptaciones[enfermedad]}`;
+  if (receta._razon)
+    return `💊 ${receta._razon}${receta._cambios?.length ? ": " + receta._cambios.join(" · ") : ""}`;
   return "";
 }
 

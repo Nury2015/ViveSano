@@ -1888,7 +1888,7 @@ const RECETAS = {
         "Agrega agua y lleva a hervor",
         "Incorpora todas las verduras y tubérculos pelados y troceados",
         "Cocina 30 min hasta que todo esté blando",
-        "Sirve con arroz blanco y aguacate al lado",
+        "Sirve caliente con cilantro fresco",
       ],
     },
   ],
@@ -2395,6 +2395,29 @@ function aplicarVariante(receta, objetivo) {
   return m;
 }
 
+// ─── RECETA FINAL PARA LA PERSONA ───────────────────────────
+// objetivo (variante) → condición médica → tope de proteína de esa comida
+function prepararReceta(receta, tipo) {
+  const d = JSON.parse(localStorage.getItem("datosUsuario") || "{}") || {};
+  let m = aplicarVariante(receta, Nutricion.objetivoSeguro(d));
+  // Proteína en polvo opcional: solo para quien busca masa
+  if (d.objetivo !== "masa" && m.ingredientes?.some(i => / o proteína en polvo/.test(i.nombre))) {
+    m = { ...m,
+      ingredientes: m.ingredientes.map(i => / o proteína en polvo/.test(i.nombre)
+        ? { ...i, nombre: "Aromática de hierbas", calorias: 5 } : i),
+      preparacion: (m.preparacion || []).map(p => p.replace(" (o proteína en polvo si entrenas)", "")) };
+  }
+  m = Nutricion.adaptar(m, d);
+  if (d.peso > 0) {
+    const max = Nutricion.macros(d, caloriasObjetivo()).protMax * (DISTRIBUCION_KCAL[tipo] || 0.20) * 1.1;
+    m = Nutricion.limitarProteina(m, max);
+  }
+  return m;
+}
+function esAptaParaMi(receta) {
+  return Nutricion.esApta(receta, JSON.parse(localStorage.getItem("datosUsuario") || "{}") || {});
+}
+
 // ============================================================
 // PLANEADOR DEL DÍA
 // ============================================================
@@ -2410,6 +2433,7 @@ const SLOTS = [
 // Porcentaje del total diario asignado a cada comida
 const DISTRIBUCION_KCAL = {
   desayuno:    0.25,   // 25 %
+  once:        0.10,   // 10 % cada onces (se busca por tipo)
   once_manana: 0.10,   // 10 %
   almuerzo:    0.35,   // 35 %
   once_tarde:  0.10,   // 10 %
@@ -2509,7 +2533,11 @@ function editarMeta() {
   const nueva = prompt("Nueva meta calórica diaria (kcal):", actual);
   if (nueva === null) return;
   const valor = parseInt(nueva);
-  if (!isNaN(valor) && valor > 0) {
+  if (!isNaN(valor) && (valor < 1200 || valor > 5000)) {
+    alert("La meta debe estar entre 1200 y 5000 kcal. Para otros valores consulta a un profesional.");
+    return;
+  }
+  if (!isNaN(valor)) {
     localStorage.setItem("caloriasObjetivo", valor);
     actualizarProgreso();
   }
@@ -2530,34 +2558,9 @@ function macrosSeleccionados() {
 function macrosObjetivo() {
   const meta     = caloriasObjetivo();
   const usuario  = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
-  const peso     = parseFloat(usuario.peso) || 70;
-  const objetivo = usuario.objetivo  || "mantener";
-  const condicion= usuario.condicion || "";
-
-  // Proteína según objetivo (ISSN Position Stand 2017) — misma fórmula que calculadora.js
-  const protRangos = {
-    masa:      [1.8, 2.2],
-    tonificar: [2.0, 2.4],
-    bajar:     [1.8, 2.2],
-    mantener:  [1.6, 2.0],
-  };
-  const [pMin, pMax] = protRangos[objetivo] || protRangos.mantener;
-  let gramProt = ((pMin + pMax) / 2) * peso;
-  // El embarazo aumenta la necesidad proteica en ~10%
-  if (condicion === "embarazo") gramProt *= 1.10;
-
-  // Grasas: 25–30 % de las calorías (Dietary Guidelines 2020)
-  const porcGrasa = objetivo === "mantener" ? 0.30 : 0.25;
-  const gramGrasa = (meta * porcGrasa) / 9;
-
-  // Carbohidratos: calorías restantes
-  const gramCarbs = Math.max(0, meta - gramProt * 4 - gramGrasa * 9) / 4;
-
-  return {
-    prot:   Math.round(gramProt),
-    carbs:  Math.round(gramCarbs),
-    grasas: Math.round(gramGrasa),
-  };
+  // Mismas fórmulas que la calculadora (js/nutricion.js)
+  const m = Nutricion.macros({ ...usuario, peso: parseFloat(usuario.peso) || 70 }, meta);
+  return { prot: Math.round(m.prot), carbs: Math.round(m.carbs), grasas: Math.round(m.grasas) };
 }
 
 // ─── EMOJI POR NOMBRE DE RECETA ──────────────────────────────
@@ -2736,14 +2739,9 @@ function renderSeccion(slot) {
 
   // Contar cuántas se ocultan por condición médica (antes de filtrar)
   let nOcultas = 0;
-  if (enfermedad && enfermedad !== "ninguna") {
-    nOcultas += recetas.filter(r => r.contraindicada?.includes(enfermedad)).length;
-    recetas = recetas.filter(r => !r.contraindicada?.includes(enfermedad));
-  }
-  if (condicion === "embarazo") {
-    nOcultas += recetas.filter(r => r.contraindicada?.includes("embarazo")).length;
-    recetas = recetas.filter(r => !r.contraindicada?.includes("embarazo"));
-  }
+  const nAntes = recetas.length;
+  recetas = recetas.filter(esAptaParaMi);
+  nOcultas = nAntes - recetas.length;
   // ── Scoring combinado: salud (10×) + favoritos (5×) + calorías apropiadas (3×) ──
   const trimestre   = usuario.trimestre || "1";
   const _targetKcal = targetKcalSlot(slot.tipo);
@@ -2760,7 +2758,7 @@ function renderSeccion(slot) {
   });
 
   // Aplicar variante por objetivo antes de ordenar y mostrar
-  recetas = recetas.map(r => aplicarVariante(r, objetivo));
+  recetas = recetas.map(r => prepararReceta(r, slot.tipo));
 
   // Siempre ordenar: salud > favoritos > calorías adecuadas al slot > proteína (masa)
   recetas = [...recetas].sort((a, b) => {
@@ -2815,14 +2813,9 @@ function renderSeccion(slot) {
     const sel = selecciones[slot.id]?.id === r.id;
 
     const msgs = [];
-    if (enfermedad && enfermedad !== "ninguna") {
-      // Si el usuario tiene "digestiva" y no hay adaptación específica, usar gastritis como fallback
-      const adaptTxt = r.adaptaciones?.[enfermedad]
-        ?? (enfermedad === "digestiva" ? r.adaptaciones?.gastritis : null);
-      if (adaptTxt) {
-        const razon = RAZON_ENF[enfermedad] ? `<span class="adapt-razon">${RAZON_ENF[enfermedad]}</span>` : "";
-        msgs.push(`💊 <strong>Adaptada para ti:</strong> ${adaptTxt}${razon}`);
-      }
+    if (r._razon) {
+      msgs.push(`💊 <strong>Diseñada para tu condición:</strong> ${r._razon}` +
+        (r._cambios.length ? `<span class="adapt-razon">${r._cambios.join(" · ")}</span>` : ""));
     }
     if (condicion === "embarazo" && r.adaptaciones?.embarazo)
       msgs.push(`🤰 ${r.adaptaciones.embarazo}`);
@@ -2869,6 +2862,7 @@ function renderSeccion(slot) {
           ${esVeg}${favBadge}
           ${embBadgesHTML}
           <p class="opcion-desc">${r.descripcion}</p>
+          ${adaptacion}
           <div class="opcion-macros">
             <span class="macro-kcal"><span class="macro-ico">🔥</span>${r.calorias} kcal</span>
             <span class="macro-prot"><span class="macro-ico">🌿</span>${r.proteinas}g prot.</span>
@@ -2891,8 +2885,7 @@ function seleccionarReceta(slotId, recetaId) {
   const fueDeseleccion = selecciones[slotId]?.id === recetaId;
 
   // Agrega tipo del slot para que los filtros de historial funcionen
-  const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
-  const rv = aplicarVariante(receta, _obj);
+  const rv = prepararReceta(receta, slot.tipo);
   selecciones[slotId] = fueDeseleccion ? null : { ...rv, tipo: slot.tipo };
 
   if (receta?.pesado && !fueDeseleccion) mostrarAvisoHeavy(receta.nota);
@@ -2928,8 +2921,7 @@ function swapReceta(slotId, nuevaRecetaId) {
   const receta = (RECETAS[slot.tipo] || []).find(r => r.id === nuevaRecetaId);
   if (!receta) return;
 
-  const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
-  const rv = aplicarVariante(receta, _obj);
+  const rv = prepararReceta(receta, slot.tipo);
   selecciones[slotId] = { ...rv, tipo: slot.tipo };
   const check = document.getElementById(`check-${slotId}`);
   if (check) check.textContent = "✅";
@@ -2947,8 +2939,7 @@ function verRecetaDetalle(slotId, recetaId) {
   const slot   = SLOTS.find(s => s.id === slotId);
   const receta = RECETAS[slot.tipo].find(r => r.id === recetaId);
   if (receta) {
-    const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
-    const rv = aplicarVariante(receta, _obj);
+    const rv = { ...prepararReceta(receta, slot.tipo), tipo: slot.tipo };
     if (FOTOS_LOCAL[receta.id]) rv._fotoLocal = `img/recetas/${FOTOS_LOCAL[receta.id]}`;
     localStorage.setItem("recetaActual", JSON.stringify(rv));
     window.location.href = "detalle.html";
@@ -3128,13 +3119,9 @@ function actualizarProgreso() {
     document.getElementById("alerta-opciones").innerHTML = pesadas.map(({ slot, receta }) => {
       // Buscar alternativas más livianas del mismo tipo
       const alts = (RECETAS[slot.tipo] || [])
-        .filter(r => {
-          if (r.id === receta.id) return false;
-          if (r.calorias >= receta.calorias) return false;
-          if (enfermedad && enfermedad !== "ninguna" && r.contraindicada?.includes(enfermedad)) return false;
-          if (condicion === "embarazo" && r.contraindicada?.includes("embarazo")) return false;
-          return true;
-        })
+        .filter(r => r.id !== receta.id && (!modoVegano || r.vegano) && esAptaParaMi(r))
+        .map(r => prepararReceta(r, slot.tipo))
+        .filter(r => r.calorias < receta.calorias)
         .sort((a, b) => b.calorias - a.calorias) // más cercanas en calorías primero
         .slice(0, 3);
 
@@ -3245,8 +3232,7 @@ function actualizarPlanDelDia() {
 function abrirPlanReceta(tipo, id) {
   const receta = RECETAS[tipo]?.find(r => r.id === id);
   if (receta) {
-    const _obj = (JSON.parse(localStorage.getItem("datosUsuario")) || {}).objetivo || "";
-    const rv = aplicarVariante(receta, _obj);
+    const rv = { ...prepararReceta(receta, tipo), tipo };
     if (FOTOS_LOCAL[receta.id]) rv._fotoLocal = `img/recetas/${FOTOS_LOCAL[receta.id]}`;
     localStorage.setItem("recetaActual", JSON.stringify(rv));
     window.location.href = "detalle.html";

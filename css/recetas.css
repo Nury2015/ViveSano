@@ -4,7 +4,7 @@
 
 body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
-  background: #F7F9F7;
+  background: #f0f6f0;
   margin: 0;
   padding-bottom: 20px;
 }
@@ -14,7 +14,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 99;
-  background: #f0f2f0;
+  background: #f0f6f0;
   padding: 12px 16px 0;
 }
 
@@ -541,6 +541,7 @@ body {
   padding: 8px 16px;
   font-size: 12px;
   color: #5d4037;
+  margin-top: 20px;
 }
 
 /* ── BARRA DE BÚSQUEDA ──────────────────────────── */
@@ -1406,28 +1407,28 @@ body {
   background: white;
   margin: 0 16px 8px;
   border-radius: 14px;
-  border: 1.5px solid #ffe082;
+  border: 1.5px solid #e8f5e9;
   overflow: hidden;
   animation: slideDown 0.2s ease;
 }
 
 .panel-ing-header {
-  background: linear-gradient(135deg, #fff8e1, #fffde7);
+  background: #f7faf7;
   padding: 14px 18px 10px;
-  border-bottom: 1px solid #ffe082;
+  border-bottom: 1px solid #e8f5e9;
 }
 
 .panel-ing-header h3 {
   margin: 0 0 4px;
   font-size: 15px;
-  color: #5d4037;
+  color: #1b5233;
   font-weight: 700;
 }
 
 .panel-ing-sub {
   margin: 0;
   font-size: 12px;
-  color: #8d6e63;
+  color: #666;
 }
 
 .categorias-ing-grid {
@@ -1484,7 +1485,7 @@ body {
 }
 .chip-ing:hover       { border-color: #2e7d32; color: #2e7d32; }
 .chip-ing.chip-sel    { background: #e8f5e9; border-color: #2e7d32; color: #1b5233; font-weight: 600; }
-.chip-ing.chip-fav    { border-color: #f9a825; background: #fffde7; display: inline-flex; align-items: center; gap: 4px; }
+.chip-ing.chip-fav    { border-color: #a5d6a7; background: #e8f5e9; display: inline-flex; align-items: center; gap: 4px; }
 .chip-fav-star        { font-size: 12px; }
 .chip-quitar-fav {
   background: none; border: none; cursor: pointer;
@@ -1494,8 +1495,10 @@ body {
 .chip-quitar-fav:hover { color: #e53935; }
 
 .selector-acciones { display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #f0f0f0; padding-top: 12px; }
-.btn-fav    { flex: 1; background: white; border: 2px solid #f9a825; color: #6d4c00; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
-.btn-generar{ flex: 1; background: #2e7d32; border: none; color: white; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-fav    { flex: 1; background: white; border: 1.5px solid #a5d6a7; color: #2e7d32; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-fav:hover { background: #e8f5e9; }
+.btn-generar{ flex: 1; background: #2e7d32; border: none; color: white; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-generar:hover { background: #1b5e20; }
 
 .resultado-busqueda { margin-top: 12px; border-top: 1px solid #e8f5e9; padding-top: 12px; }
 .resultado-busqueda h4 { margin: 0 0 8px; color: #1b5233; font-size: 13px; }
@@ -1541,7 +1544,7 @@ body {
 
 /* ══ MENÚ LATERAL (desktop ≥ 769px) ════════════ */
 @media (min-width: 769px) {
-  body { margin-left: 220px; }
+  body { margin-left: 260px; }
 }
 
 /* Features responsive */

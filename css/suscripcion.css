@@ -1,9 +1,9 @@
 /* ══════════════════════════════════════════
    SUSCRIPCIÓN — ViveSano
    ══════════════════════════════════════════ */
-body { margin:0; background:#f4f7f4; font-family:'Inter','Segoe UI',sans-serif; color:#1a2e1a; }
+body { margin:0; background:#f0f6f0; font-family:'Inter','Segoe UI',sans-serif; color:#1a2e1a; }
 
-.sus-main { margin-left:220px; padding:28px 20px 60px; max-width:560px; }
+.sus-main { margin-left: 260px; padding:28px 20px 60px; max-width:560px; }
 
 /* Cabecera */
 .sus-header {

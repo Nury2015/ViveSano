@@ -6,9 +6,11 @@ function irPaso(n) {
     const estatura = document.getElementById("estatura").value;
     const sexo     = document.getElementById("sexo").value;
     if (!edad || !peso || !estatura || !sexo) {
-      mostrarMensaje("Campos incompletos", "Completá edad, peso, estatura y sexo para continuar.");
+      mostrarMensaje("Campos incompletos", "Completa edad, peso, estatura y sexo para continuar.");
       return;
     }
+    const error = Nutricion.validar({ edad: +edad, peso: +peso, estatura: +estatura });
+    if (error) { mostrarMensaje("Revisa tus datos", error); return; }
   }
   if (n === 3) {
     if (!document.getElementById("actividad").value) {
@@ -114,96 +116,31 @@ document.querySelector("#formulario").addEventListener("submit", function (e) {
   const condicion  = document.getElementById("condicionFemenina").value;
   const trimestre  = document.getElementById("trimestre")?.value || "1";
 
-  const datos = { peso, estatura, edad, sexo, actividad, enfermedad, objetivo, condicion, trimestre };
-  localStorage.setItem("datosUsuario", JSON.stringify(datos));
-
   if (!peso || !estatura || !edad || !sexo || !actividad) {
     mostrarMensaje("Campos incompletos", "Por favor completa todos los campos obligatorios.");
     return;
   }
 
-  // ==============================
-  // TMB — Mifflin-St Jeor (1990)
-  // La ecuación más precisa para población general
-  // Hombre : (10 × kg) + (6.25 × cm) - (5 × años) + 5
-  // Mujer  : (10 × kg) + (6.25 × cm) - (5 × años) - 161
-  // ==============================
-  const tmb = sexo === "f"
-    ? 10 * peso + 6.25 * estatura - 5 * edad - 161
-    : 10 * peso + 6.25 * estatura - 5 * edad + 5;
+  const datos = { peso, estatura, edad, sexo, actividad, enfermedad, objetivo, condicion, trimestre };
+  const error = Nutricion.validar(datos);
+  if (error) { mostrarMensaje("Revisa tus datos", error); return; }
 
-  // ==============================
-  // GET — Gasto energético total
-  // Factor de actividad según Ainsworth et al.
-  // ==============================
-  const factores = {
-    sedentario: 1.2,
-    ligero:     1.375,
-    moderado:   1.55,
-    activo:     1.725,
-    muy_activo: 1.9,
-  };
+  // Se conservan nombre, correo, etc. si ya había sesión
+  const previo = JSON.parse(localStorage.getItem("datosUsuario") || "{}") || {};
+  localStorage.setItem("datosUsuario", JSON.stringify({ ...previo, ...datos }));
 
-  let get = tmb * (factores[actividad] || 1.2);
+  // Todas las fórmulas están en js/nutricion.js
+  const res = Nutricion.calcular(datos);
+  const get = res.kcal;
+  const proteinaMin = res.protMin, proteinaMax = res.protMax;
+  const gramosCarbohidrato = res.carbs, gramosGrasa = res.grasas;
+  const kcalProteina = res.prot * 4, kcalCarbohidrato = res.carbs * 4, kcalGrasa = res.grasas * 9;
 
-  // Ajuste embarazo / lactancia (OMS, 2004)
-  if (condicion === "embarazo") {
-    if (trimestre === "2") get += 340;
-    else if (trimestre === "3") get += 452;
-    // 1er trimestre: sin ajuste calórico (OMS)
-  } else if (condicion === "lactancia") {
-    get += 500;
-  }
-
-  // ==============================
-  // AJUSTE POR OBJETIVO
-  // ==============================
-  if (objetivo === "bajar")      get -= 500; // Déficit ~500 kcal → pierde ~0.5 kg/semana
-  else if (objetivo === "masa")  get += 300; // Superávit limpio → mínimo acúmulo de grasa
-  else if (objetivo === "tonificar") get -= 200; // Déficit leve → preserva músculo
-
-  // ==============================
-  // PROTEÍNAS (ISSN Position Stand 2017 + Helms et al. 2014)
-  // Rango según objetivo expresado en g/kg de peso corporal
-  // ==============================
-  let proteinaMin, proteinaMax;
-
-  switch (objetivo) {
-    case "masa":
-      proteinaMin = peso * 1.8; // 1.8–2.2 g/kg: hipertrofia
-      proteinaMax = peso * 2.2;
-      break;
-    case "tonificar":
-      proteinaMin = peso * 2.0; // 2.0–2.4 g/kg: definición muscular
-      proteinaMax = peso * 2.4;
-      break;
-    case "bajar":
-      proteinaMin = peso * 1.8; // 1.8–2.2 g/kg: preservar masa en déficit
-      proteinaMax = peso * 2.2;
-      break;
-    case "mantener":
-    default:
-      proteinaMin = peso * 1.6; // 1.6–2.0 g/kg: mantenimiento
-      proteinaMax = peso * 2.0;
-  }
-
-  const gramosProteina  = (proteinaMin + proteinaMax) / 2;
-  const kcalProteina    = gramosProteina * 4;
-
-  // ==============================
-  // GRASAS (AMDR / Dietary Guidelines 2020-2025)
-  // 25–30 % de las calorías totales
-  // ==============================
-  const porcGrasa  = (objetivo === "mantener") ? 0.30 : 0.25;
-  const kcalGrasa  = get * porcGrasa;
-  const gramosGrasa= kcalGrasa / 9;
-
-  // ==============================
-  // CARBOHIDRATOS — calorías restantes
-  // Garantiza que los 3 macros sumen exactamente al 100 %
-  // ==============================
-  const kcalCarbohidrato  = Math.max(0, get - kcalProteina - kcalGrasa);
-  const gramosCarbohidrato = kcalCarbohidrato / 4;
+  document.getElementById("res-avisos").replaceChildren(...res.avisos.map(t => {
+    const li = document.createElement("li");
+    li.textContent = t;
+    return li;
+  }));
 
   // ==============================
   // MOSTRAR RESULTADOS

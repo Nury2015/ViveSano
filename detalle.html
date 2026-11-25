@@ -321,6 +321,14 @@ if (!receta) {
     ol.innerHTML = receta.preparacion.map(p => `<li>${p}</li>`).join("");
   }
 
+  // Cambios hechos para la condición médica
+  if (receta._razon) {
+    const p = document.querySelector(".det-banner p");
+    const b = document.createElement("strong");
+    b.textContent = "Diseñada para tu condición: ";
+    p.replaceChildren(b, receta._razon + (receta._cambios?.length ? ". Cambios: " + receta._cambios.join(" · ") : ""));
+  }
+
   // Tip (nota de la receta si existe)
   if (receta.nota) {
     document.getElementById("det-tip").style.display = "flex";

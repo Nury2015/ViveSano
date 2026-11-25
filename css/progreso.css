@@ -4,13 +4,13 @@
 
 body {
   margin: 0;
-  background: #f4f7f4;
+  background: #f0f6f0;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   color: #1a2e1a;
 }
 
 .prog-main {
-  margin-left: 220px;
+  margin-left: 260px;
   padding: 28px 20px 60px;
   max-width: 680px;
 }

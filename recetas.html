@@ -405,6 +405,7 @@ fetch("components/menu.html")
     setTimeout(() => iniciarMenu(), 0);
   });
 </script>
+<script src="js/nutricion.js"></script>
 <script src="js/planeador.js"></script>
 <script>
 // ── Bottom Sheet ────────────────────────────────────
@@ -576,7 +577,7 @@ function generarConMisIngredientes() {
   if (!seleccionados.size) { alert("Selecciona al menos 1 ingrediente"); return; }
   const elegidos = [...seleccionados];
   const todasRecetas = [];
-  for (const [tipo, lista] of Object.entries(RECETAS)) lista.forEach(r => todasRecetas.push({...r, tipoMeal: tipo}));
+  for (const [tipo, lista] of Object.entries(RECETAS)) lista.filter(esAptaParaMi).forEach(r => todasRecetas.push({ ...prepararReceta(r, tipo), tipoMeal: tipo }));
   const resultados = todasRecetas.map(r => {
     const matches = elegidos.filter(sel =>
       r.ingredientes.some(ing => ingredienteMatch(ing.nombre, sel))
@@ -633,7 +634,7 @@ function renderFavoritos() {
   if (favIds.size > 0) {
     for (const [tipo, lista] of Object.entries(RECETAS)) {
       for (const r of lista) {
-        if (favIds.has(r.id) && !recetasGuardadas.find(x => x.id === r.id))
+        if (favIds.has(r.id) && esAptaParaMi(r) && !recetasGuardadas.find(x => x.id === r.id))
           recetasGuardadas.push({ ...r, tipoMeal: tipo });
       }
     }
@@ -649,8 +650,15 @@ function renderFavoritos() {
     }
   });
 
-  const lista = filtroFav === "todos" ? recetasGuardadas
-    : recetasGuardadas.filter(r => r.tipo === filtroFav || r.tipoMeal === filtroFav);
+  // Guardadas con un perfil anterior: solo si siguen siendo aptas, y readaptadas
+  const originales = Object.entries(RECETAS).flatMap(([t, l]) => l.map(r => [r.id, r, t]));
+  const aptas = recetasGuardadas.filter(esAptaParaMi).map(g => {
+    const o = originales.find(([id]) => id === g.id);
+    return o ? { ...prepararReceta(o[1], o[2]), tipoMeal: o[2] } : g;
+  });
+
+  const lista = filtroFav === "todos" ? aptas
+    : aptas.filter(r => r.tipo === filtroFav || r.tipoMeal === filtroFav);
   const grid = document.getElementById("fav-grid");
   if (!lista.length) { grid.innerHTML = `<p class="fav-vacio">${filtroFav === "todos" ? "Aún no tienes recetas guardadas. Selecciona recetas y guarda tu plan." : "No tienes recetas guardadas de esta categoría."}</p>`; return; }
   const LABELS = { desayuno: "🌅", once: "🍎", almuerzo: "☀️", cena: "🌙" };

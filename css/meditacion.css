@@ -4,10 +4,10 @@
 
 /* ── LAYOUT PRINCIPAL ─────────────────────── */
 .med-main {
-  margin-left: 220px;
+  margin-left: 260px;
   padding: 0 0 32px;
   min-height: 100vh;
-  background: #f4f7f4;
+  background: #f0f6f0;
   font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
