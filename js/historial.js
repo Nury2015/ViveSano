@@ -6,34 +6,12 @@ const TIPO_LABELS  = { desayuno:"🌅 Desayuno", once:"🍎 Once", almuerzo:"☀
 const TIPO_COLORES = { desayuno:"e07a5f", once:"52b788", almuerzo:"2d6a4f", cena:"264653" };
 const DIAS_SLOT    = { desayuno:"🌅", once_manana:"🍎", almuerzo:"☀️", once_tarde:"🍊", cena:"🌙" };
 
+// Recetas mostradas en pantalla; las tarjetas las abren por posición
+let recetasEnPantalla = [];
+const _refReceta = r => recetasEnPantalla.push(r) - 1;
+
 let historialData = [];
 let filtroRecetas = "todos";
-
-// ─── EMOJI ───────────────────────────────────────────────────
-function getEmoji(receta) {
-  const n = (receta.nombre || "").toLowerCase().replace(/🌱 /g, "");
-  if (n.includes("changua"))                      return "🥛";
-  if (n.includes("avena"))                        return "🥣";
-  if (n.includes("arepa"))                        return "🫓";
-  if (n.includes("calentado"))                    return "🍳";
-  if (n.includes("perico") || n.includes("huevo")) return "🍳";
-  if (n.includes("chontaduro"))                   return "🌴";
-  if (n.includes("pandebono"))                    return "🥐";
-  if (n.includes("oblea") || n.includes("arequipe")) return "🍪";
-  if (n.includes("yogur"))                        return "🫙";
-  if (n.includes("fruta"))                        return "🍊";
-  if (n.includes("sancocho"))                     return "🫕";
-  if (n.includes("ajiaco"))                       return "🥣";
-  if (n.includes("arroz"))                        return "🍚";
-  if (n.includes("sopa") || n.includes("crema") || n.includes("caldo")) return "🍲";
-  if (n.includes("bandeja"))                      return "🍽️";
-  if (n.includes("lenteja") || n.includes("frijol")) return "🫘";
-  if (n.includes("aguacate"))                     return "🥑";
-  if (n.includes("sudado"))                       return "🥩";
-  if (n.includes("pasta") || n.includes("fideo")) return "🍝";
-  if (n.includes("verdura"))                      return "🥦";
-  return "🍴";
-}
 
 // ─── CARGAR ──────────────────────────────────────────────────
 function cargarHistorial() {
@@ -82,12 +60,13 @@ function renderPlanes() {
 
     const lista = comidas.map(([slot, r]) => {
       const emoji = DIAS_SLOT[slot] || "🍽️";
-      const foto  = r.foto
-        ? `<img src="https://images.unsplash.com/photo-${r.foto}?w=60&h=60&fit=crop&auto=format&q=70"
+      const url   = urlFoto(r);
+      const foto  = url
+        ? `<img src="${url}"
                onerror="this.style.display='none'" loading="lazy">`
         : `<span class="plan-comida-ef" style="background:#${TIPO_COLORES[r.tipo]||"2d6a4f"}">${getEmoji(r)}</span>`;
       return `
-        <li class="plan-comida-item" onclick='abrirReceta(${JSON.stringify(r)})'>
+        <li class="plan-comida-item" onclick="abrirReceta(recetasEnPantalla[${_refReceta(r)}])">
           ${foto}
           <div>
             <span class="plan-comida-label">${emoji} ${TIPO_LABELS[r.tipo] || slot}</span>
@@ -133,6 +112,8 @@ function borrarTodosPlanes() {
   cargarHistorial();
 }
 
+const tipoBase = r => (r.tipo || r.tipoMeal || "almuerzo").replace(/_(manana|tarde)$/, "");
+
 // ─── RECETAS ─────────────────────────────────────────────────
 function renderRecetas() {
   // Extraer recetas únicas de planes + guardadas individualmente
@@ -164,7 +145,7 @@ function renderRecetas() {
 
   const lista = filtroRecetas === "todos"
     ? recetas
-    : recetas.filter(r => r.tipo === filtroRecetas);
+    : recetas.filter(r => tipoBase(r) === filtroRecetas);
 
   const cont = document.getElementById("recetasGrid");
 
@@ -178,18 +159,15 @@ function renderRecetas() {
   }
 
   cont.innerHTML = lista.map(r => {
-    const tipo   = r.tipo || "almuerzo";
-    const fotoId = r.foto;
-    const imgURL = fotoId
-      ? `https://images.unsplash.com/photo-${fotoId}?w=200&h=100&fit=crop&auto=format&q=80`
-      : null;
+    const tipo   = tipoBase(r);
+    const imgURL = urlFoto(r);
 
     const btnBorrar = r._histIdx !== undefined
       ? `<button class="hist-card-del" onclick="event.stopPropagation();borrarRecetaGuardada(${r._histIdx})" title="Borrar receta">✕</button>`
       : "";
 
     return `
-      <div class="hist-card" onclick='abrirReceta(${JSON.stringify(r)})'>
+      <div class="hist-card" onclick="abrirReceta(recetasEnPantalla[${_refReceta(r)}])">
         ${btnBorrar}
         ${imgURL
           ? `<img src="${imgURL}" loading="lazy"
@@ -228,7 +206,16 @@ function borrarTodasRecetasGuardadas() {
 
 // ─── ABRIR RECETA ────────────────────────────────────────────
 function abrirReceta(receta) {
-  localStorage.setItem("recetaActual", JSON.stringify(receta));
+  // El historial guarda lo que se comió; al abrirla se ajusta al perfil de hoy
+  const tipo = tipoBase(receta);
+  const original = (RECETAS[tipo] || []).find(r => r.id === receta.id);
+  if (original && !esAptaParaMi(original)) {
+    alert("Esta receta no es apta para tu condición actual. Elige otra en Recetas.");
+    return;
+  }
+  const r = { ...(original ? prepararReceta(original, tipo) : receta), tipo };
+  if (FOTOS_LOCAL[r.id]) r._fotoLocal = `img/recetas/${FOTOS_LOCAL[r.id]}`;
+  localStorage.setItem("recetaActual", JSON.stringify(r));
   window.location.href = "detalle.html";
 }
 
@@ -249,7 +236,7 @@ function renderFavoritos() {
   cont.innerHTML = favs.map(f =>
     `<span class="ing-chip">
        ⭐ ${f}
-       <button class="ing-chip-remove" onclick="quitarFavoritoH('${f}')" title="Quitar de favoritos">✕</button>
+       <button class="ing-chip-remove" onclick="quitarFavoritoH(this.dataset.f)" data-f="${f.replace(/&/g, "&amp;").replace(/"/g, "&quot;")}" title="Quitar de favoritos">✕</button>
      </span>`
   ).join("");
 }

@@ -151,14 +151,16 @@ fetch("components/menu.html")
     });
 
     // Calcular racha (días consecutivos hacia atrás con ejercicio)
-    for (let k = 0; k <= 13; k++) {
+    // Si hoy aún no lo hace, la racha se cuenta desde ayer
+    const hechoHoy = t => localStorage.getItem(`vsHecho_${hoy.toDateString()}_${t}`) === "1";
+    for (let k = 0; k <= 365; k++) {
       const f = new Date(hoy);
       f.setDate(hoy.getDate() - k);
       const l = f.toDateString();
       if (localStorage.getItem(`vsHecho_${l}_ejercicio`) === "1" && contandoEj) rachaEj++;
-      else contandoEj = false;
+      else if (k > 0 || hechoHoy("ejercicio")) contandoEj = false;
       if (localStorage.getItem(`vsHecho_${l}_meditacion`) === "1" && contandoMed) rachaMed++;
-      else contandoMed = false;
+      else if (k > 0 || hechoHoy("meditacion")) contandoMed = false;
     }
 
     if (contRes) contRes.textContent = `${sesiones}/7 entrenamientos · ${meditaciones}/7 meditaciones`;
@@ -179,7 +181,7 @@ fetch("components/menu.html")
             ${rachaMed >= 2 ? `<span>🧘 Racha de meditación: <strong>${rachaMed} días</strong></span>` : ""}
           </div>`;
       } else {
-        contRach.innerHTML = `<p class="prog-act-inicio">Completa tu primera sesión hoy para iniciar tu racha. 💪</p>`;
+        contRach.innerHTML = `<p class="prog-act-inicio">${mejor === 1 ? "Llevas 1 día. Repite mañana para empezar tu racha. 💪" : "Completa tu primera sesión hoy para iniciar tu racha. 💪"}</p>`;
       }
     }
   }
@@ -202,7 +204,7 @@ fetch("components/menu.html")
       return;
     }
     const ultimo = conMedidas[conMedidas.length - 1];
-    const fechaUlt = new Date(ultimo.fechaISO);
+    const fechaUlt = new Date(ultimo.fechaISO + "T00:00");
     const diasPasados = Math.floor((new Date() - fechaUlt) / 86400000);
     if (diasPasados >= 28) {
       banner.innerHTML = `

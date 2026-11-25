@@ -5,6 +5,12 @@
 // ============================================================
 
 const LS_KEY = "pesosHistorial";
+const LS_DUENO = "pesosDueno"; // cuenta a la que pertenecen los pesos guardados aquí
+
+// Fecha de hoy en la hora del usuario (toISOString usa UTC y adelanta un día en la noche)
+function fechaLocal(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
 let _uid = null; // UID del usuario logueado (null = solo local)
 
 // Escapa texto escrito por el usuario antes de insertarlo como HTML
@@ -46,6 +52,10 @@ function registrarPeso() {
     mostrarMsg(msg, "Selecciona una fecha", "error");
     return;
   }
+  if (fechaISO > fechaLocal()) {
+    mostrarMsg(msg, "La fecha no puede ser futura", "error");
+    return;
+  }
 
   const datos = cargarPesos();
 
@@ -64,6 +74,7 @@ function registrarPeso() {
     nota:     notaInp.value.trim(),
   };
 
+  const anterior = existIdx >= 0 ? datos[existIdx] : null;
   if (existIdx >= 0) {
     datos[existIdx] = nuevoItem;
   } else {
@@ -81,7 +92,9 @@ function registrarPeso() {
   // Sincronizar con Firestore (fire-and-forget)
   const ref = _pesosRef();
   if (ref) {
-    ref.doc(nuevoItem.id).set(nuevoItem)
+    // Si corrige el mismo día, borra el registro viejo para que no vuelva al sincronizar
+    const viejo = anterior ? ref.doc(anterior.id).delete().catch(() => {}) : null;
+    Promise.resolve(viejo).then(() => ref.doc(nuevoItem.id).set(nuevoItem))
       .then(() => mostrarMsg(msg, "✓ Peso guardado y sincronizado ☁️", "ok"))
       .catch(() => mostrarMsg(msg, "✓ Peso guardado localmente", "ok"));
   } else {
@@ -132,9 +145,9 @@ function renderStats(datos) {
     ? cambio > 0
     : objetivo === "bajar"
       ? cambio < 0
-      : true; // mantener/tonificar → siempre neutral
+      : Math.abs(cambio) <= (pesoInicial || 0) * 0.03; // mantener/tonificar: peso estable (±3 %)
 
-  const cambioClass = cambio === null ? "" : cambio < 0 ? "positivo" : cambio > 0 ? "negativo" : "neutro";
+  const cambioClass = cambio === null ? "" : cambio === 0 ? "neutro" : esPositivo ? "positivo" : "negativo";
   const cambioStr = cambio === null ? "—"
     : cambio > 0 ? `+${cambio} kg`
     : cambio < 0 ? `${cambio} kg`
@@ -369,7 +382,7 @@ function renderComposicion(datos) {
       resultado = {
         ico:    "⚠️",
         titulo: "Posible acumulación de grasa",
-        detalle: `Tu peso subió <strong>+${deltaPeso} kg</strong> y tu cintura también aumentó ${deltaCint} cm. Esto sugiere grasa abdominal. Ajusta tu superávit calórico y aumenta la proteína.`,
+        detalle: `Tu peso subió <strong>+${deltaPeso} kg</strong> y tu cintura también aumentó ${deltaCint} cm. Esto sugiere grasa abdominal. Revisa tus porciones y tu actividad, o consulta con un nutricionista.`,
         color:  "#e65100", bg: "#fff3e0", borde: "#ffcc80",
       };
     } else if (deltaPeso > 0.5) {
@@ -453,12 +466,21 @@ async function sincronizarConFirestore(uid) {
     const firestoreEntries = snap.docs.map(d => d.data());
 
     // 2. Obtener entradas locales
+    // Si los pesos de este dispositivo son de otra cuenta, se apartan y no se mezclan
+    const dueno = localStorage.getItem(LS_DUENO);
+    if (dueno && dueno !== uid) {
+      localStorage.setItem(`${LS_KEY}_${dueno}`, localStorage.getItem(LS_KEY) || "[]");
+      guardarPesos(JSON.parse(localStorage.getItem(`${LS_KEY}_${uid}`) || "[]"));
+    }
+    localStorage.setItem(LS_DUENO, uid);
     const localEntries = cargarPesos();
 
     // 3. Merge: Firestore gana en conflictos por fechaISO
     const merged = new Map();
     localEntries.forEach(e => merged.set(e.fechaISO, e));
-    firestoreEntries.forEach(e => merged.set(e.fechaISO, e));
+    // Entre dos registros del mismo día en la nube gana el más reciente (el id termina en la hora)
+    const hora = e => +String(e.id).split("_").pop() || 0;
+    [...firestoreEntries].sort((a, b) => hora(a) - hora(b)).forEach(e => merged.set(e.fechaISO, e));
     const mergedArray = [...merged.values()].sort((a, b) => a.fechaISO.localeCompare(b.fechaISO));
 
     // 4. Guardar merge en localStorage
@@ -503,9 +525,9 @@ function mostrarMsg(el, txt, tipo) {
 // ─── Init ────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   // Fecha por defecto = hoy
-  const hoy = new Date().toISOString().slice(0, 10);
+  const hoy = fechaLocal();
   const fechaInp = document.getElementById("inp-fecha-peso");
-  if (fechaInp) fechaInp.value = hoy;
+  if (fechaInp) { fechaInp.value = hoy; fechaInp.max = hoy; }
 
   // Pre-rellenar peso con el último registrado
   const datos = cargarPesos();

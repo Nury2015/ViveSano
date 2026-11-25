@@ -1,3 +1,16 @@
+// ── PLAN DE EJERCICIO SEGÚN LA SALUD ──────────────────────
+// Única regla para Ejercicio, Meditación y Mi Día
+function necesitaRutinaSuave(u) {
+  const imc = u.peso && u.estatura ? u.peso / Math.pow(u.estatura / 100, 2) : 0;
+  return ["cardiaca", "hipertension", "obesidad", "renal", "diabetes"].includes(u.enfermedad)
+    || u.edad >= 65 || imc >= 30;
+}
+function tipoPlanEjercicio(u) {
+  if (u.condicion === "embarazo") return "prenatal";
+  if (necesitaRutinaSuave(u))     return "cardiaco"; // plan suave: sin HIIT ni saltos
+  return u.objetivo === "bajar" ? "cardio" : u.objetivo === "masa" ? "fuerza" : "balanceado";
+}
+
 // ── DATOS DE BÚSQUEDA ─────────────────────────────────────
 const SEARCH_ITEMS = [
   { ico:"📊", cat:"Sección", nombre:"Mi Progreso",          url:"progreso.html" },
@@ -41,15 +54,10 @@ function buscarEnApp(query) {
   const q = _normalizar(query);
   if (!q) return [];
 
-  // Recetas guardadas
-  const recetas = JSON.parse(localStorage.getItem("misRecetas") || "[]");
-  const recData = recetas.map(r => ({
-    ico: "🥗", cat: "Receta", nombre: r.nombre || "Receta sin nombre", url: "recetas.html"
-  }));
-
-  return [...SEARCH_ITEMS, ...recData]
+  return SEARCH_ITEMS
     .filter(it => _normalizar(it.nombre).includes(q) || _normalizar(it.cat).includes(q))
-    .slice(0, 10);
+    .slice(0, 9)
+    .concat({ ico: "🥗", cat: "Recetas", nombre: `Buscar "${query}" en recetas`, url: "recetas.html?buscar=" + encodeURIComponent(query) });
 }
 
 // ── INICIAR MENÚ ──────────────────────────────────────────
@@ -128,15 +136,11 @@ function iniciarMenu() {
         return;
       }
       const items = buscarEnApp(q);
-      if (!items.length) {
-        resultados.innerHTML = `<div class="search-no-result">😕 Sin resultados para "<strong>${q}</strong>"</div>`;
-        return;
-      }
       resultados.innerHTML = items.map(it => `
         <a href="${it.url}" class="search-result-item">
           <span class="search-result-ico">${it.ico}</span>
           <span class="search-result-info">
-            <span class="search-result-nombre">${it.nombre}</span>
+            <span class="search-result-nombre">${it.nombre.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</span>
             <span class="search-result-cat">${it.cat}</span>
           </span>
         </a>`).join("");
@@ -165,18 +169,21 @@ window.iniciarMenu = iniciarMenu;
 
   function checkRecordatorios() {
     if (!("Notification" in window) || Notification.permission !== "granted") return;
-    const config = JSON.parse(localStorage.getItem("recordatorios") || "[]");
+    if (typeof checkNotificaciones === "function") return; // Mi Día tiene su propio aviso
+    const config = JSON.parse(localStorage.getItem("recordatoriosMiDia") || "[]");
     if (!config.length) return;
 
     const ahora    = new Date();
     const hhmm     = `${String(ahora.getHours()).padStart(2,"0")}:${String(ahora.getMinutes()).padStart(2,"0")}`;
-    const claveHoy = `rec_mostrado_${ahora.toDateString()}`;
-    const yaVistos = JSON.parse(sessionStorage.getItem(claveHoy) || "[]");
 
     config.forEach(r => {
       if (!r.activo || r.hora !== hhmm) return;
       if (r.diaDelMes && ahora.getDate() !== r.diaDelMes) return;
-      if (yaVistos.includes(r.id)) return;
+      if (r.diasSemana && !r.diasSemana.includes(ahora.getDay())) return;
+      // Misma marca que usa Mi Día, para no avisar dos veces
+      const llave = r.diaDelMes ? `vsRec_${r.id}_${ahora.getFullYear()}-${ahora.getMonth()}` : `vsRec_${r.id}_${ahora.toDateString()}`;
+      if (localStorage.getItem(llave)) return;
+      localStorage.setItem(llave, "1");
 
       const u    = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
       const obj  = { bajar:"bajar de peso", masa:"ganar músculo", tonificar:"tonificar", mantener:"mantenerte" };
@@ -193,14 +200,13 @@ window.iniciarMenu = iniciarMenu;
         medidas:     `Primer día del mes — momento de registrar medidas. El número puede sorprenderte, para bien. 📏`,
       };
 
-      new Notification("ViveSano 🥗", {
-        body: MENS[r.id] || `¡Hora de ${r.label}!`,
-        icon: _iconRec(),
-        tag:  `vivesano-${r.id}`,
-      });
-
-      yaVistos.push(r.id);
-      sessionStorage.setItem(claveHoy, JSON.stringify(yaVistos));
+      try {
+        new Notification("ViveSano 🥗", {
+          body: MENS[r.id] || `¡Hora de ${r.label}!`,
+          icon: _iconRec(),
+          tag:  `vivesano-${r.id}`,
+        });
+      } catch (e) { /* Chrome en Android no permite este tipo de aviso */ }
     });
   }
 

@@ -3249,7 +3249,7 @@ function _guardarPlan() {
   const DIAS  = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
   const plan  = {
     fecha:     hoy.toLocaleDateString("es-CO"),
-    fechaISO:  hoy.toISOString().split("T")[0],   // "2026-05-14" para ordenar
+    fechaISO:  `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`,   // fecha local, para ordenar
     diaSemana: DIAS[hoy.getDay()],
     tipo:      "plan_dia",
     calorias:  caloriasSeleccionadas(),
@@ -3259,7 +3259,9 @@ function _guardarPlan() {
   SLOTS.forEach(s => { if (selecciones[s.id]) plan.comidas[s.id] = selecciones[s.id]; });
 
   const historial = JSON.parse(localStorage.getItem("historial")) || [];
-  historial.push(plan);
+  // Un solo plan por día: guardar de nuevo lo actualiza
+  const previo = historial.findIndex(i => i.tipo === "plan_dia" && i.fechaISO === plan.fechaISO);
+  if (previo >= 0) historial[previo] = plan; else historial.push(plan);
   localStorage.setItem("historial", JSON.stringify(historial));
 
   const btn = document.getElementById("btn-guardar-plan");
@@ -3370,3 +3372,13 @@ function _hintChipScroll() {
 }
 
 document.addEventListener("DOMContentLoaded", initPlaneador);
+
+// Llega desde el buscador del menú: recetas.html?buscar=arepa
+document.addEventListener("DOMContentLoaded", () => {
+  const q = new URLSearchParams(location.search).get("buscar");
+  const inp = document.getElementById("search-recetas");
+  if (!q || !inp) return;
+  inp.value = q;
+  buscarRecetas(q);
+  inp.scrollIntoView({ block: "center" });
+});

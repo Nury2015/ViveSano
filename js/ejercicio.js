@@ -82,6 +82,40 @@ const SESIONES = {
   },
 
   // ── CALISTENIA ────────────────────────────────────────
+  suave_superior: {
+    nombre:"Fuerza Suave: Brazos y Espalda", tipo:"fuerza", emoji:"🌿", color:"#2e7d32",
+    duracion:20, dificultad:"Suave",
+    descripcion:"Fuerza sin impacto, de pie o en silla. Debes poder conversar mientras la haces.",
+    pasos:[
+      { n:"Calentamiento", tipo:"calentamiento", d:300,
+        i:"5 min: marcha suave en el sitio, círculos de hombros y de muñecas. Respira sin aguantar el aire." },
+      { n:"Flexiones en la pared", tipo:"fuerza", s:2, r:"8–10 reps", ds:90,
+        i:"De pie frente a la pared, manos al ancho de hombros. Acerca el pecho y empuja despacio. Suelta el aire al empujar." },
+      { n:"Remo sin peso sentado", tipo:"espalda", s:2, r:"10–12 reps", ds:90,
+        i:"Sentado con la espalda recta, lleva los codos hacia atrás juntando los omóplatos. Sin fuerza máxima." },
+      { n:"Elevación de brazos al frente", tipo:"fuerza", s:2, r:"8–10 reps", ds:90,
+        i:"Sentado, sube los brazos sin peso hasta la altura de los hombros y baja despacio." },
+      { n:"Enfriamiento", tipo:"enfriamiento", d:300,
+        i:"5 min: camina despacio, estira pecho y hombros. Levántate poco a poco para no marearte." },
+    ]
+  },
+  suave_inferior: {
+    nombre:"Fuerza Suave: Piernas y Equilibrio", tipo:"fuerza", emoji:"🌿", color:"#2e7d32",
+    duracion:20, dificultad:"Suave",
+    descripcion:"Piernas sin saltos ni posturas difíciles, con una silla de apoyo.",
+    pasos:[
+      { n:"Calentamiento", tipo:"calentamiento", d:300,
+        i:"5 min: marcha suave en el sitio y círculos de tobillos, apoyándote en una silla si lo necesitas." },
+      { n:"Sentarse y levantarse de la silla", tipo:"fuerza", s:2, r:"8–10 reps", ds:90,
+        i:"Silla firme contra la pared. Levántate y siéntate despacio; ayúdate con las manos si hace falta." },
+      { n:"Elevación de talones con apoyo", tipo:"pantorrillas", s:2, r:"10–12 reps", ds:90,
+        i:"De pie sosteniendo la silla, sube los talones y baja despacio." },
+      { n:"Pierna hacia el lado con apoyo", tipo:"glúteos", s:2, r:"8 por pierna", ds:90,
+        i:"Sosteniendo la silla, abre una pierna sin inclinar el cuerpo. Cambia de lado." },
+      { n:"Enfriamiento", tipo:"enfriamiento", d:300,
+        i:"5 min: camina despacio y estira pantorrillas y muslos con apoyo. No te levantes de golpe." },
+    ]
+  },
   cali_superior: {
     nombre:"Calistenia: Tren Superior", tipo:"calistenia", emoji:"🏋️", color:"#1565c0",
     duracion:35, dificultad:"Moderado–Intenso",
@@ -365,13 +399,13 @@ const PLANES = {
     ["yoga_prenatal",  "med_respiracion",  "descanso",      "yoga_prenatal",    "med_corporal",    "descanso",          "med_visualizacion"],
     ["descanso",       "yoga_prenatal",    "med_mindfulness","descanso",        "yoga_prenatal",   "med_respiracion",   "descanso"],
   ],
-  // Plan seguro para condiciones cardíacas e hipertensión:
+  // Plan suave: corazón, hipertensión, obesidad, riñón, diabetes y mayores de 65.
   // SIN HIIT (circ_cardio), SIN saltos, intensidad baja-moderada.
   cardiaco: [
-    ["yoga_basico",    "cali_inferior",    "med_respiracion","yoga_espalda",    "cali_superior",   "yoga_restaurativo", "descanso"],
-    ["cali_inferior",  "yoga_basico",      "med_corporal",   "cali_superior",   "yoga_espalda",    "med_mindfulness",   "descanso"],
-    ["yoga_espalda",   "cali_superior",    "med_visualizacion","yoga_basico",   "cali_inferior",   "yoga_restaurativo", "descanso"],
-    ["cali_superior",  "med_respiracion",  "yoga_basico",    "cali_inferior",   "med_mindfulness", "yoga_espalda",      "descanso"],
+    ["yoga_basico",    "suave_inferior",    "med_respiracion","yoga_espalda",    "suave_superior",   "yoga_restaurativo", "descanso"],
+    ["suave_inferior",  "yoga_basico",      "med_corporal",   "suave_superior",   "yoga_espalda",    "med_mindfulness",   "descanso"],
+    ["yoga_espalda",   "suave_superior",    "med_visualizacion","yoga_basico",   "suave_inferior",   "yoga_restaurativo", "descanso"],
+    ["suave_superior",  "med_respiracion",  "yoga_basico",    "suave_inferior",   "med_mindfulness", "yoga_espalda",      "descanso"],
   ],
 };
 
@@ -499,8 +533,7 @@ function init() {
       document.getElementById("ej-overlay-sesion").style.display = "none";
       clearInterval(timerInterval);
       timerCorriendo = false;
-      sesionActiva   = null;
-      marcarHecho("ejercicio");
+      sesionActiva   = null;   // salir con ✕ no cuenta como completado
     });
   }
   const btnCerrarMed = document.getElementById("ej-btn-cerrar-med");
@@ -509,7 +542,6 @@ function init() {
       clearInterval(medTimerInterval);
       medData = null;
       document.getElementById("ej-overlay-meditacion").style.display = "none";
-      marcarHecho("meditacion");
     });
   }
 
@@ -525,6 +557,20 @@ function init() {
   if (sub) sub.textContent = u.condicion === "embarazo"
     ? "Plan prenatal seguro · cambia cada semana"
     : (subtitulos[u.objetivo] || "Plan personalizado · cambia cada semana");
+
+  const suave = u.condicion !== "embarazo" && necesitaRutinaSuave(u);
+  if (suave) {
+    if (sub) sub.textContent = "Plan suave y sin saltos · cambia cada semana";
+    const aviso = document.createElement("p");
+    aviso.className = "ej-aviso-salud";
+    aviso.textContent = "Antes de empezar, consulta a tu médico. Detente y busca ayuda si sientes dolor en el pecho, mareo o mucha falta de aire." +
+      (u.enfermedad === "diabetes" ? " Si usas insulina o pastillas para el azúcar, mide tu glucosa antes y ten algo dulce a mano." : "");
+    document.getElementById("ej-hoy-inner")?.before(aviso);
+  }
+  if (["renal", "cardiaca"].includes(u.enfermedad)) {
+    const agua = document.getElementById("ej-tip-agua");
+    if (agua) agua.textContent = "Toma solo la cantidad de líquido que te indicó tu médico. En enfermedad renal o del corazón, tomar agua de más puede hacer daño.";
+  }
 
   const semanaEl = document.getElementById("ej-semana-num");
   if (semanaEl) semanaEl.textContent = getWeekNumber();
@@ -546,14 +592,7 @@ function getWeekNumber() {
   return Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
 }
 
-function getPlanTipo(u) {
-  if (u.condicion  === "embarazo")                             return "prenatal";
-  // Condiciones que requieren plan sin HIIT ni saltos
-  if (u.enfermedad === "cardiaca" || u.enfermedad === "hipertension") return "cardiaco";
-  if (u.objetivo   === "bajar")                                return "cardio";
-  if (u.objetivo   === "masa")                                 return "fuerza";
-  return "balanceado";
-}
+function getPlanTipo(u) { return tipoPlanEjercicio(u); } // en menu.js
 
 function getSesionSemana(u) {
   const tipo    = getPlanTipo(u);
@@ -759,7 +798,7 @@ function irPaso(delta) {
   timerCorriendo = false;
   const total = (sesionActiva?.pasos || []).length;
   pasoActivo += delta;
-  if (pasoActivo >= total) { cerrarSesion(); return; }
+  if (pasoActivo >= total) { terminarSesion(); return; }
   pasoActivo = Math.max(0, pasoActivo);
   renderPasoSesion();
 }
@@ -783,7 +822,8 @@ function toggleTimer() {
   }
 }
 
-function cerrarSesion() {
+// No llamarla cerrarSesion: auth.js usa ese nombre para salir de la cuenta
+function terminarSesion() {
   clearInterval(timerInterval);
   timerCorriendo = false;
   sesionActiva   = null;
@@ -796,6 +836,7 @@ function iniciarMeditacion(ses) {
   medData   = ses;
   medPaso   = 0;
   medPausado = false;
+  document.getElementById("ej-med-pausar").textContent = "⏸ Pausar";
   document.getElementById("ej-overlay-meditacion").style.display = "flex";
   renderPasoMed();
   iniciarTimerMed();

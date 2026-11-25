@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderGrid("descanso",   "med-grid-descanso",   u);
 
   const btnCerrar = document.getElementById("med-btn-cerrar");
-  if (btnCerrar) btnCerrar.addEventListener("click", medCerrar);
+  if (btnCerrar) btnCerrar.addEventListener("click", () => medCerrar(false));
 });
 
 // ─── ESTADO DEL DÍA ────────────────────────────────────
@@ -290,16 +290,12 @@ function renderSesionHoy(u) {
                 ["med_corporal","yoga_prenatal","descanso","med_mindfulness","yoga_prenatal","descanso","med_respiracion"],
                 ["yoga_prenatal","med_respiracion","descanso","yoga_prenatal","med_corporal","descanso","med_visualizacion"],
                 ["descanso","yoga_prenatal","med_mindfulness","descanso","yoga_prenatal","med_respiracion","descanso"]],
-    cardiaco:  [["yoga_basico","cali_inferior","med_respiracion","yoga_espalda","cali_superior","yoga_restaurativo","descanso"],
-                ["cali_inferior","yoga_basico","med_corporal","cali_superior","yoga_espalda","med_mindfulness","descanso"],
-                ["yoga_espalda","cali_superior","med_visualizacion","yoga_basico","cali_inferior","yoga_restaurativo","descanso"],
-                ["cali_superior","med_respiracion","yoga_basico","cali_inferior","med_mindfulness","yoga_espalda","descanso"]],
+    cardiaco:  [["yoga_basico","suave_inferior","med_respiracion","yoga_espalda","suave_superior","yoga_restaurativo","descanso"],
+                ["suave_inferior","yoga_basico","med_corporal","suave_superior","yoga_espalda","med_mindfulness","descanso"],
+                ["yoga_espalda","suave_superior","med_visualizacion","yoga_basico","suave_inferior","yoga_restaurativo","descanso"],
+                ["suave_superior","med_respiracion","yoga_basico","suave_inferior","med_mindfulness","yoga_espalda","descanso"]],
   };
-  const tipo = u.condicion === "embarazo" ? "prenatal"
-             : (u.enfermedad === "cardiaca" || u.enfermedad === "hipertension") ? "cardiaco"
-             : u.objetivo === "bajar" ? "cardio"
-             : u.objetivo === "masa"  ? "fuerza"
-             : "balanceado";
+  const tipo = tipoPlanEjercicio(u); // en menu.js
 
   const now    = new Date();
   const semana = Math.ceil(((now - new Date(now.getFullYear(), 0, 1)) / 86400000 + new Date(now.getFullYear(), 0, 1).getDay() + 1) / 7);
@@ -367,6 +363,8 @@ function iniciarSesion(sesId) {
   _medPaso    = 0;
   _medPausado = false;
   _sesIdActual = sesId;
+  const btnPausa = document.getElementById("med-pausar");
+  if (btnPausa) btnPausa.textContent = "⏸ Pausar";
 
   const overlay = document.getElementById("med-overlay");
   if (overlay) overlay.style.display = "flex";
@@ -444,15 +442,18 @@ function medPausar() {
   if (btn) btn.textContent = _medPausado ? "▶ Reanudar" : "⏸ Pausar";
 }
 
-function medCerrar() {
+// completada = false cuando se sale con ✕ antes de terminar
+function medCerrar(completada = true) {
   clearInterval(_medTimer);
   _medData     = null;
   _sesIdActual = null;
   const overlay = document.getElementById("med-overlay");
   if (overlay) overlay.style.display = "none";
+  if (!completada) return;
   marcarHecho("meditacion");
   renderEstadoHoy();
   const u = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
+  renderSesionHoy(u);
   renderGrid("meditacion", "med-grid-meditacion", u);
   renderGrid("yoga",       "med-grid-yoga",       u);
   renderGrid("descanso",   "med-grid-descanso",   u);

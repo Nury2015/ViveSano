@@ -717,3 +717,5 @@ body { background: var(--fondo); font-family: 'Inter', sans-serif; margin: 0; }
   .ej-tips-grid { grid-template-columns: 1fr; }
   .ej-hoy-nombre { font-size: 19px; }
 }
+
+.ej-aviso-salud { margin: 0 0 14px; padding: 10px 14px; background: #fff6e0; border-radius: 10px; color: #5c4300; font-size: 13px; line-height: 1.5; }

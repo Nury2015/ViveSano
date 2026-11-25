@@ -430,7 +430,7 @@ function guardarReceta() {
   if (!receta) return;
   verificarYProceder(() => {
     let historial = JSON.parse(localStorage.getItem("historial")) || [];
-    historial.push({ ...receta, fechaGuardado: new Date().toLocaleDateString("es-CO") });
+    historial.push({ ...receta, tipo: receta.tipo || receta.tipoMeal || "almuerzo", fechaGuardado: new Date().toLocaleDateString("es-CO") });
     localStorage.setItem("historial", JSON.stringify(historial));
     const btn = document.querySelector(".btn-plan");
     btn.textContent = "✓ Agregado al historial";

@@ -40,7 +40,7 @@ const FRASES_DIA = [
   { ico:"🎯", txt:"Tu plan de alimentación no es una dieta. Es una inversión. Las dietas terminan. Las inversiones crecen." },
   { ico:"😴", txt:"Duolingo amenaza con que el búho aparece de noche si no estudias. Nosotros somos más sutiles. Por ahora. 🌿" },
   { ico:"⚡", txt:"5 años de malos hábitos no se borran en 2 semanas. Pero 2 semanas de buenos hábitos SÍ cambian cómo te sientes. Comprobado. Empieza." },
-  { ico:"💧", txt:"El 60% de tu cuerpo es agua. En este momento ese porcentaje va bajando. ¿Ya tomaste 2 vasos de agua hoy? No café. Agua." },
+  { ico:"💧", txt:"¿Tienes sed? Agua, no gaseosa. Y si tu médico te limitó los líquidos, respeta tu cantidad." },
   { ico:"🤔", txt:"Si a las 3pm te sientes cansado/a sin razón, no es el trabajo — es que no tomaste agua, saltaste el almuerzo o los dos. Siempre son los dos." },
   { ico:"📅", txt:"Llevas días seguidos abriendo esta app. Eso no es casualidad. Es un hábito formándose. Aliméntalo." },
   { ico:"🧬", txt:"Tu microbioma intestinal cambia en 72 horas con buena alimentación. 3 días. No 3 meses. El cambio empieza casi de inmediato." },
@@ -134,7 +134,7 @@ const MSG_CONDICION = {
     cena:        "❤️ Cena ligera y baja en grasa saturada esta noche. Tu corazón lo agradece mientras duermes.",
   },
   hipertension: {
-    ejercicio:   "❤️ Ejercicio moderado hoy. Nada de HIIT. Hidratación constante y si sientes algo raro, para.",
+    ejercicio:   "❤️ Ejercicio moderado hoy. Nada de HIIT. Si sientes algo raro, para.",
     meditacion:  "❤️ La meditación baja la presión arterial. 10 minutos hoy pueden hacer diferencia real. 🧘",
     cena:        "❤️ Cena ligera y baja en sal esta noche. La hipertensión agradece las cenas suaves. 🌙",
     almuerzo:    "❤️ Almuerzo sin sal extra hoy. Condimenta con limón, ajo o especias. Tu presión te lo agradece.",
@@ -335,19 +335,14 @@ function personalizarEjercicio(u) {
   const obj = { bajar:"Cardio + fuerza para bajar de peso", masa:"Fuerza y calistenia para ganar músculo",
                 tonificar:"Circuitos para tonificar", mantener:"Plan equilibrado de mantenimiento" };
   if (u.condicion  === "embarazo")                                        sub.textContent = "Yoga prenatal y meditación";
-  else if (u.enfermedad === "cardiaca" || u.enfermedad === "hipertension") sub.textContent = "Plan cardiovascular seguro — sin HIIT ❤️";
-  else if (u.enfermedad === "diabetes")                                   sub.textContent = "Plan con horarios precisos para glucosa estable";
+  else if (necesitaRutinaSuave(u))                                        sub.textContent = "Plan suave y sin saltos, según tu salud";
   else sub.textContent = obj[u.objetivo] || "Entrenamiento según tu objetivo";
 
   // Mostrar sesión de hoy en la card de ejercicio
   try {
     const hoy  = (new Date().getDay() + 6) % 7;
     const wk   = getWeekNumber() % 4;
-    const tipo = u.condicion  === "embarazo"                                       ? "prenatal"
-               : (u.enfermedad === "cardiaca" || u.enfermedad === "hipertension")   ? "cardiaco"
-               : u.objetivo   === "bajar"                                           ? "cardio"
-               : u.objetivo   === "masa"                                            ? "fuerza"
-               : "balanceado";
+    const tipo = tipoPlanEjercicio(u); // en menu.js
 
     // Map de planes (importados desde ejercicio.js si disponible)
     const PLANES_MAP = {
@@ -367,14 +362,15 @@ function personalizarEjercicio(u) {
                   ["med_corporal","yoga_prenatal","descanso","med_mindfulness","yoga_prenatal","descanso","med_respiracion"],
                   ["yoga_prenatal","med_respiracion","descanso","yoga_prenatal","med_corporal","descanso","med_visualizacion"],
                   ["descanso","yoga_prenatal","med_mindfulness","descanso","yoga_prenatal","med_respiracion","descanso"]],
-      cardiaco:  [["yoga_basico","cali_inferior","med_respiracion","yoga_espalda","cali_superior","yoga_restaurativo","descanso"],
-                  ["cali_inferior","yoga_basico","med_corporal","cali_superior","yoga_espalda","med_mindfulness","descanso"],
-                  ["yoga_espalda","cali_superior","med_visualizacion","yoga_basico","cali_inferior","yoga_restaurativo","descanso"],
-                  ["cali_superior","med_respiracion","yoga_basico","cali_inferior","med_mindfulness","yoga_espalda","descanso"]],
+      cardiaco:  [["yoga_basico","suave_inferior","med_respiracion","yoga_espalda","suave_superior","yoga_restaurativo","descanso"],
+                  ["suave_inferior","yoga_basico","med_corporal","suave_superior","yoga_espalda","med_mindfulness","descanso"],
+                  ["yoga_espalda","suave_superior","med_visualizacion","yoga_basico","suave_inferior","yoga_restaurativo","descanso"],
+                  ["suave_superior","med_respiracion","yoga_basico","suave_inferior","med_mindfulness","yoga_espalda","descanso"]],
     };
     const NOMBRES_MAP = {
       circ_fuerza:"Circuito de Fuerza 💪", circ_cardio:"Cardio HIIT 🔥", circ_core:"Core & Estabilidad ⚡",
       cali_superior:"Calistenia Tren Superior 🏋️", cali_inferior:"Calistenia Tren Inferior 🦵",
+      suave_superior:"Fuerza Suave: Brazos 🌿", suave_inferior:"Fuerza Suave: Piernas 🌿",
       yoga_basico:"Yoga Básico 🧘", yoga_espalda:"Yoga Espalda 🌿", yoga_restaurativo:"Yoga Restaurativo 🌙",
       yoga_prenatal:"Yoga Prenatal 🤱", med_respiracion:"Meditación Respiración 🌬️",
       med_corporal:"Escaneo Corporal 🧠", med_visualizacion:"Visualización ✨",
@@ -456,10 +452,7 @@ async function solicitarPermiso() {
   await Notification.requestPermission();
   renderPermiso();
   if (Notification.permission === "granted") {
-    new Notification("ViveSano 🌿", {
-      body: "¡Listo! Estaremos contigo desde que te levantas. Ahora sí, a darle. 💪",
-      icon: _iconoUrl(),
-    });
+    avisar("¡Listo! Estaremos contigo desde que te levantas. Ahora sí, a darle. 💪");
   }
 }
 
@@ -471,7 +464,7 @@ function iniciarChecker() {
 }
 
 function checkNotificaciones() {
-  if (Notification.permission !== "granted") return;
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
   const ahora  = new Date();
   const hhmm   = `${String(ahora.getHours()).padStart(2,"0")}:${String(ahora.getMinutes()).padStart(2,"0")}`;
   const u      = JSON.parse(localStorage.getItem("datosUsuario") || "{}");
@@ -492,9 +485,15 @@ function checkNotificaciones() {
     if (localStorage.getItem(llave)) return;
 
     const msg = buildMensaje(r.id, u);
-    new Notification("ViveSano 🌿", { body: msg, icon: _iconoUrl() });
     localStorage.setItem(llave, "1");
+    avisar(msg);
   });
+}
+
+// Chrome en Android lanza error con new Notification: no debe romper la página
+function avisar(body) {
+  try { new Notification("ViveSano 🌿", { body, icon: _iconoUrl() }); return true; }
+  catch (e) { return false; }
 }
 
 function buildMensaje(id, u) {
@@ -518,7 +517,8 @@ function buildMensaje(id, u) {
     try {
       const hoyIdx = (new Date().getDay() + 6) % 7;
       const wk = getWeekNumber() % 4;
-      const tipo = cond === "embarazo" ? "prenatal" : u.objetivo === "bajar" ? "cardio" : u.objetivo === "masa" ? "fuerza" : "balanceado";
+      const tipo = tipoPlanEjercicio(u);
+      if (tipo === "cardiaco") return "🌿 Hoy toca tu rutina suave. Ve a tu ritmo y detente si sientes dolor en el pecho, mareo o falta de aire.";
       const P = { cardio:[["circ_cardio","yoga_basico","cali_inferior","med_respiracion","circ_fuerza","yoga_restaurativo","descanso"],["cali_inferior","circ_cardio","med_corporal","circ_fuerza","yoga_espalda","circ_core","descanso"],["circ_fuerza","med_visualizacion","circ_cardio","yoga_basico","cali_inferior","med_mindfulness","descanso"],["yoga_basico","circ_cardio","cali_inferior","circ_core","med_respiracion","circ_fuerza","descanso"]], fuerza:[["cali_superior","cali_inferior","circ_core","med_respiracion","cali_superior","yoga_espalda","descanso"],["cali_inferior","circ_fuerza","cali_superior","med_corporal","cali_inferior","yoga_restaurativo","descanso"],["circ_fuerza","cali_superior","med_visualizacion","cali_inferior","circ_core","yoga_basico","descanso"],["cali_superior","med_mindfulness","cali_inferior","circ_fuerza","cali_superior","yoga_espalda","descanso"]], balanceado:[["circ_fuerza","yoga_basico","cali_superior","med_respiracion","cali_inferior","yoga_restaurativo","descanso"],["yoga_espalda","circ_cardio","med_corporal","cali_superior","circ_core","yoga_basico","descanso"],["cali_inferior","med_visualizacion","circ_fuerza","yoga_restaurativo","cali_superior","med_mindfulness","descanso"],["circ_core","yoga_basico","circ_cardio","med_respiracion","cali_inferior","yoga_espalda","descanso"]], prenatal:[["yoga_prenatal","descanso","med_respiracion","yoga_prenatal","descanso","med_visualizacion","descanso"],["med_corporal","yoga_prenatal","descanso","med_mindfulness","yoga_prenatal","descanso","med_respiracion"],["yoga_prenatal","med_respiracion","descanso","yoga_prenatal","med_corporal","descanso","med_visualizacion"],["descanso","yoga_prenatal","med_mindfulness","descanso","yoga_prenatal","med_respiracion","descanso"]] };
       const N = { circ_fuerza:"Circuito de Fuerza", circ_cardio:"Cardio HIIT", circ_core:"Core & Estabilidad", cali_superior:"Calistenia Tren Superior", cali_inferior:"Calistenia Tren Inferior", yoga_basico:"Yoga Básico", yoga_espalda:"Yoga para la Espalda", yoga_restaurativo:"Yoga Restaurativo", yoga_prenatal:"Yoga Prenatal", med_respiracion:"Meditación Respiración", med_corporal:"Escaneo Corporal", med_visualizacion:"Visualización Guiada", med_mindfulness:"Mindfulness", descanso:"Descanso Activo" };
       const sesId = P[tipo]?.[wk]?.[hoyIdx];
@@ -539,7 +539,7 @@ function buildMensaje(id, u) {
 
 // ─── NOTIFICACIÓN DE PRUEBA ───────────────────────────────────
 function notificacionPrueba() {
-  if (Notification.permission !== "granted") {
+  if (!("Notification" in window) || Notification.permission !== "granted") {
     alert("Primero activa las notificaciones arriba 👆");
     return;
   }
@@ -549,10 +549,8 @@ function notificacionPrueba() {
     "Si puedes leer esto, las notificaciones están activadas. Si no puedes... ¿cómo estás leyendo esto?",
     "Prueba exitosa. Tu yo del futuro ya sabe que vas a estar más sano/a. 💪",
   ];
-  new Notification("ViveSano 🌿", {
-    body: frases[Math.floor(Math.random() * frases.length)],
-    icon: _iconoUrl(),
-  });
+  if (!avisar(frases[Math.floor(Math.random() * frases.length)]))
+    alert("Tu navegador no permite estos avisos. Pruébalo en un computador.");
 }
 
 // ─── UTILS ────────────────────────────────────────────────────
