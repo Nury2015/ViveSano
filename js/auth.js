@@ -156,6 +156,7 @@ async function registrarEmail() {
   if (!nombre || !email || !pass) { _mostrarError("registro", "Completa todos los campos"); return; }
   if (pass.length < 6)            { _mostrarError("registro", "La contraseña debe tener al menos 6 caracteres"); return; }
   if (pass !== pass2)             { _mostrarError("registro", "Las contraseñas no coinciden"); return; }
+  if (!document.getElementById("reg-mayor")?.checked) { _mostrarError("registro", "Confirma que eres mayor de 18 años"); return; }
 
   try {
     const r = await auth.createUserWithEmailAndPassword(email, pass);
@@ -181,6 +182,13 @@ async function loginGoogle() {
   try {
     const r = await auth.signInWithPopup(provider);
     const isNew = r.additionalUserInfo?.isNewUser;
+    // Cuenta nueva con Google: también debe confirmar la edad
+    const marcado = document.querySelector("#reg-mayor:checked, #pna-reg-mayor:checked");
+    if (isNew && !marcado && !confirm("ViveSano es solo para mayores de 18 años.\n\n¿Confirmas que eres mayor de 18?")) {
+      try { await r.user.delete(); } catch (e) { await auth.signOut(); }
+      location.reload();
+      return;
+    }
     await _despuesDeAuth(r.user, isNew
       ? { nombre: r.user.displayName || "", enfermedad: "ninguna", objetivo: "mantener" }
       : null

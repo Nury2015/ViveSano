@@ -201,6 +201,7 @@
         <input id="reg-email" type="email" placeholder="Correo electrónico" style="padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:14px">
         <input id="reg-pass" type="password" placeholder="Contraseña (mín. 6 caracteres)" style="padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:14px">
         <input id="reg-pass2" type="password" placeholder="Confirmar contraseña" style="padding:10px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:14px">
+        <label style="display:flex;align-items:center;gap:10px;min-height:40px;font-size:14px;color:#333;cursor:pointer"><input id="reg-mayor" type="checkbox" style="width:20px;height:20px;margin:0;flex-shrink:0;accent-color:#2e7d32"> Soy mayor de 18 años</label>
         <div id="error-registro" style="color:#e53935;font-size:12px;min-height:16px"></div>
         <button onclick="registrarEmail()" style="padding:12px;background:#2e7d32;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">Crear cuenta</button>
         <button onclick="loginGoogle()" style="padding:10px;background:white;border:1.5px solid #ddd;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
@@ -217,41 +218,31 @@
 <script src="js/familia.js"></script>
 <script>
 // ── EMOJI POR INGREDIENTE ─────────────────────────
+const EMOJI_ING = [
+  [/^sin /, "➖"], [/huevo|clara/, "🥚"], [/queso|cuajada/, "🧀"],
+  [/prote[ií]na.*polvo|^prote[ií]na/, "💪"],
+  [/leche de coco|coco/, "🥥"], [/cacao|chocolate/, "🍫"], [/caf[eé]|tinto/, "☕"],
+  [/arom[aá]tica|\bt[eé]$/, "🍵"], [/arequipe|panela|stevia|miel|bocadillo/, "🍯"],
+  [/leche|yogur|bebida/, "🥛"], [/^agua$/, "💧"], [/tofu/, "🧊"],
+  [/pollo desmechado|pechuga|muslo|^pollo/, "🍗"], [/carne|costilla|lomo|menudo|\bres\b/, "🥩"],
+  [/caldo vegetal|^caldo/, "🍲"], [/at[uú]n|sardina|pescado/, "🐟"],
+  [/hogao|sofrito|guascas/, "🌿"],
+  [/frijol|lenteja|habas|^arveja/, "🫘"], [/arroz inflado|galletas/, "🍘"], [/arroz/, "🍚"],
+  [/pasta|fideo/, "🍝"], [/pandebono|almoj|^pan /, "🍞"], [/oblea/, "🧇"],
+  [/arepa|masarepa|choclo|mazorca|^ma[ií]z|hojuelas de ma/, "🌽"],
+  [/man[ií](?!z)|nueces|semillas/, "🥜"], [/avena|granola/, "🌾"],
+  [/aguacate/, "🥑"], [/banano maduro|^banano|pl[aá]tano|patac/, "🍌"],
+  [/fresa/, "🍓"], [/manzana/, "🍎"], [/\bpera/, "🍐"], [/piña/, "🍍"], [/mango|papaya/, "🥭"],
+  [/naranja|mandarina/, "🍊"], [/fruta/, "🍎"], [/chontaduro/, "🍑"],
+  [/papa\b|yuca|cubios/, "🥔"], [/ahuyama/, "🎃"], [/zanahoria/, "🥕"],
+  [/lechuga|ensalada|espinaca|repollo|br[oó]coli/, "🥬"], [/tomate/, "🍅"], [/cebolla/, "🧅"],
+  [/aceite/, "🫒"], [/lim[oó]n/, "🍋"], [/^sal\b|pizca de sal/, "🧂"], [/canela/, "🌰"],
+  [/cilantro/, "🌿"], [/\bajo\b/, "🧄"],
+];
 function getIngEmoji(nombre) {
-  const n = (nombre || "").toLowerCase();
-  if (n.includes("arepa") || n.includes("choclo") || n.includes("mazorca")) return "🌽";
-  if (n.includes("huevo"))   return "🥚";
-  if (n.includes("queso"))   return "🧀";
-  if (n.includes("mango") || n.includes("naranja") || n.includes("mandarina")) return "🍊";
-  if (n.includes("café") || n.includes("tinto"))  return "☕";
-  if (n.includes("leche") || n.includes("chocolate")) return "🥛";
-  if (n.includes("frijol") || n.includes("lenteja")) return "🫘";
-  if (n.includes("arroz"))   return "🍚";
-  if (n.includes("papa"))    return "🥔";
-  if (n.includes("yuca"))    return "🥔";
-  if (n.includes("pollo") || n.includes("pechuga")) return "🍗";
-  if (n.includes("carne") || n.includes("res") || n.includes("costilla")) return "🥩";
-  if (n.includes("tomate"))  return "🍅";
-  if (n.includes("cebolla")) return "🧅";
-  if (n.includes("ajo"))     return "🧄";
-  if (n.includes("banano") || n.includes("plátano")) return "🍌";
-  if (n.includes("zanahoria")) return "🥕";
-  if (n.includes("espinaca") || n.includes("lechuga") || n.includes("brócoli")) return "🥬";
-  if (n.includes("aguacate")) return "🥑";
-  if (n.includes("limón"))   return "🍋";
-  if (n.includes("piña"))    return "🍍";
-  if (n.includes("fresas") || n.includes("fresa")) return "🍓";
-  if (n.includes("papaya"))  return "🫐";
-  if (n.includes("avena"))   return "🌾";
-  if (n.includes("aceite"))  return "🫙";
-  if (n.includes("panela") || n.includes("azúcar") || n.includes("miel")) return "🍯";
-  if (n.includes("cilantro") || n.includes("hogao")) return "🌿";
-  if (n.includes("pasta") || n.includes("fideo")) return "🍝";
-  if (n.includes("atún") || n.includes("sardina")) return "🐟";
-  return "🍽️";
+  const n = (nombre || "").toLowerCase().replace(/[(]sin[^)]*[)]/g, "");
+  return (EMOJI_ING.find(([re]) => re.test(n)) || [0, "🥣"])[1];
 }
-
-// ── CONVERSIÓN GRAMOS ─────────────────────────────
 
 // ── RECETA ────────────────────────────────────────
 const receta = JSON.parse(localStorage.getItem("recetaActual"));
@@ -303,7 +294,7 @@ if (!receta) {
   function pintarIngredientes() {
     const n = Familia.personas(), f = Familia.factor();
     infoFam.innerHTML = `<p class="familia-resumen">${n > 1
-        ? `Cantidades para cocinar para <strong>${n} personas</strong>. Las calorías de arriba son solo de <strong>tu porción</strong>.`
+        ? `Cantidades aproximadas para cocinar para <strong>${n} personas</strong>. Las calorías de arriba son solo de <strong>tu porción</strong>.`
         : "Cantidades para <strong>1 persona</strong> (tú)."}</p>`
       + (Familia.avisos(receta.ingredientes).length ? `<ul class="familia-avisos">${Familia.avisos(receta.ingredientes).map(t => `<li>${t}</li>`).join("")}</ul>` : "");
     ulIng.innerHTML = receta.ingredientes.map(ing => {

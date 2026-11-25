@@ -27,7 +27,7 @@ const Nutricion = (() => {
   }
 
   function validar(d) {
-    if (!(d.edad >= 14 && d.edad <= 100)) return "La calculadora es para personas de 14 a 100 años. Los niños necesitan valoración pediátrica.";
+    if (!(d.edad >= 18 && d.edad <= 100)) return "ViveSano es solo para mayores de 18 años (hasta 100). Los niños y adolescentes no deben hacer dieta sin pediatra o nutricionista.";
     if (!(d.peso >= 30 && d.peso <= 300)) return "Revisa el peso: debe estar entre 30 y 300 kg.";
     if (!(d.estatura >= 120 && d.estatura <= 230)) return "Revisa la estatura en centímetros: debe estar entre 120 y 230.";
     return null;

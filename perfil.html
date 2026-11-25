@@ -58,6 +58,7 @@
         <input id="pna-reg-email"   type="email"    placeholder="Correo electrónico"           class="pna-input">
         <input id="pna-reg-pass"    type="password" placeholder="Contraseña (mín. 6 caracteres)" class="pna-input">
         <input id="pna-reg-pass2"   type="password" placeholder="Confirmar contraseña"         class="pna-input">
+        <label style="display:flex;align-items:center;gap:10px;min-height:40px;font-size:14px;color:#333;cursor:pointer"><input id="pna-reg-mayor" type="checkbox" style="width:20px;height:20px;margin:0;flex-shrink:0;accent-color:#2e7d32"> Soy mayor de 18 años</label>
         <div id="pna-error-registro" class="pna-error"></div>
         <button class="pna-btn-primary" onclick="pnaRegistrarEmail()">Crear cuenta</button>
         <div class="pna-divider"><span>o</span></div>
@@ -137,7 +138,7 @@
         </div>
         <div class="campo">
           <label>Edad</label>
-          <input id="inp-edad" type="number" min="5" max="120" placeholder="25">
+          <input id="inp-edad" type="number" min="18" max="100" placeholder="25">
         </div>
       </div>
 
@@ -274,6 +275,7 @@ async function pnaRegistrarEmail() {
   if (!nombre || !email || !pass) { err.textContent = "Completa todos los campos"; return; }
   if (pass.length < 6)            { err.textContent = "La contraseña debe tener al menos 6 caracteres"; return; }
   if (pass !== pass2)             { err.textContent = "Las contraseñas no coinciden"; return; }
+  if (!document.getElementById("pna-reg-mayor").checked) { err.textContent = "Confirma que eres mayor de 18 años"; return; }
   try {
     const r = await auth.createUserWithEmailAndPassword(email, pass);
     await r.user.updateProfile({ displayName: nombre });
@@ -454,6 +456,11 @@ async function guardarDatosFisicos() {
     condicion: condicion || "ninguna",
     trimestre: condicion === "embarazo" ? trimestre : null,
   };
+
+  if (datos.edad && (datos.edad < 18 || datos.edad > 100)) {
+    mostrarMsg(msg, "ViveSano es solo para mayores de 18 años (hasta 100).", "error");
+    return;
+  }
 
   try {
     await db.collection("usuarios").doc(_usuario.uid).set(datos, { merge: true });
