@@ -168,6 +168,206 @@ const Nutricion = (() => {
     });
   }
 
+  // ── MEDIDAS CASERAS ────────────────────────────────────────
+  // Convierte los gramos finales en algo que se ve en la cocina: "2 papas medianas (280 g)"
+  const FRAC = { 0: "", 0.25: "¼", [1 / 3]: "⅓", 0.5: "½", [2 / 3]: "⅔", 0.75: "¾" };
+  const num = q => { const e = Math.floor(q); return (e || "") + FRAC[q - e]; };
+  const red = (v, paso) => Math.max(paso, Math.round(v / paso) * paso);
+
+  // Piezas: elige el tamaño y el número que más se acercan a los gramos
+  const pieza = (pesos, uno, varios, pasos = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 7, 8]) => g => {
+    let mejor = null;
+    const tope = Math.max(...pasos), mayor = Math.max(...Object.values(pesos));
+    // Para familias: más unidades del tamaño que tenga sentido
+    const lista = g > tope * mayor ? Array.from({ length: Math.ceil(g / Math.min(...Object.values(pesos))) }, (_, i) => i + 1) : pasos;
+    Object.entries(pesos).forEach(([tam, p]) => lista.forEach(n => {
+      const costo = Math.abs(n * p - g) / g + (n % 1 ? (n > 1 ? 0.12 : 0.06) : 0) + (n > 1 ? 0.01 : 0) + (n % 0.5 ? 0.06 : 0) + (n > 4 ? 0.03 : 0) + (lista !== pasos ? n * 0.005 : 0);
+      if (!mejor || costo < mejor.costo - 1e-9) mejor = { costo, n, tam };
+    }));
+    const { n, tam } = mejor, pl = n > 1;
+    return `${num(n)} ${pl ? varios : uno}${tam === "_" ? "" : " " + tam + (pl ? "s" : "")}`;
+  };
+  const cdas = (porCda, de = "") => g => {
+    const q = g / porCda;
+    if (q >= 10) return tazas(porCda * 16, de)(g);
+    const c = q < 0.75 ? red(q * 3, 0.5) : red(q, q > 4 ? 1 : 0.5);
+    return `${num(c)} ${q < 0.75 ? "cucharadita" : "cucharada"}${c > 1 ? "s" : ""}${de}`;
+  };
+  const tazas = (porTaza, de = "") => g => {
+    if (g / porTaza < 0.2) return cdas(porTaza / 16, de)(g);
+    const v = g / porTaza;
+    const q = v < 0.87 ? [0.25, 1 / 3, 0.5, 2 / 3, 0.75].reduce((a, b) => Math.abs(b - v) < Math.abs(a - v) ? b : a) : red(v, v > 3 ? 0.5 : 0.25);
+    return `${num(q)} ${q > 1 ? "tazas" : "taza"}${de}`;
+  };
+  // Carnes: 100 g es más o menos la palma de la mano, sin dedos
+  const palma = g => g >= 230 ? `${Math.round(g / 105)} trozos como la palma de la mano` : "1 trozo " + (
+    g < 40 ? "como una caja de fósforos" :
+    g < 65 ? "como media palma de la mano" :
+    g < 88 ? "como ¾ de la palma de la mano" :
+    g < 113 ? "como la palma de la mano" :
+    g < 138 ? "un poco más grande que la palma de la mano" :
+    g < 175 ? "como 1½ palmas de la mano" : "como 2 palmas de la mano");
+  const opciones = (lista, grande) => g => grande && g > lista[lista.length - 1][0] * 1.1 ? grande(g) : lista.reduce((a, b) => Math.abs(b[0] - g) < Math.abs(a[0] - g) ? b : a)[1];
+  const cadaUno = (f, a, b) => g => `${f(g)} de ${a} y ${f(g)} de ${b}`;
+
+  const PAPA = { "pequeña": 80, mediana: 140, grande: 200 };
+  const CRIOLLA = { "pequeña": 30, mediana: 50, grande: 80 };
+  const CUARTOS = [0.25, 1 / 3, 0.5, 2 / 3, 0.75, 1, 1.5, 2];
+  const BEBIDA = tazas(240);
+  const MEDIDAS = [
+    // Mezclas
+    [/papa.* y (pastusa|criolla)/i, opciones([
+      [65, "½ papa pastusa pequeña y 1 criolla pequeña"], [90, "½ papa pastusa pequeña y 1 criolla mediana"],
+      [120, "½ papa pastusa mediana y 1 criolla mediana"], [130, "1 papa pastusa pequeña y 1 criolla mediana"],
+      [160, "1 papa pastusa pequeña y 1 criolla grande"], [190, "1 papa pastusa mediana y 1 criolla mediana"],
+      [220, "1 papa pastusa mediana y 1 criolla grande"], [250, "1 papa pastusa grande y 1 criolla mediana"],
+      [280, "1 papa pastusa grande y 1 criolla grande"]],
+      g => `${pieza(PAPA, "papa pastusa", "papas pastusas", [1, 2, 3])(g * 0.7)} y ${pieza(CRIOLLA, "criolla", "criollas", [1, 2, 3, 4])(g * 0.3)}`)],
+    [/^cubios/i, cadaUno(pieza({ "pequeño": 30, mediano: 50, grande: 80 }, "trozo", "trozos", [1, 2]), "cubio", "chugua"), "cu"],
+    [/^zanahoria y ahuyama/i, cadaUno(tazas(120), "zanahoria", "ahuyama"), "cu"],
+    [/^(zanahoria y|arveja y|tomate chonto y)/i, tazas(150, " en total")],
+    [/arequipe/i, cdas(20)],
+    [/masarepa/i, tazas(120, " de harina")],
+    // Huevos
+    [/huevo entero y claras/i, null],
+    [/huevo/i, pieza({ _: 55 }, "huevo", "huevos", [0.5, 1, 1.5, 2, 2.5, 3, 4])],
+    // Tubérculos y harinas
+    [/papa criolla o pastusa/i, pieza(PAPA, "papa", "papas", [0.25, 0.5, 0.75, 1, 1.5, 2, 3])],
+    [/papa criolla/i, pieza(CRIOLLA, "papa criolla", "papas criollas")],
+    [/^papa(?!ya)/i, pieza(PAPA, "papa", "papas", [0.25, 0.5, 0.75, 1, 1.5, 2, 3])],
+    [/^yuca/i, pieza({ "pequeño": 30, mediano: 55 }, "trozo", "trozos", [1, 2])],
+    [/^ahuyama/i, tazas(120, " en cubos")],
+    [/^chontaduro/i, pieza({ _: 40 }, "chontaduro", "chontaduros")],
+    [/pl[aá]tano.*horne|pl[aá]tano verde al horno|patacones/i, pieza({ mediana: 40 }, "tajada", "tajadas", [1, 2, 3, 4])],
+    [/pl[aá]tano/i, pieza({ "pequeño": 100, mediano: 150, grande: 200 }, "plátano", "plátanos", CUARTOS)],
+    [/arepa de choclo/i, pieza({ "pequeña": 80, mediana: 120, grande: 180 }, "arepa", "arepas", [0.5, 1, 2])],
+    [/almoj/i, pieza({ mediano: 60 }, "pan o almojábana", "panes o almojábanas", CUARTOS)],
+    [/^pan /i, opciones([[30, "1 tajada de pan o ½ arepa pequeña"], [45, "1½ tajadas de pan o ½ arepa mediana"], [60, "2 tajadas de pan o 1 arepa pequeña"], [90, "3 tajadas de pan o 1 arepa mediana"]],
+      g => `${Math.round(g / 30)} tajadas de pan o ${pieza({ "pequeña": 60, mediana: 90 }, "arepa", "arepas", [1, 2, 3])(g)}`)],
+    [/arepa/i, pieza({ "pequeña": 60, mediana: 90, grande: 120 }, "arepa", "arepas", CUARTOS)],
+    [/pandebono/i, pieza({ _: 40 }, "pandebono", "pandebonos", CUARTOS.concat(3))],
+    [/galletas/i, pieza({ _: 10 }, "galleta", "galletas")],
+    [/obleas/i, pieza({ _: 15 }, "oblea", "obleas")],
+    [/arroz (blanco|integral)/i, (g, seco) => tazas(185, seco ? " de arroz crudo" : " de arroz cocinado")(g)],
+    [/fideo|^pasta/i, tazas(100, " de pasta cruda")],
+    [/^avena/i, tazas(90, " de hojuelas secas")],
+    [/granola|hojuelas de ma/i, cdas(10)],
+    [/nueces/i, cdas(8, " de nueces picadas")],
+    [/mazorca|choclo|ma[ií]z tierno/i, pieza({ _: 150 }, "mazorca", "mazorcas", CUARTOS)],
+    // Granos
+    [/lenteja/i, (g, seco) => tazas(185, seco ? " de lentejas crudas" : " de lentejas cocinadas")(g)],
+    [/frijol/i, tazas(190, " de fríjol cocinado")],
+    [/habas/i, tazas(120)],
+    [/tofu/i, tazas(200, " en cubos")],
+    // Carnes
+    [/pollo desmechado|pechuga.*desmechada/i, tazas(140, " de pollo desmechado")],
+    [/carne molida/i, cdas(20, " de carne")],
+    [/costilla/i, pieza({ "pequeño": 35, mediano: 50 }, "trozo", "trozos", [1, 2, 3, 4])],
+    [/muslo/i, pieza({ "pequeño": 70, mediano: 100, grande: 150 }, "muslo", "muslos", [0.5, 1, 2])],
+    [/menudo/i, tazas(150, " en trozos")],
+    [/pechuga|lomo|carne de res/i, palma],
+    // Lácteos y bebidas
+    [/queso rallado/i, cdas(15)],
+    [/queso|cuajada/i, opciones([[10, "½ tajada delgada"], [20, "1 tajada delgada"], [32, "1 tajada mediana"], [42, "2 tajadas delgadas"], [62, "2 tajadas medianas"]], pieza({ mediana: 32 }, "tajada", "tajadas", [1, 2, 3]))],
+    [/yogur/i, tazas(200)],
+    [/chocolate de mesa|cacao sin.*70/i, (g, seco, ml) => ml ? BEBIDA(g) : pieza({ _: 30 }, "pastilla", "pastillas", CUARTOS)(g)],
+    [/leche de coco/i, BEBIDA],
+    [/cacao sin/i, (g, seco, ml) => ml ? BEBIDA(g) : cdas(8, " de cacao")(g)],
+    [/prote[ií]na.* en polvo/i, (g, seco, ml) => ml ? BEBIDA(g) : pieza({ _: 30 }, "medida del tarro (scoop)", "medidas del tarro (scoop)", CUARTOS)(g)],
+    [/leche|bebida|arom[aá]tica|caf[eé]|tinto|chocolate caliente|caldo|^agua(?!cate)/i, (g, seco, ml) => ml ? BEBIDA(g) : null],
+    // Frutas y verduras
+    [/manzana, pera o fresas|fresas o manzana/i, tazas(150, " en trozos")],
+    [/^banano/i, pieza({ mediano: 120 }, "banano", "bananos", CUARTOS)],
+    [/^mango o naranja/i, g => `${pieza({ mediano: 240 }, "mango", "mangos", CUARTOS)(g * 0.8)} o ${pieza({ mediana: 150 }, "naranja", "naranjas", CUARTOS)(g)}`],
+    [/^naranja o papaya/i, g => `${pieza({ mediana: 150 }, "naranja", "naranjas", CUARTOS)(g)} o ${tazas(150, " de papaya")(g)}`],
+    [/^naranja/i, pieza({ mediana: 150 }, "naranja", "naranjas", CUARTOS)],
+    [/^mango/i, pieza({ mediano: 240 }, "mango", "mangos", CUARTOS)],
+    [/^manzana/i, pieza({ mediana: 150 }, "manzana", "manzanas", CUARTOS)],
+    [/^pera/i, pieza({ mediana: 150 }, "pera", "peras", CUARTOS)],
+    [/aguacate/i, g => g < 33 ? pieza({ _: 13 }, "tajada delgada", "tajadas delgadas", [1, 2])(g) : pieza({ "pequeño": 160 }, "aguacate", "aguacates", CUARTOS)(g)],
+    [/fruta|papaya|fresas/i, tazas(150, " en trozos")],
+    [/cebolla cocida|cebolla, piment/i, g => g < 50 ? cdas(15)(g) : tazas(150, " en total")(g)],
+    [/^tomate/i, pieza({ mediano: 100 }, "tomate", "tomates", CUARTOS)],
+    [/^zanahoria/i, pieza({ mediana: 70 }, "zanahoria", "zanahorias", CUARTOS)],
+    [/lechuga/i, tazas(120)],
+    [/ensalada/i, tazas(80)],
+    [/espinaca|repollo/i, tazas(30, " de hojas")],
+    // Grasas, dulces y semillas
+    [/aceite/i, cdas(14)],
+    [/hogao|sofrito/i, cdas(15)],
+    [/mantequilla de man|man[ií] tostado molido/i, cdas(15)],
+    [/^man[ií]/i, g => g < 20 ? cdas(9)(g) : pieza({ _: 25 }, "puñado", "puñados", [1, 1.5, 2])(g)],
+    [/semillas/i, cdas(10)],
+    [/panela/i, cdas(15)],
+    [/bocadillo/i, pieza({ _: 30 }, "tajada", "tajadas")],
+  ];
+
+  // "al gusto" también confunde: una cantidad concreta para cada base
+  const AL_GUSTO = [
+    [/caldo casero.*cilantro|^caldo/i, "½ taza de caldo y 1 cucharada de cilantro"],
+    [/^(hogao|sofrito|cebolla).*caldo/i, "2 cucharadas de la base y ½ taza de caldo"],
+    [/aguacate/i, "1 cucharada de hogao y 1 tajada delgada de aguacate"],
+    [/ensalada/i, "1 cucharada de hogao y 1 taza de ensalada"],
+    [/^(hogao|sofrito)/i, "2 cucharadas de la base y 1 pizca de lo demás"],
+    [/lim[oó]n.*aceite/i, "½ limón y ½ cucharadita de aceite"],
+    [/^aceite/i, "½ cucharadita de aceite y 1 pizca de lo demás"],
+    [/guascas.*\(sin/i, "1 cucharada de guascas"],
+    [/guascas/i, "1 cucharada de guascas y 1 de crema"],
+    [/canela y stevia/i, "1 sobre de stevia y 1 pizca de canela"],
+    [/stevia/i, "1 sobre"],
+    [/panela/i, "1 cucharadita de panela y 1 pizca de canela"],
+    [/cebolla/i, "2 cucharadas picadas en total"],
+    [/^sal\b(?!.*(lim|cilantro))/i, "1 pizca"],
+    [/lim[oó]n/i, "½ limón y 1 pizca de lo demás"],
+    [/^sal/i, "1 pizca de sal y 1 cucharada de cilantro"],
+    [/cilantro/i, "1 cucharada picada"],
+  ];
+
+  // Multiplica una cantidad escrita en palabras: "2 cucharadas de hogao y 1 pizca de lo demás" × 3
+  const ENTEROS = /^(huevo|clara|pizca|sobre|rama)/;
+  function escalarTexto(t, f) {
+    return t.replace(/(\d+)?([½¼¾⅓⅔])? ?\b(tazas?|cucharadas?|cucharaditas?|pizcas?|sobres?|limón|limones|tajadas?|ramas?|huevos?|claras?|de crema)((?: picadas?| delgadas?| cocinadas?)*)/g, (m, ent, fr, pal, adj) => {
+      if (!ent && !fr) return m;
+      if (pal === "de crema") return `${num(red(+ent * f, 0.5))} de crema`;
+      const v = ((+ent || 0) + (fr ? FR[fr] : 0)) * f;
+      const base = pal === "limones" ? "limón" : pal.replace(/s$/, "");
+      const q = ENTEROS.test(base) ? Math.max(1, Math.ceil(v - 0.2)) : red(v, v > 4 ? (base === "taza" ? 0.5 : 1) : /^(taza|limón)/.test(base) ? 0.25 : 0.5);
+      const pl = q > 1, uno = adj.replace(/s\b/g, "");
+      return `${num(q)} ${pl ? (base === "limón" ? "limones" : base + "s") : base}${pl ? uno.replace(/(picada|delgada|cocinada)/g, "$1s") : uno}`;
+    });
+  }
+
+  // Total de un ingrediente: varias cantidades (de varias recetas) × personas
+  function total(nombre, cantidades, f = 1) {
+    if (/^prote[ií]na/i.test(nombre)) f = 1;   // el suplemento es solo del usuario
+    const ps = cantidades.map(c => porcion(nombre, c)).filter(Boolean);
+    if (!ps.length || /^Sin /.test(nombre)) return cantidades[0] || "";
+    const pesos = ps.map(p => p.match(/\((\d+(?:[.,]\d+)?) (g|ml)\b[^()]*\)$/));
+    if (pesos.every(x => x && x[2] === pesos[0][2])) {
+      if (ps.length === 1 && f === 1) return ps[0];
+      const g = pesos.reduce((s, x) => s + parseFloat(x[1].replace(",", ".")), 0) * f;
+      return porcion(nombre, `${/crud|seca/.test(ps[0]) ? "seca " : ""}${Math.round(g / 5) * 5 || Math.round(g)} ${pesos[0][2]}`);
+    }
+    const veces = {};
+    ps.forEach(p => { veces[p] = (veces[p] || 0) + 1; });
+    return Object.entries(veces).map(([p, n]) => {
+      const x = p.match(/\((\d+(?:[.,]\d+)?) (g|ml)\b[^()]*\)$/);
+      return n * f === 1 ? p : x ? total(nombre, Array(n).fill(p), f) : escalarTexto(p, n * f);
+    }).join(" + ");
+  }
+
+  function porcion(nombre, cantidad) {
+    if (!cantidad || /^Sin /.test(nombre)) return cantidad;
+    if (/al gusto|aderezo/.test(cantidad)) return (AL_GUSTO.find(([re]) => re.test(nombre)) || [0, "1 pizca"])[1]
+      .replace("la base", /^(hogao|sofrito)/i.test(nombre) ? nombre.match(/^(hogao|sofrito)/i)[0].toLowerCase() : "cebolla y verduras");
+    const x = cantidad.match(/(\d+(?:[.,]\d+)?)\s*(g|ml)\b/);
+    const m = x && MEDIDAS.find(([re]) => re.test(nombre));
+    const texto = m && m[1] && m[1](parseFloat(x[1].replace(",", ".")), /seca|crud/.test(cantidad), x[2] === "ml");
+    return texto ? `${texto} (${x[1]} ${x[2]}${m[2] ? " de cada uno" : ""})` : cantidad;
+  }
+  const conMedidas = receta => ({ ...receta,
+    ingredientes: (receta.ingredientes || []).map(i => ({ ...i, cantidad: porcion(i.nombre, i.cantidad) })) });
+
   // ── REGLAS POR CONDICIÓN ───────────────────────────────────
   // r(patrón, nombre nuevo o null, opciones). Se aplica la PRIMERA regla que coincide.
   //   q: factor de porción · k: factor de kcal (por defecto q) · cant: cantidad fija
@@ -305,7 +505,7 @@ const Nutricion = (() => {
       r(/^Pandebono/i, "Pandebono con sello sin gluten"),
       r(/^Galletas de arroz/i, "Galletas de arroz con sello sin gluten"),
       r(/^Caldo/i, "+ casero (sin cubos ni sazonadores con gluten)"),
-      r(/caldo$/i, "Hogao, cilantro y caldo casero (sin cubos)"),
+      r(/^Hogao.*caldo$/i, "Hogao, cilantro y caldo casero (sin cubos)"),
       r(/^Chocolate|^Bebida:/i, "+ (chocolate con sello sin gluten)"),
       r(/o prote[ií]na en polvo/i, "Aromática de hierbas", { k: 0.15 }),
       r(/^Masarepa/i, "Masarepa con sello sin gluten"),
@@ -466,9 +666,9 @@ const Nutricion = (() => {
       n.calorias = Math.round((ing.calorias || 0) * regla.k);
       txts.push(...regla.txt);
       if (n.nombre !== ing.nombre)
-        m._cambios.push(`${ing.nombre} → ${n.nombre}${n.cantidad !== ing.cantidad ? ` (${n.cantidad})` : ""}`);
+        m._cambios.push(`${ing.nombre} → ${n.nombre}${n.cantidad !== ing.cantidad ? `: ${porcion(n.nombre, n.cantidad)}` : ""}`);
       else if (n.cantidad !== ing.cantidad)
-        m._cambios.push(`${ing.nombre}: ${n.cantidad} en vez de ${ing.cantidad}`);
+        m._cambios.push(`${ing.nombre}: ${porcion(n.nombre, n.cantidad)} en vez de ${porcion(ing.nombre, ing.cantidad)}`);
       const a = gr(ing), b = gr(n);
       [0, 1, 2].forEach(i => { delta[i] += b[i] - a[i]; });
       dk += n.calorias - (ing.calorias || 0);
@@ -493,6 +693,22 @@ const Nutricion = (() => {
     return m;
   }
 
+  // Los huevos se ajustan a medios o enteros; lo demás, en proporción
+  function escalarFuente(ing, f) {
+    const kcal = x => Math.round((ing.calorias || 0) * x);
+    if (/huevo entero y claras/i.test(ing.nombre)) {
+      const [q, cantidad] = f >= 0.87 ? [1, "1 huevo + 2 claras"] : f >= 0.6 ? [0.74, "1 huevo + 1 clara"]
+        : f >= 0.4 ? [0.47, "1 huevo"] : [0.27, "1 clara"];
+      return { cantidad, calorias: kcal(q) };
+    }
+    const g = parseFloat((String(ing.cantidad).match(/(\d+)\s*g/) || [])[1]);
+    if (/huevo/i.test(ing.nombre) && g) {
+      const antes = g / 55, n = Math.max(0.5, Math.round(antes * f * 2) / 2);
+      return { cantidad: `${num(n)} ${n > 1 ? "huevos" : "huevo"} (${Math.round(n * 55)} g)`, calorias: kcal(n / antes) };
+    }
+    return { cantidad: escalar(ing.cantidad, f), calorias: kcal(f) };
+  }
+
   // Reduce las fuentes de proteína si la comida pasa de lo que le toca a la persona
   function limitarProteina(receta, maxG) {
     if (!(maxG > 0) || (receta.proteinas || 0) <= maxG) return receta;
@@ -505,7 +721,7 @@ const Nutricion = (() => {
     let dk = 0;
     m.ingredientes = receta.ingredientes.map(ing => {
       if (!esFuente(ing)) return ing;
-      const n = { ...ing, cantidad: escalar(ing.cantidad, f), calorias: Math.round((ing.calorias || 0) * f) };
+      const n = { ...ing, ...escalarFuente(ing, f) };
       const a = gr(ing), b = gr(n);
       [0, 1, 2].forEach(i => { delta[i] += b[i] - a[i]; });
       dk += n.calorias - (ing.calorias || 0);
@@ -516,6 +732,6 @@ const Nutricion = (() => {
     return m;
   }
 
-  return { calcular, macros, validar, objetivoSeguro, rangoProteinaKg, pesoReferencia, adaptar, limitarProteina, esApta, escalar, RAZON, REGLAS };
+  return { calcular, macros, validar, objetivoSeguro, rangoProteinaKg, pesoReferencia, adaptar, limitarProteina, esApta, escalar, porcion, total, conMedidas, RAZON, REGLAS };
 })();
 if (typeof module !== "undefined") module.exports = Nutricion;

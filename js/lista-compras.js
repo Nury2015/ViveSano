@@ -48,18 +48,21 @@ function generarItemsLista() {
       if (mapa[key]) {
         if (!mapa[key].fuentes.includes(receta.nombre))
           mapa[key].fuentes.push(receta.nombre);
+        mapa[key].cantidades.push(ing.cantidad);
       } else {
         mapa[key] = {
           id:       key.replace(/[^a-z0-9áéíóúüñ]/gi, "_"),
           nombre:   ing.nombre,
-          cantidad: ing.cantidad,
+          cantidades: [ing.cantidad],
           fuentes:  [receta.nombre],
           catId:    _categorizarIng(ing.nombre),
         };
       }
     });
   });
-  return Object.values(mapa);
+  return Object.values(mapa)
+    .filter(i => !/^sin /i.test(i.nombre))
+    .map(i => ({ ...i, cantidad: Nutricion.total(i.nombre, i.cantidades, Familia.factor()) }));
 }
 
 // ─── Abrir / cerrar panel ────────────────────────────────────
@@ -153,6 +156,7 @@ function renderListaCompras() {
   });
 
   cont.innerHTML = html;
+  cont.prepend(Familia.selector(renderListaCompras));
 }
 
 // ─── Marcar / desmarcar ingrediente ─────────────────────────
@@ -180,7 +184,7 @@ function copiarLista(btnEl) {
   _TODAS_CATS.forEach(c => { grupos[c.id] = []; });
   items.forEach(i => { (grupos[i.catId] || grupos["otros"]).push(i); });
 
-  let txt = "🛒 Lista de compras — ViveSano\n\n";
+  let txt = `🛒 Lista de compras — ViveSano (${Familia.personas()} ${Familia.personas() > 1 ? "personas" : "persona"})\n\n`;
   _TODAS_CATS.forEach(cat => {
     const g = grupos[cat.id];
     if (!g || !g.length) return;

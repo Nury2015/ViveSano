@@ -6,6 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/detalledereceta.css">
+  <link rel="stylesheet" href="css/familia.css">
   <title>Detalle de receta — ViveSano</title>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -212,6 +213,8 @@
 </div>
 
 <script src="js/auth.js"></script>
+<script src="js/nutricion.js"></script>
+<script src="js/familia.js"></script>
 <script>
 // ── EMOJI POR INGREDIENTE ─────────────────────────
 function getIngEmoji(nombre) {
@@ -249,11 +252,6 @@ function getIngEmoji(nombre) {
 }
 
 // ── CONVERSIÓN GRAMOS ─────────────────────────────
-function extraerGramos(cantidad) {
-  if (!cantidad) return null;
-  const m = String(cantidad).match(/(\d+(?:[.,]\d+)?)\s*g\b/i);
-  return m ? parseFloat(m[1].replace(",", ".")) : null;
-}
 
 // ── RECETA ────────────────────────────────────────
 const receta = JSON.parse(localStorage.getItem("recetaActual"));
@@ -301,19 +299,34 @@ if (!receta) {
 
   // Ingredientes
   const ulIng = document.getElementById("ingredientes");
-  receta.ingredientes.forEach(ing => {
-    const g   = extraerGramos(ing.cantidad) || ing.gramos;
-    const cal = ing.calorias ? Math.round(ing.calorias) : null;
-    ulIng.innerHTML += `
+  const infoFam = document.createElement("div");
+  function pintarIngredientes() {
+    const n = Familia.personas(), f = Familia.factor();
+    infoFam.innerHTML = `<p class="familia-resumen">${n > 1
+        ? `Cantidades para cocinar para <strong>${n} personas</strong>. Las calorías de arriba son solo de <strong>tu porción</strong>.`
+        : "Cantidades para <strong>1 persona</strong> (tú)."}</p>`
+      + (Familia.avisos(receta.ingredientes).length ? `<ul class="familia-avisos">${Familia.avisos(receta.ingredientes).map(t => `<li>${t}</li>`).join("")}</ul>` : "");
+    ulIng.innerHTML = receta.ingredientes.map(ing => {
+      const partes = c => c.match(/^(.*?)(?: \((\d[^()]*)\))?$/);
+      const una = Nutricion.porcion(ing.nombre, ing.cantidad) || (ing.gramos ? ing.gramos + " g" : "");
+      const [, medida, peso] = partes(n > 1 ? Nutricion.total(ing.nombre, [una], f) : una);
+      const cal = ing.calorias ? Math.round(ing.calorias) : null;
+      return `
       <li class="ing-item">
         <span class="ing-emoji">${getIngEmoji(ing.nombre)}</span>
         <span class="ing-nombre">${ing.nombre}</span>
         <div class="ing-right">
-          ${g ? `<span class="ing-g">${g} g</span>` : `<span class="ing-g">${ing.cantidad || ""}</span>`}
-          ${cal ? `<span class="ing-cal">${cal} kcal</span>` : ""}
+          <span class="ing-g">${medida}</span>
+          ${peso ? `<span class="ing-cal">aprox. ${peso}</span>` : ""}
+          ${n > 1 && una && una !== "—" ? `<span class="ing-cal">Tu porción: ${partes(una)[1]}</span>` : ""}
+          ${n === 1 && cal ? `<span class="ing-cal">${cal} kcal</span>` : ""}
         </div>
       </li>`;
-  });
+    }).join("");
+  }
+  ulIng.before(Familia.selector(pintarIngredientes), infoFam);
+  pintarIngredientes();
+  ulIng.insertAdjacentHTML("afterend", `<p class="ing-guia">Guía: 1 taza = 240 ml · 1 cucharada = sopera (15 ml) · 1 cucharadita = de café (5 ml) · palma = tu mano sin los dedos. Son medidas aproximadas; si usas gramera, guíate por los gramos.</p>`);
 
   // Preparación
   if (receta.preparacion?.length) {
@@ -439,7 +452,7 @@ function compartirReceta() {
   if (!receta) return;
 
   const ings = (receta.ingredientes || [])
-    .map(i => `  • ${i.nombre} — ${i.cantidad}`)
+    .map(i => `  • ${i.nombre} — ${Nutricion.total(i.nombre, [i.cantidad], Familia.factor())}`)
     .join("\n");
 
   const pasos = (receta.preparacion || [])
@@ -450,7 +463,7 @@ function compartirReceta() {
     `🍽️ ${receta.nombre}`,
     ``,
     `📊 ${receta.calorias} kcal  🌿 ${receta.proteinas}g prot.  🌾 ${receta.carbohidratos}g carbs  💧 ${receta.grasas}g grasas`,
-    ings   ? `\n🥘 Ingredientes:\n${ings}`   : "",
+    ings   ? `\n🥘 Ingredientes (${Familia.personas() > 1 ? "para " + Familia.personas() + " personas; calorías por porción adulta" : "1 persona"}):\n${ings}`   : "",
     pasos  ? `\n👨‍🍳 Preparación:\n${pasos}` : "",
     `\n🌿 Receta de ViveSano`,
   ].filter(Boolean).join("\n");

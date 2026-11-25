@@ -1511,7 +1511,7 @@ const RECETAS = {
         { nombre: "Carne molida o chicharrón",  cantidad: "80 g",            calorias: 180 },
         { nombre: "Plátano maduro asado",       cantidad: "½ unidad (90 g)", calorias: 90  },
         { nombre: "Huevo frito",                cantidad: "1 unidad (55 g)", calorias: 90  },
-        { nombre: "Hogao y aguacate ¼",         cantidad: "al gusto",        calorias: 40  },
+        { nombre: "Hogao y aguacate",         cantidad: "al gusto",        calorias: 40  },
       ],
       variantes: {
         bajar: {
@@ -2412,7 +2412,7 @@ function prepararReceta(receta, tipo) {
     const max = Nutricion.macros(d, caloriasObjetivo()).protMax * (DISTRIBUCION_KCAL[tipo] || 0.20) * 1.1;
     m = Nutricion.limitarProteina(m, max);
   }
-  return m;
+  return Nutricion.conMedidas(m);
 }
 function esAptaParaMi(receta) {
   return Nutricion.esApta(receta, JSON.parse(localStorage.getItem("datosUsuario") || "{}") || {});
